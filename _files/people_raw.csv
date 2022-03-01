@@ -1,4 +1,4 @@
-﻿person_type,name,id_type,id_number,last_name,person_legal_type
+﻿type,name,id_type,id_number,last_name,legal_type
 0,León,0,6108014,Corkidi Tzuckerman,N/A
 1,Coragro,1,800219204,N/A,0
 0,Alberto,0,19245383,Corkidi Yaffe,N/A
