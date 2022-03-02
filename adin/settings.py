@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     'people',
     'references',
-    'realties',
+    'properties',
 ]
 
 MIDDLEWARE = [

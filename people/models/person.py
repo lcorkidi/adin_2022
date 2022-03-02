@@ -58,6 +58,8 @@ class Person(models.Model):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Persona'
+        verbose_name_plural = 'Personas'
 
     def __str__(self) -> str:
         if self.person_type == 0:
@@ -74,6 +76,8 @@ class Person_Natural(Person):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Persona Natural'
+        verbose_name_plural = 'Personas Naturales'
 
     def __str__(self) -> str:
         return f'<Person_Natural: {self.last_name}, {self.name}>'
@@ -96,6 +100,8 @@ class Person_Legal(Person):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Persona Jurídica'
+        verbose_name_plural = 'Personas Jurídicas'
     
     def __str__(self) -> str:
         return f'<Person_Legal: {self.name} {self.get_person_legal_type_display()}>'
@@ -126,6 +132,11 @@ class Person_Phone(models.Model):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Teléfono Persona'
+        verbose_name_plural = 'Teléfonos Personas'
+        constraints = [
+            models.UniqueConstraint(fields=['person', 'phone'], name='unique_person_phone'),
+        ]
 
     def __str__(self) -> str:
         return f'<Phone: {self.get_use_disply()}-{self.person}>'
@@ -158,6 +169,11 @@ class Person_Address(models.Model):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Dirección Persona'
+        verbose_name_plural = 'Direcciones Personas'
+        constraints = [
+            models.UniqueConstraint(fields=['person', 'address'], name='unique_person_address'),
+        ]
 
     def __str__(self) -> str:
         return f'<Address: {self.get_use_disply()}-{self.person}>'
@@ -186,6 +202,11 @@ class Person_Email(models.Model):
 
     class Meta:
         app_label = 'people'
+        verbose_name = 'Correo Electrónico Personas'
+        verbose_name_plural = 'Correos Electrónicos Personas'
+        constraints = [
+            models.UniqueConstraint(fields=['person', 'email'], name='unique_person_email'),
+        ]
 
     def __str__(self) -> str:
         return f'<Email: {self.get_use_disply()}-{self.person}>'

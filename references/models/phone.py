@@ -11,22 +11,27 @@ class Phone(models.Model):
         choices=TYPE_CHOICE,
         verbose_name='Tipo'
     )
-    country = models.CharField(
-        max_length=32,
-        default='Colombia',
+    country = models.PositiveSmallIntegerField(
+        default=57,
         verbose_name='País'
     )
-    city = models.CharField(
-        max_length=32,
-        default='Cali',
-        verbose_name='Ciudad'
+    region = models.PositiveSmallIntegerField(
+        verbose_name='Región',
+        blank=True,
+        null=True,
+        default=None
     )
-    number = models.PositiveSmallIntegerField(
+    number = models.PositiveIntegerField(
         verbose_name='Número'
     )
 
-    class Meta():
+    class Meta:
         app_label = 'references'
+        verbose_name = 'Teléfono'
+        verbose_name_plural = 'Teléfonos'
+        constraints = [
+            models.UniqueConstraint(fields=['country', 'region', 'number'], name='unique_country_region_number'),
+        ]
 
     def __str__(self) -> str:
-        return f'<Phone: {self.number}' if self.type == 0 else f'<Phone: {self.city}-{self.number}'
+        return f'<Phone: +{self.country}{" " + self.region if self.region != None else ""} {self.number}>'

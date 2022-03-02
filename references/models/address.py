@@ -66,6 +66,11 @@ class Address(models.Model):
         (10, 'Apartaestudio')
     ]
 
+    code = models.CharField(
+        primary_key=True,
+        max_length=32,
+        verbose_name='Código'
+    )
     country = models.CharField(
         max_length=32,
         verbose_name='País'
@@ -155,22 +160,10 @@ class Address(models.Model):
         verbose_name='Interior Código'
     )
 
-    class Meta():
+    class Meta:
         app_label = 'references'
+        verbose_name = 'Dirección'
+        verbose_name_plural = 'Direcciones'
 
     def __str__(self) -> str:
-        if self.street_bis:
-            street = f'{self.get_street_type_display()} {self.street_number}{self.get_street_letter_display() if self.street_letter != None else ""} bis{self.get_street_bis_complement_display() if self.street_bis_complement != None else ""}{" " + self.get_street_coordinates_display() if self.street_coordinates != None else ""}'
-        else:
-            street = f'{self.get_street_type_display()} {self.street_number}{self.get_street_letter_display() if self.street_letter != None else ""}{" " + self.get_street_coordinates_display() if self.street_coordinates != None else ""}'
-
-        numeral = f' # {self.numeral_number}{self.get_numeral_letter_display() if self.numeral_letter != None else ""}{" " + self.get_numeral_coordinates_display()if self.numeral_coordinates != None else ""} - {self.height_number}'
-
-        if self.interior_group_type:        
-            interior = f' {self.get_interior_group_type_display()} {self.interior_group_code}, {self.get_interior_type_display()} {self.interior_code}'
-        elif self.interior_type:
-            interior = f' {self.get_interior_type_display()} {self.interior_code}'
-        else:
-            interior = ''
-            
-        return f'<Address: {street}{numeral}{interior}, {self.city}>'
+        return f'<Address: {self.code}, {self.city}>'
