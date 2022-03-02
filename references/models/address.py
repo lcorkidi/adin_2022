@@ -1,0 +1,176 @@
+from django.db import models
+
+class Address(models.Model):
+
+    STREET_TYPE_CHOICE = [
+        (0, 'Avenida'),
+        (1, 'Calle'),
+        (2, 'Carrera'),
+        (3, 'Diagonal'),
+        (4, 'Transversal'),
+        (5, 'Circunvalar'),
+        (6, 'Circular'),
+        (7, 'Autopista')
+    ]
+    LETTER_CHOICE = [
+        (0, 'A'),
+        (1, 'B'),
+        (2, 'C'),
+        (3, 'D'),
+        (4, 'E'),
+        (5, 'F'),
+        (6, 'G'),
+        (7, 'H'),
+        (8, 'I'),
+        (9, 'J'),
+        (10, 'K'),
+        (11, 'L'),
+        (12, 'M'),
+        (13, 'M'),
+        (14, 'O'),
+        (15, 'P'),
+        (16, 'Q'),
+        (17, 'R'),
+        (18, 'S'),
+        (19, 'T'),
+        (20, 'U'),
+        (21, 'V'),
+        (22, 'W'),
+        (23, 'X'),
+        (24, 'Y'),
+        (25, 'Z')
+    ]
+    COORDINATES_CHOICE = [
+        (0, 'Norte'),
+        (1, 'Sur'),
+        (2, 'Este'),
+        (3, 'Oeste'),
+        (4, 'Centro')
+    ]
+    INTERIOR_GROUP_TYPE_CHOICE = [
+        (0, 'Bloque'),
+        (1, 'Torre'),
+        (2, 'Edificio')
+    ]
+    INTERIOR_TYPE_CHOICE = [
+        (0, 'Apartamento'),
+        (1, 'Local'),
+        (2, 'Oficina'),
+        (3, 'Bodega'),
+        (4, 'Parqueadero'),
+        (5, 'Depósito'),
+        (6, 'Interior'),
+        (7, 'Casa'),
+        (8, 'Lote'),
+        (9, 'Finca'),
+        (10, 'Apartaestudio')
+    ]
+
+    country = models.CharField(
+        max_length=32,
+        verbose_name='País'
+    )
+    region = models.CharField(
+        max_length=32,
+        verbose_name='Departamento'
+    )
+    city = models.CharField(
+        max_length=32,
+        verbose_name='Ciudad'
+    )
+    street_type = models.PositiveSmallIntegerField(
+        choices=STREET_TYPE_CHOICE,
+        verbose_name='Vía'
+    )
+    street_number = models.PositiveSmallIntegerField(
+        verbose_name='Número Vía'
+    )
+    street_letter = models.PositiveSmallIntegerField(
+        choices=LETTER_CHOICE,
+        verbose_name='Letra Vía',
+        blank=True,
+        null=True,
+        default=None
+    )
+    street_bis = models.BooleanField(
+        verbose_name='Bis Vía',
+        blank=True,
+        null=True,
+        default=None        
+    )
+    street_bis_complement = models.PositiveSmallIntegerField(
+        choices=LETTER_CHOICE,
+        verbose_name='Letra Bis Vía',
+        blank=True,
+        null=True,
+        default=None
+    )
+    street_coordinates = models.PositiveSmallIntegerField(
+        choices=COORDINATES_CHOICE,
+        verbose_name='Cardinalidad Vía',
+        blank=True,
+        null=True,
+        default=None
+    )
+    numeral_number = models.PositiveSmallIntegerField(
+        verbose_name='Número',
+    )
+    numeral_letter = models.PositiveSmallIntegerField(
+        choices=LETTER_CHOICE,
+        verbose_name='Letra Número',
+        blank=True,
+        null=True,
+        default=None
+    )
+    numeral_coordinates = models.PositiveSmallIntegerField(
+        choices=COORDINATES_CHOICE,
+        verbose_name='Cardinalidad Número',
+        blank=True,
+        null=True,
+        default=None
+    )
+    height_number = models.PositiveSmallIntegerField(
+        verbose_name='Altura Nomenclatura'
+    )
+    interior_group_type = models.PositiveSmallIntegerField(
+        choices=INTERIOR_GROUP_TYPE_CHOICE,
+        verbose_name='Interior Grupo Tipo',
+        blank=True,
+        null=True,
+        default=None
+    )
+    interior_group_code = models.CharField(
+        max_length=6,
+        verbose_name='Interior Gruupo Código'
+    )
+    interior_type = models.PositiveSmallIntegerField(
+        choices=INTERIOR_TYPE_CHOICE,
+        verbose_name='Interior Tipo',
+        blank=True,
+        null=True,
+        default=None
+    )
+    interior_code = models.CharField(
+        max_length=6,
+        verbose_name='Interior Código'
+    )
+
+    class Meta():
+        app_label = 'references'
+
+    def __str__(self) -> str:
+        if self.street_bis:
+            street = f'{self.get_street_type_display()} {self.street_number}{self.get_street_letter_display() if self.street_letter != None else ""} bis{self.get_street_bis_complement_display() if self.street_bis_complement != None else ""}{" " + self.get_street_coordinates_display() if self.street_coordinates != None else ""}'
+        else:
+            street = f'{self.get_street_type_display()} {self.street_number}{self.get_street_letter_display() if self.street_letter != None else ""}{" " + self.get_street_coordinates_display() if self.street_coordinates != None else ""}'
+
+        numeral = f' # {self.numeral_number}{self.get_numeral_letter_display() if self.numeral_letter != None else ""}{" " + self.get_numeral_coordinates_display()if self.numeral_coordinates != None else ""} - {self.height_number}'
+
+        if self.interior_group_type:        
+            interior = f' {self.get_interior_group_type_display()} {self.interior_group_code}, {self.get_interior_type_display()} {self.interior_code}'
+        elif self.interior_type:
+            interior = f' {self.get_interior_type_display()} {self.interior_code}'
+        else:
+            interior = ''
+            
+        return f'<Address: {street}{numeral}{interior}, {self.city}>'
