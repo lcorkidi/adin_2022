@@ -6,7 +6,7 @@ info_df = pd.read_json('_files/people_info.json')
 
 def run():
     for index, row in data_df.iterrows():
-        per = eval(f"{info_df.loc['class', row['person_type']]}()")
-        for attr in info_df.loc['include', row['person_type']]:
+        per = eval(f"{info_df.loc['class', row['type']]}()")
+        for attr in info_df.loc['include', row['type']]:
             setattr(per, attr, row[attr])
         per.save()

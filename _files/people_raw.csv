@@ -1,13 +1,15 @@
 ﻿type,name,id_type,id_number,last_name,legal_type
-0,León,0,6108014,Corkidi Tzuckerman,N/A
+0,León,0,6108014,Corkidi Tzuckerman,-9999
+0,Yehiel,0,1130668637,Corkidi Tzuckerman,-9999
 1,Coragro,1,800219204,N/A,0
-0,Alberto,0,19245383,Corkidi Yaffe,N/A
-0,Isidoro,0,19128434,Corkidi Yaffe,N/A
-0,Karen,0,67005381,Corkidi Cardenas,N/A
+0,Alberto,0,19245383,Corkidi Yaffe,-9999
+0,Isidoro,0,19128434,Corkidi Yaffe,-9999
+0,Karen,0,67005381,Corkidi Cardenas,-9999
+0,León,0,94455223,Corkidi Cardenas,-9999
 1,Andiplast Envases,1,901012053,N/A,1
 1,Maquinpro de Colombia,1,900582366,N/A,1
 1,Mulplast,1,900245885,N/A,1
-0,Alvaro,0,16735385,Beltran Chaves,N/A
+0,Alvaro,0,16735385,Beltran Chaves,-9999
 1,Cocoambiental,1,900961321,N/A,1
 1,Innovaciones Plasticas,1,805001597,N/A,1
 1,QW Health de Colombia,1,900575356,N/A,1
@@ -16,74 +18,75 @@
 1,Palmiplast Industrias,1,900672393,N/A,1
 1,O´Celeste,1,901063279,N/A,1
 1,Global Tennis,1,900346960,N/A,1
-0,Luis Fernando,0,16706546,Silva Riaños,N/A
+0,Luis Fernando,0,16706546,Silva Riaños,-9999
 1,ROR Ingenieria,1,890930227,N/A,1
 1,Someda Intagrated,1,900570334,N/A,1
 1,Granos y Proteinas,1,900087432,N/A,1
-0,Natalia,0,1143861826,Quintero Salazar,N/A
-0,Jean Carlos,0,1193172681,Vernansa Aragon,N/A
-0,Joseny Marcela,0,1077470443,Mosquera Perea,N/A
-0,Lina Ginnery,0,1032370914,Campo Garcia,N/A
-0,Alba Ruth,0,66725374,Porras Mondragon,N/A
-0,Luz Yaneth,0,31836102,Lerma Manrique,N/A
-0,Eliel Josue,0,1144207981,Rivas Lerma,N/A
-0,Mariella,0,31214798,Hurtado Rojas,N/A
-0,Pedro,0,19160350,Nuñez Florez,N/A
-0,Paola Alexandra,0,31641849,Castañeda Anacona,N/A
-0,Nicolas,0,1144101694,Giraldo Montaño,N/A
-0,Natalia,0,1116446148,Ruiz Andrade,N/A
-0,Aura Camila,0,1144077780,Lema Tasama,N/A
-0,Bertulfo,0,352403,Jaramillo Ospina,N/A
-0,Jose Leimar,0,16592209,Cardona Serrano,N/A
-0,Jairo de Jesus,0,6085201,Escobar Pelaez,N/A
-0,Octavio,0,14980351,Prieto Duarte,N/A
-0,Claudia Patricia,0,39774268,Ceballos Lopez,N/A
-0,Liz Deny,0,31485759,Caicedo Matato,N/A
-0,Carmen Lucrecia,0,29434066,Loaiza Largo,N/A
-0,Nayza Julieth,0,1086017556,Cordoba Salas,N/A
-0,Yessica Lorena,0,1115073326,Lozano Guzman,N/A
-0,John Jaime,0,16701786,Monsalve Peña,N/A
-0,Fernando Ramiro,0,1130628991,Caiza Calderon,N/A
-0,Adriana Beatriz,0,66818737,Gonzalez Ramirea,N/A
-0,Alejandro,0,80817426,Dominguez Cabal,N/A
-0,Miguel Angel,0,79052475,Buitrago Poveda,N/A
-0,Robert,0,94041536,Castro Ramirez,N/A
-0,Rosa Helena,0,29054785,Garcia Calero,N/A
-0,Orlando de Jesus,0,98533310,Ortiz Grajales,N/A
-0,Edison,0,94459724,Aguiño Mosquera,N/A
-0,Luis Alberto,0,70903810,Arbelaez Ceballos,N/A
-0,Hernan,0,17097961,Mejia Mejia,N/A
-0,Gino,0,33922,Maestri Lanzarotti,N/A
-0,Clara Inés,0,31958999,Díaz Mejía,N/A
-0,Uriel,0,14941159,Hurtado Sánchez,N/A
-0,Gabriel,0,14956720,Osorio Salazar,N/A
-0,Marina,0,31233821,Sanchez Valencia,N/A
-0,Leydy Diana,0,1114728401,Oca Motato,N/A
+0,Natalia,0,1143861826,Quintero Salazar,-9999
+0,Jean Carlos,0,1193172681,Vernansa Aragon,-9999
+0,Joseny Marcela,0,1077470443,Mosquera Perea,-9999
+0,Lina Ginnery,0,1032370914,Campo Garcia,-9999
+0,Alba Ruth,0,66725374,Porras Mondragon,-9999
+0,Luz Yaneth,0,31836102,Lerma Manrique,-9999
+0,Eliel Josue,0,1144207981,Rivas Lerma,-9999
+0,Mariella,0,31214798,Hurtado Rojas,-9999
+0,Pedro,0,19160350,Nuñez Florez,-9999
+0,Paola Alexandra,0,31641849,Castañeda Anacona,-9999
+0,Nicolas,0,1144101694,Giraldo Montaño,-9999
+0,Natalia,0,1116446148,Ruiz Andrade,-9999
+0,Aura Camila,0,1144077780,Lema Tasama,-9999
+0,Bertulfo,0,352403,Jaramillo Ospina,-9999
+0,Jose Leimar,0,16592209,Cardona Serrano,-9999
+0,Jairo de Jesus,0,6085201,Escobar Pelaez,-9999
+0,Octavio,0,14980351,Prieto Duarte,-9999
+0,Claudia Patricia,0,39774268,Ceballos Lopez,-9999
+0,Liz Deny,0,31485759,Caicedo Matato,-9999
+0,Carmen Lucrecia,0,29434066,Loaiza Largo,-9999
+0,Nayza Julieth,0,1086017556,Cordoba Salas,-9999
+0,Yessica Lorena,0,1115073326,Lozano Guzman,-9999
+0,John Jaime,0,16701786,Monsalve Peña,-9999
+0,Fernando Ramiro,0,1130628991,Caiza Calderon,-9999
+0,Adriana Beatriz,0,66818737,Gonzalez Ramirea,-9999
+0,Alejandro,0,80817426,Dominguez Cabal,-9999
+0,Miguel Angel,0,79052475,Buitrago Poveda,-9999
+0,Robert,0,94041536,Castro Ramirez,-9999
+0,Rosa Helena,0,29054785,Garcia Calero,-9999
+0,Orlando de Jesus,0,98533310,Ortiz Grajales,-9999
+0,Edison,0,94459724,Aguiño Mosquera,-9999
+0,Luis Alberto,0,70903810,Arbelaez Ceballos,-9999
+0,Hernan,0,17097961,Mejia Mejia,-9999
+0,Gino,0,33922,Maestri Lanzarotti,-9999
+0,Clara Inés,0,31958999,Díaz Mejía,-9999
+0,Uriel,0,14941159,Hurtado Sánchez,-9999
+0,Gabriel,0,14956720,Osorio Salazar,-9999
+0,Marina,0,31233821,Sanchez Valencia,-9999
+0,Leydy Diana,0,1114728401,Oca Motato,-9999
 1,Comercializadora Omega,1,800017469,N/A,2
-0,Elsa,0,31847384,Lopez Sevillno,N/A
-0,Maria Elena,0,29581503,Cortes Chamorro,N/A
-0,Alfonso Eleazar,0,6069454,Guzman Moreno,N/A
-0,Carlos Alberto,0,6160214,Maya Osorio,N/A
+0,Elsa,0,31847384,Lopez Sevillno,-9999
+0,Maria Elena,0,29581503,Cortes Chamorro,-9999
+0,Alfonso Eleazar,0,6069454,Guzman Moreno,-9999
+0,Carlos Alberto,0,6160214,Maya Osorio,-9999
 1,"Ferreteria,Pinturas Y Productos Agropecuarios Limitada",1,805018771,N/A,2
-0,Fernando,0,2631179,Tascon Ospina,N/A
+0,Fernando,0,2631179,Tascon Ospina,-9999
 1,Del Corte Mobiliari,1,900206937,N/A,1
-0,Alix Carolina,0,60391142,Pabon Pabon,N/A
+0,Alix Carolina,0,60391142,Pabon Pabon,-9999
 1,Universal de Aceros y Trifilados,1,900719717,N/A,1
-0,Carlos Arturo,0,16750772,Garcia Quijano,N/A
+0,Carlos Arturo,0,16750772,Garcia Quijano,-9999
 1,Asoboce,1,901012767,N/A,1
-0,Aldenovan,0,16788077,Nieto Molina,N/A
-0,Carlos Fernando,0,94376160,Montaña Mendez,N/A
+0,Aldenovan,0,16788077,Nieto Molina,-9999
+0,Carlos Fernando,0,94376160,Montaña Mendez,-9999
 1,Actividades Textiles,1,900244841,N/A,1
-0,Patricia,0,66815206,Delgado Quintero,N/A
+0,Patricia,0,66815206,Delgado Quintero,-9999
 1,Representaciones Especiales,1,890204680,N/A,2
-0,Alejandro,0,91213359,Gomez Gomez,N/A
+0,Alejandro,0,91213359,Gomez Gomez,-9999
 1,Productos de Caucho y Lona,1,890328485,N/A,1
-0,Gustavo Alberto,0,16662908,Jaramillo Mejia,N/A
-0,Diego Fernando,0,16777328,Amaya Guzman,N/A
-0,Alvaro Jose,0,94497429,Velasco Lloreda,N/A
-0,Juliana,0,31428247,Perez Jimenez,N/A
-0,Rene Antonio,0,8276197,Orozco Restrepo,N/A
-0,Alexandra,0,66679566,Mena Lopez,N/A
-0,Cynthia,0,52695485,Dixon Palau,N/A
-0,Jacqueline,0,31889682,Lopez Sevillno,N/A
-0,Carlos Alberto,0,16761696,Sierro Murillo,N/A
+0,Gustavo Alberto,0,16662908,Jaramillo Mejia,-9999
+0,Diego Fernando,0,16777328,Amaya Guzman,-9999
+0,Alvaro Jose,0,94497429,Velasco Lloreda,-9999
+0,Juliana,0,31428247,Perez Jimenez,-9999
+0,Rene Antonio,0,8276197,Orozco Restrepo,-9999
+0,Alexandra,0,66679566,Mena Lopez,-9999
+0,Cynthia,0,52695485,Dixon Palau,-9999
+0,Jacqueline,0,31889682,Lopez Sevillno,-9999
+0,Carlos Alberto,0,16761696,Sierro Murillo,-9999
+0,Esther,0,31520503,Tzuckerman Pellman,-9999

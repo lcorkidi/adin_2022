@@ -2,7 +2,13 @@ from django.db import models
 
 class Estate(models.Model):
 
-    national_number = models.PositiveIntegerField(
+    national_number_1 = models.PositiveBigIntegerField(
+        verbose_name='Número Predial Nacional'
+    )
+    national_number_2 = models.PositiveBigIntegerField(
+        verbose_name='Número Predial Nacional'
+    )
+    national_number_3 = models.PositiveBigIntegerField(
         verbose_name='Número Predial Nacional'
     )
     address = models.ForeignKey(
@@ -28,7 +34,10 @@ class Estate(models.Model):
         verbose_name='Avaluo(s)'
     )
     total_area = models.FloatField(
-        verbose_name='Área'
+        verbose_name='Área',
+        blank=True,
+        null=True,
+        default=None
     )
 
     class Meta:
@@ -37,7 +46,7 @@ class Estate(models.Model):
         verbose_name_plural = 'Predios'
 
     def __str__(self) -> str:
-        return f'<Estate: {self.address}>'
+        return f'<Estate: {self.address.pk}>'
 
 class Estate_Person(models.Model):
 
@@ -66,4 +75,4 @@ class Estate_Person(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Estate_Person: {self.estate}-{self.person}>'
+        return f'<Estate_Person: {self.estate.pk}-{self.person}>'

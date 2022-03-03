@@ -2,7 +2,7 @@
     "0": {
         "class": "Person_Natural",
         "include": [
-            "person_type",
+            "type",
             "name",
             "id_number",
             "id_type",
@@ -12,11 +12,11 @@
     "1": {
         "class": "Person_Legal",
         "include": [
-            "person_type",
+            "type",
             "name",
             "id_number",
             "id_type",
-            "person_legal_type"
+            "legal_type"
         ]
     }
 }

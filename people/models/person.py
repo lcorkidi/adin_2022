@@ -61,11 +61,14 @@ class Person(models.Model):
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
 
+    def complete_name(self):
+        if self.type == 0:
+            return f'{Person_Natural.objects.get(pk=self.pk).last_name}, {self.name}'
+        elif self.type == 1:
+            return f'{self.name} {Person_Legal.objects.get(pk=self.pk).get_legal_type_display()}'
+
     def __str__(self) -> str:
-        if self.person_type == 0:
-            return Person_Natural.objects.get(pk=self.pk)
-        elif self.person_type == 1:
-            return Person_Legal.objects.get(pk=self.pk)
+        return f'<Person: {self.complete_name()}>'
 
 class Person_Natural(Person):
 
@@ -97,6 +100,14 @@ class Person_Legal(Person):
         choices=LEGAL_TYPE_CHOICE,
         verbose_name='Tipo de Sociedad'
     )
+    staff = models.ManyToManyField(
+        'people.Person_Natural',
+        through='Person_Legal_Person_Natural',
+        through_fields=('person_legal', 'person_natural'),
+        related_name='people_legal',
+        related_query_name='person_legal',
+        verbose_name='Personal'
+    )
 
     class Meta:
         app_label = 'people'
@@ -104,7 +115,7 @@ class Person_Legal(Person):
         verbose_name_plural = 'Personas Jurídicas'
     
     def __str__(self) -> str:
-        return f'<Person_Legal: {self.name} {self.get_person_legal_type_display()}>'
+        return f'<Person_Legal: {self.name} {self.get_legal_type_display()}>'
 
 class Person_Phone(models.Model):
 
@@ -139,7 +150,7 @@ class Person_Phone(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Phone: {self.get_use_disply()}-{self.person}>'
+        return f'<Phone: {self.get_use_display()}-{self.person.complete_name()}>'
 
 
 class Person_Address(models.Model):
@@ -176,7 +187,7 @@ class Person_Address(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Address: {self.get_use_disply()}-{self.person}>'
+        return f'<Address: {self.get_use_display()}-{self.person.complete_name()}>'
 
 class Person_Email(models.Model):
 
@@ -209,4 +220,41 @@ class Person_Email(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Email: {self.get_use_disply()}-{self.person}>'
+        return f'<Email: {self.get_use_display()}-{self.person.complete_name()}>'
+
+class Person_Legal_Person_Natural(models.Model):
+    APPOINTMENT_CHOICE = [
+        (0, 'Representate Legal'),
+        (1, 'Gerente General'),
+        (2, 'Suplente'),
+        (3, 'Auxiliar Administración'),
+        (4, 'Auxialr Contabilidad'),
+        (5, 'Supervisor Planta'),
+        (6, 'Socio')
+    ]
+
+    person_legal = models.ForeignKey(
+        Person_Legal,
+        on_delete=models.PROTECT,
+        verbose_name='Persona Jurídica'
+    )
+    person_natural = models.ForeignKey(
+        Person_Natural,
+        on_delete=models.PROTECT,
+        verbose_name='Persona Natural'
+    )
+    appointment = models.PositiveSmallIntegerField(
+        choices=APPOINTMENT_CHOICE,
+        verbose_name='Cargo'
+    )
+
+    class Meta:
+        app_label = 'people'
+        verbose_name = 'Persona Natural con Cargo en Persona Jurídica'
+        verbose_name_plural = 'Personas Naturales con Cargos en Personas Jurídicas'
+        constraints = [
+            models.UniqueConstraint(fields=['person_legal', 'person_natural'], name='unique_person_legal_person_natural'),
+        ]
+
+    def __str__(self) -> str:
+        return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}-{self.person_legal.complete_name()}>'
