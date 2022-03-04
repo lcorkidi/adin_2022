@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'people',
     'references',
     'properties',
+    'accounting',
+    'accountables',
 ]
 
 MIDDLEWARE = [

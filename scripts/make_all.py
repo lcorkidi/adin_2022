@@ -4,14 +4,17 @@ from scripts.utils import address2code, df2objs
 _raw_data_info = pd.read_json('_files/_raw_data_info.json')
 
 def run():
-    # create people
-    df2objs(pd.read_csv('_files/people_raw.csv'), _raw_data_info, True)
-
     # create addresses
     objs = df2objs(pd.read_csv('_files/addresses_raw.csv'), _raw_data_info)
     for obj in objs:
         obj.code = address2code(obj)
         obj.save()
+
+    # create puc
+    df2objs(pd.read_csv('_files/puc_raw.csv'), _raw_data_info, True)
+
+    # create people
+    df2objs(pd.read_csv('_files/people_raw.csv'), _raw_data_info, True)
 
     # create estates
     df2objs(pd.read_csv('_files/estates_raw.csv'), _raw_data_info, True)

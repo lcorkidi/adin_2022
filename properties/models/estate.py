@@ -27,12 +27,6 @@ class Estate(models.Model):
         related_query_name='estate',
         verbose_name='Propietario(s)'
     )
-    appraisal = models.ManyToManyField(
-        'references.Appraisal',
-        related_name='estates',
-        related_query_name='estate',
-        verbose_name='Avaluo(s)'
-    )
     total_area = models.FloatField(
         verbose_name='Área',
         blank=True,
@@ -44,6 +38,9 @@ class Estate(models.Model):
         app_label = 'properties'
         verbose_name = 'Predio'
         verbose_name_plural = 'Predios'
+
+    def __repr__(self) -> str:
+        return f'<Estate: {self.address.pk}>'
 
     def __str__(self) -> str:
         return self.address.pk
@@ -73,6 +70,9 @@ class Estate_Person(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['estate', 'person'], name='unique_estate_person'),
         ]
+
+    def __repr__(self) -> str:
+        return f'<Estate_Person: {self.estate.pk}_{self.person.complete_name()}>'
 
     def __str__(self) -> str:
         return f'{self.estate.pk}_{self.person.complete_name()}'

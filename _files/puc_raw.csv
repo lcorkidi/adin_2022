@@ -1,0 +1,2477 @@
+class,code,name
+PUC,1,activo
+PUC,11,disponible
+PUC,1105,caja
+PUC,110505,caja general
+PUC,110510,cajas menores
+PUC,110515,moneda extranjera
+PUC,1110,bancos
+PUC,111005,moneda nacional
+PUC,111010,moneda extranjera
+PUC,1115,remesas en transito
+PUC,111505,moneda nacional
+PUC,111510,moneda extranjera
+PUC,1120,cuentas de ahorro
+PUC,112005,bancos
+PUC,112010,corporaciones de ahorro y vivienda
+PUC,112015,organismos cooperativos financieros
+PUC,1125,fondos
+PUC,112505,rotatorios moneda nacional
+PUC,112510,rotatorios moneda extranjera
+PUC,112515,especiales moneda nacional
+PUC,112520,especiales moneda extranjera
+PUC,112525,de amortizacion moneda nacional
+PUC,112530,de amortizacion moneda extranjera
+PUC,12,inversiones
+PUC,1205,acciones
+PUC,120505,"agricultura, ganaderia, caza y silvicultura"
+PUC,120510,pesca
+PUC,120515,explotacion de minas y canteras
+PUC,120520,industria manufacturera
+PUC,120525,"suministro de electricidad, gas y agua"
+PUC,120530,construccion
+PUC,120535,comercio al por mayor y al por menor
+PUC,120540,hoteles y restaurantes
+PUC,120545,"transporte, almacenamiento y comunicaciones"
+PUC,120550,actividad financiera
+PUC,120555,"actividades inmobiliarias, empresariales y de alquiler"
+PUC,120560,enseñanza
+PUC,120565,servicios sociales y de salud
+PUC,120570,"otras actividades de servicios comunitarios, sociales"
+PUC,120599,ajustes por inflacion
+PUC,1210,cuotas o partes de interes social
+PUC,121005,"agricultura, ganaderia, caza y silvicultura"
+PUC,121010,pesca
+PUC,121015,explotacion de minas y canteras
+PUC,121020,industria manufacturera
+PUC,121025,"suministro de electricidad, gas y agua"
+PUC,121030,construccion
+PUC,121035,comercio al por mayor y al por menor
+PUC,121040,hoteles y restaurantes
+PUC,121045,"transporte, almacenamiento y comunicaciones"
+PUC,121050,actividad financiera
+PUC,121055,"actividades inmobiliarias, empresariales y de alquiler"
+PUC,121060,enseñanza
+PUC,121065,servicios sociales y de salud
+PUC,121070,"otras actividades de servicios comunitarios, sociales y personales"
+PUC,121099,ajustes por inflacion
+PUC,1215,bonos
+PUC,121505,bonos publicos moneda nacional
+PUC,121510,bonos publicos moneda extranjera
+PUC,121515,bonos ordinarios
+PUC,121520,bonos convertibles en acciones
+PUC,121595,otros
+PUC,1220,cedulas
+PUC,122005,cedulas de capitalizacion
+PUC,122010,cedulas hipotecarias
+PUC,122015,cedulas de inversion
+PUC,122095,otras
+PUC,1225,certificados
+PUC,122505,certificados de deposito a termino (c.d.t.)
+PUC,122510,certificados de deposito de ahorro
+PUC,122515,certificados de ahorro de valor constante (c.a.v.c.)
+PUC,122520,certificados de cambio
+PUC,122525,certificados cafeteros valorizables
+PUC,122530,certificados electricos valorizables (c.e.v.)
+PUC,122535,certificados de reembolso tributario (c.e.r.t.)
+PUC,122540,certificados de desarrollo turistico
+PUC,122545,certificados de inversion forestal (c.i.f.)
+PUC,122595,otros
+PUC,1230,papeles comerciales
+PUC,123005,empresas comerciales
+PUC,123010,empresas industriales
+PUC,123015,empresas de servicios
+PUC,1235,titulos
+PUC,123505,titulos de desarrollo agropecuario
+PUC,123510,titulos canjeables por certificados de cambio
+PUC,123515,titulos de tesoreria (t.e.s.)
+PUC,123520,titulos de participacion
+PUC,123525,titulos de credito de fomento
+PUC,123530,titulos financieros agroindustriales (t.f.a.)
+PUC,123535,titulos de ahorro cafetero (t.a.c.)
+PUC,123540,titulos de ahorro nacional (t.a.n.)
+PUC,123545,titulos energeticos de rentabilidad creciente (t.e.r.)
+PUC,123550,titulos de ahorro educativo (t.a.e.)
+PUC,123555,titulos financieros  industriales y comerciales
+PUC,123560,tesoros
+PUC,123565,titulos de devolucion de impuestos nacionales (tidis)
+PUC,123570,titulos inmobiliarios
+PUC,123595,otros
+PUC,1240,aceptaciones bancarias o financieras
+PUC,124005,bancos comerciales
+PUC,124010,compañias de financiamiento comercial
+PUC,124015,corporaciones financieras
+PUC,124095,otras
+PUC,1245,derechos fiduciarios
+PUC,124505,fideicomisos de inversion moneda nacional
+PUC,124510,fideicomisos de inversion moneda extranjera
+PUC,1250,derechos de recompra de inversiones negociadas (repos)
+PUC,125005,acciones
+PUC,125010,cuotas o partes de interes social
+PUC,125015,bonos
+PUC,125020,cedulas
+PUC,125025,certificados
+PUC,125030,papeles comerciales
+PUC,125035,titulos
+PUC,125040,aceptaciones bancarias o financieras
+PUC,125095,otros
+PUC,125099,ajustes por inflacion
+PUC,1255,obligatorias
+PUC,125505,bonos de financiamiento especial
+PUC,125510,bonos de financiamiento presupuestal
+PUC,125515,bonos para desarrollo social y seguridad interna (b.d.s.i.)
+PUC,125595,otras
+PUC,1260,cuentas en participacion
+PUC,126099,ajustes por inflacion
+PUC,1295,otras inversiones
+PUC,129505,aportes en cooperativas
+PUC,129510,derechos en clubes sociales
+PUC,129515,acciones o derechos en clubes deportivos
+PUC,129520,bonos en colegios
+PUC,129595,diversas
+PUC,129599,ajustes por inflacion
+PUC,1299,provisiones
+PUC,129905,acciones
+PUC,129910,cuotas o partes de interes social
+PUC,129915,bonos
+PUC,129920,cedulas
+PUC,129925,certificados
+PUC,129930,papeles comerciales
+PUC,129935,titulos
+PUC,129940,aceptaciones bancarias o financieras
+PUC,129945,derechos fiduciarios
+PUC,129950,derechos de recompra de inversiones negociadas
+PUC,129955,obligatorias
+PUC,129960,cuentas en participacion
+PUC,129995,otras inversiones
+PUC,13,deudores
+PUC,1305,clientes
+PUC,130505,nacionales
+PUC,130510,del exterior
+PUC,130515,deudores del sistema
+PUC,1310,cuentas corrientes comerciales
+PUC,131005,casa matriz
+PUC,131010,compañias vinculadas
+PUC,131015,accionistas o socios
+PUC,131020,particulares
+PUC,131095,otras
+PUC,1315,cuentas por cobrar a casa matriz
+PUC,131505,ventas
+PUC,131510,pagos a nombre de casa matriz
+PUC,131515,valores recibidos por casa matriz
+PUC,131520,prestamos
+PUC,1320,cuentas por cobrar a vinculados economicos
+PUC,132005,filiales
+PUC,132010,subsidiarias
+PUC,132015,sucursales
+PUC,1325,cuentas por cobrar a socios y accionistas
+PUC,132505,a socios
+PUC,132510,a accionistas
+PUC,1328,aportes por cobrar
+PUC,1330,anticipos y avances
+PUC,133005,a proveedores
+PUC,133010,a contratistas
+PUC,133015,a trabajadores
+PUC,133020,a agentes
+PUC,133025,a concesionarios
+PUC,133030,de adjudicaciones
+PUC,133095,otros
+PUC,1332,cuentas de operacion conjunta
+PUC,1335,depositos
+PUC,133505,para importaciones
+PUC,133510,para servicios
+PUC,133515,para contratos
+PUC,133520,para responsabilidades
+PUC,133525,para juicios ejecutivos
+PUC,133530,"para adquisicion de acciones, cuotas o derechos"
+PUC,133535,en garantia
+PUC,133595,otros
+PUC,1340,promesas de compra venta
+PUC,134005,de bienes raices
+PUC,134010,de maquinaria y equipo
+PUC,134015,de flota y equipo de transporte
+PUC,134020,de flota y equipo aereo
+PUC,134025,de flota y equipo ferreo
+PUC,134030,de flota y equipo fluvial y/o maritimo
+PUC,134035,de semovientes
+PUC,134095,de otros bienes
+PUC,1345,ingresos por cobrar
+PUC,134505,dividendos y/o participaciones
+PUC,134510,intereses
+PUC,134515,comisiones
+PUC,134520,honorarios
+PUC,134525,servicios
+PUC,134530,arrendamientos
+PUC,134535,cert por cobrar
+PUC,134595,otros
+PUC,1350,retencion sobre contratos
+PUC,135005,de construccion
+PUC,135010,de prestacion de servicios
+PUC,135095,otros
+PUC,1355,anticipo de impuestos y contribuciones o saldos a favor
+PUC,135505,anticipo de impuestos de renta y complementarios
+PUC,135510,anticipo de impuestos de industria y comercio
+PUC,135515,retencion en la fuente
+PUC,135517,impuesto a las ventas retenido
+PUC,135518,impuesto de industria y comercio retenido
+PUC,135520,sobrantes en liquidacion privada de impuestos
+PUC,135525,contribuciones
+PUC,135530,impuestos descontables
+PUC,135595,otros
+PUC,1360,reclamaciones
+PUC,136005,a compañias aseguradoras
+PUC,136010,a transportadores
+PUC,136015,por tiquetes aereos
+PUC,136095,otras
+PUC,1365,cuentas por cobrar a trabajadores
+PUC,136505,vivienda
+PUC,136510,vehiculos
+PUC,136515,educacion
+PUC,136520,"medicos, odontologicos y similares"
+PUC,136525,calamidad domestica
+PUC,136530,responsabilidades
+PUC,136595,otros
+PUC,1370,prestamos a particulares
+PUC,137005,con garantia real
+PUC,137010,con garantia personal
+PUC,1380,deudores varios
+PUC,138005,depositarios
+PUC,138010,comisionistas de bolsas
+PUC,138015,fondo de inversion
+PUC,138020,cuentas por cobrar de terceros
+PUC,138025,pagos por cuenta de terceros
+PUC,138030,fondos de inversion social
+PUC,138095,otros
+PUC,1385,derechos de recompra de cartera negociada
+PUC,1390,deudas de dificil cobro
+PUC,1399,provisiones
+PUC,139905,clientes
+PUC,139910,cuentas corrientes comerciales
+PUC,139915,cuentas por cobrar a casa matriz
+PUC,139920,cuentas por cobrar a vinculados economicos
+PUC,139925,cuentas por cobrar a socios y accionistas
+PUC,139930,anticipos y avances
+PUC,139932,cuentas de operacion conjunta
+PUC,139935,depositos
+PUC,139940,promesas de compraventa
+PUC,139945,ingresos por cobrar
+PUC,139950,retencion sobre contratos
+PUC,139955,reclamaciones
+PUC,139960,cuentas por cobrar a trabajadores
+PUC,139965,prestamos a particulares
+PUC,139975,deudores varios
+PUC,139980,derechos de recompra de cartera negociada
+PUC,14,inventarios
+PUC,1405,materias primas
+PUC,140599,ajustes por inflacion
+PUC,1410,productos en proceso
+PUC,141099,ajustes por inflacion
+PUC,1415,obras de construccion en curso
+PUC,141599,ajustes por inflacion
+PUC,1417,obras de urbanismo
+PUC,141799,ajustes por inflacion
+PUC,1420,contratos en ejecucion
+PUC,142099,ajustes por inflacion
+PUC,1425,cultivos en desarrollo
+PUC,142599,ajustes por inflacion
+PUC,1430,productos terminados
+PUC,143005,productos manufacturados
+PUC,143010,productos extraidos y/o procesados
+PUC,143015,productos agricolas y forestales
+PUC,143020,subproductos
+PUC,143025,productos de pesca
+PUC,143099,ajustes por inflacion
+PUC,1435,mercancias no fabricadas por la empresa
+PUC,143599,ajustes por inflacion
+PUC,1440,bienes raices para la venta
+PUC,144099,ajustes por inflacion
+PUC,1445,semovientes
+PUC,144505,especies mayores
+PUC,144510,especies menores
+PUC,144599,ajustes por inflacion
+PUC,1450,terrenos
+PUC,145005,por urbanizar
+PUC,145010,urbanizados por construir
+PUC,145099,ajustes por inflacion
+PUC,1455,"materiales, repuestos y accesorios"
+PUC,145505,combustibles y lubricantes
+PUC,145510,abonos y fertilizantes
+PUC,145515,semillas terminadas
+PUC,145520,fungicidas y herbicidas
+PUC,145525,materiales y repuestos
+PUC,145530,loza y cristaleria
+PUC,145535,herramientas
+PUC,145540,medicinas
+PUC,145545,elementos hospitalarios
+PUC,145550,instrumental quirurgico
+PUC,145555,dotacion y suministro a trabajadores
+PUC,145560,elementos de roperia y lenceria
+PUC,145595,otros
+PUC,145599,ajustes por inflacion
+PUC,1460,envases y empaques
+PUC,146099,ajustes por inflacion
+PUC,1465,inventarios en transito
+PUC,146599,ajustes por inflacion
+PUC,1499,provisiones
+PUC,149905,para obsolescencia
+PUC,149910,para diferencia de inventario fisico
+PUC,149915,para perdidas de inventarios
+PUC,149920,lifo
+PUC,15,propiedades planta y equipo
+PUC,1504,terrenos
+PUC,150405,urbanos
+PUC,150410,rurales
+PUC,150499,ajustes por inflacion
+PUC,1506,materiales proyectos petroleros
+PUC,150605,tuberias y equipo
+PUC,150610,costos de importacion materiales
+PUC,150615,proyectos de construccion
+PUC,150699,ajustes por inflacion
+PUC,1508,construcciones en curso
+PUC,150805,construcciones y edificaciones
+PUC,150810,acueductos plantas y redes
+PUC,150815,vias de comunicacion
+PUC,150820,pozos artesianos
+PUC,150825,proyectos de exploracion
+PUC,150830,proyectos de desarrollo
+PUC,150899,ajustes por inflacion
+PUC,1512,maquinaria y equipos en montaje
+PUC,151205,maquinaria y equipo
+PUC,151210,equipo de oficina
+PUC,151215,equipo de computacion y comunicacion
+PUC,151220,equipo medico-cientifico
+PUC,151225,equipo de hoteles y restaurantes
+PUC,151230,flota y equipo de transporte
+PUC,151235,flota y equipo fluvial y/o maritimo
+PUC,151240,flota y equipo aereo
+PUC,151245,flota y equipo ferreo
+PUC,151250,plantas y redes
+PUC,151299,ajustes por inflacion
+PUC,1516,construcciones y edificaciones
+PUC,151605,edificios
+PUC,151610,oficinas
+PUC,151615,almacenes
+PUC,151620,fabricas y plantas industriales
+PUC,151625,salas de exhibicion y ventas
+PUC,151630,cafeteria y casinos
+PUC,151635,silos
+PUC,151640,invernaderos
+PUC,151645,casetas y campamentos
+PUC,151650,instalaciones agropecuarias
+PUC,151655,viviendas para empleados y obreros
+PUC,151660,terminal de buses y taxis
+PUC,151663,terminal maritimo
+PUC,151665,terminal ferreo
+PUC,151670,"parqueaderos, garajes y depositos"
+PUC,151675,hangares
+PUC,151680,bodegas
+PUC,151695,otros
+PUC,151699,ajustes por inflacion
+PUC,1520,maquinaria y equipo
+PUC,152099,ajustes por inflacion
+PUC,1524,equipo de oficina
+PUC,152405,muebles y enseres
+PUC,152410,equipos
+PUC,152495,otros
+PUC,152499,ajustes por inflacion
+PUC,1528,equipo de computacion y comunicacion
+PUC,152805,equipos de procesamiento de datos
+PUC,152810,equipos de telecomunicaciones
+PUC,152815,equipos de radio
+PUC,152820,satelites y antenas
+PUC,152825,lineas telefonicas
+PUC,152895,otros
+PUC,152899,ajustes por inflacion
+PUC,1532,equipo medico - cientifico
+PUC,153205,medico
+PUC,153210,odontologico
+PUC,153215,laboratorio
+PUC,153220,instrumental
+PUC,153295,otros
+PUC,153299,ajustes por inflacion
+PUC,1536,equipo de hoteles y restaurantes
+PUC,153605,de habitaciones
+PUC,153610,de comestibles y bebidas
+PUC,153695,otros
+PUC,153699,ajustes por inflacion
+PUC,1540,flota y equipo de transporte
+PUC,154005,"autos, camionetas y camperos"
+PUC,154008,"camiones, volquetas y furgones"
+PUC,154010,tractomulas y remolques
+PUC,154015,buses y busetas
+PUC,154017,recolectores y contenedores
+PUC,154020,montacargas
+PUC,154025,palas y gruas
+PUC,154030,motocicletas
+PUC,154035,bicicletas
+PUC,154040,estibas y carretas
+PUC,154045,bandas transportadoras
+PUC,154095,otros
+PUC,154099,ajustes por inflacion
+PUC,1544,flota y equipo fluvial y/o maritimo
+PUC,154405,buques
+PUC,154410,lanchas
+PUC,154415,remolcadoras
+PUC,154420,botes
+PUC,154425,boyas
+PUC,154430,amarres
+PUC,154435,contenedores y chassises
+PUC,154440,gabarras
+PUC,154495,otros
+PUC,154499,ajustes por inflacion
+PUC,1548,flota y equipo aereo
+PUC,154805,aviones
+PUC,154810,avionetas
+PUC,154815,helicopteros
+PUC,154820,turbinas y motores
+PUC,154825,manuales de entrenamiento personal tecnico
+PUC,154830,equipos de vuelo
+PUC,154895,otros
+PUC,154899,ajustes por inflacion
+PUC,1552,flota y equipo ferreo
+PUC,155205,locomotoras
+PUC,155210,vagones
+PUC,155215,redes ferreas
+PUC,155295,otros
+PUC,155299,ajustes por inflacion
+PUC,1556,acueductos plantas y redes
+PUC,155605,instalaciones para agua y energia
+PUC,155610,acueducto acequias y canalizaciones
+PUC,155615,plantas de generacion hidraulica
+PUC,155620,plantas de generacion termica
+PUC,155625,plantas de generacion a gas
+PUC,155628,"plantas de generacion diesel, gasolina y petroleo"
+PUC,155630,plantas de distribucion
+PUC,155635,plantas de transmision y subestaciones
+PUC,155640,oleoductos
+PUC,155645,gasoductos
+PUC,155647,poliductos
+PUC,155650,redes de distribucion
+PUC,155655,plantas de tratamiento
+PUC,155660,redes de recoleccion de aguas negras
+PUC,155665,instalaciones y equipo de bombeo
+PUC,155670,redes de distribucion de vapor
+PUC,155675,redes de aire
+PUC,155680,redes alimentacion de gas
+PUC,155682,redes externas de telefonia
+PUC,155685,plantas deshidratadoras
+PUC,155695,otros
+PUC,155699,ajustes por inflacion
+PUC,1560,armamento de vigilancia
+PUC,156099,ajustes por inflacion
+PUC,1562,envases y empaques
+PUC,156299,ajustes por inflacion
+PUC,1564,plantaciones agricolas y forestales
+PUC,156405,cultivos en desarrollo
+PUC,156410,cultivos amortizables
+PUC,156499,ajustes por inflacion
+PUC,1568,vias de comunicacion
+PUC,156805,pavimentacion y patios
+PUC,156810,vias
+PUC,156815,puentes
+PUC,156820,calles
+PUC,156825,aerodromos
+PUC,156895,otros
+PUC,156899,ajustes por inflacion
+PUC,1572,minas y canteras
+PUC,157205,minas
+PUC,157210,canteras
+PUC,157299,ajustes por inflacion
+PUC,1576,pozos artesianos
+PUC,157699,ajustes por inflacion
+PUC,1580,yacimientos
+PUC,158099,ajustes por inflacion
+PUC,1584,semovientes
+PUC,158405,especies menores
+PUC,158410,especies mayores
+PUC,158499,ajustes por inflacion
+PUC,1588,propiedades planta y equipo en transito
+PUC,158805,maquinaria y equipo
+PUC,158810,equipo de oficina
+PUC,158815,equipo de computacion y comunicacion
+PUC,158820,equipo medico cientifico
+PUC,158825,equipo de hoteles y restaurantes
+PUC,158830,flota y equipo de transporte
+PUC,158835,flota y equipo fluvial y/o maritimo
+PUC,158840,flota y equipo aereo
+PUC,158845,flota y equipo ferreo
+PUC,158850,plantas y redes
+PUC,158855,armamento de vigilancia
+PUC,158860,semovientes
+PUC,158865,envases y empaques
+PUC,158899,ajustes por inflacion
+PUC,1592,depreciacion acumulada
+PUC,159205,construcciones y edificaciones
+PUC,159210,maquinaria y equipo
+PUC,159215,equipo de oficina
+PUC,159220,equipo de computacion y comunicacion
+PUC,159225,equipo medico cientifico
+PUC,159230,equipo de hoteles y restaurantes
+PUC,159235,flota y equipo de transporte
+PUC,159240,flota y equipo fluvial y/o maritimo
+PUC,159245,flota y equipo aereo
+PUC,159250,flota y equipo ferreo
+PUC,159255,acueductos plantas y redes
+PUC,159260,armamento de vigilancia
+PUC,159265,envases y empaques
+PUC,159299,ajustes por inflacion
+PUC,1596,depreciacion diferida
+PUC,159605,exceso fiscal sobre la contable
+PUC,159610,defecto fiscal sobre la contable (cr)
+PUC,159699,ajustes por inflacion
+PUC,1597,amortizacion acumulada
+PUC,159705,plantaciones agricolas y forestales
+PUC,159710,vias de comunicacion
+PUC,159715,semovientes
+PUC,159799,ajustes por inflacion
+PUC,1598,agotamiento acumulado
+PUC,159805,minas y canteras
+PUC,159815,pozos artesianos
+PUC,159820,yacimientos
+PUC,159899,ajustes por inflacion
+PUC,1599,provisiones
+PUC,159904,terrenos
+PUC,159906,materiales proyectos petroleros
+PUC,159908,construcciones en curso
+PUC,159912,maquinaria en montaje
+PUC,159916,construcciones y edificaciones
+PUC,159920,maquinaria y equipo
+PUC,159924,equipo de oficina
+PUC,159928,equipo de computacion y comunicacion
+PUC,159932,equipo medico cientifico
+PUC,159936,equipo de hoteles y restaurantes
+PUC,159940,flota y equipo de transporte
+PUC,159944,flota y equipo fluvial y/o maritimo
+PUC,159948,flota y equipo aereo
+PUC,159952,flota y equipo ferreo
+PUC,159956,"acueductos, plantas y redes"
+PUC,159960,armamento de vigilancia
+PUC,159962,envases y empaques
+PUC,159964,plantaciones agricolas y forestales
+PUC,159968,vias de comunicacion
+PUC,159972,minas y canteras
+PUC,159980,pozos artesianos
+PUC,159984,yacimientos
+PUC,159988,semovientes
+PUC,159992,propiedades planta y equipo en transito
+PUC,16,intangibles
+PUC,1605,credito mercantil
+PUC,160505,formado o estimado
+PUC,160510,adquirido o comprado
+PUC,160599,ajustes por inflacion
+PUC,1610,marcas
+PUC,161005,adquiridas
+PUC,161010,formadas
+PUC,161099,ajustes por inflacion
+PUC,1615,patentes
+PUC,161505,adquiridas
+PUC,161510,formadas
+PUC,161599,ajustes por inflacion
+PUC,1620,concesiones y franquicias
+PUC,162005,concesiones
+PUC,162010,franquicias
+PUC,162099,ajustes por inflacion
+PUC,1625,derechos
+PUC,162505,derechos de autor
+PUC,162510,puesto de bolsa
+PUC,162515,en fideicomisos inmobiliarios
+PUC,162520,en fideicomisos de garantia
+PUC,162525,en fideicomisos de administracion
+PUC,162595,otros
+PUC,162599,ajustes por inflacion
+PUC,1630,know how
+PUC,163099,ajustes por inflacion
+PUC,1635,licencias
+PUC,163599,ajustes por inflacion
+PUC,1698,amortizacion acumulada
+PUC,169805,credito mercantil
+PUC,169810,marcas
+PUC,169815,patentes
+PUC,169820,concesiones y franquicias
+PUC,169830,derechos
+PUC,169835,know how
+PUC,169840,licencias
+PUC,169899,ajustes por inflacion
+PUC,1699,provisiones
+PUC,17,diferidos
+PUC,1705,gastos pagados por anticipado
+PUC,170505,intereses
+PUC,170510,honorarios
+PUC,170515,comisiones
+PUC,170520,seguros y fianzas
+PUC,170525,arrendamientos
+PUC,170530,bodegajes
+PUC,170535,mantenimiento equipos
+PUC,170540,servicios
+PUC,170545,suscripciones
+PUC,170595,otros
+PUC,1710,cargos diferidos
+PUC,171004,organizacion y preoperativos
+PUC,171008,remodelaciones
+PUC,171012,"estudios, investigaciones y proyectos"
+PUC,171016,programas para computador (software)
+PUC,171020,utiles y papeleria
+PUC,171024,mejoras a propiedades ajenas
+PUC,171028,contribuciones y afiliaciones
+PUC,171032,entrenamiento de personal
+PUC,171036,ferias y exposiciones
+PUC,171040,licencias
+PUC,171044,"publicidad, propaganda y avisos"
+PUC,171048,elementos de aseo y cafeteria
+PUC,171052,moldes y troqueles
+PUC,171056,instrumental quirurgico
+PUC,171060,dotacion y suministro a trabajadores
+PUC,171064,elementos de roperia y lenceria
+PUC,171068,loza y cristaleria
+PUC,171072,descuento en colocacion de bonos
+PUC,171076,"impuesto de renta diferido ""debitos"" por diferencias"
+PUC,171080,concursos y licitaciones
+PUC,171095,otros
+PUC,171099,ajustes por inflacion
+PUC,1715,costos de exploracion por amortizar
+PUC,171505,pozos secos
+PUC,171510,pozos no comerciales
+PUC,171515,otros costos de exploracion
+PUC,171599,ajustes por inflacion
+PUC,1720,costos de explotacion y desarrollo
+PUC,172005,perforacion y explotacion
+PUC,172010,perforaciones campos en desarrollo
+PUC,172015,facilidades de produccion
+PUC,172020,servicio a pozos
+PUC,172099,ajustes por inflacion
+PUC,1730,cargos por correccion monetaria diferida
+PUC,1798,amortizacion acumulada
+PUC,179805,costos de exploracion por amortizar
+PUC,179810,costos de explotacion y desarrollo
+PUC,179899,ajustes por inflacion
+PUC,18,otros activos
+PUC,1805,bienes de arte y cultura
+PUC,180505,obras de arte
+PUC,180510,bibliotecas
+PUC,180595,otros
+PUC,180599,ajustes por inflacion
+PUC,1895,diversos
+PUC,189505,maquinas porteadoras
+PUC,189510,bienes entregados en comodato
+PUC,189515,amortizacion acumulada de bienes entregados en comodato (cr)
+PUC,189520,bienes recibidos en pago
+PUC,189525,derechos sucesorales
+PUC,189530,estampillas
+PUC,189595,otros
+PUC,189599,ajustes por inflacion
+PUC,1899,provisiones
+PUC,189905,bienes de arte y cultura
+PUC,189995,diversos
+PUC,19,valorizaciones
+PUC,1905,de inversiones
+PUC,190505,acciones
+PUC,190510,cuotas o partes de interes social
+PUC,190515,derechos fiduciarios
+PUC,1910,de propiedades planta y equipo
+PUC,191004,terrenos
+PUC,191006,materiales proyectos petroleros
+PUC,191008,construcciones y edificaciones
+PUC,191012,maquinaria y equipo
+PUC,191016,equipo de oficina
+PUC,191020,equipo de computacion y comunicacion
+PUC,191024,equipo medico cientifico
+PUC,191028,equipo de hoteles y restaurantes
+PUC,191032,flota y equipo de transporte
+PUC,191036,flota y equipo fluvial y/o maritimo
+PUC,191040,flota y equipo aereo
+PUC,191044,flota y equipo ferreo
+PUC,191048,acueductos plantas y redes
+PUC,191052,armamento de vigilancia
+PUC,191056,envases y empaques
+PUC,191060,plantaciones agricolas y forestales
+PUC,191064,vias de comunicacion
+PUC,191068,minas y canteras
+PUC,191072,pozos artesianos
+PUC,191076,yacimientos
+PUC,191080,semovientes
+PUC,1995,de otros activos
+PUC,199505,bienes de arte y cultura
+PUC,199510,bienes entregados en comodato
+PUC,199515,bienes recibidos en pago
+PUC,199520,inventario de semovientes
+PUC,2,pasivo
+PUC,21,obligaciones financieras
+PUC,2105,bancos nacionales
+PUC,210505,sobregiros
+PUC,210510,pagares
+PUC,210515,cartas de credito
+PUC,210520,aceptaciones bancarias
+PUC,2110,bancos del exterior
+PUC,211005,sobregiros
+PUC,211010,pagares
+PUC,211015,cartas de credito
+PUC,211020,aceptaciones bancarias
+PUC,2115,corporaciones financieras
+PUC,211505,pagares
+PUC,211510,aceptaciones financieras
+PUC,211515,cartas de credito
+PUC,2120,compañias de financiamiento comercial
+PUC,212005,pagares
+PUC,212010,aceptaciones financieras
+PUC,2125,corporaciones de ahorro y vivienda
+PUC,212505,sobregiros
+PUC,212510,pagares
+PUC,212515,hipotecarias
+PUC,2130,entidades financieras del exterior
+PUC,2135,compromisos de recompra de inversiones negociadas
+PUC,213505,acciones
+PUC,213510,cuotas o partes de interes social
+PUC,213515,bonos
+PUC,213520,cedulas
+PUC,213525,certificados
+PUC,213530,papeles comerciales
+PUC,213535,titulos
+PUC,213540,aceptaciones bancarias o financieras
+PUC,213595,otros
+PUC,2140,compromisos de recompra de cartera negociada
+PUC,2145,obligaciones gubernamentales
+PUC,214505,gobierno nacional
+PUC,214510,entidades oficiales
+PUC,2195,otras obligaciones
+PUC,219505,particulares
+PUC,219510,compañias vinculadas
+PUC,219515,casa matriz
+PUC,219520,socios o accionistas
+PUC,219525,fondos y cooperativas
+PUC,219595,otras
+PUC,22,proveedores
+PUC,2205,nacionales
+PUC,2210,del exterior
+PUC,2215,cuentas corrientes comerciales
+PUC,2220,casa matriz
+PUC,2225,compañias vinculadas
+PUC,23,cuentas por pagar
+PUC,2305,cuentas corrientes comerciales
+PUC,2310,a casa matriz
+PUC,2315,a compañias vinculadas
+PUC,2320,a contratistas
+PUC,2330,ordenes de compra por utilizar
+PUC,2335,costos y gastos por  pagar
+PUC,233505,gastos financieros
+PUC,233510,gastos legales
+PUC,233515,"libros, suscripciones, periodicos y revistas"
+PUC,233520,comisiones
+PUC,233525,honorarios
+PUC,233530,servicios tecnicos
+PUC,233535,servicios de mantenimiento
+PUC,233540,arrendamientos
+PUC,233545,"transportes, fletes y acarreos"
+PUC,233550,servicios publicos
+PUC,233555,seguros
+PUC,233560,gastos de viaje
+PUC,233565,gastos de representacion y relaciones publicas
+PUC,233570,servicios aduaneros
+PUC,233595,otros
+PUC,2340,instalamentos por pagar
+PUC,2345,acreedores oficiales
+PUC,2350,regalias por pagar
+PUC,2355,deudas con accionistas o socios
+PUC,235505,accionistas
+PUC,235510,socios
+PUC,2360,dividendos o participaciones por pagar
+PUC,236005,dividendos
+PUC,236010,participaciones
+PUC,2365,retencion en la fuente
+PUC,236505,salarios y pagos laborales
+PUC,236510,dividendos y/o participaciones
+PUC,236515,honorarios
+PUC,236520,comisiones
+PUC,236525,servicios
+PUC,236530,arrendamientos
+PUC,236535,rendimientos financieros
+PUC,236540,compras
+PUC,236545,"loterias, rifas, apuestas y similares"
+PUC,236550,por pagos al exterior
+PUC,236555,por ingresos obtenidos en el exterior
+PUC,236560,enajenacion propiedades planta y equipo personas naturales
+PUC,236565,por impuesto de timbre
+PUC,236570,otras retenciones y patrimonio
+PUC,236575,autorretenciones
+PUC,2370,retenciones y aportes de nomina
+PUC,237005,aportes al i.s.s.
+PUC,237010,"aportes al i.c.b.f., sena y cajas de compensacion"
+PUC,237015,aportes al f.i.c.
+PUC,237025,embargos judiciales
+PUC,237030,libranzas
+PUC,237035,sindicatos
+PUC,237040,cooperativas
+PUC,237045,fondos
+PUC,237095,otros
+PUC,2375,cuotas por devolver
+PUC,2380,acreedores varios
+PUC,238005,depositarios
+PUC,238010,comisionistas de bolsas
+PUC,238015,sociedad administradora - fondos de inversion
+PUC,238020,reintegros por pagar
+PUC,238025,fondo de perseverancia
+PUC,238030,fondos de cesantias y/o pensiones
+PUC,238035,donaciones asignadas por pagar
+PUC,238095,otros
+PUC,24,"impuestos, gravamenes y tasas"
+PUC,2404,de renta y complementarios
+PUC,240405,vigencia fiscal corriente
+PUC,240410,vigencias fiscales anteriores
+PUC,2408,impuesto sobre las ventas por pagar
+PUC,2412,de industria y comercio
+PUC,241205,vigencia fiscal corriente
+PUC,241210,vigencias fiscales anteriores
+PUC,2416,a la propiedad raiz
+PUC,2420,derechos sobre instrumentos publicos
+PUC,2424,de valorizacion
+PUC,242405,vigencia fiscal corriente
+PUC,242410,vigencias fiscales anteriores
+PUC,2428,de turismo
+PUC,2432,tasa por utilizacion de puertos
+PUC,2436,de vehiculos
+PUC,243605,vigencia fiscal corriente
+PUC,243610,vigencias fiscales anteriores
+PUC,2440,de espectaculos publicos
+PUC,2444,de hidrocarburos y minas
+PUC,244405,de hidrocarburos
+PUC,244410,de minas
+PUC,2448,regalias e impuestos a la pequeña y mediana mineria
+PUC,2452,a las exportaciones cafeteras
+PUC,2456,a las importaciones
+PUC,2460,cuotas de fomento
+PUC,2464,"de licores, cervezas y cigarrillos"
+PUC,246405,de licores
+PUC,246410,de cervezas
+PUC,246415,de cigarrillos
+PUC,2468,al sacrificio de ganado
+PUC,2472,al azar y juegos
+PUC,2495,otros
+PUC,25,obligaciones laborales
+PUC,2505,salarios por pagar
+PUC,2510,cesantias consolidadas
+PUC,251005,ley laboral anterior
+PUC,251010,ley 50 de 1990 y normas posteriores
+PUC,2515,intereses sobre cesantias
+PUC,2520,prima de servicios
+PUC,2525,vacaciones consolidadas
+PUC,252501,a 252598
+PUC,2530,prestaciones extralegales
+PUC,253005,primas
+PUC,253010,auxilios
+PUC,253015,dotacion y suministro a trabajadores
+PUC,253020,bonificaciones
+PUC,253025,seguros
+PUC,253095,otras
+PUC,2532,pensiones por pagar
+PUC,2535,cuotas partes pensiones de jubilacion
+PUC,2540,indemnizaciones laborales
+PUC,26,pasivos estimados y provisiones
+PUC,2605,para costos y gastos
+PUC,260505,intereses
+PUC,260510,comisiones
+PUC,260515,honorarios
+PUC,260520,servicios tecnicos
+PUC,260525,"transportes, fletes y acarreos"
+PUC,260530,gastos de viaje
+PUC,260535,servicios publicos
+PUC,260540,regalias
+PUC,260545,garantias
+PUC,260550,materiales y repuestos
+PUC,260595,otros
+PUC,2610,para obligaciones laborales
+PUC,261005,cesantias
+PUC,261010,intereses sobre cesantias
+PUC,261015,vacaciones
+PUC,261020,prima de servicios
+PUC,261025,prestaciones extralegales
+PUC,261030,viaticos
+PUC,261095,otras
+PUC,2615,para obligaciones fiscales
+PUC,261505,de renta y complementarios
+PUC,261510,de industria y comercio
+PUC,261515,tasa por utilizacion de puertos
+PUC,261520,de vehiculos
+PUC,261525,de hidrocarburos y minas
+PUC,261595,otros
+PUC,2620,pensiones de jubilacion
+PUC,262005,calculo actuarial pensiones de jubilacion
+PUC,262010,pensiones de jubilacion por amortizar (db)
+PUC,2625,para obras de urbanismo
+PUC,262505,acueducto y alcantarillado
+PUC,262510,energia electrica
+PUC,262515,telefonos
+PUC,262595,otros
+PUC,2630,para mantenimiento y reparaciones
+PUC,263005,terrenos
+PUC,263010,construcciones y edificaciones
+PUC,263015,maquinaria y equipo
+PUC,263020,equipo de oficina
+PUC,263025,equipo de computacion y comunicacion
+PUC,263030,equipo medico - cientifico
+PUC,263035,equipo de hoteles y restaurantes
+PUC,263040,flota y equipo de transporte
+PUC,263045,flota y equipo fluvial y/o maritimo
+PUC,263050,flota y equipo aereo
+PUC,263055,flota y equipo ferreo
+PUC,263060,acueductos plantas y redes
+PUC,263065,armamento de vigilancia
+PUC,263070,envases y empaques
+PUC,263075,plantaciones agricolas y forestales
+PUC,263080,vias de cumunicacion
+PUC,263085,pozos artesianos
+PUC,263095,otros
+PUC,2635,para contingencias
+PUC,263505,multas y sanciones autoridades administrativas
+PUC,263510,intereses por multas y sanciones
+PUC,263515,reclamos
+PUC,263520,laborales
+PUC,263525,civiles
+PUC,263530,penales
+PUC,263535,administrativos
+PUC,263540,comerciales
+PUC,263595,otras
+PUC,2640,para obligaciones de garantias
+PUC,2695,provisiones diversas
+PUC,269505,para beneficencia
+PUC,269510,para comunicaciones
+PUC,269515,para perdida en transporte
+PUC,269520,para operacion
+PUC,269525,para proteccion de bienes agotables
+PUC,269530,para ajustes en redencion de unidades
+PUC,269535,autoseguro
+PUC,269540,planes y programas de reforestacion y electrificacion
+PUC,269595,otras
+PUC,27,diferidos
+PUC,2705,ingresos recibidos por anticipado
+PUC,270505,intereses
+PUC,270510,comisiones
+PUC,270515,arrendamientos
+PUC,270520,honorarios
+PUC,270525,servicios tecnicos
+PUC,270530,de suscriptores
+PUC,270535,"transportes, fletes y acarreos"
+PUC,270540,mercancia en transito ya vendida
+PUC,270545,matriculas y pensiones
+PUC,270550,cuotas de administracion
+PUC,270595,otros
+PUC,2710,abonos diferidos
+PUC,271005,reajuste del sistema
+PUC,2715,utilidad diferida en ventas a plazos
+PUC,2720,credito por correccion monetaria diferida
+PUC,2725,impuestos diferidos
+PUC,272505,por depreciacion flexible
+PUC,272595,diversos
+PUC,272599,ajustes por inflacion
+PUC,28,otros pasivos
+PUC,2805,anticipos y avances recibidos
+PUC,280505,de clientes
+PUC,280510,sobre contratos
+PUC,280515,para obras en proceso
+PUC,280595,otros
+PUC,2810,depositos recibidos
+PUC,281005,para futura suscripcion de acciones
+PUC,281010,para futuro pago de cuotas o derechos sociales
+PUC,281015,para garantia en la prestacion de servicios
+PUC,281020,para garantia de contratos
+PUC,281025,de licitaciones
+PUC,281030,de manejo de bienes
+PUC,281035,fondo de reserva
+PUC,281095,otros
+PUC,2815,ingresos recibidos para terceros
+PUC,281505,valores recibidos para terceros
+PUC,281510,venta por cuenta de terceros
+PUC,2820,cuentas de operacion conjunta
+PUC,2825,retenciones a terceros sobre contratos
+PUC,282505,cumplimiento obligaciones laborales
+PUC,282510,para estabilidad de obra
+PUC,282515,garantia cumplimiento de contratos
+PUC,2830,embargos judiciales
+PUC,283005,indemnizaciones
+PUC,283010,depositos judiciales
+PUC,2835,acreedores del sistema
+PUC,283505,cuotas netas
+PUC,283510,grupos en formacion
+PUC,2840,cuentas en participacion
+PUC,2895,diversos
+PUC,289505,prestamos de productos
+PUC,289510,reembolso de costos exploratorios
+PUC,289515,programa de extension agropecuaria
+PUC,29,bonos y papeles comerciales
+PUC,2905,bonos en circulacion
+PUC,290505,garantia general
+PUC,290510,garantia especifica
+PUC,2910,bonos obligatoriamente convertibles en acciones
+PUC,2915,papeles comerciales
+PUC,3,patrimonio
+PUC,31,capital social
+PUC,3105,capital suscrito y pagado
+PUC,310505,capital autorizado
+PUC,310510,capital por suscribir (db)
+PUC,310515,capital suscrito por cobrar (db)
+PUC,3110,"acciones, cuotas o partes de interes social propias readquiridas (db)"
+PUC,311005,acciones propias readquiridas (db)
+PUC,311010,cuotas o partes de interes social propias readquiridas (db)
+PUC,3115,aportes sociales
+PUC,311505,cuotas o partes de interes social
+PUC,311510,aportes de socios - fondo mutuo de inversion
+PUC,311515,contribucion de la empresa - fondo mutuo de inversion
+PUC,311520,suscripciones del publico
+PUC,3120,capital asignado
+PUC,3125,inversion suplementaria al capital asignado
+PUC,3130,capital de personas naturales
+PUC,3135,aportes del estado
+PUC,3140,fondo social
+PUC,32,superavit de capital
+PUC,3205,"prima en colocacion de acciones, cuotas o partes de interes"
+PUC,320505,prima en colocacion de acciones
+PUC,320510,prima en colocacion de acciones por cobrar (db)
+PUC,320515,prima en colocacion de cuotas o partes de interes social
+PUC,3210,donaciones
+PUC,321005,en dinero
+PUC,321010,en valores mobiliarios
+PUC,321015,en bienes muebles
+PUC,321020,en bienes inmuebles
+PUC,321025,en intangibles
+PUC,3215,credito mercantil
+PUC,33,reservas
+PUC,3305,reservas obligatorias
+PUC,330505,reserva legal
+PUC,330510,reservas por disposiciones fiscales
+PUC,330515,reserva para readquisicion de acciones
+PUC,330517,reserva para readquisicion de cuotas o partes de interes social
+PUC,330520,reserva para extension agropecuaria
+PUC,330525,reserva ley 7a. de 1990
+PUC,330530,reserva para reposicion de semovientes
+PUC,330535,reserva ley 4a de 1980
+PUC,330595,otras
+PUC,3310,reservas estatutarias
+PUC,331005,para futuras capitalizaciones
+PUC,331010,para reposicion de activos
+PUC,331015,para futuros ensanches
+PUC,331095,otras
+PUC,3315,reservas ocasionales
+PUC,331505,para beneficencia y civismo
+PUC,331510,para futuras capitalizaciones
+PUC,331515,para futuros ensanches
+PUC,331520,para adquisicion o reposicion de propiedades planta y equipo
+PUC,331525,para investigaciones y desarrollo
+PUC,331530,para fomento economico
+PUC,331535,para capital de trabajo
+PUC,331540,para estabilizacion de rendimientos
+PUC,331545,a disposicion del maximo organo social
+PUC,331595,otras
+PUC,34,revalorizacion del patrimonio
+PUC,3405,ajustes por inflacion
+PUC,340505,de capital social
+PUC,340510,de superavit de capital
+PUC,340515,de reservas
+PUC,340520,de resultados de ejercicios anteriores
+PUC,340525,de activos en periodo improductivo
+PUC,3410,saneamiento fiscal
+PUC,3415,ajustes por inflacion decreto 3019 de 1989
+PUC,35,"dividendos o participaciones decretados en acciones, cuotas o partes de interes social"
+PUC,3505,dividendos decretados en acciones
+PUC,3510,participaciones decretadas en cuotas o partes de interes social
+PUC,36,resultados del ejercicio
+PUC,3605,utilidad del ejercicio
+PUC,360505,utilidad del ejercicio
+PUC,360510,utilidad por exposicion a la inflacion
+PUC,3610,perdida del ejercicio
+PUC,361005,perdida del ejercicio
+PUC,361010,perdida por exposicion a la inflacion
+PUC,37,resultados de ejercicios anteriores
+PUC,3705,utilidades o excedentes acumulados
+PUC,3710,perdidas acumuladas
+PUC,38,superavit por valorizaciones
+PUC,3805,de inversiones
+PUC,380505,acciones
+PUC,380510,cuotas o partes de interes social
+PUC,380515,derechos fiduciarios
+PUC,3810,de propiedades planta y equipo
+PUC,381004,terrenos
+PUC,381006,materiales proyectos petroleros
+PUC,381008,construcciones y edificaciones
+PUC,381012,maquinaria y equipo
+PUC,381016,equipo de oficina
+PUC,381020,equipo de computacion y comunicacion
+PUC,381024,equipo medico cientifico
+PUC,381028,equipo de hoteles y restaurantes
+PUC,381032,flota y equipo de transporte
+PUC,381036,flota y equipo fluvial y/o maritimo
+PUC,381040,flota y equipo aereo
+PUC,381044,flota y equipo ferreo
+PUC,381048,acueductos plantas y redes
+PUC,381052,armamento de vigilancia
+PUC,381056,envases y empaques
+PUC,381060,plantaciones agricolas y forestales
+PUC,381064,vias de comunicacion
+PUC,381068,minas y canteras
+PUC,381072,pozos artesianos
+PUC,381076,yacimientos
+PUC,381080,semovientes
+PUC,3895,de otros activos
+PUC,389505,bienes de arte y cultura
+PUC,389510,bienes entregados en comodato
+PUC,389515,bienes recibidos en pago
+PUC,389520,inventario de semovientes
+PUC,4,ingresos
+PUC,41,operacionales
+PUC,4105,"agricultura, ganaderia, caza y silvicultura"
+PUC,410505,cultivo de cereales
+PUC,410510,"cultivos de hortalizas, legumbres y plantas ornamentales"
+PUC,410515,"cultivos de frutas, nueces y plantas aromaticas"
+PUC,410520,cultivo de cafe
+PUC,410525,cultivo de flores
+PUC,410530,cultivo de caña de azucar
+PUC,410535,cultivo de algodon y plantas para material textil
+PUC,410540,cultivo de banano
+PUC,410545,otros cultivos agricolas
+PUC,410550,"cria de ovejas, cabras, asnos, mulas y burdeganos"
+PUC,410555,cria de ganado caballar y vacuno.
+PUC,410560,produccion avicola
+PUC,410565,cria de otros animales
+PUC,410570,servicios agricolas y ganaderos
+PUC,410575,actividad de caza
+PUC,410580,actividad de silvicultura
+PUC,410599,ajustes por inflacion
+PUC,4110,pesca
+PUC,411005,actividad de pesca
+PUC,411010,explotacion de criaderos de peces
+PUC,411095,actividades conexas
+PUC,411099,ajustes por inflacion
+PUC,4115,explotacion de minas y canteras
+PUC,411505,carbon
+PUC,411510,petroleo crudo
+PUC,411512,gas natural
+PUC,411514,servicios relacionados con extraccion de petroleo y gas
+PUC,411515,minerales de hierro
+PUC,411520,minerales metaliferos no ferrosos
+PUC,411525,"piedra, arena y arcilla"
+PUC,411527,piedras preciosas
+PUC,411528,oro
+PUC,411530,otras minas y canteras
+PUC,411532,prestacion de servicios sector minero
+PUC,411595,actividades conexas
+PUC,411599,ajustes por inflacion
+PUC,4120,industrias manufactureras
+PUC,412001,produccion y procesamiento de carnes y productos carnicos
+PUC,412002,productos de pescado
+PUC,412003,"productos de frutas, legumbres y hortalizas"
+PUC,412004,elaboracion de aceites y grasas
+PUC,412005,elaboracion de productos lacteos
+PUC,412006,elaboracion de productos de molineria
+PUC,412007,elaboracion de almidones y derivados
+PUC,412008,elaboracion de alimentos para animales
+PUC,412009,elaboracion de productos para panaderia
+PUC,412010,elaboracion de azucar y melazas
+PUC,412011,"elaboracion de cacao, chocolate y confiteria"
+PUC,412012,elaboracion de pastas  y productos farinaceos
+PUC,412013,elaboracion de productos de cafe
+PUC,412014,elaboracion de otros productos alimenticios
+PUC,412015,elaboracion de bebidas alcoholicas y alcohol etilico
+PUC,412016,elaboracion de vinos
+PUC,412017,elaboracion de bebidas malteadas y de malta
+PUC,412018,elaboracion de bebidas no alcoholicas
+PUC,412019,elaboracion de productos de tabaco
+PUC,412020,preparacion e hilatura de fibras textiles y tejeduria
+PUC,412021,acabado de productos textiles
+PUC,412022,elaboracion de articulos de materiales textiles
+PUC,412023,elaboracion de tapices y alfombras
+PUC,412024,"elaboracion de cuerdas, cordeles, bramantes y redes"
+PUC,412025,elaboracion de otros productos textiles
+PUC,412026,elaboracion de tejidos
+PUC,412027,elaboracion de prendas de vestir
+PUC,412028,"preparacion, adobo y teñido de pieles"
+PUC,412029,"curtido, adobo o preparacion de cuero"
+PUC,412030,"elaboracion de maletas, bolsos y similares"
+PUC,412031,elaboracion de calzado
+PUC,412032,"produccion de madera, articulos de madera y corcho"
+PUC,412033,"elaboracion de pasta y productos de madera, papel y carton"
+PUC,412034,ediciones y publicaciones
+PUC,412035,impresion
+PUC,412036,servicios relacionados con la edicion y la impresion
+PUC,412037,reproduccion de grabaciones
+PUC,412038,elaboracion de productos de horno de coque
+PUC,412039,elaboracion de productos de la refinacion de petroleo
+PUC,412040,elaboracion de sustancias quimicas basicas
+PUC,412041,elaboracion de abonos y compuestos de nitrogeno
+PUC,412042,elaboracion de plastico y caucho sintetico
+PUC,412043,elaboracion de productos quimicos de uso agropecuario
+PUC,412044,"elaboracion de pinturas, tintas y masillas"
+PUC,412045,elaboracion de productos farmaceuticos y botanicos
+PUC,412046,"elaboracion de jabones, detergentes y preparados de tocador"
+PUC,412047,elaboracion de otros productos quimicos
+PUC,412048,elaboracion de fibras
+PUC,412049,elaboracion de otros productos de caucho
+PUC,412050,elaboracion de productos de plastico
+PUC,412051,elaboracion de vidrio y productos de vidrio
+PUC,412052,"elaboracion de productos de ceramica, loza, piedra, arcilla y porcelana"
+PUC,412053,"elaboracion de cemento, cal y yeso"
+PUC,412054,"elaboracion de articulos de hormigon, cemento y yeso"
+PUC,412055,"corte, tallado y acabado de la piedra"
+PUC,412056,elaboracion de otros productos minerales no metalicos
+PUC,412057,industrias basicas y fundicion de hierro y acero
+PUC,412058,productos primarios de metales preciosos y de metales no ferrosos
+PUC,412059,fundicion de metales no ferrosos
+PUC,412060,fabricacion de productos metalicos para uso estructural
+PUC,412061,"forja, prensado, estampado, laminado de metal y pulvimetalurgia"
+PUC,412062,revestimiento de metales y obras de ingenieria mecanica
+PUC,412063,fabricacion de articulos de ferreteria
+PUC,412064,elaboracion de otros productos de metal
+PUC,412065,fabricacion de maquinaria y equipo
+PUC,412066,fabricacion de equipos de elevacion y manipulacion
+PUC,412067,elaboracion de aparatos de uso domestico
+PUC,412068,elaboracion de equipo de oficina
+PUC,412069,elaboracion de pilas y baterias primarias
+PUC,412070,elaboracion de equipo de iluminacion
+PUC,412071,elaboracion de otros tipos de equipo electrico
+PUC,412072,"fabricacion de equipos de radio, television y comunicaciones"
+PUC,412073,fabricacion de aparatos e instrumentos medicos
+PUC,412074,fabricacion de instrumentos de medicion y control
+PUC,412075,fabricacion de instrumentos de optica y equipo fotografico
+PUC,412076,fabricacion de relojes
+PUC,412077,fabricacion de vehiculos automotores
+PUC,412078,fabricacion de carrocerias para automotores
+PUC,412079,fabricacion de partes piezas y accesorios para automotores
+PUC,412080,fabricacion y reparacion de buques y otras embarcaciones
+PUC,412081,fabricacion de locomotoras y material rodante para ferrocarriles
+PUC,412082,fabricacion de aeronaves
+PUC,412083,fabricacion de motocicletas
+PUC,412084,fabricacion de bicicletas y sillas de ruedas
+PUC,412085,fabricacion de otros tipos de transporte
+PUC,412086,fabricacion de muebles
+PUC,412087,fabricacion de joyas y articulos conexos
+PUC,412088,fabricacion de instrumentos de musica
+PUC,412089,fabricacion de articulos y equipo para deporte
+PUC,412090,fabricacion de juegos y juguetes
+PUC,412091,reciclamiento de desperdicios
+PUC,412095,productos de otras industrias manufactureras
+PUC,412099,ajustes por inflacion
+PUC,4125,"suministro de electricidad, gas y agua"
+PUC,412505,"generacion, captacion y distribucion de energia electrica"
+PUC,412510,fabricacion de gas y distribucion de combustibles gaseosos
+PUC,412515,"captacion, depuracion y distribucion de agua"
+PUC,412595,actividades conexas
+PUC,412599,ajustes por inflacion
+PUC,4130,construccion
+PUC,413005,preparacion de terrenos
+PUC,413010,construccion de edificios y obras de ingenieria civil
+PUC,413015,acondicionamiento de edificios
+PUC,413020,terminacion de edificaciones
+PUC,413025,alquiler de equipo con operarios
+PUC,413095,actividades conexas
+PUC,413099,ajustes por inflacion
+PUC,4135,comercio al por mayor y al por menor
+PUC,413502,venta de vehiculos automotores
+PUC,413504,"mantenimiento, reparacion y lavado de vehiculos automotores"
+PUC,413506,"venta de partes, piezas y accesorios de vehiculos automotores"
+PUC,413508,"venta de combustibles solidos, liquidos, gaseosos"
+PUC,413510,"venta de lubricantes, aditivos, llantas y lujos para automotores"
+PUC,413512,venta a cambio de retribucion o por contrata
+PUC,413514,"venta de insumos, materias primas agropecuarias y flores"
+PUC,413516,venta de otros insumos y materias primas no agropecuarias
+PUC,413518,venta de animales vivos y cueros
+PUC,413520,venta de productos en almacenes no especializados
+PUC,413522,venta de productos agropecuarios
+PUC,413524,"venta de productos textiles, de vestir, de cuero y calzado"
+PUC,413526,venta de papel y carton
+PUC,413528,"venta de libros, revistas, elementos de papeleria, utiles y textos escolares"
+PUC,413530,"venta de juegos, juguetes y articulos deportivos"
+PUC,413532,venta de instrumentos quirurgicos y ortopedicos
+PUC,413534,venta de articulos en relojerias y joyerias
+PUC,413536,venta de electrodomesticos y muebles
+PUC,413538,"venta de productos de aseo, farmaceuticos, medicinales, y articulos de tocador"
+PUC,413540,"venta de cubiertos, vajillas, cristaleria, porcelanas, ceramicas y otros articulos de uso domestico"
+PUC,413542,"venta de materiales de construccion, fontaneria y calefaccion"
+PUC,413544,venta de pinturas y lacas
+PUC,413546,venta de productos de vidrios y marqueteria
+PUC,413548,venta de herramientas y articulos de ferreteria
+PUC,413550,venta de quimicos
+PUC,413552,"venta de productos intermedios, desperdicios y desechos"
+PUC,413554,"venta de maquinaria, equipo de oficina y programas de computador"
+PUC,413556,venta de articulos en cacharrerias y miscelaneas
+PUC,413558,venta de instrumentos musicales
+PUC,413560,venta de articulos en casas de empeño y prenderias
+PUC,413562,venta de equipo fotografico
+PUC,413564,venta de equipo optico y de precision
+PUC,413566,venta de empaques
+PUC,413568,venta de equipo profesional y cientifico
+PUC,413570,"venta de loterias, rifas, chance, apuestas y similares"
+PUC,413572,reparacion de efectos personales y electrodomesticos
+PUC,413595,venta de otros productos
+PUC,413599,ajustes por inflacion
+PUC,4140,hoteles y restaurantes
+PUC,414005,hoteleria
+PUC,414010,campamento y otros tipos de hospedaje
+PUC,414015,restaurantes
+PUC,414020,bares y cantinas
+PUC,414095,actividades conexas
+PUC,414099,ajustes por inflacion
+PUC,4145,"transporte, almacenamiento y comunicaciones"
+PUC,414505,servicio de transporte por carretera
+PUC,414510,servicio de transporte por via ferrea
+PUC,414515,servicio de transporte por via acuatica
+PUC,414520,servicio de transporte por via aerea
+PUC,414525,servicio de transporte por tuberias
+PUC,414530,manipulacion de carga
+PUC,414535,almacenamiento y deposito
+PUC,414540,servicios complementarios para el transporte
+PUC,414545,agencias de viaje
+PUC,414550,otras agencias de transporte
+PUC,414555,servicio postal y de correo
+PUC,414560,servicio telefonico
+PUC,414565,servicio de telegrafo
+PUC,414570,servicio de transmision de datos
+PUC,414575,servicio de radio y television por cable
+PUC,414580,transmision de sonido e imagenes por contrato
+PUC,414595,actividades conexas
+PUC,414599,ajustes por inflacion
+PUC,4150,actividad financiera
+PUC,415005,venta de inversiones
+PUC,415010,dividendos de sociedades anonimas y/o asimiladas
+PUC,415015,participaciones de sociedades limitadas y/o asimiladas
+PUC,415020,intereses
+PUC,415025,reajuste monetario - upac
+PUC,415030,comisiones
+PUC,415035,operaciones de descuento
+PUC,415040,cuotas de inscripcion - consorcios
+PUC,415045,cuotas de administracion - consorcios
+PUC,415050,reajuste del sistema - consorcios
+PUC,415055,eliminacion de suscriptores - consorcios
+PUC,415060,cuotas de ingreso o retiro - sociedad administradora
+PUC,415065,servicios a comisionistas
+PUC,415070,inscripciones y cuotas
+PUC,415075,recuperacion de garantias
+PUC,415095,actividades conexas
+PUC,415099,ajustes por inflacion
+PUC,4155,"actividades inmobiliarias, empresariales y de alquiler"
+PUC,415505,arrendamientos de bienes inmuebles
+PUC,415510,inmobiliarias por retribucion o contrata
+PUC,415515,alquiler equipo de transporte
+PUC,415520,alquiler maquinaria y equipo
+PUC,415525,alquiler de efectos personales y enseres domesticos
+PUC,415530,consultoria en equipo y programas de informatica
+PUC,415535,procesamiento de datos
+PUC,415540,mantenimiento y reparacion de maquinaria de oficina
+PUC,415545,investigaciones cientificas y de desarrollo
+PUC,415550,actividades empresariales de consultoria
+PUC,415555,publicidad
+PUC,415560,dotacion de personal
+PUC,415565,investigacion y seguridad
+PUC,415570,limpieza de inmuebles
+PUC,415575,fotografia
+PUC,415580,envase y empaque
+PUC,415585,fotocopiado
+PUC,415590,mantenimiento y reparacion de maquinaria y equipo
+PUC,415595,actividades conexas
+PUC,415599,ajustes por inflacion
+PUC,4160,enseñanza
+PUC,416005,actividades relacionadas con la educacion
+PUC,416095,actividades conexas
+PUC,416099,ajustes por inflacion
+PUC,4165,servicios sociales y de salud
+PUC,416505,servicio hospitalario
+PUC,416510,servicio medico
+PUC,416515,servicio odontologico
+PUC,416520,servicio de laboratorio
+PUC,416525,actividades veterinarias
+PUC,416530,actividades de servicios sociales
+PUC,416595,actividades conexas
+PUC,416599,ajustes por inflacion
+PUC,4170,"otras actividades de servicios comunitarios, sociales y personales"
+PUC,417005,eliminacion de desperdicios y aguas residuales
+PUC,417010,actividades de asociacion
+PUC,417015,produccion y distribucion de filmes y videocintas
+PUC,417020,exhibicion de filmes y videocintas
+PUC,417025,actividad de radio y television
+PUC,417030,"actividad teatral, musical y artistica"
+PUC,417035,grabacion y produccion de discos
+PUC,417040,entretenimiento y esparcimiento
+PUC,417045,agencias de noticias
+PUC,417050,lavanderias y similares
+PUC,417055,peluquerias y similares
+PUC,417060,servicios funerarios
+PUC,417065,zonas francas
+PUC,417095,actividades conexas
+PUC,417099,ajustes por inflacion
+PUC,4175,"devoluciones, rebajas y descuentos en ventas (db)"
+PUC,417599,ajustes por inflacion
+PUC,42,no operacionales
+PUC,4205,otras ventas
+PUC,420505,materia prima
+PUC,420510,material de desecho
+PUC,420515,materiales varios
+PUC,420520,productos de diversificacion
+PUC,420525,excedentes de exportacion
+PUC,420530,envases y empaques
+PUC,420535,productos agricolas
+PUC,420540,de propaganda
+PUC,420545,productos en remate
+PUC,420550,combustibles y lubricantes
+PUC,420599,ajustes por inflacion
+PUC,4210,financieros
+PUC,421005,intereses
+PUC,421010,reajuste monetario - upac
+PUC,421015,descuentos amortizados
+PUC,421020,diferencia en cambio
+PUC,421025,financiacion vehiculos
+PUC,421030,financiacion sistemas de viajes
+PUC,421035,aceptaciones bancarias
+PUC,421040,descuentos comerciales condicionados
+PUC,421045,descuentos bancarios
+PUC,421050,comisiones cheques de otras plazas
+PUC,421055,multas y recargos
+PUC,421060,sanciones cheques devueltos
+PUC,421095,otros
+PUC,421099,ajustes por inflacion
+PUC,4215,dividendos y participaciones
+PUC,421505,de sociedades anonimas y/o asimiladas
+PUC,421510,de sociedades limitadas y/o asimiladas
+PUC,421599,ajustes por inflacion
+PUC,4220,arrendamientos
+PUC,422005,terrenos
+PUC,422010,construcciones y edificios
+PUC,422015,maquinaria y equipo
+PUC,422020,equipo de oficina
+PUC,422025,equipo de computacion y comunicacion
+PUC,422030,equipo medico - cientifico
+PUC,422035,equipo de hoteles y restaurantes
+PUC,422040,flota y equipo de transporte
+PUC,422045,flota y equipo fluvial y/o maritimo
+PUC,422050,flota y equipo aereo
+PUC,422055,flota y equipo ferreo
+PUC,422060,acueductos plantas y redes
+PUC,422062,envases y empaques
+PUC,422065,plantaciones agricolas  y forestales
+PUC,422070,aerodromos
+PUC,422075,semovientes
+PUC,422099,ajustes por inflacion
+PUC,4225,comisiones
+PUC,422505,sobre inversiones
+PUC,422510,de concesionarios
+PUC,422515,de actividades financieras
+PUC,422520,por venta de servicios de taller
+PUC,422525,por venta de seguros
+PUC,422530,por ingresos para terceros
+PUC,422535,por distribucion de peliculas
+PUC,422540,derechos de autor
+PUC,422545,derechos de programacion
+PUC,422599,ajustes por inflacion
+PUC,4230,honorarios
+PUC,423005,asesorias
+PUC,423010,asistencia tecnica
+PUC,423015,administracion de vinculadas
+PUC,423099,ajustes por inflacion
+PUC,4235,servicios
+PUC,423505,de bascula
+PUC,423510,de transporte
+PUC,423515,de prensa
+PUC,423520,administrativos
+PUC,423525,tecnicos
+PUC,423530,de computacion
+PUC,423535,de telefax
+PUC,423540,taller de vehiculos
+PUC,423545,de recepcion de aeronaves
+PUC,423550,de transporte programa gas natural
+PUC,423555,por contratos
+PUC,423560,de trillla
+PUC,423565,de mantenimiento
+PUC,423570,al personal
+PUC,423575,de casino
+PUC,423580,fletes
+PUC,423585,entre compañias
+PUC,423595,otros
+PUC,423599,ajustes por inflacion
+PUC,4240,utilidad en venta de inversiones
+PUC,424005,acciones
+PUC,424010,cuotas o partes de interes social
+PUC,424015,bonos
+PUC,424020,cedulas
+PUC,424025,certificados
+PUC,424030,papeles comerciales
+PUC,424035,titulos
+PUC,424045,derechos fiduciarios
+PUC,424050,obligatorias
+PUC,424095,otras
+PUC,424099,ajustes por inflacion
+PUC,4245,utilidad en venta de propiedades planta y equipo
+PUC,424504,terrenos
+PUC,424506,materiales industria petrolera
+PUC,424508,construcciones en curso
+PUC,424512,maquinaria en montaje
+PUC,424516,construcciones y edificaciones
+PUC,424520,maquinaria y equipo
+PUC,424524,equipo de oficina
+PUC,424528,equipo de computacion y comunicacion
+PUC,424532,equipo medico - cientifico
+PUC,424536,equipo de hoteles y restaurantes
+PUC,424540,flota y equipo de transporte
+PUC,424544,flota y equipo fluvial y/o maritimo
+PUC,424548,flota y equipo aereo
+PUC,424552,flota y equipo ferreo
+PUC,424556,acueductos plantas y redes
+PUC,424560,armamento de vigilancia
+PUC,424562,envases y empaques
+PUC,424564,plantaciones agricolas  y forestales
+PUC,424568,vias de comunicacion
+PUC,424572,minas y canteras
+PUC,424580,pozos artesianos
+PUC,424584,yacimientos
+PUC,424588,semovientes
+PUC,424599,ajustes por inflacion
+PUC,4248,utilidad en venta de otros bienes
+PUC,424805,intangibles
+PUC,424810,otros activos
+PUC,424899,ajustes por inflacion
+PUC,4250,recuperaciones
+PUC,425005,deudas malas
+PUC,425010,seguros
+PUC,425015,reclamos
+PUC,425020,reintegro por personal en comision
+PUC,425025,reintegro garantias
+PUC,425030,descuentos concedidos
+PUC,425035,reintegro provisiones
+PUC,425040,gastos bancarios
+PUC,425045,de depreciacion
+PUC,425050,reintegro de otros costos y gastos
+PUC,425099,ajustes por inflacion
+PUC,4255,indemnizaciones
+PUC,425505,por siniestro
+PUC,425510,por suministros
+PUC,425515,lucro cesante compañias de seguros
+PUC,425520,daño emergente compañias de seguros
+PUC,425525,por perdida de mercancia
+PUC,425530,por incumplimiento de contratos
+PUC,425535,de terceros
+PUC,425540,por incapacidades i.s.s.
+PUC,425595,otras
+PUC,425599,ajustes por inflacion
+PUC,4260,participaciones en concesiones
+PUC,426099,ajustes por inflacion
+PUC,4265,ingresos de ejercicios anteriores
+PUC,426599,ajustes por inflacion
+PUC,4275,"devoluciones, rebajas y descuentos en otras ventas (db)"
+PUC,427599,ajustes por inflacion
+PUC,4295,diversos
+PUC,429503,cert
+PUC,429505,aprovechamientos
+PUC,429507,auxilios
+PUC,429509,donaciones
+PUC,429511,ingresos por investigacion y desarrollo
+PUC,429513,por trabajos ejecutados
+PUC,429515,regalias
+PUC,429517,derivados de las exportaciones
+PUC,429519,otros ingresos de explotacion
+PUC,429521,de la actividad ganadera
+PUC,429525,derechos y licitaciones
+PUC,429530,ingresos por elementos perdidos
+PUC,429533,multas y recargos
+PUC,429535,preavisos descontados
+PUC,429537,reclamos
+PUC,429540,recobro de daños
+PUC,429543,premios
+PUC,429545,bonificaciones
+PUC,429547,productos descontados
+PUC,429549,reconocimientos i.s.s.
+PUC,429551,excedentes
+PUC,429553,sobrantes de caja menor
+PUC,429555,sobrantes en liquidacion fletes
+PUC,429557,subsidios estatales
+PUC,429559,capacitacion distribuidores
+PUC,429561,de escrituracion
+PUC,429563,registro promesas de venta
+PUC,429567,"utiles, papeleria y fotocopias"
+PUC,429571,resultados matriculas y traspasos
+PUC,429573,decoraciones
+PUC,429575,manejo de carga
+PUC,429579,historia clinica
+PUC,429581,ajuste al peso
+PUC,429583,llamadas telefonicas
+PUC,429599,ajustes por inflacion
+PUC,47,ajustes por inflacion
+PUC,4705,correccion monetaria
+PUC,470505,inversiones (cr)
+PUC,470510,inventarios (cr)
+PUC,470515,"propiedades, planta y equipo (cr)"
+PUC,470520,intangibles (cr)
+PUC,470525,activos diferidos
+PUC,470530,otros activos (cr)
+PUC,470535,pasivos sujetos de ajuste
+PUC,470540,patrimonio
+PUC,470545,depreciacion acumulada (db)
+PUC,470550,depreciacion diferida (cr)
+PUC,470555,agotamiento acumulado (db)
+PUC,470560,amortizacion acumulada (db)
+PUC,470565,ingresos operacionales (db)
+PUC,470570,ingresos no operacionales (db)
+PUC,470575,gastos operacionales de administracion (cr)
+PUC,470580,gastos operacionales de ventas (cr)
+PUC,470585,gastos no operacionales (cr)
+PUC,470590,compras (cr)
+PUC,470592,costo de ventas (cr)
+PUC,470594,costos de produccion o de operacion (db)
+PUC,5,gastos
+PUC,51,operacionales de administracion
+PUC,5105,gastos de personal
+PUC,510503,salario integral
+PUC,510506,sueldos
+PUC,510512,jornales
+PUC,510515,horas extras y recargos
+PUC,510518,comisiones
+PUC,510521,viaticos
+PUC,510524,incapacidades
+PUC,510527,auxilio de transporte
+PUC,510530,cesantias
+PUC,510533,intereses sobre cesantias
+PUC,510536,prima de servicios
+PUC,510539,vacaciones
+PUC,510542,primas extralegales
+PUC,510545,auxilios
+PUC,510548,bonificaciones
+PUC,510551,dotacion y suministro a trabajadores
+PUC,510554,seguros
+PUC,510557,cuotas partes pensiones de jubilacion
+PUC,510558,amortizacion calculo actuarial pensiones de jubilacion
+PUC,510559,pensiones de jubilacion
+PUC,510560,indemnizaciones laborales
+PUC,510563,capacitacion al personal
+PUC,510566,gastos deportivos y de recreacion
+PUC,510568,"aportes a administradoras de riesgosprofesionales, ARL"
+PUC,510569,aportes al i.s.s
+PUC,510570,aportes a fondos de pensiones y/o cesantias
+PUC,510572,aportes cajas de compensacion familiar
+PUC,510575,aportes i.c.b.f.
+PUC,510578,sena
+PUC,510581,aportes sindicales
+PUC,510584,gastos medicos y drogas
+PUC,510595,otros
+PUC,510599,ajustes por inflacion
+PUC,5110,honorarios
+PUC,511005,junta directiva
+PUC,511010,revisoria fiscal
+PUC,511015,auditoria externa
+PUC,511020,avaluos
+PUC,511025,asesoria juridica
+PUC,511030,asesoria financiera
+PUC,511035,asesoria tecnica
+PUC,511095,otros
+PUC,511099,ajustes por inflacion
+PUC,5115,impuestos
+PUC,511505,industria y comercio
+PUC,511510,de timbres
+PUC,511515,a la propiedad raiz
+PUC,511520,derechos sobre instrumentos publicos
+PUC,511525,de valorizacion
+PUC,511530,de turismo
+PUC,511535,tasa por utilizacion de puertos
+PUC,511540,de vehiculos
+PUC,511545,de espectaculos publicos
+PUC,511550,cuotas de fomento
+PUC,511570,iva descontable
+PUC,511595,otros
+PUC,511599,ajustes por inflacion
+PUC,5120,arrendamientos
+PUC,512005,terrenos
+PUC,512010,construcciones y edificaciones
+PUC,512015,maquinaria y equipo
+PUC,512020,equipo de oficina
+PUC,512025,equipo de computacion y comunicacion
+PUC,512030,equipo medico - cientifico
+PUC,512035,equipo de hoteles y restaurantes
+PUC,512040,flota y equipo de transporte
+PUC,512045,flota y equipo fluvial y/o maritimo
+PUC,512050,flota y equipo aereo
+PUC,512055,flota y equipo ferreo
+PUC,512060,acueductos plantas y redes
+PUC,512065,aerodromos
+PUC,512070,semovientes
+PUC,512095,otros
+PUC,512099,ajustes por inflacion
+PUC,5125,contribuciones y afiliaciones
+PUC,512505,contribuciones
+PUC,512510,afiliaciones y sostenimiento
+PUC,512599,ajustes por inflacion
+PUC,5130,seguros
+PUC,513005,manejo
+PUC,513010,cumplimiento
+PUC,513015,corriente debil
+PUC,513020,vida colectiva
+PUC,513025,incendio
+PUC,513030,terremoto
+PUC,513035,sustraccion y hurto
+PUC,513040,flota y equipo de transporte
+PUC,513045,flota y equipo fluvial y/o maritimo
+PUC,513050,flota y equipo aereo
+PUC,513055,flota y equipo ferreo
+PUC,513060,responsabilidad civil y extracontractual
+PUC,513065,vuelo
+PUC,513070,rotura de maquinaria
+PUC,513075,obligatorio accidente de transito
+PUC,513080,lucro cesante
+PUC,513095,otros
+PUC,513099,ajustes por inflacion
+PUC,5135,servicios
+PUC,513505,aseo y vigilancia
+PUC,513510,temporales
+PUC,513515,asistencia tecnica
+PUC,513520,procesamiento electronico de datos
+PUC,513525,acueducto y alcantarillado
+PUC,513530,energia electrica
+PUC,513535,telefono
+PUC,513540,"correo, portes y telegramas"
+PUC,513545,fax y telex
+PUC,513550,"transporte, fletes y acarreos"
+PUC,513555,gas
+PUC,513595,otros
+PUC,513599,ajustes por inflacion
+PUC,5140,gastos legales
+PUC,514005,notariales
+PUC,514010,registro mercantil
+PUC,514015,tramites y licencias
+PUC,514020,aduaneros
+PUC,514025,consulares
+PUC,514095,otros
+PUC,514099,ajustes por inflacion
+PUC,5145,mantenimiento y reparaciones
+PUC,514505,terrenos
+PUC,514510,construcciones y edificaciones
+PUC,514515,maquinaria y equipo
+PUC,514520,equipo de oficina
+PUC,514525,equipo de computacion y comunicacion
+PUC,514530,equipo medico-cientifico
+PUC,514535,equipo de hoteles y restaurantes
+PUC,514540,flota y equipo de transporte
+PUC,514545,flota y equipo fluvial y/o maritimo
+PUC,514550,flota y equipo aereo
+PUC,514555,flota y equipo ferreo
+PUC,514560,acueductos plantas y redes
+PUC,514565,armamento de vigilancia
+PUC,514570,vias de comunicacion
+PUC,514599,ajustes por inflacion
+PUC,5150,adecuacion e instalacion
+PUC,515005,instalaciones electricas
+PUC,515010,arreglos ornamentales
+PUC,515015,reparaciones locativas
+PUC,515095,otros
+PUC,515099,ajustes por inflacion
+PUC,5155,gastos de viaje
+PUC,515505,alojamiento y manutencion
+PUC,515510,pasajes fluviales y/o maritimos
+PUC,515515,pasajes aereos
+PUC,515520,pasajes terrestres
+PUC,515525,pasajes ferreos
+PUC,515595,otros
+PUC,515599,ajustes por inflacion
+PUC,5160,depreciaciones
+PUC,516005,construcciones y edificaciones
+PUC,516010,maquinaria y equipo
+PUC,516015,equipo de oficina
+PUC,516020,equipo de computacion y comunicacion
+PUC,516025,equipo medico - cientifico
+PUC,516030,equipo de hoteles y restaurantes
+PUC,516035,flota y equipo de transporte
+PUC,516040,flota y equipo fluvial y/o maritimo
+PUC,516045,flota y equipo aereo
+PUC,516050,flota y equipo ferreo
+PUC,516055,"acueductos, plantas y redes"
+PUC,516060,armamento de vigilancia
+PUC,516099,ajustes por inflacion
+PUC,5165,amortizaciones
+PUC,516505,vias de comunicacion
+PUC,516510,intangibles
+PUC,516515,cargos diferidos
+PUC,516595,otras
+PUC,516599,ajustes por inflacion
+PUC,5195,diversos
+PUC,519505,comisiones
+PUC,519510,"libros, suscripciones, periodicos y revistas"
+PUC,519515,musica ambiental
+PUC,519520,gastos de representacion y relaciones publicas
+PUC,519525,elementos de aseo y cafeteria
+PUC,519530,"utiles, papeleria y fotocopias"
+PUC,519535,combustibles y lubricantes
+PUC,519540,envases y empaques
+PUC,519545,taxis y buses
+PUC,519550,estampillas
+PUC,519555,microfilmacion
+PUC,519560,casino y restaurante
+PUC,519565,parqueaderos
+PUC,519570,indemnizacion por daños a terceros
+PUC,519575,polvora y similares
+PUC,519595,otros
+PUC,519599,ajustes por inflacion
+PUC,5199,provisiones
+PUC,519905,inversiones
+PUC,519910,deudores
+PUC,519915,"propiedades, planta y equipo"
+PUC,519995,otros activos
+PUC,519999,ajustes por inflacion
+PUC,52,operacionales de ventas
+PUC,5205,gastos de personal
+PUC,520503,salario integral
+PUC,520506,sueldos
+PUC,520512,jornales
+PUC,520515,horas extras y recargos
+PUC,520518,comisiones
+PUC,520521,viaticos
+PUC,520524,incapacidades
+PUC,520527,auxilio de transporte
+PUC,520530,cesantias
+PUC,520533,intereses sobre cesantias
+PUC,520536,prima de servicios
+PUC,520539,vacaciones
+PUC,520542,primas extralegales
+PUC,520545,auxilios
+PUC,520548,bonificaciones
+PUC,520551,dotacion y suministro a trabajadores
+PUC,520554,seguros
+PUC,520557,cuotas partes pensiones de jubilacion
+PUC,520558,amortizacion calculo actuarial pensiones de jubilacion
+PUC,520559,pensiones de jubilacion
+PUC,520560,indemnizaciones laborales
+PUC,520563,capacitacion al personal
+PUC,520566,gastos deportivos y de recreacion
+PUC,520569,aportes al i.s.s
+PUC,520572,aportes cajas de compensacion familiar
+PUC,520575,aportes i.c.b.f.
+PUC,520578,sena
+PUC,520581,aportes sindicales
+PUC,520584,gastos medicos y drogas
+PUC,520595,otros
+PUC,520599,ajustes por inflacion
+PUC,5210,honorarios
+PUC,521005,junta directiva
+PUC,521010,revisoria fiscal
+PUC,521015,auditoria externa
+PUC,521020,avaluos
+PUC,521025,asesoria juridica
+PUC,521030,asesoria financiera
+PUC,521035,asesoria tecnica
+PUC,521095,otros
+PUC,521099,ajustes por inflacion
+PUC,5215,impuestos
+PUC,521505,industria y comercio
+PUC,521510,de timbres
+PUC,521515,a la propiedad raiz
+PUC,521520,derechos sobre instrumentos publicos
+PUC,521525,de valorizacion
+PUC,521530,de turismo
+PUC,521535,tasa por utilizacion de puertos
+PUC,521540,de vehiculos
+PUC,521545,de espectaculos publicos
+PUC,521550,cuotas de fomento
+PUC,521555,licores
+PUC,521560,cervezas
+PUC,521565,cigarrillos
+PUC,521570,iva descontable
+PUC,521595,otros
+PUC,521599,ajustes por inflacion
+PUC,5220,arrendamientos
+PUC,522005,terrenos
+PUC,522010,construcciones y edificaciones
+PUC,522015,maquinaria y equipo
+PUC,522020,equipo de oficina
+PUC,522025,equipo de computacion y comunicacion
+PUC,522030,equipo medico - cientifico
+PUC,522035,equipo de hoteles y restaurantes
+PUC,522040,flota y equipo de transporte
+PUC,522045,flota y equipo fluvial y/o maritimo
+PUC,522050,flota y equipo aereo
+PUC,522055,flota y equipo ferreo
+PUC,522060,acueductos plantas y redes
+PUC,522065,aerodromos
+PUC,522070,semovientes
+PUC,522095,otros
+PUC,522099,ajustes por inflacion
+PUC,5225,contribuciones y afiliaciones
+PUC,522505,contribuciones
+PUC,522510,afiliaciones y sostenimiento
+PUC,522599,ajustes por inflacion
+PUC,5230,seguros
+PUC,523005,manejo
+PUC,523010,cumplimiento
+PUC,523015,corriente debil
+PUC,523020,vida colectiva
+PUC,523025,incendio
+PUC,523030,terremoto
+PUC,523035,sustraccion y hurto
+PUC,523040,flota y equipo de transporte
+PUC,523045,flota y equipo fluvial y/o maritimo
+PUC,523050,flota y equipo aereo
+PUC,523055,flota y equipo ferreo
+PUC,523060,responsabilidad civil y extracontractual
+PUC,523065,vuelo
+PUC,523070,rotura de maquinaria
+PUC,523075,obligatorio accidente de transito
+PUC,523080,lucro cesante
+PUC,523095,otros
+PUC,523099,ajustes por inflacion
+PUC,5235,servicios
+PUC,523505,aseo y vigilancia
+PUC,523510,temporales
+PUC,523515,asistencia tecnica
+PUC,523520,procesamiento electronico de datos
+PUC,523525,acueducto y alcantarillado
+PUC,523530,energia electrica
+PUC,523535,telefono
+PUC,523540,"correo, portes y telegramas"
+PUC,523545,fax y telex
+PUC,523550,"transporte, fletes y acarreos"
+PUC,523555,gas
+PUC,523560,propaganda y publicidad
+PUC,523595,otros
+PUC,523599,ajustes por inflacion
+PUC,5240,gastos legales
+PUC,524005,notariales
+PUC,524010,registro mercantil
+PUC,524015,tramites y licencias
+PUC,524020,aduaneros
+PUC,524025,consulares
+PUC,524095,otros
+PUC,524099,ajustes por inflacion
+PUC,5245,mantenimiento y reparaciones
+PUC,524505,terrenos
+PUC,524510,construcciones y edificaciones
+PUC,524515,maquinaria y equipo
+PUC,524520,equipo de oficina
+PUC,524525,equipo de computacion y comunicacion
+PUC,524530,equipo medico - cientifico
+PUC,524535,equipo de hoteles y restaurantes
+PUC,524540,flota y equipo de transporte
+PUC,524545,flota y equipo fluvial y/o maritimo
+PUC,524550,flota y equipo aereo
+PUC,524555,flota y equipo ferreo
+PUC,524560,acueductos plantas y redes
+PUC,524565,armamento de vigilancia
+PUC,524570,vias de comunicacion
+PUC,524599,ajustes por inflacion
+PUC,5250,adecuacion e instalacion
+PUC,525005,instalaciones electricas
+PUC,525010,arreglos ornamentales
+PUC,525015,reparaciones locativas
+PUC,525095,otros
+PUC,525099,ajustes por inflacion
+PUC,5255,gastos de viaje
+PUC,525505,alojamiento y manutencion
+PUC,525510,pasajes fluviales y/o maritimos
+PUC,525515,pasajes aereos
+PUC,525520,pasajes terrestres
+PUC,525525,pasajes ferreos
+PUC,525595,otros
+PUC,525599,ajustes por inflacion
+PUC,5260,depreciaciones
+PUC,526005,construcciones y edificaciones
+PUC,526010,maquinaria y equipo
+PUC,526015,equipo de oficina
+PUC,526020,equipo de computacion y comunicacion
+PUC,526025,equipo medico - cientifico
+PUC,526030,equipo de hoteles y restaurantes
+PUC,526035,flota y equipo de transporte
+PUC,526040,flota y equipo fluvial y/o maritimo
+PUC,526045,flota y equipo aereo
+PUC,526050,flota y equipo ferreo
+PUC,526055,"acueductos, plantas y redes"
+PUC,526060,armamento de vigilancia
+PUC,526065,envases y empaques
+PUC,526099,ajustes por inflacion
+PUC,5265,amortizaciones
+PUC,526505,vias de comunicacion
+PUC,526510,intangibles
+PUC,526515,cargos diferidos
+PUC,526595,otras
+PUC,526599,ajustes por inflacion
+PUC,5270,financieros - reajuste del sistema
+PUC,527001,a 527098
+PUC,527099,ajustes por inflacion
+PUC,5295,diversos
+PUC,529505,comisiones
+PUC,529510,"libros, suscripciones, periodicos y revistas"
+PUC,529515,musica ambiental
+PUC,529520,gastos de representacion y relaciones publicas
+PUC,529525,elementos de aseo y cafeteria
+PUC,529530,"utiles, papeleria y fotocopias"
+PUC,529535,combustibles y lubricantes
+PUC,529540,envases y empaques
+PUC,529545,taxis y buses
+PUC,529550,estampillas
+PUC,529555,microfilmacion
+PUC,529560,casino y restaurante
+PUC,529565,parqueaderos
+PUC,529570,indemnizacion por daños a terceros
+PUC,529575,polvora y similares
+PUC,529595,otros
+PUC,529599,ajustes por inflacion
+PUC,5299,provisiones
+PUC,529905,inversiones
+PUC,529910,deudores
+PUC,529915,inventarios
+PUC,529920,"propiedades, planta y equipo"
+PUC,529995,otros activos
+PUC,529999,ajustes por inflacion
+PUC,53,no operacionales
+PUC,5305,financieros
+PUC,530505,gastos bancarios
+PUC,530510,reajuste monetario - upac
+PUC,530515,comisiones
+PUC,530520,intereses
+PUC,530525,diferencia en cambio
+PUC,530530,gastos en negociacion certificados de cambio
+PUC,530535,descuentos comerciales condicionados
+PUC,530540,gastos manejo y emision de bonos
+PUC,530545,prima amortizada
+PUC,530595,otros
+PUC,530599,ajustes por inflacion
+PUC,5310,perdida en venta y retiro de bienes
+PUC,531005,venta de inversiones
+PUC,531010,venta de cartera
+PUC,531015,venta de propiedades planta y equipo
+PUC,531020,venta de intangibles
+PUC,531025,venta de otros activos
+PUC,531030,retiro de propiedades planta y equipo
+PUC,531035,retiro de otros activos
+PUC,531040,perdidas por siniestros
+PUC,531095,otros
+PUC,531099,ajustes por inflacion
+PUC,5315,gastos extraordinarios
+PUC,531505,costas y procesos judiciales
+PUC,531510,actividades culturales y civicas
+PUC,531515,costos y gastos de ejercicios anteriores
+PUC,531520,impuestos asumidos
+PUC,531595,otros
+PUC,531599,ajustes por inflacion
+PUC,5395,gastos diversos
+PUC,539505,demandas laborales
+PUC,539510,demandas por incumplimiento de contratos
+PUC,539515,indemnizaciones
+PUC,539520,"multas, sanciones y litigios"
+PUC,539525,donaciones
+PUC,539530,constitucion de garantias
+PUC,539535,amortizacion de bienes entregados en comodato
+PUC,539595,otros
+PUC,539599,ajustes por inflacion
+PUC,54,impuesto de renta y complementarios
+PUC,5405,impuesto de renta y complementarios
+PUC,540505,impuesto de renta y complementarios
+PUC,59,ganancias y perdidas
+PUC,5905,ganancias y perdidas
+PUC,590505,ganancias y perdidas
+PUC,6,costos de ventas
+PUC,61,costo de ventas y de prestacion de servicios
+PUC,6105,"agricultura, ganaderia, caza y silvicultura"
+PUC,610505,cultivo de cereales
+PUC,610510,"cultivos de hortalizas, legumbres y plantas ornamentales"
+PUC,610515,"cultivos de frutas, nueces y plantas aromaticas"
+PUC,610520,cultivo de cafe
+PUC,610525,cultivo de flores
+PUC,610530,cultivo de caña de azucar
+PUC,610535,cultivo de algodon y plantas para material textil
+PUC,610540,cultivo de banano
+PUC,610545,otros cultivos agricolas
+PUC,610550,"cria de ovejas, cabras, asnos, mulas y burdeganos"
+PUC,610555,cria de ganado caballar y vacuno.
+PUC,610560,produccion avicola
+PUC,610565,cria de otros animales
+PUC,610570,servicios agricolas y ganaderos
+PUC,610575,actividad de caza
+PUC,610580,actividad de silvicultura
+PUC,610595,actividades conexas
+PUC,610599,ajustes por inflacion
+PUC,6110,pesca
+PUC,611005,actividad de pesca
+PUC,611010,explotacion de criaderos de peces
+PUC,611095,actividades conexas
+PUC,611099,ajustes por inflacion
+PUC,6115,explotacion de minas y canteras
+PUC,611505,carbon
+PUC,611510,petroleo crudo
+PUC,611512,gas natural
+PUC,611514,servicios relacionados con extraccion de petroleo y gas
+PUC,611515,minerales de hierro
+PUC,611520,minerales metaliferos no ferrosos
+PUC,611525,"piedra, arena y arcilla"
+PUC,611527,piedras preciosas
+PUC,611528,oro
+PUC,611530,otras minas y canteras
+PUC,611532,prestacion de servicios sector minero
+PUC,611595,actividades conexas
+PUC,611599,ajustes por inflacion
+PUC,6120,industrias manufactureras
+PUC,612001,produccion y procesamiento de carnes y productos carnicos
+PUC,612002,productos de pescado
+PUC,612003,"productos de frutas, legumbres y hortalizas"
+PUC,612004,elaboracion de aceites y grasas
+PUC,612005,elaboracion de productos lacteos
+PUC,612006,elaboracion de productos de molineria
+PUC,612007,elaboracion de almidones y derivados
+PUC,612008,elaboracion de alimentos para animales
+PUC,612009,elaboracion de productos para panaderia
+PUC,612010,elaboracion de azucar y melazas
+PUC,612011,"elaboracion de cacao, chocolate y confiteria"
+PUC,612012,elaboracion de pastas  y productos farinaceos
+PUC,612013,elaboracion de productos de cafe
+PUC,612014,elaboracion de otros productos alimenticios
+PUC,612015,elaboracion de bebidas alcoholicas y alcohol etilico
+PUC,612016,elaboracion de vinos
+PUC,612017,elaboracion de bebidas malteadas y de malta
+PUC,612018,elaboracion de bebidas no alcoholicas
+PUC,612019,elaboracion de productos de tabaco
+PUC,612020,preparacion e hilatura de fibras textiles y tejeduria
+PUC,612021,acabado de productos textiles
+PUC,612022,elaboracion de articulos de materiales textiles
+PUC,612023,elaboracion de tapices y alfombras
+PUC,612024,"elaboracion de cuerdas, cordeles, bramantes y redes"
+PUC,612025,elaboracion de otros productos textiles
+PUC,612026,elaboracion de tejidos
+PUC,612027,elaboracion de prendas de vestir
+PUC,612028,"preparacion, adobo y teñido de pieles"
+PUC,612029,"curtido, adobo o preparacion de cuero"
+PUC,612030,"elaboracion de maletas, bolsos y similares"
+PUC,612031,elaboracion de calzado
+PUC,612032,"produccion de madera, articulos de madera y corcho"
+PUC,612033,"elaboracion de pasta y productos de madera, papel y carton"
+PUC,612034,ediciones y publicaciones
+PUC,612035,impresion
+PUC,612036,servicios relacionados con la edicion y la impresion
+PUC,612037,reproduccion de grabaciones
+PUC,612038,elaboracion de productos de horno de coque
+PUC,612039,elaboracion de productos de la refinacion de petroleo
+PUC,612040,elaboracion de sustancias quimicas basicas
+PUC,612041,elaboracion de abonos y compuestos de nitrogeno
+PUC,612042,elaboracion de plastico y caucho sintetico
+PUC,612043,elaboracion de productos quimicos de uso agropecuario
+PUC,612044,"elaboracion de pinturas, tintas y masillas"
+PUC,612045,elaboracion de productos farmaceuticos y botanicos
+PUC,612046,"elaboracion de jabones, detergentes y preparados de tocador"
+PUC,612047,elaboracion de otros productos quimicos
+PUC,612048,elaboracion de fibras
+PUC,612049,elaboracion de otros productos de caucho
+PUC,612050,elaboracion de productos de plastico
+PUC,612051,elaboracion de vidrio y productos de vidrio
+PUC,612052,"elaboracion de productos de ceramica, loza, piedra, arcilla y porcelana"
+PUC,612053,"elaboracion de cemento, cal y yeso"
+PUC,612054,"elaboracion de articulos de hormigon, cemento y yeso"
+PUC,612055,"corte, tallado y acabado de la piedra"
+PUC,612056,elaboracion de otros productos minerales no metalicos
+PUC,612057,industrias basicas y fundicion de hierro y acero
+PUC,612058,productos primarios de metales preciosos y de metales no ferrosos
+PUC,612059,fundicion de metales no ferrosos
+PUC,612060,fabricacion de productos metalicos para uso estructural
+PUC,612061,"forja, prensado, estampado, laminado de metal y pulvimetalurgia"
+PUC,612062,revestimiento de metales y obras de ingenieria mecanica
+PUC,612063,fabricacion de articulos de ferreteria
+PUC,612064,elaboracion de otros productos de metal
+PUC,612065,fabricacion de maquinaria y equipo
+PUC,612066,fabricacion de equipos de elevacion y manipulacion
+PUC,612067,elaboracion de aparatos de uso domestico
+PUC,612068,elaboracion de equipo de oficina
+PUC,612069,elaboracion de pilas y baterias primarias
+PUC,612070,elaboracion de equipo de iluminacion
+PUC,612071,elaboracion de otros tipos de equipo electrico
+PUC,612072,"fabricacion de equipos de radio, television y comunicaciones"
+PUC,612073,fabricacion de aparatos e instrumentos medicos
+PUC,612074,fabricacion de instrumentos de medicion y control
+PUC,612075,fabricacion de instrumentos de optica y equipo fotografico
+PUC,612076,fabricacion de relojes
+PUC,612077,fabricacion de vehiculos automotores
+PUC,612078,fabricacion de carrocerias para automotores
+PUC,612079,fabricacion de partes piezas y accesorios para automotores
+PUC,612080,fabricacion y reparacion de buques y otras embarcaciones
+PUC,612081,fabricacion de locomotoras y material rodante para ferrocarriles
+PUC,612082,fabricacion de aeronaves
+PUC,612083,fabricacion de motocicletas
+PUC,612084,fabricacion de bicicletas y sillas de ruedas
+PUC,612085,fabricacion de otros tipos de transporte
+PUC,612086,fabricacion de muebles
+PUC,612087,fabricacion de joyas y articulos conexos
+PUC,612088,fabricacion de instrumentos de musica
+PUC,612089,fabricacion de articulos y equipo para deporte
+PUC,612090,fabricacion de juegos y juguetes
+PUC,612091,reciclamiento de desperdicios
+PUC,612095,productos de otras industrias manufactureras
+PUC,612099,ajustes por inflacion
+PUC,6125,"suministro de electricidad, gas y agua"
+PUC,612505,"generacion, captacion y distribucion de energia electrica"
+PUC,612510,fabricacion de gas y distribucion de combustibles gaseosos
+PUC,612515,"captacion, depuracion y distribucion de agua"
+PUC,612595,actividades conexas
+PUC,612599,ajustes por inflacion
+PUC,6130,construccion
+PUC,613005,preparacion de terrenos
+PUC,613010,construccion de edificios y obras de ingenieria civil
+PUC,613015,acondicionamiento de edificios
+PUC,613020,terminacion de edificaciones
+PUC,613025,alquiler de equipo con operario
+PUC,613095,actividades conexas
+PUC,613099,ajustes por inflacion
+PUC,6135,comercio al por mayor y al por menor
+PUC,613502,venta de vehiculos automotores
+PUC,613504,"mantenimiento, reparacion y lavado de vehiculos automotores"
+PUC,613506,"venta de partes, piezas y accesorios de vehiculos automotores"
+PUC,613508,"venta de combustibles solidos, liquidos, gaseosos"
+PUC,613510,"venta de lubricantes, aditivos, llantas y lujos para automotores"
+PUC,613512,venta a cambio de retribucion o por contrata
+PUC,613514,"venta de insumos, materias primas agropecuarias y flores"
+PUC,613516,venta de otros insumos y materias primas no agropecuarias
+PUC,613518,venta de animales vivos y cueros
+PUC,613520,venta de productos en almacenes no especializados
+PUC,613522,venta de productos agropecuarios
+PUC,613524,"venta de productos textiles, de vestir, de cuero y calzado"
+PUC,613526,venta de papel y carton
+PUC,613528,"venta de libros, revistas, elementos de papeleria, utiles y textos escolares"
+PUC,613530,"venta de juegos, juguetes y articulos deportivos"
+PUC,613532,venta de instrumentos quirurgicos y ortopedicos
+PUC,613534,venta de articulos en relojerias y joyerias
+PUC,613536,venta de electrodomesticos y muebles
+PUC,613538,"venta de productos de aseo, farmaceuticos, medicinales, y articulos de tocador"
+PUC,613540,"venta de cubiertos, vajillas, cristaleria, porcelanas, ceramicas y otros articulos de uso domestico"
+PUC,613542,"venta de materiales de construccion, fontaneria y calefaccion"
+PUC,613544,venta de pinturas y lacas
+PUC,613546,venta de productos de vidrios y marqueteria
+PUC,613548,venta de herramientas y articulos de ferreteria
+PUC,613550,venta de quimicos
+PUC,613552,"venta de productos intermedios, desperdicios y desechos"
+PUC,613554,"venta de maquinaria, equipo de oficina y programas de computador"
+PUC,613556,venta de articulos en cacharrerias y miscelaneas
+PUC,613558,venta de instrumentos musicales
+PUC,613560,venta de articulos en casas de empeño y prenderias
+PUC,613562,venta de equipo fotografico
+PUC,613564,venta de equipo optico y de precision
+PUC,613566,venta de empaques
+PUC,613568,venta de equipo profesional y cientifico
+PUC,613570,"venta de loterias, rifas, chance, apuestas y similares"
+PUC,613572,reparacion de efectos personales y electrodomesticos
+PUC,613595,venta de otros productos
+PUC,613599,ajustes por inflacion
+PUC,6140,hoteles y restaurantes
+PUC,614005,hoteleria
+PUC,614010,campamento y otros tipos de hospedaje
+PUC,614015,restaurantes
+PUC,614020,bares y cantinas
+PUC,614095,actividades conexas
+PUC,614099,ajustes por inflacion
+PUC,6145,"transporte, almacenamiento y comunicaciones"
+PUC,614505,servicio de transporte por carretera
+PUC,614510,servicio de transporte por via ferrea
+PUC,614515,servicio de transporte por via acuatica
+PUC,614520,servicio de transporte por via aerea
+PUC,614525,servicio de transporte por tuberias
+PUC,614530,manipulacion de carga
+PUC,614535,almacenamiento y deposito
+PUC,614540,servicios complementarios para el transporte
+PUC,614545,agencias de viaje
+PUC,614550,otras agencias de transporte
+PUC,614555,servicio postal y de correo
+PUC,614560,servicio telefonico
+PUC,614565,servicio de telegrafo
+PUC,614570,servicio de transmision de datos
+PUC,614575,servicio de radio y television por cable
+PUC,614580,transmision de sonido e imagenes por contrato
+PUC,614595,actividades conexas
+PUC,614599,ajustes por inflacion
+PUC,6150,actividad financiera
+PUC,615005,de inversiones
+PUC,615010,de servicio de bolsa
+PUC,615099,ajustes por inflacion
+PUC,6155,"actividades inmobiliarias, empresariales y de alquiler"
+PUC,615505,arrendamientos de bienes inmuebles
+PUC,615510,inmobiliarias por retribucion o contrata
+PUC,615515,alquiler equipo de transporte
+PUC,615520,alquiler maquinaria y equipo
+PUC,615525,alquiler de efectos personales y enseres domesticos
+PUC,615530,consultoria en equipo y programas de informatica
+PUC,615535,procesamiento de datos
+PUC,615540,mantenimiento y reparacion de maquinaria de oficina
+PUC,615545,investigaciones cientificas y de desarrollo
+PUC,615550,actividades empresariales de consultoria
+PUC,615555,publicidad
+PUC,615560,dotacion de personal
+PUC,615565,investigacion y seguridad
+PUC,615570,limpieza de inmuebles
+PUC,615575,fotografia
+PUC,615580,envase y empaque
+PUC,615585,fotocopiado
+PUC,615590,mantenimiento y reparacion de maquinaria y equipo
+PUC,615595,actividades conexas
+PUC,615599,ajustes por inflacion
+PUC,6160,enseñanza
+PUC,616005,actividades relacionadas con la educacion
+PUC,616099,ajustes por inflacion
+PUC,6165,servicios sociales y de salud
+PUC,616505,servicio hospitalario
+PUC,616510,servicio medico
+PUC,616515,servicio odontologico
+PUC,616520,servicio de laboratorio
+PUC,616525,actividades veterinarias
+PUC,616530,actividades de servicios sociales
+PUC,616595,actividades conexas
+PUC,616599,ajustes por inflacion
+PUC,6170,"otras actividades de servicios comunitarios, sociales y personales"
+PUC,617005,eliminacion de desperdicios y aguas residuales
+PUC,617010,actividades de asociacion
+PUC,617015,produccion y distribucion de filmes y videocintas
+PUC,617020,exhibicion de filmes y videocintas
+PUC,617025,actividad de radio y television
+PUC,617030,"actividad teatral, musical y artistica"
+PUC,617035,grabacion y produccion de discos
+PUC,617040,entretenimiento y esparcimiento
+PUC,617045,agencias de noticias
+PUC,617050,lavanderias y similares
+PUC,617055,peluquerias y similares
+PUC,617060,servicios funerarios
+PUC,617065,zonas francas
+PUC,617095,actividades conexas
+PUC,617099,ajustes por inflacion
+PUC,62,compras
+PUC,6205,de mercancias
+PUC,620599,ajustes por inflacion
+PUC,6210,de materias primas
+PUC,621099,ajustes por inflacion
+PUC,6215,de materiales indirectos
+PUC,621599,ajustes por inflacion
+PUC,6220,compra de energia
+PUC,622001,a 622098
+PUC,622099,ajustes por inflacion
+PUC,6225,devoluciones rebajas y descuentos en compras (cr)
+PUC,622599,ajustes por inflacion
+PUC,7,costos de produccion o de operacion
+PUC,71,materia prima
+PUC,72,mano de obra directa
+PUC,73,costos indirectos
+PUC,74,contratos de servicios
+PUC,8,cuentas de orden deudoras
+PUC,81,derechos contingentes
+PUC,8105,bienes y valores entregados en custodia
+PUC,810505,valores mobiliarios
+PUC,810510,bienes muebles
+PUC,810599,ajustes por inflacion
+PUC,8110,bienes y valores entregados en garantia
+PUC,811005,valores mobiliarios
+PUC,811010,bienes muebles
+PUC,811015,bienes inmuebles
+PUC,811020,contratos de ganado en participacion
+PUC,811099,ajustes por inflacion
+PUC,8115,bienes y valores en poder de terceros
+PUC,811505,en arrendamiento
+PUC,811510,en prestamo
+PUC,811515,en deposito
+PUC,811520,en consignacion
+PUC,811599,ajustes por inflacion
+PUC,8120,litigios y/o demandas
+PUC,812005,ejecutivos
+PUC,812010,incumplimiento de contratos
+PUC,8125,promesas de compraventa
+PUC,8195,diversas
+PUC,819505,valores adquiridos por recibir
+PUC,819595,otras
+PUC,819599,ajustes por inflacion.
+PUC,82,deudoras fiscales
+PUC,83,deudoras de control
+PUC,8305,bienes recibidos en arrendamiento financiero
+PUC,830505,bienes muebles
+PUC,830510,bienes inmuebles
+PUC,830599,ajustes por inflacion
+PUC,8310,titulos de inversion no colocados
+PUC,831005,acciones
+PUC,831010,bonos
+PUC,831095,otros
+PUC,8315,"propiedades planta y equipo totalmente depreciados, agotados y/o amortizados"
+PUC,831506,materiales proyectos petroleros
+PUC,831516,construcciones y edificaciones
+PUC,831520,maquinaria y equipo
+PUC,831524,equipo de oficina
+PUC,831528,equipo de computacion y comunicacion
+PUC,831532,equipo medico - cientifico
+PUC,831536,equipo de hoteles y restaurantes
+PUC,831540,flota y equipo de transporte
+PUC,831544,flota y equipo fluvial y/o maritimo
+PUC,831548,flota y equipo aereo
+PUC,831552,flota y equipo ferreo
+PUC,831556,"acueductos, plantas y redes"
+PUC,831560,armamento de vigilancia
+PUC,831562,envases y empaques
+PUC,831564,plantaciones agricolas y forestales
+PUC,831568,vias de comunicacion
+PUC,831572,minas y canteras
+PUC,831576,pozos artesianos
+PUC,831580,yacimientos
+PUC,831584,semovientes
+PUC,831599,ajustes por inflacion
+PUC,8320,creditos a favor no utilizados
+PUC,832005,pais
+PUC,832010,exterior
+PUC,8325,activos castigados
+PUC,832505,inversiones
+PUC,832510,deudores
+PUC,832595,otros activos
+PUC,8330,titulos de inversion amortizados
+PUC,833005,bonos
+PUC,833095,otros
+PUC,8335,capitalizacion por revalorizacion de patrimonio
+PUC,8395,otras cuentas deudoras de control
+PUC,839505,cheques postfechados
+PUC,839510,certificados de deposito a termino
+PUC,839515,cheques devueltos
+PUC,839520,bienes y valores en fideicomiso
+PUC,839525,intereses sobre deudas vencidas
+PUC,839595,diversas
+PUC,839599,ajustes por inflacion
+PUC,8399,ajustes por inflacion activos
+PUC,839905,inversiones
+PUC,839910,inventarios
+PUC,839915,propiedades planta y equipo
+PUC,839920,intangibles
+PUC,839925,cargos diferidos
+PUC,839995,otros activos
+PUC,84,derechos contingentes por contra (cr)
+PUC,85,deudoras fiscales por contra (cr)
+PUC,86,deudoras de control por contra (cr)
+PUC,9,cuentas de orden acreedoras
+PUC,91,responsabilidades contingentes
+PUC,9105,bienes y valores recibidos en custodia
+PUC,910505,valores mobiliarios
+PUC,910510,bienes muebles
+PUC,910599,ajustes por inflacion
+PUC,9110,bienes y valores recibidos en garantia
+PUC,911005,valores mobiliarios
+PUC,911010,bienes muebles
+PUC,911015,bienes inmuebles
+PUC,911020,contratos de ganado en participacion
+PUC,911099,ajustes por inflacion
+PUC,9115,bienes y valores recibidos de terceros
+PUC,911505,en arrendamiento
+PUC,911510,en prestamo
+PUC,911515,en deposito
+PUC,911520,en consignacion
+PUC,911525,en comodato
+PUC,911599,ajustes por inflacion
+PUC,9120,litigios y/o demandas
+PUC,912005,laborales
+PUC,912010,civiles
+PUC,912015,administrativos o arbitrales
+PUC,912020,tributarios
+PUC,9125,promesas de compraventa
+PUC,9130,contratos de administracion delegada
+PUC,9135,cuentas en participacion
+PUC,9195,otras responsabilidades contingentes
+PUC,92,acreedoras fiscales
+PUC,93,acreedoras de control
+PUC,9305,contratos de arrendamiento financiero
+PUC,930505,bienes muebles
+PUC,930510,bienes inmuebles
+PUC,9395,otras cuentas de orden acreedoras de control
+PUC,939505,documentos por cobrar descontados
+PUC,939510,convenios de pago
+PUC,939515,contratos de construcciones e instalaciones por ejecutar
+PUC,939520,pedidos colocados
+PUC,939525,adjudicaciones pendientes de legalizar
+PUC,939530,reserva articulo 3o. ley 4/80
+PUC,939535,reserva costo reposicion semovientes
+PUC,939599,ajustes por inflacion
+PUC,9399,ajustes por inflacion patrimonio
+PUC,939905,capital social
+PUC,939910,superavit de capital
+PUC,939915,reservas
+PUC,939925,"dividendos o participaciones decretadas en acciones, cuotas o partes de interes social"
+PUC,939930,resultados de ejercicios anteriores
+PUC,94,responsabilidades contingentes por contra (db)
+PUC,95,acreedoras fiscales por contra (db)
+PUC,96,acreedoras de control por contra (db)

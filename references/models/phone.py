@@ -33,5 +33,8 @@ class Phone(models.Model):
             models.UniqueConstraint(fields=['country', 'region', 'number'], name='unique_country_region_number'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Phone: +{self.country}{" " + self.region if self.region != None else ""} {self.number}>'
+
     def __str__(self) -> str:
         return f'+{self.country}{" " + self.region if self.region != None else ""} {self.number}'

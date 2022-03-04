@@ -67,6 +67,9 @@ class Person(models.Model):
         elif self.type == 1:
             return f'{self.name} {Person_Legal.objects.get(pk=self.pk).get_legal_type_display()}'
 
+    def __repr__(self) -> str:
+        return f'<Person: {self.complete_name()}>'
+
     def __str__(self) -> str:
         return self.complete_name()
 
@@ -81,6 +84,9 @@ class Person_Natural(Person):
         app_label = 'people'
         verbose_name = 'Persona Natural'
         verbose_name_plural = 'Personas Naturales'
+
+    def __repr__(self) -> str:
+        return f'<Person_Natural: {self.complete_name()}>'
 
     def __str__(self) -> str:
         return self.complete_name()
@@ -113,6 +119,9 @@ class Person_Legal(Person):
         app_label = 'people'
         verbose_name = 'Persona Jurídica'
         verbose_name_plural = 'Personas Jurídicas'
+
+    def __repr__(self) -> str:
+        return f'<Person_Legal: {self.complete_name()}>'
     
     def __str__(self) -> str:
         return self.complete_name()
@@ -149,8 +158,11 @@ class Person_Phone(models.Model):
             models.UniqueConstraint(fields=['person', 'phone'], name='unique_person_phone'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+
     def __str__(self) -> str:
-        return f'{self.get_use_display()}-{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name()}'
 
 
 class Person_Address(models.Model):
@@ -186,8 +198,11 @@ class Person_Address(models.Model):
             models.UniqueConstraint(fields=['person', 'address'], name='unique_person_address'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+
     def __str__(self) -> str:
-        return f'{self.get_use_display()}-{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name()}'
 
 class Person_Email(models.Model):
 
@@ -219,8 +234,11 @@ class Person_Email(models.Model):
             models.UniqueConstraint(fields=['person', 'email'], name='unique_person_email'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+
     def __str__(self) -> str:
-        return f'{self.get_use_display()}-{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name()}'
 
 class Person_Legal_Person_Natural(models.Model):
     APPOINTMENT_CHOICE = [
@@ -256,5 +274,8 @@ class Person_Legal_Person_Natural(models.Model):
             models.UniqueConstraint(fields=['person_legal', 'person_natural'], name='unique_person_legal_person_natural'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Person_Phone: {self.get_appointment_display()}_{self.person.complete_name()}>'
+
     def __str__(self) -> str:
-        return f'{self.get_appointment_display()}-{self.person_legal.complete_name()}'
+        return f'{self.get_appointment_display()}_{self.person_legal.complete_name()}'

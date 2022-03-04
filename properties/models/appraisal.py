@@ -7,6 +7,11 @@ class Appraisal(models.Model):
         (1, 'Comercial')
     ]
 
+    estate = models.ForeignKey(
+        'properties.Estate',
+        on_delete=models.CASCADE,
+        verbose_name='Predio'
+    )
     type = models.PositiveSmallIntegerField(
         choices=TYPE_CHOICE,
         verbose_name='Tipo'
@@ -19,9 +24,12 @@ class Appraisal(models.Model):
     )
 
     class Meta:
-        app_label = 'references'
+        app_label = 'properties'
         verbose_name = 'Avaluo'
         verbose_name_plural = 'Avaluos'
+
+    def __repr__(self) -> str:
+        return f'<Appraisal: {self.get_type_display()}_{self.date}_{self.value}>'
 
     def __str__(self) -> str:
         return f'{self.get_type_display()}_{self.date}_{self.value}'

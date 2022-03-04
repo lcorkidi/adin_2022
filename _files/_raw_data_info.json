@@ -1,4 +1,14 @@
 {
+    "PUC": {
+        "data_attrs": [
+            "code",
+            "name"
+        ],
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
     "Person_Natural": {
         "data_attrs": [
             "type",
@@ -81,9 +91,9 @@
             "value"
         ],        
         "fk_attrs": [
+            "Estate"
         ],
         "attrs_2_relate": [   
-            ["Estate", "appraisal"]         
         ]
     },
     "Realty": {

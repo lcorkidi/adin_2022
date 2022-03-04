@@ -53,6 +53,9 @@ class Realty(models.Model):
         verbose_name = 'Inmueble'
         verbose_name_plural = 'Inmuebles'
 
+    def __repr__(self) -> str:
+        return f'<Estate_Person: {self.address.pk}>'
+
     def __str__(self) -> str:
         return self.address.pk
 
@@ -82,6 +85,9 @@ class Realty_Estate(models.Model):
             models.UniqueConstraint(fields=['realty', 'estate'], name='unique_realty_estate'),
         ]
 
+    def __repr__(self) -> str:
+        return f'<Estate_Person: {self.realty.pk}_{self.estate.pk}>'
+
     def __str__(self) -> str:
-        return f'{self.realty}_{self.estate}'
+        return f'{self.realty.pk}_{self.estate.pk}'
        
