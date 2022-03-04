@@ -3,19 +3,20 @@ from accounting.core import Account_Structure
 
 class Account(models.Model):
     
-    code = models.CharField(
+    code = models.PositiveBigIntegerField(
         primary_key=True,
-        max_length=10,
+        verbose_name='Código'
     )
-
-    description = models.TextField(
-        max_length=255,
+    name = models.CharField(
+        max_length=128,
         blank=True,
+        verbose_name='Nombre'
     )
 
     class Meta:
         app_label = 'accounting'
-        ordering = ['code'] 
+        verbose_name = 'Cuenta'
+        verbose_name_plural = 'Cuentas'
 
     @property
     def levels(self):
@@ -29,4 +30,4 @@ class Account(models.Model):
         return f'<Acc: {self.code}>'
     
     def __str__(self) -> str:
-        return f'Acc. {self.code}'
+        return self.code
