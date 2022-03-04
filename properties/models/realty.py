@@ -54,7 +54,7 @@ class Realty(models.Model):
         verbose_name_plural = 'Inmuebles'
 
     def __str__(self) -> str:
-        return f'<Realty: {self.code}>'
+        return self.address.pk
 
 class Realty_Estate(models.Model):
 
@@ -83,5 +83,5 @@ class Realty_Estate(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Realty_Estate: {self.realty}-{self.estate}>'
+        return f'{self.realty}_{self.estate}'
        

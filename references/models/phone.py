@@ -34,4 +34,4 @@ class Phone(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Phone: +{self.country}{" " + self.region if self.region != None else ""} {self.number}>'
+        return f'+{self.country}{" " + self.region if self.region != None else ""} {self.number}'

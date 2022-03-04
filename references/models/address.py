@@ -166,4 +166,4 @@ class Address(models.Model):
         verbose_name_plural = 'Direcciones'
 
     def __str__(self) -> str:
-        return f'<Address: {self.code}, {self.city}>'
+        return f'{self.code}, {self.city}'

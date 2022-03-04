@@ -46,7 +46,7 @@ class Estate(models.Model):
         verbose_name_plural = 'Predios'
 
     def __str__(self) -> str:
-        return f'<Estate: {self.address.pk}>'
+        return self.address.pk
 
 class Estate_Person(models.Model):
 
@@ -75,4 +75,4 @@ class Estate_Person(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Estate_Person: {self.estate.pk}-{self.person}>'
+        return f'{self.estate.pk}_{self.person.complete_name()}'

@@ -68,7 +68,7 @@ class Person(models.Model):
             return f'{self.name} {Person_Legal.objects.get(pk=self.pk).get_legal_type_display()}'
 
     def __str__(self) -> str:
-        return f'<Person: {self.complete_name()}>'
+        return self.complete_name()
 
 class Person_Natural(Person):
 
@@ -83,7 +83,7 @@ class Person_Natural(Person):
         verbose_name_plural = 'Personas Naturales'
 
     def __str__(self) -> str:
-        return f'<Person_Natural: {self.last_name}, {self.name}>'
+        return self.complete_name()
 
 class Person_Legal(Person):
 
@@ -115,7 +115,7 @@ class Person_Legal(Person):
         verbose_name_plural = 'Personas Jurídicas'
     
     def __str__(self) -> str:
-        return f'<Person_Legal: {self.name} {self.get_legal_type_display()}>'
+        return self.complete_name()
 
 class Person_Phone(models.Model):
 
@@ -150,7 +150,7 @@ class Person_Phone(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Phone: {self.get_use_display()}-{self.person.complete_name()}>'
+        return f'{self.get_use_display()}-{self.person.complete_name()}'
 
 
 class Person_Address(models.Model):
@@ -187,7 +187,7 @@ class Person_Address(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Address: {self.get_use_display()}-{self.person.complete_name()}>'
+        return f'{self.get_use_display()}-{self.person.complete_name()}'
 
 class Person_Email(models.Model):
 
@@ -220,7 +220,7 @@ class Person_Email(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Email: {self.get_use_display()}-{self.person.complete_name()}>'
+        return f'{self.get_use_display()}-{self.person.complete_name()}'
 
 class Person_Legal_Person_Natural(models.Model):
     APPOINTMENT_CHOICE = [
@@ -257,4 +257,4 @@ class Person_Legal_Person_Natural(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}-{self.person_legal.complete_name()}>'
+        return f'{self.get_appointment_display()}-{self.person_legal.complete_name()}'

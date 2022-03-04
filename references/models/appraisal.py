@@ -24,4 +24,4 @@ class Appraisal(models.Model):
         verbose_name_plural = 'Avaluos'
 
     def __str__(self) -> str:
-        return f'<Appraisal: {self.type}-{self.date}-{self.value}>'
+        return f'{self.get_type_display()}_{self.date}-{self.value}'

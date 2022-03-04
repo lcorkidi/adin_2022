@@ -13,4 +13,4 @@ class Email(models.Model):
         verbose_name_plural = 'Correos Electrónicos'
 
     def __str__(self) -> str:
-        return f'<Email: {self.email}>'
+        return self.email
