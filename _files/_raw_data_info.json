@@ -1,0 +1,112 @@
+{
+    "Person_Natural": {
+        "data_attrs": [
+            "type",
+            "name",
+            "id_number",
+            "id_type",
+            "last_name"
+        ],
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Person_Legal": {
+        "data_attrs": [
+            "type",
+            "name",
+            "id_number",
+            "id_type",
+            "legal_type"
+        ],        
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Address": {
+        "data_attrs": [
+            "country",
+            "region",
+            "city",
+            "street_type",
+            "street_number",
+            "street_letter",
+            "street_bis",
+            "street_bis_complement",
+            "street_coordinate",
+            "numeral_number",
+            "numeral_letter",
+            "numeral_coordinate",
+            "height_number",
+            "interior_group_type",
+            "interior_group_code",
+            "interior_type",
+            "interior_code"
+        ],        
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Estate": {
+        "data_attrs": [
+            "national_number_1",
+            "national_number_2",
+            "national_number_3",
+            "total_area"
+        ],        
+        "fk_attrs": [
+            "Address"
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Estate_Person": {
+        "data_attrs": [
+            "percentage"
+        ],        
+        "fk_attrs": [
+            "Estate",
+            "Person"
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Appraisal": {
+        "data_attrs": [
+            "type",
+            "date",
+            "value"
+        ],        
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [   
+            ["Estate", "appraisal"]         
+        ]
+    },
+    "Realty": {
+        "data_attrs": [
+            "type",
+            "use",
+            "total_area"
+        ],        
+        "fk_attrs": [
+            "Address"
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Realty_Estate": {
+        "data_attrs": [
+            "percentage"
+        ],        
+        "fk_attrs": [
+            "Realty",
+            "Estate"
+        ],
+        "attrs_2_relate": [            
+        ]
+    }
+}

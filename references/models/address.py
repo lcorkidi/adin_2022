@@ -40,7 +40,7 @@ class Address(models.Model):
         (24, 'Y'),
         (25, 'Z')
     ]
-    COORDINATES_CHOICE = [
+    COORDINATE_CHOICE = [
         (0, 'Norte'),
         (1, 'Sur'),
         (2, 'Este'),
@@ -110,8 +110,8 @@ class Address(models.Model):
         null=True,
         default=None
     )
-    street_coordinates = models.PositiveSmallIntegerField(
-        choices=COORDINATES_CHOICE,
+    street_coordinate = models.PositiveSmallIntegerField(
+        choices=COORDINATE_CHOICE,
         verbose_name='Cardinalidad Vía',
         blank=True,
         null=True,
@@ -127,8 +127,8 @@ class Address(models.Model):
         null=True,
         default=None
     )
-    numeral_coordinates = models.PositiveSmallIntegerField(
-        choices=COORDINATES_CHOICE,
+    numeral_coordinate = models.PositiveSmallIntegerField(
+        choices=COORDINATE_CHOICE,
         verbose_name='Cardinalidad Número',
         blank=True,
         null=True,

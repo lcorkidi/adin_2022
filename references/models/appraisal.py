@@ -14,7 +14,7 @@ class Appraisal(models.Model):
     date = models.DateField(
         verbose_name='Fecha'
     )
-    value = models.FloatField(
+    value = models.PositiveBigIntegerField(
         verbose_name='Valor'
     )
 
@@ -24,4 +24,4 @@ class Appraisal(models.Model):
         verbose_name_plural = 'Avaluos'
 
     def __str__(self) -> str:
-        return f'{self.get_type_display()}_{self.date}-{self.value}'
+        return f'{self.get_type_display()}_{self.date}_{self.value}'

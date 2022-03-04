@@ -1,4 +1,8 @@
-def AddressToCode(address):
+from people.models import Person, Person_Natural, Person_Legal
+from references.models import Address, Appraisal
+from properties.models import Estate, Estate_Person, Realty, Realty_Estate
+
+def address2code(address):
     STREET_TYPE_CHOICE =  {
         0: 'A',
         1: 'C',
@@ -37,7 +41,7 @@ def AddressToCode(address):
         24: 'Y',
         25: 'Z'
     }
-    COORDINATES_CHOICE = {
+    COORDINATE_CHOICE = {
         0: 'N',
         1: 'S',
         2: 'E',
@@ -71,13 +75,13 @@ def AddressToCode(address):
         code += 'b'
         if address.street_bis_complement:
             code += LETTER_CHOICE[address.street_bis_complement].lower()
-    if address.street_coordinates != None:
-        code += COORDINATES_CHOICE[address.street_coordinates]
+    if address.street_coordinate != None:
+        code += COORDINATE_CHOICE[address.street_coordinate]
     code += f'-{address.numeral_number}'
     if address.numeral_letter != None:
         code += LETTER_CHOICE[address.numeral_letter]
-    if address.numeral_coordinates != None:
-        code += COORDINATES_CHOICE[address.numeral_coordinates]
+    if address.numeral_coordinate != None:
+        code += COORDINATE_CHOICE[address.numeral_coordinate]
     code += f'-{str(address.height_number)}'
     if address.interior_type != None:
         code += '-'
@@ -89,3 +93,19 @@ def AddressToCode(address):
         code += str(int(address.interior_code))
 
     return code
+
+def df2objs(dr, rdi, save=False):
+    objs = []
+    for index, row in dr.iterrows():
+        obj = eval(f"{row['class']}()")
+        for attr in rdi.loc['data_attrs', row['class']]:
+            if row[attr] not in [-9999, 'ZZZZZ']:
+                setattr(obj, attr, row[attr])
+        for attr in rdi.loc['fk_attrs', row['class']]:
+            if row[attr.lower()] not in [-9999, 'ZZZZZ']:
+                setattr(obj, attr.lower(), eval(f"{attr}.objects.get(pk='{row[attr.lower()]}')"))
+        if save: obj.save()
+        objs.append(obj)
+        for attr in rdi.loc['attrs_2_relate', row['class']]:
+            eval(f"{attr[0]}.objects.get(pk='{row[attr[0].lower()]}').{attr[1]}.add(obj)")
+    return objs
