@@ -7,17 +7,26 @@ class ActiveManager(models.Manager):
 
 class BaseModel(models.Model):
 
-    STATE_CHOICE = [(0,'Inactivo'),
-                    (1,'Por Revisar'),
-                    (2,'Revisado')]
+    STATE_CHOICE = [
+        (0,'Inactivo'),
+        (1,'Por Revisar'),
+        (2,'Por Correguir'),
+        (3,'Revisado')
+    ]
                     
-    state_change_user = models.ForeignKey(settings.AUTH_USER_MODEL, 
-                                editable=False,
-                                on_delete=models.PROTECT)
-    state_change_date = models.DateTimeField(auto_now=True)
-    state = models.PositiveSmallIntegerField(choices=STATE_CHOICE, 
-                                 default=1,
-                                 editable=False)
+    state_change_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        editable=False
+    )
+    state_change_date = models.DateTimeField(
+        auto_now=True
+    )
+    state = models.PositiveSmallIntegerField(
+        choices=STATE_CHOICE, 
+        default=1,
+        editable=False
+    )
 
     class Meta:
         abstract = True
