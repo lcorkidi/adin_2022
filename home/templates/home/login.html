@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+        <link rel="icon" href="{% static 'images/AdIn-Logo.ico' %}">
+        <title>AdIn LogIn</title>
+    </head>
+    <body>
+        <form method="post">
+            <div class="container align-center">
+                {% for field in form %}
+                <div class="card text-center align-middle" style="width: 18rem;">
+                    <div class="card-body">
+                        <label class="form-label">
+                            {{ field.label }}
+                        </label>
+                        <div>
+                            {{ field }}
+                        </div>
+                        <div>
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </body>
+</html>

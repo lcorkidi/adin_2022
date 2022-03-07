@@ -1,6 +1,6 @@
 from django.db import models
 
-class Transaction(models.Model):
+class Transaction_Type(models.Model):
 
     name =  models.CharField(
         max_length=64,
