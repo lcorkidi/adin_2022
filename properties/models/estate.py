@@ -72,7 +72,7 @@ class Estate_Person(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Estate_Person: {self.estate.pk}_{self.person.complete_name()}>'
+        return f'<Estate_Person: {self.estate.pk}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.estate.pk}_{self.person.complete_name()}'
+        return f'{self.estate.pk}_{self.person.complete_name}'

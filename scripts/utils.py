@@ -2,6 +2,12 @@ from people.models import Person, Person_Natural, Person_Legal
 from references.models import Address, PUC
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Appraisal
 
+def personcompletename(person):
+    if person.type == 0:
+        return f'{person.last_name}, {person.name}'
+    elif person.type == 1:
+        return f'{person.name} {person.get_legal_type_display()}'
+
 def address2code(address):
     STREET_TYPE_CHOICE =  {
         0: 'A',

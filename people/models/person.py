@@ -31,6 +31,10 @@ class Person(models.Model):
         max_length=64,
         verbose_name='Nombre(s)'
     )
+    complete_name = models.CharField(
+        max_length=128,
+        verbose_name='Nombre Completo'
+    )
     phone = models.ManyToManyField(
         'references.Phone',
         through='Person_Phone',
@@ -61,17 +65,11 @@ class Person(models.Model):
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
 
-    def complete_name(self):
-        if self.type == 0:
-            return f'{Person_Natural.objects.get(pk=self.pk).last_name}, {self.name}'
-        elif self.type == 1:
-            return f'{self.name} {Person_Legal.objects.get(pk=self.pk).get_legal_type_display()}'
-
     def __repr__(self) -> str:
-        return f'<Person: {self.complete_name()}>'
+        return f'<Person: {self.complete_name}>'
 
     def __str__(self) -> str:
-        return self.complete_name()
+        return self.complete_name
 
 class Person_Natural(Person):
 
@@ -86,16 +84,16 @@ class Person_Natural(Person):
         verbose_name_plural = 'Personas Naturales'
 
     def __repr__(self) -> str:
-        return f'<Person_Natural: {self.complete_name()}>'
+        return f'<Person_Natural: {self.complete_name}>'
 
     def __str__(self) -> str:
-        return self.complete_name()
+        return self.complete_name
 
 class Person_Legal(Person):
 
     LEGAL_TYPE_CHOICE = [
         (0, 'S.A.'),
-        (1, 'S.A.S'),
+        (1, 'S.A.S.'),
         (2, 'LTDA.'),
         (3, 'E.U.'),
         (4, '& CIA.'),
@@ -121,10 +119,10 @@ class Person_Legal(Person):
         verbose_name_plural = 'Personas Jurídicas'
 
     def __repr__(self) -> str:
-        return f'<Person_Legal: {self.complete_name()}>'
+        return f'<Person_Legal: {self.complete_name}>'
     
     def __str__(self) -> str:
-        return self.complete_name()
+        return self.complete_name
 
 class Person_Phone(models.Model):
 
@@ -159,10 +157,10 @@ class Person_Phone(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_use_display()}_{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name}'
 
 
 class Person_Address(models.Model):
@@ -199,10 +197,10 @@ class Person_Address(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_use_display()}_{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name}'
 
 class Person_Email(models.Model):
 
@@ -235,10 +233,10 @@ class Person_Email(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name()}>'
+        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_use_display()}_{self.person.complete_name()}'
+        return f'{self.get_use_display()}_{self.person.complete_name}'
 
 class Person_Legal_Person_Natural(models.Model):
     APPOINTMENT_CHOICE = [
@@ -275,7 +273,7 @@ class Person_Legal_Person_Natural(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_appointment_display()}_{self.person.complete_name()}>'
+        return f'<Person_Phone: {self.get_appointment_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_appointment_display()}_{self.person_legal.complete_name()}'
+        return f'{self.get_appointment_display()}_{self.person_legal.complete_name}'

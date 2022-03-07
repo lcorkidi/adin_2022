@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'custom_css/base.css' %}">
+    <link rel="icon" href="{% static 'images/AdIn-Logo.ico' %}">
+    <title>{% block PageTitle %}{% endblock PageTitle %}</title>
+</head>
+<body>
+    {% block body %}
+    <nav class="navbar navbar-expand-md fixed-top bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home:user_home' %}">
+                <img src="{% static 'images/AdIn-Logo.ico' %}" alt="AdIn" height="30">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCuentasDropdown" aria-controls="navbarCuentasDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCuentasDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="cuentasDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cuentas</a>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="cuentasDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'accounts:accounts_list' %}"><strong>Mis Cuentas</strong></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'accounts:puc_list' %}"><strong>PUC</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="parametrosDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Parametros</a>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="parametrosDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'parameters:uti_list' %}"><strong>Servicios Publicos</strong></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'parameters:facdat_list' %}"><strong>Factores</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <a class="nav-link text-light" href="{% url 'people:people_list' %}">Personas</a>
+                <a class="nav-link text-light" href="{% url 'realties:rea_list' %}">Propiedades</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="contratosDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contratos</a>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="contratosDropDownLink">
+                            <li>
+                                <strong class="px-2">Propios</strong>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item px-5" href="{% url 'refmods:intrealea_list' %}">Arriendos Inmuebles</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item px-5" href="{% url 'refmods:intuti_list' %}">Servicios Publicos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item px-5" href="{% url 'refmods:intemp_list' %}">Empleados</a>
+                            </li>
+                            <li>
+                                <strong class="px-2">Terceros</strong>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item px-5" href="{% url 'refmods:extrealea_list' %}">Arriendos Inmuebles</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item px-5" href="{% url 'refmods:extreauti_list' %}">Servicios Publicos Inmuebles</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="registersDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contabilidad</a>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="registersDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'registers:regbas_list' %}"><strong>Asientos</strong></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'registers:regtem_list' %}"><strong>Formatos Asientos</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>    
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="col col-md-10 w-100" role="main">
+            {% if info_msg %}
+                <div class="alert alert-info text-center">
+                    {{ info_msg }}
+                </div>
+            {% endif %}       
+            {% block main %}{% endblock main %}
+        </div>
+    </div>
+    {% endblock body %}
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

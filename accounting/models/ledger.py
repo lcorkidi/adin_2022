@@ -27,15 +27,15 @@ class Ledger(models.Model):
     holder = models.ForeignKey(
         'people.Person',
         on_delete=models.PROTECT,
-        related_name='ledgers',
-        related_query_name='ledger',
+        related_name='ledgers_holders',
+        related_query_name='ledger_holder',
         verbose_name='Titular'
     )    
     third_party = models.ForeignKey(
         'people.Person',
         on_delete=models.PROTECT,
-        related_name='ledgers',
-        related_query_name='ledger',
+        related_name='ledgers_third_parties',
+        related_query_name='ledger_third_party',
         verbose_name='Tercero'
     )
     date = models.DateField(

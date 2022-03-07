@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'custom_css/base.css' %}">
+    <link rel="icon" href="{% static 'images/AdIn-Logo.ico' %}">
+    <title>{% block PageTitle %}{% endblock PageTitle %}</title>
+</head>
+<body>
+    {% block body %}
+    <nav class="navbar navbar-expand-md fixed-top bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home:user_home' %}">
+                <img src="{% static 'images/AdIn-Logo.ico' %}" alt="AdIn" height="30">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCuentasDropdown" aria-controls="navbarCuentasDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    {% endblock body %}
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

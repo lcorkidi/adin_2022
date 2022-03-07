@@ -101,7 +101,7 @@ class Lease_Realty_Person(models.Model):
         verbose_name_plural = 'Partes Arriendos Inmuebles'
 
     def __repr__(self) -> str:
-        return f'<Lease_Realty_Person: {self.lease.pk}_{self.person.complete_name()}>'
+        return f'<Lease_Realty_Person: {self.lease.pk}_{self.person.complete_name}>'
     
     def __str__(self) -> str:
-        return f'{self.lease.pk}_{self.person.complete_name()}'
+        return f'{self.lease.pk}_{self.person.complete_name}'
