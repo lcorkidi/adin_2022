@@ -23,7 +23,7 @@ def run():
     # create people
     objs = df2objs(pd.read_csv('_files/people_raw.csv'), _raw_data_info)
     for obj in objs:
-        obj.code = personcompletename(obj)
+        obj.complete_name = personcompletename(obj)
         obj.save()
     dt4 = datetime.now()
     print('People: {}'.format(dt4-dt3))

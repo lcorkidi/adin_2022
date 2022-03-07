@@ -1,8 +1,7 @@
-from pyexpat import model
-from statistics import mode
 from django.db import models
+from adin.core.models import BaseModel
 
-class Person(models.Model):
+class Person(BaseModel):
 
     ID_TYPE_CHOICE = [
         (0, 'CC'),
@@ -124,7 +123,7 @@ class Person_Legal(Person):
     def __str__(self) -> str:
         return self.complete_name
 
-class Person_Phone(models.Model):
+class Person_Phone(BaseModel):
 
     PHONE_USE_CHOICE = [
         (0, 'Personal'),
@@ -163,7 +162,7 @@ class Person_Phone(models.Model):
         return f'{self.get_use_display()}_{self.person.complete_name}'
 
 
-class Person_Address(models.Model):
+class Person_Address(BaseModel):
 
     ADDRESS_USE_CHOICE = [
         (0, 'Residencia'),
@@ -202,7 +201,7 @@ class Person_Address(models.Model):
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
 
-class Person_Email(models.Model):
+class Person_Email(BaseModel):
 
     EMAIL_USE_CHOICE = [
         (0, 'Principal'),
@@ -238,7 +237,7 @@ class Person_Email(models.Model):
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
 
-class Person_Legal_Person_Natural(models.Model):
+class Person_Legal_Person_Natural(BaseModel):
     APPOINTMENT_CHOICE = [
         (0, 'Representate Legal'),
         (1, 'Gerente General'),

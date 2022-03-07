@@ -141,3 +141,29 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'db_backend_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '_files/db_backend_log.log',
+            'formatter': 'db_backend_formatter'
+        }
+    },
+    'formatters': {
+        'db_backend_formatter': {
+            'format': '{asctime} {sql}',
+            'style': '{',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['db_backend_file'],
+            'propagate': False
+        }
+    }
+}
