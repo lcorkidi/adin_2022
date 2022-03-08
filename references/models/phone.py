@@ -7,6 +7,11 @@ class Phone(models.Model):
         (1, 'Movil')
     ]
 
+    code = models.CharField(
+        max_length=16,
+        primary_key=True,
+        verbose_name='Código'
+    )
     type = models.PositiveSmallIntegerField(
         choices=TYPE_CHOICE,
         verbose_name='Tipo'
@@ -34,7 +39,7 @@ class Phone(models.Model):
         ]
 
     def __repr__(self) -> str:
-        return f'<Phone: +{self.country}{" " + self.region if self.region != None else ""} {self.number}>'
+        return f'<Phone: +{self.country}{" " + str(self.region) if self.region != None else ""} {self.number}>'
 
     def __str__(self) -> str:
-        return f'+{self.country}{" " + self.region if self.region != None else ""} {self.number}'
+        return f'+{self.country}{" " + str(self.region) if self.region != None else ""} {self.number}'

@@ -38,7 +38,9 @@ class Address(models.Model):
         (22, 'W'),
         (23, 'X'),
         (24, 'Y'),
-        (25, 'Z')
+        (25, 'Z'),
+        (26, 'A1'),
+        (27, 'B1')
     ]
     COORDINATE_CHOICE = [
         (0, 'Norte'),
@@ -123,6 +125,19 @@ class Address(models.Model):
     numeral_letter = models.PositiveSmallIntegerField(
         choices=LETTER_CHOICE,
         verbose_name='Letra Número',
+        blank=True,
+        null=True,
+        default=None
+    )
+    numeral_bis = models.BooleanField(
+        verbose_name='Bis Número',
+        blank=True,
+        null=True,
+        default=None        
+    )
+    numeral_bis_complement = models.PositiveSmallIntegerField(
+        choices=LETTER_CHOICE,
+        verbose_name='Letra Bis Número',
         blank=True,
         null=True,
         default=None

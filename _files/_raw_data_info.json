@@ -9,6 +9,54 @@
         "attrs_2_relate": [            
         ]
     },
+    "Email": {
+        "data_attrs": [
+            "email"
+        ],
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Phone": {
+        "data_attrs": [
+            "type",
+            "country",
+            "region",
+            "number"
+        ],
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Address": {
+        "data_attrs": [
+            "country",
+            "region",
+            "city",
+            "street_type",
+            "street_number",
+            "street_letter",
+            "street_bis",
+            "street_bis_complement",
+            "street_coordinate",
+            "numeral_number",
+            "numeral_letter",
+            "numeral_bis",
+            "numeral_bis_complement",
+            "numeral_coordinate",
+            "height_number",
+            "interior_group_type",
+            "interior_group_code",
+            "interior_type",
+            "interior_code"
+        ],        
+        "fk_attrs": [
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
     "Person_Natural": {
         "data_attrs": [
             "type",
@@ -35,27 +83,35 @@
         "attrs_2_relate": [            
         ]
     },
-    "Address": {
+    "Person_Email": {
         "data_attrs": [
-            "country",
-            "region",
-            "city",
-            "street_type",
-            "street_number",
-            "street_letter",
-            "street_bis",
-            "street_bis_complement",
-            "street_coordinate",
-            "numeral_number",
-            "numeral_letter",
-            "numeral_coordinate",
-            "height_number",
-            "interior_group_type",
-            "interior_group_code",
-            "interior_type",
-            "interior_code"
+            "use"
         ],        
         "fk_attrs": [
+            "Person",
+            "Email"
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Person_Phone": {
+        "data_attrs": [
+            "use"
+        ],        
+        "fk_attrs": [
+            "Person",
+            "Phone"
+        ],
+        "attrs_2_relate": [            
+        ]
+    },
+    "Person_Address": {
+        "data_attrs": [
+            "use"
+        ],        
+        "fk_attrs": [
+            "Person",
+            "Address"
         ],
         "attrs_2_relate": [            
         ]

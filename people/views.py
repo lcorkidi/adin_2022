@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import View
 
-from people.models import Person, Person_Phone, Person_Email, Person_Address
+from people.models import Person, Person_Natural, Person_Legal, Person_Phone, Person_Email, Person_Address
 from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, PersonNaturalUpdateForm, PersonLegalUpdateForm, PersonListModelFormSet, Person_PhoneModelFormSet, Person_EmailModelFormSet, Person_AddressModelFormSet
 
 per_title = Person._meta.verbose_name_plural
@@ -142,40 +142,40 @@ class People_NaturalUpdateView(View):
     template = 'people/people_update.html'
     form = PersonNaturalUpdateForm
     title = per_title
-    subtitle = 'Crear'
+    subtitle = 'Actualizar'
     ref_urls = per_urls
     readonly_fields = ['type', 'id_type', 'id_number']
-    m2m_data = {
-        'phone': {
-            'class': Person_Phone,
-            'formset': Person_PhoneModelFormSet,
-            'create_url': 'people:people_phone_create',
-            'delete_url': 'people:people_phone_delete'
-        },
-        'email': {
-            'class': Person_Email,
-            'formset': Person_EmailModelFormSet,
-            'create_url': 'people:people_email_create',
-            'delete_url': 'people:people_email_delete'
-        },
-        'address': {
-            'class': Person_Address,
-            'formset': Person_AddressModelFormSet,
-            'create_url': 'people:people_address_create',
-            'delete_url': 'people:people_address_delete'
-        }        
-    }
-    choice_fields = ['type', 'id_type']
+    choice_fields = ['type', 'id_type', 'use']
 
     def get(self, request, pk):
-        per = Person.objects.get(pk=pk)
+        per = Person_Natural.objects.get(pk=pk)
         form = self.form(instance=per)
+        m2m_data = {
+            'phone': {
+                'class': Person_Phone,
+                'formset': Person_PhoneModelFormSet,
+                'create_url': 'people:people_phone_create',
+                'delete_url': 'people:people_phone_delete'
+            },
+            'email': {
+                'class': Person_Email,
+                'formset': Person_EmailModelFormSet,
+                'create_url': 'people:people_email_create',
+                'delete_url': 'people:people_email_delete'
+            },
+            'address': {
+                'class': Person_Address,
+                'formset': Person_AddressModelFormSet,
+                'create_url': 'people:people_address_create',
+                'delete_url': 'people:people_address_delete'
+            }        
+        }
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        for attr, data in self.m2m_data.items():
-            formset = data['formset'](queryset=data['class'].objects.filter(person=per))
-            self.m2m_data[attr]['formset'] = formset
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': self.m2m_data}
+        for attr, data in m2m_data.items():
+            formset = data['formset'](queryset=data['class'].objects.filter(person__id_number=pk))
+            m2m_data[attr]['formset'] = formset
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
         return render(request, self.template, context)
 
 class People_LegalUpdateView(View):

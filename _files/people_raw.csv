@@ -66,7 +66,7 @@ Person_Natural,0,Elsa,0,31847384,Lopez Sevillno,-9999
 Person_Natural,0,Maria Elena,0,29581503,Cortes Chamorro,-9999
 Person_Natural,0,Alfonso Eleazar,0,6069454,Guzman Moreno,-9999
 Person_Natural,0,Carlos Alberto,0,6160214,Maya Osorio,-9999
-Person_Legal,1,"Ferreteria,Pinturas Y Productos Agropecuarios Limitada",1,805018771,N/A,2
+Person_Legal,1,"Ferreteria,Pinturas Y Productos Agropecuarios",1,805018771,N/A,2
 Person_Natural,0,Fernando,0,2631179,Tascon Ospina,-9999
 Person_Legal,1,Del Corte Mobiliari,1,900206937,N/A,1
 Person_Natural,0,Alix Carolina,0,60391142,Pabon Pabon,-9999
@@ -90,3 +90,18 @@ Person_Natural,0,Cynthia,0,52695485,Dixon Palau,-9999
 Person_Natural,0,Jacqueline,0,31889682,Lopez Sevillno,-9999
 Person_Natural,0,Carlos Alberto,0,16761696,Sierro Murillo,-9999
 Person_Natural,0,Esther,0,31520503,Tzuckerman Pellman,-9999
+Person_Legal,1,Arquimaderas,1,900858114,N/A,1
+Person_Legal,1,Datecsa,1,800136505,N/A,0
+Person_Legal,1,Diesel Lujo Ferreteria Al Costo,1,901257178,N/A,1
+Person_Legal,1,El Comercio ELectrico,1,890323635,N/A,2
+Person_Legal,1,Electricos del Valle,1,890304345,N/A,0
+Person_Legal,1,Electo Iluminaciones EH,1,901439406,N/A,1
+Person_Legal,1,Ferreteria 5A Norte,1,901462569,N/A,1
+Person_Legal,1,Ferreteria Barbosa y Cia,1,890308587,N/A,1
+Person_Legal,1,Ferreteria Miltialambres,1,860067998,N/A,1
+Person_Legal,1,Ferretornillos Arlex,1,901042248,N/A,1
+Person_Legal,1,Grupo Empresarial Silver,1,900420715,N/A,1
+Person_Legal,1,La Bodeguita Cotic,1,901149951,N/A,1
+Person_Natural,0,Fabiola,0,22173593,Herrera Rueda,-9999
+Person_Natural,0,Elena,0,24839143,Patiño Cruz,-9999
+Person_Legal,1,Uniescolar Papeleria,1,805004110,N/A,2

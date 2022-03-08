@@ -1,5 +1,5 @@
-from people.models import Person, Person_Natural, Person_Legal
-from references.models import Address, PUC
+from people.models import Person, Person_Natural, Person_Legal, Person_Email, Person_Address, Person_Phone
+from references.models import Address, PUC, Email, Phone, Address
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Appraisal
 
 def personcompletename(person):
@@ -7,6 +7,9 @@ def personcompletename(person):
         return f'{person.last_name}, {person.name}'
     elif person.type == 1:
         return f'{person.name} {person.get_legal_type_display()}'
+
+def phone2code(phone):
+    return f'+{phone.country}{" " + str(phone.region) if phone.region != None else ""} {phone.number}'
 
 def address2code(address):
     STREET_TYPE_CHOICE =  {
@@ -45,7 +48,9 @@ def address2code(address):
         22: 'W',
         23: 'X',
         24: 'Y',
-        25: 'Z'
+        25: 'Z',
+        26: 'A1',
+        27: 'B1'
     }
     COORDINATE_CHOICE = {
         0: 'N',
@@ -86,6 +91,10 @@ def address2code(address):
     code += f'-{address.numeral_number}'
     if address.numeral_letter != None:
         code += LETTER_CHOICE[address.numeral_letter]
+    if address.numeral_bis:
+        code += 'b'
+        if address.numeral_bis_complement:
+            code += LETTER_CHOICE[address.numeral_bis_complement].lower()
     if address.numeral_coordinate != None:
         code += COORDINATE_CHOICE[address.numeral_coordinate]
     code += f'-{str(address.height_number)}'

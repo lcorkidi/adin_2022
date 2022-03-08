@@ -129,7 +129,8 @@ class Person_Phone(BaseModel):
         (0, 'Personal'),
         (1, 'Residencia'),
         (2, 'Auxiliar Administrativo'),
-        (3, 'Auxiliar Contable')
+        (3, 'Auxiliar Contable'),
+        (4, 'Notificación')
     ]
 
     person = models.ForeignKey(
@@ -169,7 +170,8 @@ class Person_Address(BaseModel):
         (1, 'Trabajo'),
         (2, 'Planta'),
         (3, 'Administración'),
-        (4, 'Punto de Venta')
+        (4, 'Punto de Venta'),
+        (5, 'Notificación')
     ]
 
     person = models.ForeignKey(
@@ -205,7 +207,8 @@ class Person_Email(BaseModel):
 
     EMAIL_USE_CHOICE = [
         (0, 'Principal'),
-        (1, 'Adicional')
+        (1, 'Adicional'),
+        (2, 'Notificación')
     ]
 
     person = models.ForeignKey(
