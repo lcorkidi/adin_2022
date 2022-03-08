@@ -149,7 +149,7 @@ LOGGING = {
         'db_backend_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'adin/logs/db_backend_log.log',
+            'filename': '_files/_db_backend.log',
             'formatter': 'db_backend_formatter'
         }
     },

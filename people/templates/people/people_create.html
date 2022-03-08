@@ -3,82 +3,82 @@
 {% load adin_tags %}
 {% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
 {% block main %}
-                <div id="content"></div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <span>{{ title }} - {{ subtitle }}</span> 
-                                <div>
-                                    <a href="{% url ref_urls.list %}" style="text-decoration:none">
-                                        {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                                    </a> 
-                            </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form method="post">
-                                {% csrf_token %}
-                                {% for field in form %}
-                                    {% if field.field.widget.attrs.m2o %}
-                                        <div class="d-flex mx-2">
-                                            <div class="d-grid w-100">
-                                                <div class="p-2 fs-5 text-center">
-                                                    {{ field.label_tag }}
-                                                </div>
-                                                {% if field.errors %}
-                                                    <div class="p-2 fs-5 text-center text-danger">
-                                                        {{ field.errors }}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                                <input id="id_{{ field.name }}" name="{{ field.name }}" required  list="select-options" />
-                                                <datalist id="select-options">
-                                                    {% for option in field.field.queryset %}
-                                                        <option value="{{ option.name }}">
-                                                    {% endfor %}
-                                                </datalist>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="d-flex mx-2">
-                                            <div class="d-grid w-100">
-                                                <div class="p-2 fs-5 text-center">
-                                                    {{ field.label_tag }}
-                                                </div>
-                                                {% if field.errors %}
-                                                    <div class="p-2 fs-5 text-center text-danger">
-                                                        {{ field.errors }}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                                {% if field.field.widget.attrs.readonly %}
-                                                    {% if field.name in choice_fields %}
-                                                        <td>{% selected_choice form field.name field.value %}</td>
-                                                    {% else %}
-                                                        <strong>{{ field.value }}</strong>
-                                                    {% endif %}
-                                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
-                                                {% else %}
-                                                    {{ field }}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if form.non_field_errors %}
-                                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                        <div class="p-2 fs-5 text-center text-danger">
-                                            {{ form.non_field_errors }}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="d-grid m-2 gap-2">
-                                    <input class="btn btn-primary" type="submit" value="{{ subtitle }}">
-                                </div>
-                            </form>
-                        </div>
+    <div id="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }} - {{ subtitle }}</span> 
+                    <div>
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
+                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                        </a> 
                     </div>
                 </div>
-            {% endblock main %}
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.field.widget.attrs.m2o %}
+                            <div class="d-flex mx-2">
+                                <div class="d-grid w-100">
+                                    <div class="p-2 fs-5 text-center">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    {% if field.errors %}
+                                        <div class="p-2 fs-5 text-center text-danger">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    <input id="id_{{ field.name }}" name="{{ field.name }}" required  list="select-options" />
+                                    <datalist id="select-options">
+                                        {% for option in field.field.queryset %}
+                                            <option value="{{ option.name }}">
+                                        {% endfor %}
+                                    </datalist>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="d-flex mx-2">
+                                <div class="d-grid w-100">
+                                    <div class="p-2 fs-5 text-center">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    {% if field.errors %}
+                                        <div class="p-2 fs-5 text-center text-danger">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    {% if field.field.widget.attrs.readonly %}
+                                        {% if field.name in choice_fields %}
+                                            <td>{% selected_choice form field.name field.value %}</td>
+                                        {% else %}
+                                            <strong>{{ field.value }}</strong>
+                                        {% endif %}
+                                        <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <div class="p-2 fs-5 text-center text-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-grid m-2 gap-2">
+                        <input class="btn btn-primary" type="submit" value="{{ subtitle }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

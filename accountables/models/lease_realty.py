@@ -94,6 +94,21 @@ class Lease_Realty_Person(models.Model):
         choices=ROLE_CHOICE,
         verbose_name='Rol'
     )
+    phone = models.ForeignKey(
+        'references.Phone',
+        on_delete=models.PROTECT,
+        verbose_name='Teléfono'
+    )
+    email = models.ForeignKey(
+        'references.Email',
+        on_delete=models.PROTECT,
+        verbose_name='Correo Electrónico',
+    )
+    address = models.ForeignKey(
+        'references.Address',
+        on_delete=models.PROTECT,
+        verbose_name='Dirección'
+    )
  
     class Meta:
         app_label = 'accountables'

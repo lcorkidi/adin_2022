@@ -3,47 +3,49 @@
 {% load adin_tags %}
 {% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
 {% block main %}
-                    <div id="content"></div>
-                        {% if formset.initial_form_count == 0 %}
-                            <div class="alert alert-info">No hay {{ title.lower }} en la base de datos</div>
-                        {% endif %}
-                    <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <span>{{ title }}</span> 
-                            <div>
-                                <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                            </div>
-                        </div>
+    <div id="content">
+        {% if formset.initial_form_count == 0 %}
+            <div class="alert alert-info">No hay {{ title.lower }} en la base de datos</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }}</span> 
+                    <div>
+                        <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                     </div>
-                    <div class="card-body">
-                        <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    {% for field in formset.form %}
-                                        <th>{{ field.label }}</th>                              
-                                    {% endfor %}
-                                    <th>Acciones</th>                              
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for form in formset %}
-                                    <tr>
-                                        {% for field in form.visible_fields %}
-                                            {% if field.name in choice_fields %}
-                                                <td>{% selected_choice form field.name field.value %}</td>
-                                            {% else %}
-                                                <td>{{ field.value }}</td>
-                                            {% endif %}
-                                        {% endfor %}
-                                        <td class="table-actions">
-                                            <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
-                                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
-                                            <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
-                                        </td>                                    
-                                    </tr>
-                                {% endfor %}                  
-                            </tbody>
-                        </table>
-                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for field in formset.form %}
+                                <th>{{ field.label }}</th>                              
+                            {% endfor %}
+                            <th>Acciones</th>                              
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                    {% if field.name in choice_fields %}
+                                        <td>{% selected_choice form field.name field.value %}</td>
+                                    {% else %}
+                                        <td>{{ field.value }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                <td class="table-actions">
+                                    <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                    <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                                    <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                </td>                                    
+                            </tr>
+                        {% endfor %}                  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock main %}
