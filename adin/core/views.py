@@ -76,4 +76,5 @@ class GenericDeleteRelatedView(LoginRequiredMixin, View):
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         obj.state = 0
+        obj.save()
         return redirect(self.ref_urls['update'], ret_pk)

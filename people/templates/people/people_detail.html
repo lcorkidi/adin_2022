@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content"></div>
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }} - {{ subtitle }}</span> 
+                    <div>
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
+                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                        </a> |
+                        <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">
+                            {% render_bi 'pencil' width="20px" height="20px" %}
+                        </a> 
+                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">
+                            {% render_bi 'trash' width="20px" height="20px" %}
+                        </a>
+                   </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% for field in form %}
+                    {% if field.name in m2m_data %}
+                        {% for attr, data in m2m_data.items %}
+                            {% if field.name == attr %}
+                                <div class="d-grid mx-2 gap2">
+                                    <div class="p-2 fs-5 w-100 text-center">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                        <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    {% for m2m_field in data.formset.form %}
+                                                        <th>{{ m2m_field.label }}</th>                              
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for m2m_form in data.formset %}
+                                                    <tr>
+                                                        {% for m2m_field in m2m_form.visible_fields %}
+                                                            {% if m2m_field.name in choice_fields %}
+                                                                <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
+                                                            {% else %}
+                                                                <td>{{ m2m_field.value }}</td>
+                                                            {% endif %}
+                                                        {% endfor %}     
+                                                    </tr>
+                                                {% endfor %}                  
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="d-grid mx-2 gap2">
+                            <div class="p-2 fs-5 w-100 text-center">
+                                {{ field.label_tag }}
+                            </div>
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                {% if field.name in choice_fields %}
+                                    <td><strong>{% selected_choice form field.name field.value %}</strong></td>
+                                {% else %}
+                                    <td><strong>{{ field.value }}</strong></td>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if o2m_template %}
+                    {% include o2m_template %}
+                {% endif %}
+    </div>
+        </div>
+    </div>
+{% endblock main %}

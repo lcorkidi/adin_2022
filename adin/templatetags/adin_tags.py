@@ -21,4 +21,8 @@ def app_name():
 
 @register.simple_tag(name="selected_choice")
 def selected_choice(form, field_name, field_value):
-    return dict(form.fields[field_name].choices)[field_value]
+    try:
+        return dict(form.fields[field_name].choices)[field_value]
+    except:
+        return dict(form.fields[field_name].choices)[int(field_value)]
+        

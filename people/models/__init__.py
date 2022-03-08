@@ -1,1 +1,1 @@
-from .person import Person, Person_Natural, Person_Legal, Person_Address, Person_Email, Person_Phone
+from .person import Person, Person_Natural, Person_Legal, Person_Address, Person_Email, Person_Phone, Person_Legal_Person_Natural

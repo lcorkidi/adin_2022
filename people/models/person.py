@@ -11,7 +11,7 @@ class Person(BaseModel):
     ]
     TYPE_CHOICE = [
         (0, 'Natural'),
-        (1, 'Legal')
+        (1, 'Jurídica')
     ]
 
     id_number = models.PositiveSmallIntegerField(
@@ -106,7 +106,7 @@ class Person_Legal(Person):
     staff = models.ManyToManyField(
         'people.Person_Natural',
         through='Person_Legal_Person_Natural',
-        through_fields=('person_legal', 'person_natural'),
+        through_fields=('person', 'staff'),
         related_name='people_legal',
         related_query_name='person_legal',
         verbose_name='Personal'
@@ -248,12 +248,12 @@ class Person_Legal_Person_Natural(BaseModel):
         (6, 'Socio')
     ]
 
-    person_legal = models.ForeignKey(
+    person = models.ForeignKey(
         Person_Legal,
         on_delete=models.PROTECT,
         verbose_name='Persona Jurídica'
     )
-    person_natural = models.ForeignKey(
+    staff = models.ForeignKey(
         Person_Natural,
         on_delete=models.PROTECT,
         verbose_name='Persona Natural'
@@ -268,11 +268,11 @@ class Person_Legal_Person_Natural(BaseModel):
         verbose_name = 'Persona Natural con Cargo en Persona Jurídica'
         verbose_name_plural = 'Personas Naturales con Cargos en Personas Jurídicas'
         constraints = [
-            models.UniqueConstraint(fields=['person_legal', 'person_natural'], name='unique_person_legal_person_natural'),
+            models.UniqueConstraint(fields=['person', 'staff'], name='unique_person_staff'),
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_appointment_display()}_{self.person.complete_name}>'
+        return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_appointment_display()}_{self.person_legal.complete_name}'
+        return f'{self.get_appointment_display()}_{self.person.complete_name}'

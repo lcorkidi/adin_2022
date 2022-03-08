@@ -1,5 +1,5 @@
 from django import forms
-from .models import Person, Person_Natural, Person_Legal, Person_Phone, Person_Email, Person_Address
+from .models import Person, Person_Natural, Person_Legal, Person_Phone, Person_Email, Person_Address, Person_Legal_Person_Natural
 from scripts.utils import personcompletename
 
 class PersonCreateForm(forms.ModelForm):
@@ -32,6 +32,7 @@ class Person_NaturalCreateForm(forms.ModelForm):
         per_nat = Person_Natural(**base_args)
         per_nat.complete_name = personcompletename(per_nat)
         per_nat.save()
+        return per_nat
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -64,6 +65,7 @@ class Person_LegalCreateForm(forms.ModelForm):
         per_leg = Person_Legal(**base_args)
         per_leg.complete_name = personcompletename(per_leg)
         per_leg.save()
+        return per_leg
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -100,7 +102,7 @@ class Person_EmailCreateForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
         base_args['state_change_user'] = self.creator
-        per_ema = Person_Email.objects.get(**base_args)
+        per_ema = Person_Email(**base_args)
         per_ema.save()
 
     def set_readonly_fields(self, fields=[]):
@@ -129,6 +131,37 @@ class Person_AddressCreateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
+class Person_StaffCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Legal_Person_Natural
+        fields = '__all__'
+
+    def save(self, *args, **kwargs):
+        base_args = {k: self.cleaned_data[k] for k in self.fields}
+        base_args['state_change_user'] = self.creator
+        per_add = Person_Legal_Person_Natural(**base_args)
+        per_add.save()
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
+class Person_NaturalDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Natural
+        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'email', 'address']
+
+class Person_LegalDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Legal
+        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'email', 'address', 'staff']
+
 class Person_NaturalUpdateForm(forms.ModelForm):
 
     class Meta:
@@ -142,18 +175,16 @@ class Person_NaturalUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-    def set_m2m_fields(self, fields=[]):
-        for field in self.fields:
-            if field in fields:
-                self.fields[field].widget.attrs['m2m'] = True
-            else: 
-                self.fields[field].widget.attrs['m2m'] = False
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
+
 
 class Person_LegalUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number', 'phone', 'email', 'address' ]
+        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number', 'phone', 'email', 'address', 'staff' ]
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -162,12 +193,9 @@ class Person_LegalUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-    def set_m2m_fields(self, fields=[]):
-        for field in self.fields:
-            if field in fields:
-                self.fields[field].widget.attrs['m2m'] = True
-            else: 
-                self.fields[field].widget.attrs['m2m'] = False
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
 
 class Person_PhoneUpdateForm(forms.ModelForm):
 
@@ -259,7 +287,98 @@ class Person_AddressUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
+class Person_StaffUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Legal_Person_Natural
+        fields = '__all__'
+
+    def save(self, *args, **kwargs):
+        for delta in self.changed_data:
+            if delta in args[0]:
+                raise forms.ValidationError('No se puede actualizar con esos cambios.')
+        get_args = {}
+        update_args = {}
+        for k in self.fields:
+            if k in args[0]:
+                get_args[k] = self.cleaned_data[k]
+            elif k in self.changed_data:
+                update_args[k] = self.cleaned_data[k]
+        per_add = Person_Legal_Person_Natural.objects.get(**get_args)
+        for k, v in update_args.items():
+            setattr(per_add, k, v)
+        per_add.state_change_date = self.creator
+        per_add.save()
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
 PersonListModelFormSet = forms.modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)
 Person_PhoneModelFormSet = forms.modelformset_factory(Person_Phone, fields=('person', 'phone', 'use'), extra=0)
 Person_EmailModelFormSet = forms.modelformset_factory(Person_Email, fields=('person', 'email', 'use'), extra=0)
 Person_AddressModelFormSet = forms.modelformset_factory(Person_Address, fields=('person', 'address', 'use'), extra=0)
+Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person', 'staff', 'appointment'), extra=0)
+
+def person_natural_m2m_data():
+    m2m_data = {
+        'phone': {
+            'class': Person_Phone,
+            'formset': Person_PhoneModelFormSet,
+            'create_url': 'people:people_phone_create',
+            'update_url': 'people:people_phone_update',
+            'delete_url': 'people:people_phone_delete'
+        },
+        'email': {
+            'class': Person_Email,
+            'formset': Person_EmailModelFormSet,
+            'create_url': 'people:people_email_create',
+            'update_url': 'people:people_email_update',
+            'delete_url': 'people:people_email_delete'
+        },
+        'address': {
+            'class': Person_Address,
+            'formset': Person_AddressModelFormSet,
+            'create_url': 'people:people_address_create',
+            'update_url': 'people:people_address_update',
+            'delete_url': 'people:people_address_delete'
+        }      
+    }
+    return m2m_data
+
+def person_legal_m2m_data():
+    m2m_data = {
+        'phone': {
+            'class': Person_Phone,
+            'formset': Person_PhoneModelFormSet,
+            'create_url': 'people:people_phone_create',
+            'update_url': 'people:people_phone_update',
+            'delete_url': 'people:people_phone_delete'
+        },
+        'email': {
+            'class': Person_Email,
+            'formset': Person_EmailModelFormSet,
+            'create_url': 'people:people_email_create',
+            'update_url': 'people:people_email_update',
+            'delete_url': 'people:people_email_delete'
+        },
+        'address': {
+            'class': Person_Address,
+            'formset': Person_AddressModelFormSet,
+            'create_url': 'people:people_address_create',
+            'update_url': 'people:people_address_update',
+            'delete_url': 'people:people_address_delete'
+        },
+        'staff': {
+            'class': Person_Legal_Person_Natural,
+            'formset': Person_Legal_Person_NaturalModelFormSet,
+            'create_url': 'people:people_staff_create',
+            'update_url': 'people:people_staff_update',
+            'delete_url': 'people:people_staff_delete'
+        }        
+    }
+    return m2m_data
+

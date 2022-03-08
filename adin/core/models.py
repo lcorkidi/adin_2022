@@ -8,10 +8,10 @@ class ActiveManager(models.Manager):
 class BaseModel(models.Model):
 
     STATE_CHOICE = [
-        (0,'Inactivo'),
-        (1,'Por Revisar'),
-        (2,'Por Correguir'),
-        (3,'Revisado')
+        (0, 'Inactivo'),
+        (1, 'Por Correguir'),
+        (2, 'Por Revisar'),
+        (3, 'Revisado')
     ]
                     
     state_change_user = models.ForeignKey(
