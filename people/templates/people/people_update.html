@@ -1,29 +1,8 @@
+{% extends "base.html" %}
 {% load static %}
 {% load adin_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'custom_css/base.css' %}">
-    <link rel="icon" href="{% static 'images/AdIn-Logo.ico' %}">
-    <title>{{ title }} - {% app_name %}</title>
-</head>
-<body>
-    {% block body %}
-        <nav class="navbar navbar-expand-md fixed-top bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'home:user_home' %}">
-                    <img src="{% static 'images/AdIn-Logo.ico' %}" alt="AdIn" height="30">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCuentasDropdown" aria-controls="navbarCuentasDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
-        <div class="container-fluid">
-            <div class="col col-md-10 w-100" role="main">
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
                 <div id="content"></div>
                     <div class="card">
                         <div class="card-header">
@@ -32,8 +11,12 @@
                                 <div>
                                     <a href="{% url ref_urls.list %}" style="text-decoration:none">
                                         {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                                    </a> 
-                            </div>
+                                    </a> |
+                                    <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                    <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">
+                                        {% render_bi 'trash' width="20px" height="20px" %}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -75,6 +58,7 @@
                                                                             {% endif %}
                                                                         {% endfor %}
                                                                         <td>
+                                                                            <a href="{% url data.update_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                                                                             <a class="text-danger" href="{% url data.delete_url m2m_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
                                                                         </td>     
                                                                     </tr>
@@ -126,9 +110,4 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    {% endblock body %}
-    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% endblock main %}

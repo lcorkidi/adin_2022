@@ -34,6 +34,8 @@ class LogInView(View):
 class HomeView(LoginRequiredMixin, View):
 
     template = 'home/user_home.html'
+    title = 'Inicio'
 
     def get(self, request):
-        return render(request, self.template)
+        context = {'title': self.title}
+        return render(request, self.template, context)

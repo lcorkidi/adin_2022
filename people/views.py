@@ -5,7 +5,7 @@ from people.models import Person, Person_Natural, Person_Legal, Person_Phone, Pe
 from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, PersonNaturalUpdateForm, PersonLegalUpdateForm, PersonListModelFormSet, Person_PhoneModelFormSet, Person_EmailModelFormSet, Person_AddressModelFormSet
 
 per_title = Person._meta.verbose_name_plural
-per_urls = {'list':'people:people_list', 'create':'people:people_create', 'detail':'people:people_detail', 'update':'people:people_update', 'delete':'people:people_delete'}
+per_urls = { 'list':'people:people_list', 'create':'people:people_create', 'detail':'people:people_detail', 'update':'people:people_update', 'delete':'people:people_delete' }
 
 class PeopleListView(View):
 
@@ -155,18 +155,21 @@ class People_NaturalUpdateView(View):
                 'class': Person_Phone,
                 'formset': Person_PhoneModelFormSet,
                 'create_url': 'people:people_phone_create',
+                'update_url': 'people:people_phone_update',
                 'delete_url': 'people:people_phone_delete'
             },
             'email': {
                 'class': Person_Email,
                 'formset': Person_EmailModelFormSet,
                 'create_url': 'people:people_email_create',
+                'update_url': 'people:people_email_update',
                 'delete_url': 'people:people_email_delete'
             },
             'address': {
                 'class': Person_Address,
                 'formset': Person_AddressModelFormSet,
                 'create_url': 'people:people_address_create',
+                'update_url': 'people:people_address_update',
                 'delete_url': 'people:people_address_delete'
             }        
         }
@@ -181,6 +184,27 @@ class People_NaturalUpdateView(View):
 class People_LegalUpdateView(View):
 
     template = 'people/people_detail.html'
+
+    def get(self, request, pk):
+        return render(request, self.template)
+
+class People_PhoneUpdateView(View):
+
+    template = 'people/people_realted_update.html'
+
+    def get(self, request, pk):
+        return render(request, self.template)
+
+class People_EmailUpdateView(View):
+
+    template = 'people/people_realted_update.html'
+
+    def get(self, request, pk):
+        return render(request, self.template)
+
+class People_AddressUpdateView(View):
+
+    template = 'people/people_realted_update.html'
 
     def get(self, request, pk):
         return render(request, self.template)
