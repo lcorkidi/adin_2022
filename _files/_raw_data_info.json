@@ -9,9 +9,9 @@
         "attrs_2_relate": [            
         ]
     },
-    "Email": {
+    "E_Mail": {
         "data_attrs": [
-            "email"
+            "e_mail"
         ],
         "fk_attrs": [
         ],
@@ -83,13 +83,13 @@
         "attrs_2_relate": [            
         ]
     },
-    "Person_Email": {
+    "Person_E_Mail": {
         "data_attrs": [
             "use"
         ],        
         "fk_attrs": [
             "Person",
-            "Email"
+            "E_Mail"
         ],
         "attrs_2_relate": [            
         ]

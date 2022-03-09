@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Realty(models.Model):
+class Realty(BaseModel):
 
     TYPE_CHOICE = [
         (0, 'Apartamento'),
@@ -59,7 +60,7 @@ class Realty(models.Model):
     def __str__(self) -> str:
         return self.address.pk
 
-class Realty_Estate(models.Model):
+class Realty_Estate(BaseModel):
 
     realty = models.ForeignKey(
         Realty,

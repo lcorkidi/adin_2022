@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Transaction_Type(models.Model):
+class Transaction_Type(BaseModel):
 
     name =  models.CharField(
         max_length=64,

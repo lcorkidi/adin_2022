@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Accountable(models.Model):
+class Accountable(BaseModel):
 
     code = models.CharField(
         primary_key=True,

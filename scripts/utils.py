@@ -1,5 +1,7 @@
-from people.models import Person, Person_Natural, Person_Legal, Person_Email, Person_Address, Person_Phone
-from references.models import Address, PUC, Email, Phone, Address
+from django.contrib.auth import get_user_model
+
+from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
+from references.models import Address, PUC, E_Mail, Phone
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Appraisal
 
 def personcompletename(person):
@@ -102,14 +104,49 @@ def address2code(address):
         code += '-'
     if address.interior_group_type != None:
         code += INTERIOR_GROUP_TYPE_CHOICE[address.interior_group_type]
-        code += str(int(address.interior_group_code))
+        code += str(address.interior_group_code)
     if address.interior_type != None:
         code += INTERIOR_TYPE_CHOICE[address.interior_type]
-        code += str(int(address.interior_code))
+        code += str(address.interior_code)
+
+    return code
+
+def addresslong(address):
+
+    code = address.get_street_type_display()
+    code += " " + str(address.street_number)
+    if address.street_letter != None:
+        code += address.get_street_letter_display()
+    if address.street_bis:
+        code += 'bis'
+        if address.street_bis_complement:
+            code += address.get_street_bis_complement_display()
+    if address.street_coordinate != None:
+        code += " " + address.get_street_coordinate_display()
+    code += " # " + str(address.numeral_number)
+    if address.numeral_letter != None:
+        code += address.get_numeral_letter_display()
+    if address.numeral_bis:
+        code += 'bis'
+        if address.numeral_bis_complement:
+            code += address.get_numeral_bis_complement_display()
+    if address.numeral_coordinate != None:
+        code += " " + address.get_numeral_coordinate_display()
+    code += " - " + str(address.height_number)
+    if address.interior_type != None:
+        code += ', '
+    if address.interior_group_type != None:
+        code += address.get_interior_group_type_display()
+        code += " " + str(address.interior_group_code) + ", "
+    if address.interior_type != None:
+        code += address.get_interior_type_display()
+        code += " " + str(address.interior_code)
+    code += ", " + address.city
 
     return code
 
 def df2objs(dr, rdi, save=False):
+    user = get_user_model().objects.all()[0]
     objs = []
     for index, row in dr.iterrows():
         obj = eval(f"{row['class']}()")
@@ -119,6 +156,7 @@ def df2objs(dr, rdi, save=False):
         for attr in rdi.loc['fk_attrs', row['class']]:
             if row[attr.lower()] not in [-9999, 'ZZZZZ']:
                 setattr(obj, attr.lower(), eval(f"{attr}.objects.get(pk='{row[attr.lower()]}')"))
+        obj.state_change_user = user
         if save: obj.save()
         objs.append(obj)
         for attr in rdi.loc['attrs_2_relate', row['class']]:

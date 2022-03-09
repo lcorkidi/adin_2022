@@ -11,13 +11,15 @@
                         <a href="{% url ref_urls.list %}" style="text-decoration:none">
                             {% render_bi 'arrow-left-square' width="20px" height="20px" %}
                         </a> |
-                        <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                        <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">
-                            {% render_bi 'pencil' width="20px" height="20px" %}
-                        </a> 
-                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">
-                            {% render_bi 'trash' width="20px" height="20px" %}
-                        </a>
+                        {% if not 'create' in actions_off %}
+                            <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if not 'update' in actions_off %}
+                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                        {% endif %}
+                        {% if not 'delete' in actions_off %}
+                            <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                        {% endif %}
                    </div>
                 </div>
             </div>

@@ -1,10 +1,8 @@
 import pandas as pd
 from datetime import datetime
-from django.contrib.auth import get_user_model
 from scripts.utils import address2code, df2objs, personcompletename, phone2code
 
 _raw_data_info = pd.read_json('_files/_raw_data_info.json')
-user = get_user_model().objects.all()[0]
 
 def run():
     dt1 = datetime.now()
@@ -39,32 +37,22 @@ def run():
     objs = df2objs(pd.read_csv('_files/people_raw.csv'), _raw_data_info)
     for obj in objs:
         obj.complete_name = personcompletename(obj)
-        obj.state_change_user = user
         obj.save()
     dt6 = datetime.now()
     print('People: {}'.format(dt6-dt5))
 
     # create people_phones
-    objs = df2objs(pd.read_csv('_files/people_phones_raw.csv'), _raw_data_info)
-    for obj in objs:
-        obj.state_change_user = user
-        obj.save()
+    df2objs(pd.read_csv('_files/people_phones_raw.csv'), _raw_data_info, True)
     dt7 = datetime.now()
     print('People_Phones: {}'.format(dt7-dt6))
 
     # create people_addresses
-    objs = df2objs(pd.read_csv('_files/people_addresses_raw.csv'), _raw_data_info)
-    for obj in objs:
-        obj.state_change_user = user
-        obj.save()
+    df2objs(pd.read_csv('_files/people_addresses_raw.csv'), _raw_data_info, True)
     dt8 = datetime.now()
     print('People_Addresses: {}'.format(dt8-dt7))
 
     # create people_emails
-    objs = df2objs(pd.read_csv('_files/people_emails_raw.csv'), _raw_data_info)
-    for obj in objs:
-        obj.state_change_user = user
-        obj.save()
+    df2objs(pd.read_csv('_files/people_emails_raw.csv'), _raw_data_info, True)
     dt9 = datetime.now()
     print('People_Emails: {}'.format(dt9-dt8))
 

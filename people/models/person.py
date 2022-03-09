@@ -50,10 +50,10 @@ class Person(BaseModel):
         related_query_name='person',
         verbose_name='Dirección'
     )
-    email = models.ManyToManyField(
-        'references.Email',
-        through='Person_Email',
-        through_fields=('person', 'email'),
+    e_mail = models.ManyToManyField(
+        'references.E_Mail',
+        through='Person_E_Mail',
+        through_fields=('person', 'e_mail'),
         related_name='people',
         related_query_name='person',
         verbose_name='Correo Electrónico'
@@ -201,7 +201,7 @@ class Person_Address(BaseModel):
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
 
-class Person_Email(BaseModel):
+class Person_E_Mail(BaseModel):
 
     EMAIL_USE_CHOICE = [
         (0, 'Principal'),
@@ -213,8 +213,8 @@ class Person_Email(BaseModel):
         on_delete=models.PROTECT,
         verbose_name='Persona'
     )
-    email = models.ForeignKey(
-        'references.Email',
+    e_mail = models.ForeignKey(
+        'references.E_Mail',
         on_delete=models.PROTECT,
         verbose_name='Correo Electrónico'
     )
@@ -228,7 +228,7 @@ class Person_Email(BaseModel):
         verbose_name = 'Correo Electrónico Personas'
         verbose_name_plural = 'Correos Electrónicos Personas'
         constraints = [
-            models.UniqueConstraint(fields=['person', 'email'], name='unique_person_email'),
+            models.UniqueConstraint(fields=['person', 'e_mail'], name='unique_person_e_mail'),
         ]
 
     def __repr__(self) -> str:

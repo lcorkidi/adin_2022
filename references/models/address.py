@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Address(models.Model):
+class Address(BaseModel):
 
     STREET_TYPE_CHOICE = [
         (0, 'Avenida'),
@@ -161,7 +162,10 @@ class Address(models.Model):
     )
     interior_group_code = models.CharField(
         max_length=6,
-        verbose_name='Interior Gruupo Código'
+        verbose_name='Interior Grupo Código',
+        blank=True,
+        null=True,
+        default=None
     )
     interior_type = models.PositiveSmallIntegerField(
         choices=INTERIOR_TYPE_CHOICE,
@@ -172,7 +176,10 @@ class Address(models.Model):
     )
     interior_code = models.CharField(
         max_length=6,
-        verbose_name='Interior Código'
+        verbose_name='Interior Código',
+        blank=True,
+        null=True,
+        default=None
     )
 
     class Meta:

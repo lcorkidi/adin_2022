@@ -99,8 +99,8 @@ class Lease_Realty_Person(models.Model):
         on_delete=models.PROTECT,
         verbose_name='Teléfono'
     )
-    email = models.ForeignKey(
-        'references.Email',
+    e_mail = models.ForeignKey(
+        'references.E_Mail',
         on_delete=models.PROTECT,
         verbose_name='Correo Electrónico',
     )

@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Phone(models.Model):
+class Phone(BaseModel):
 
     TYPE_CHOICE = [
         (0, 'Fijo'),

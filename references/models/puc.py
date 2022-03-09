@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class PUC(models.Model):
+class PUC(BaseModel):
 
     code = models.PositiveBigIntegerField( 
         primary_key=True,

@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Appraisal(models.Model):
+class Appraisal(BaseModel):
 
     TYPE_CHOICE = [
         (0, 'Catastral'),

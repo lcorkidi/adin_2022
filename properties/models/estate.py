@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Estate(models.Model):
+class Estate(BaseModel):
 
     national_number_1 = models.PositiveBigIntegerField(
         verbose_name='Número Predial Nacional'
@@ -45,7 +46,7 @@ class Estate(models.Model):
     def __str__(self) -> str:
         return self.address.pk
 
-class Estate_Person(models.Model):
+class Estate_Person(BaseModel):
 
     estate = models.ForeignKey(
         Estate,

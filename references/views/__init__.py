@@ -1,0 +1,1 @@
+from .address_views import AddressListView, AddressDetailView, AddressCreateView, AddressDeleteView

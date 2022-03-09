@@ -1,8 +1,9 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Email(models.Model):
+class E_Mail(BaseModel):
 
-    email = models.EmailField(
+    e_mail = models.EmailField(
         primary_key=True,
         verbose_name='Correo Electrónico'
     )
@@ -13,7 +14,7 @@ class Email(models.Model):
         verbose_name_plural = 'Correos Electrónicos'
 
     def __repr__(self) -> str:
-        return f'<Email: {self.email}>'
+        return f'<Email: {self.e_mail}>'
 
     def __str__(self) -> str:
-        return self.email
+        return self.e_mail

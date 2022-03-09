@@ -1,7 +1,8 @@
 from statistics import mode
 from django.db import models
+from adin.core.models import BaseModel
 
-class Charge(models.Model):
+class Charge(BaseModel):
 
     ledger = models.ForeignKey(
         to='accounting.Ledger',
@@ -41,7 +42,7 @@ class Charge(models.Model):
     def __str__(self) -> str:
         return f'{self.ledger.pk}_{self.account.pk}'
 
-class Charge_Concept(models.Model):
+class Charge_Concept(BaseModel):
 
     NATURE_CHOICE = [
         (-1, 'Crédito'),

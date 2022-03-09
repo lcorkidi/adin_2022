@@ -1,7 +1,8 @@
 from django.db import models
 from accounting.core import Account_Structure
+from adin.core.models import BaseModel
 
-class Account(models.Model):
+class Account(BaseModel):
     
     code = models.PositiveBigIntegerField(
         primary_key=True,

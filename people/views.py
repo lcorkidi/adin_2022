@@ -2,8 +2,8 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
-from people.models import Person, Person_Natural, Person_Legal, Person_Phone, Person_Email, Person_Address, Person_Legal_Person_Natural
+from adin.core.views import GenericDetailView, GenericUpdateView, GenericDeleteView, GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from people.models import Person, Person_Natural, Person_Legal, Person_Phone, Person_E_Mail, Person_Address, Person_Legal_Person_Natural
 from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_PhoneCreateForm, Person_EmailCreateForm, Person_AddressCreateForm, Person_StaffCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_PhoneUpdateForm, Person_EmailUpdateForm, Person_AddressUpdateForm, Person_StaffUpdateForm, PersonListModelFormSet, person_natural_m2m_data, person_legal_m2m_data 
 
 per_title = Person._meta.verbose_name_plural
@@ -11,7 +11,7 @@ per_urls = { 'list':'people:people_list', 'create':'people:people_create', 'deta
 
 class PeopleListView(LoginRequiredMixin, View):
 
-    template = 'people/people_list.html'
+    template = 'adin/generic_list.html'
     formset = PersonListModelFormSet
     choice_fields = ['id_type']
     title = per_title
@@ -32,45 +32,23 @@ class PeopleDetailView(LoginRequiredMixin, View):
             return redirect('people:people_legal_detail', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalDetailView(LoginRequiredMixin, View):
+class People_NaturalDetailView(GenericDetailView):
 
-    template = 'people/people_detail.html'
     title = per_title
-    subtitle = 'Ver'
     model = Person_Natural
     form = Person_NaturalDetailForm
     ref_urls = per_urls
     choice_fields = ['type', 'id_type', 'use']
+    m2m_data = person_natural_m2m_data
 
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_natural_m2m_data()
-        for attr, data in m2m_data.items():
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-        return render(request, self.template, context)
+class People_LegalDetailView(GenericDetailView):
 
-class People_LegalDetailView(LoginRequiredMixin, View):
-
-    template = 'people/people_detail.html'
     title = per_title
-    subtitle = 'Ver'
     model = Person_Legal
     form = Person_LegalDetailForm
     ref_urls = per_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
-
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_legal_m2m_data()
-        for attr, data in m2m_data.items():
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-        return render(request, self.template, context)
+    m2m_data = person_legal_m2m_data
 
 class PeopleCreateView(LoginRequiredMixin, View):
 
@@ -90,7 +68,6 @@ class PeopleCreateView(LoginRequiredMixin, View):
         if not form.is_valid():
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
             return render(request, self.template, context)
-        print(type(form['type'].value()))
         if int(form['type'].value()) == 0:
             return redirect('people:people_natural_create')
         elif int(form['type'].value()) == 1:
@@ -100,7 +77,7 @@ class PeopleCreateView(LoginRequiredMixin, View):
 
 class People_NaturalCreateView(LoginRequiredMixin, View):
 
-    template = 'people/people_create.html'
+    template = 'adin/generic_create.html'
     form = Person_NaturalCreateForm
     title = per_title
     subtitle = 'Crear'
@@ -112,13 +89,14 @@ class People_NaturalCreateView(LoginRequiredMixin, View):
         form = self.form(initial={'type': 0})
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        form
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request):
         form = self.form(request.POST)
         if not form.is_valid():
+            if self.readonly_fields:
+                form.set_readonly_fields(self.readonly_fields)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
             return render(request, self.template, context)
         form.creator = request.user
@@ -127,7 +105,7 @@ class People_NaturalCreateView(LoginRequiredMixin, View):
 
 class People_LegalCreateView(LoginRequiredMixin, View):
 
-    template = 'people/people_create.html'
+    template = 'adin/generic_create.html'
     form = Person_LegalCreateForm
     title = per_title
     subtitle = 'Crear'
@@ -145,6 +123,8 @@ class People_LegalCreateView(LoginRequiredMixin, View):
     def post(self, request):
         form = self.form(request.POST)
         if not form.is_valid():
+            if self.readonly_fields:
+                form.set_readonly_fields(self.readonly_fields)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
             return render(request, self.template, context)
         form.creator = request.user
@@ -164,7 +144,7 @@ class People_EmailCreateView(GenericCreateRelatedView):
 
     template = 'people/people_related_create.html'
     form = Person_EmailCreateForm
-    title = Person_Email._meta.verbose_name_plural
+    title = Person_E_Mail._meta.verbose_name_plural
     subtitle = 'Crear'
     ref_urls = per_urls
     readonly_fields = ['person']
@@ -197,85 +177,25 @@ class PeopleUpdateView(LoginRequiredMixin, View):
             return redirect('people:people_legal_update', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalUpdateView(LoginRequiredMixin, View):
+class People_NaturalUpdateView(GenericUpdateView):
 
-    template = 'people/people_update.html'
     model = Person_Natural
     form = Person_NaturalUpdateForm
     title = per_title
-    subtitle = 'Actualizar'
     ref_urls = per_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use']
+    m2m_data = person_natural_m2m_data
 
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_natural_m2m_data()
-        if self.readonly_fields:
-            form.set_readonly_fields(self.readonly_fields)
-        for attr, data in m2m_data.items():
-            form.set_hidden_field(attr)
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
-        return render(request, self.template, context)
+class People_LegalUpdateView(GenericUpdateView):
 
-    def post(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(request.POST, instance=per)
-        if not form.is_valid():
-            m2m_data = person_natural_m2m_data()
-            if self.readonly_fields:
-                form.set_readonly_fields(self.readonly_fields)
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-                m2m_data[attr]['formset'] = formset
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
-            return render(request, self.template, context)
-        form.save()
-        return redirect(self.ref_urls['list'])
-
-class People_LegalUpdateView(LoginRequiredMixin, View):
-
-    template = 'people/people_update.html'
     model = Person_Legal
     form = Person_LegalUpdateForm
     title = per_title
-    subtitle = 'Actualizar'
     ref_urls = per_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
-
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_legal_m2m_data()
-        if self.readonly_fields:
-            form.set_readonly_fields(self.readonly_fields)
-        for attr, data in m2m_data.items():
-            form.set_hidden_field(attr)
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
-        return render(request, self.template, context)
-
-    def post(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(request.POST, instance=per)
-        if not form.is_valid():
-            m2m_data = person_legal_m2m_data()
-            if self.readonly_fields:
-                form.set_readonly_fields(self.readonly_fields)
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-                m2m_data[attr]['formset'] = formset
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
-            return render(request, self.template, context)
-        form.save()
-        return redirect(self.ref_urls['list'])
+    m2m_data = person_legal_m2m_data
 
 class People_PhoneUpdateView(GenericUpdateRelatedView):
 
@@ -290,9 +210,9 @@ class People_PhoneUpdateView(GenericUpdateRelatedView):
 class People_EmailUpdateView(GenericUpdateRelatedView):
 
     template = 'people/people_related_update.html'
-    model = Person_Email
+    model = Person_E_Mail
     form = Person_EmailUpdateForm
-    title = Person_Email._meta.verbose_name_plural
+    title = Person_E_Mail._meta.verbose_name_plural
     ref_urls = per_urls
     rel_urls = { 'create': 'people:people_email_create', 'delete': 'people:people_email_delete'}
     readonly_fields = ['person', 'email']
@@ -327,81 +247,23 @@ class PeopleDeleteView(LoginRequiredMixin, View):
             return redirect('people:people_legal_delete', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalDeleteView(LoginRequiredMixin, View):
+class People_NaturalDeleteView(GenericDeleteView):
 
-    template = 'people/people_delete.html'
     title = per_title
-    subtitle = 'Inactivar'
     model = Person_Natural
     form = Person_NaturalDetailForm
     ref_urls = per_urls
     choice_fields = ['type', 'id_type', 'use']
-
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_natural_m2m_data()
-        for attr, data in m2m_data.items():
-            form.set_hidden_field(attr)
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-        return render(request, self.template, context)
-
-    def post(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(request.POST, instance=per)
-        m2m_data = person_natural_m2m_data()
-        if form.has_changed():
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-                m2m_data[attr]['formset'] = formset
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-            return render(request, self.template, context)
-        for attr, data in m2m_data.items():
-            data['class'].objects.exclude(state=0).filter(person__id_number=pk).update(state=0)
-        per.state = 0
-        per.save()
-        return redirect(self.ref_urls['list'])
+    m2m_data = person_natural_m2m_data
 
 class People_LegalDeleteView(LoginRequiredMixin, View):
 
-    template = 'people/people_delete.html'
     title = per_title
-    subtitle = 'Inactivar'
     model = Person_Legal
     form = Person_LegalDetailForm
     ref_urls = per_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
-
-    def get(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(instance=per)
-        m2m_data = person_legal_m2m_data()
-        for attr, data in m2m_data.items():
-            form.set_hidden_field(attr)
-            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-            m2m_data[attr]['formset'] = formset
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-        return render(request, self.template, context)
-
-    def post(self, request, pk):
-        per = self.model.objects.get(pk=pk)
-        form = self.form(request.POST, instance=per)
-        m2m_data = person_legal_m2m_data()
-        if form.has_changed():
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
-                m2m_data[attr]['formset'] = formset
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
-            return render(request, self.template, context)
-        for attr, data in m2m_data.items():
-            data['class'].objects.exclude(state=0).filter(person__id_number=pk).update(state=0)
-        per.state = 0
-        per.save()
-        return redirect(self.ref_urls['list'])
+    m2m_data = person_legal_m2m_data
 
 class People_PhoneDeleteView(GenericDeleteRelatedView):
 
@@ -416,9 +278,9 @@ class People_PhoneDeleteView(GenericDeleteRelatedView):
 class People_EmailDeleteView(GenericDeleteRelatedView):
 
     template = 'people/people_related_delete.html'
-    model = Person_Email
+    model = Person_E_Mail
     form = Person_EmailUpdateForm
-    title = Person_Email._meta.verbose_name_plural
+    title = Person_E_Mail._meta.verbose_name_plural
     ref_urls = per_urls
     rel_urls = { 'create': 'people:people_email_create', 'update': 'people:people_email_update'}
     choice_fields = ['use']

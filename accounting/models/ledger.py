@@ -1,6 +1,7 @@
 from django.db import models
+from adin.core.models import BaseModel
 
-class Ledger(models.Model):
+class Ledger(BaseModel):
 
     code = models.CharField(
         primary_key=True,
@@ -56,7 +57,7 @@ class Ledger(models.Model):
     def __str__(self) -> str:
         return f'{self.code}_{self.third_party.pk}'
 
-class Ledger_Type(models.Model):
+class Ledger_Type(BaseModel):
     
     name =  models.CharField(
         max_length=64,
