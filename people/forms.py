@@ -156,11 +156,19 @@ class Person_NaturalDetailForm(forms.ModelForm):
         model = Person_Natural
         fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'email', 'address']
 
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
+
 class Person_LegalDetailForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
         fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'email', 'address', 'staff']
+
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
 
 class Person_NaturalUpdateForm(forms.ModelForm):
 
@@ -350,35 +358,13 @@ def person_natural_m2m_data():
     return m2m_data
 
 def person_legal_m2m_data():
-    m2m_data = {
-        'phone': {
-            'class': Person_Phone,
-            'formset': Person_PhoneModelFormSet,
-            'create_url': 'people:people_phone_create',
-            'update_url': 'people:people_phone_update',
-            'delete_url': 'people:people_phone_delete'
-        },
-        'email': {
-            'class': Person_Email,
-            'formset': Person_EmailModelFormSet,
-            'create_url': 'people:people_email_create',
-            'update_url': 'people:people_email_update',
-            'delete_url': 'people:people_email_delete'
-        },
-        'address': {
-            'class': Person_Address,
-            'formset': Person_AddressModelFormSet,
-            'create_url': 'people:people_address_create',
-            'update_url': 'people:people_address_update',
-            'delete_url': 'people:people_address_delete'
-        },
-        'staff': {
-            'class': Person_Legal_Person_Natural,
-            'formset': Person_Legal_Person_NaturalModelFormSet,
-            'create_url': 'people:people_staff_create',
-            'update_url': 'people:people_staff_update',
-            'delete_url': 'people:people_staff_delete'
-        }        
-    }
+    m2m_data = person_natural_m2m_data()
+    m2m_data['staff'] = {
+        'class': Person_Legal_Person_Natural,
+        'formset': Person_Legal_Person_NaturalModelFormSet,
+        'create_url': 'people:people_staff_create',
+        'update_url': 'people:people_staff_update',
+        'delete_url': 'people:people_staff_delete'
+    }        
     return m2m_data
 

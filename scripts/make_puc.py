@@ -1,5 +1,5 @@
 import pandas as pd
-from scripts.utils import address2code, df2objs
+from scripts.utils import df2objs
 
 data_df = pd.read_csv('_files/puc_raw.csv')
 info_df = pd.read_json('_files/_raw_data_info.json')

@@ -319,10 +319,89 @@ class People_StaffUpdateView(GenericUpdateRelatedView):
 
 class PeopleDeleteView(LoginRequiredMixin, View):
 
+    def get(self, request, pk):
+        per = Person.objects.get(pk=pk)
+        if per.type == 0:
+            return redirect('people:people_natural_delete', pk)
+        elif per.type == 1:
+            return redirect('people:people_legal_delete', pk)
+        return redirect(self.ref_urls['list'])
+
+class People_NaturalDeleteView(LoginRequiredMixin, View):
+
     template = 'people/people_delete.html'
+    title = per_title
+    subtitle = 'Inactivar'
+    model = Person_Natural
+    form = Person_NaturalDetailForm
+    ref_urls = per_urls
+    choice_fields = ['type', 'id_type', 'use']
 
     def get(self, request, pk):
-        return render(request, self.template)
+        per = self.model.objects.get(pk=pk)
+        form = self.form(instance=per)
+        m2m_data = person_natural_m2m_data()
+        for attr, data in m2m_data.items():
+            form.set_hidden_field(attr)
+            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
+            m2m_data[attr]['formset'] = formset
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        per = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=per)
+        m2m_data = person_natural_m2m_data()
+        if form.has_changed():
+            for attr, data in m2m_data.items():
+                form.set_hidden_field(attr)
+                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
+                m2m_data[attr]['formset'] = formset
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
+            return render(request, self.template, context)
+        for attr, data in m2m_data.items():
+            data['class'].objects.exclude(state=0).filter(person__id_number=pk).update(state=0)
+        per.state = 0
+        per.save()
+        return redirect(self.ref_urls['list'])
+
+class People_LegalDeleteView(LoginRequiredMixin, View):
+
+    template = 'people/people_delete.html'
+    title = per_title
+    subtitle = 'Inactivar'
+    model = Person_Legal
+    form = Person_LegalDetailForm
+    ref_urls = per_urls
+    choice_fields = ['type', 'id_type', 'use', 'appointment']
+
+    def get(self, request, pk):
+        per = self.model.objects.get(pk=pk)
+        form = self.form(instance=per)
+        m2m_data = person_legal_m2m_data()
+        for attr, data in m2m_data.items():
+            form.set_hidden_field(attr)
+            formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
+            m2m_data[attr]['formset'] = formset
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        per = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=per)
+        m2m_data = person_legal_m2m_data()
+        if form.has_changed():
+            for attr, data in m2m_data.items():
+                form.set_hidden_field(attr)
+                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
+                m2m_data[attr]['formset'] = formset
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields}
+            return render(request, self.template, context)
+        for attr, data in m2m_data.items():
+            data['class'].objects.exclude(state=0).filter(person__id_number=pk).update(state=0)
+        per.state = 0
+        per.save()
+        return redirect(self.ref_urls['list'])
 
 class People_PhoneDeleteView(GenericDeleteRelatedView):
 
