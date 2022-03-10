@@ -256,7 +256,7 @@ class People_NaturalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
-class People_LegalDeleteView(LoginRequiredMixin, View):
+class People_LegalDeleteView(GenericDeleteView):
 
     title = per_title
     model = Person_Legal

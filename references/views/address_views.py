@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from adin.core.views import GenericDetailView, GenerricCreateView
+from adin.core.views import GenericDetailView, GenerricCreateView, GenericDeleteView
 from references.models import Address
 from references.forms.address_forms import AddressDetailModelForm, AddressCreateModelForm, AddressListModelFormSet
 
@@ -37,7 +37,7 @@ class AddressCreateView(GenerricCreateView):
     title = title
     ref_urls = ref_urls
 
-class AddressDeleteView(LoginRequiredMixin, View):
+class AddressDeleteView(GenericDeleteView):
 
     template = 'references/address_create.html'
 
