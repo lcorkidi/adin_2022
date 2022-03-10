@@ -37,7 +37,9 @@
                                             <thead>
                                                 <tr>
                                                     {% for m2m_field in data.formset.form %}
-                                                        <th>{{ m2m_field.label }}</th>                              
+                                                        {% if not m2m_field.name in data.omit_field %}
+                                                            <th>{{ m2m_field.label }}</th>    
+                                                        {% endif %}                          
                                                     {% endfor %}
                                                 </tr>
                                             </thead>
@@ -45,10 +47,12 @@
                                                 {% for m2m_form in data.formset %}
                                                     <tr>
                                                         {% for m2m_field in m2m_form.visible_fields %}
-                                                            {% if m2m_field.name in choice_fields %}
-                                                                <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
-                                                            {% else %}
-                                                                <td>{{ m2m_field.value }}</td>
+                                                            {% if not m2m_field.name in data.omit_field %}
+                                                                {% if m2m_field.name in choice_fields %}
+                                                                    <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
+                                                                {% else %}
+                                                                    <td>{{ m2m_field.value }}</td>
+                                                                {% endif %}
                                                             {% endif %}
                                                         {% endfor %}     
                                                     </tr>

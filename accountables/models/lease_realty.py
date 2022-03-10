@@ -6,16 +6,16 @@ class Lease_Realty(models.Model):
         'properties.Realty', 
         through='Lease_Realty_Realty', 
         through_fields=('lease', 'realty'),
-        related_name='lease_realty',
-        related_query_name='leases_realties',
+        related_name='leases_realties',
+        related_query_name='lease_realty',
         verbose_name='Inmueble'
     )
     part = models.ManyToManyField(
         'people.Person', 
         through='Lease_Realty_Person', 
         through_fields=('lease', 'person'),
-        related_name='lease_realty',
-        related_query_name='leases_realties',
+        related_name='leases_realties',
+        related_query_name='lease_realty',
         verbose_name='Parte'
     )
     doc_date = models.DateField(
@@ -83,6 +83,8 @@ class Lease_Realty_Person(models.Model):
     lease = models.ForeignKey(
         Lease_Realty,
         on_delete=models.PROTECT,
+        related_name='leases_realties_people',
+        related_query_name='lease_realty_person',
         verbose_name='Contrato'
     )
     person = models.ForeignKey(

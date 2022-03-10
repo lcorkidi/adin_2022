@@ -24,6 +24,13 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-info text-center">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     {% for field in form %}
                         {% if field.name in m2m_data %}
                             {% for attr, data in m2m_data.items %}
@@ -32,13 +39,20 @@
                                         <div class="p-2 fs-5 w-100 text-center">
                                             {{ field.label_tag }}
                                             {{ field }}
+                                            {% if field.errors %}
+                                                <div class="p-2 fs-5 text-center text-danger">
+                                                    {{ field.errors }}
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                                             <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         {% for m2m_field in data.formset.form %}
-                                                            <th>{{ m2m_field.label }}</th>                              
+                                                            {% if not m2m_field.name in data.omit_field %}
+                                                                <th>{{ m2m_field.label }}</th>    
+                                                            {% endif %}                          
                                                         {% endfor %}
                                                     </tr>
                                                 </thead>
@@ -46,10 +60,12 @@
                                                     {% for m2m_form in data.formset %}
                                                         <tr>
                                                             {% for m2m_field in m2m_form.visible_fields %}
-                                                                {% if m2m_field.name in choice_fields %}
-                                                                    <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
-                                                                {% else %}
-                                                                    <td>{{ m2m_field.value }}</td>
+                                                                {% if not m2m_field.name in data.omit_field %}
+                                                                    {% if m2m_field.name in choice_fields %}
+                                                                        <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
+                                                                    {% else %}
+                                                                        <td>{{ m2m_field.value }}</td>
+                                                                    {% endif %}
                                                                 {% endif %}
                                                             {% endfor %}     
                                                         </tr>

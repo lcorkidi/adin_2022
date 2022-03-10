@@ -53,7 +53,7 @@ class GenerricCreateView(LoginRequiredMixin, View):
 
 class GenericUpdateView(LoginRequiredMixin, View):
 
-    template = 'people/people_update.html'
+    template = 'adin/generic_update.html'
     model = None
     form = None
     title = None
@@ -134,18 +134,22 @@ class GenericDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
-        if form.has_changed():
+        if not form.is_valid():
             if self.m2m_data:
                 m2m_data = self.m2m_data()
-                for attr, data in m2m_data.items():
-                    filter_expresion = {}
-                    filter_expresion[data['filter_expresion']] = pk
-                    formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
-                return render(request, self.template, context)
+                if self.m2m_data:
+                    for attr, data in m2m_data.items():
+                        form.set_hidden_field(attr)
+                        filter_expresion = {}
+                        filter_expresion[data['filter_expresion']] = pk
+                        formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                        m2m_data[attr]['formset'] = formset
             else:
                 m2m_data = None
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
+            return render(request, self.template, context)
         if self.m2m_data:
+            m2m_data = self.m2m_data()
             for attr, data in m2m_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk

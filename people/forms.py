@@ -1,6 +1,7 @@
 from django import forms
-from .models import Person, Person_Natural, Person_Legal, Person_Phone, Person_E_Mail, Person_Address, Person_Legal_Person_Natural
-from scripts.utils import personcompletename
+
+from .models import *
+from .utils import personcompletename
 
 class PersonCreateForm(forms.ModelForm):
 
@@ -24,6 +25,16 @@ class Person_NaturalCreateForm(forms.ModelForm):
         field = self.cleaned_data.get('id_type')
         if field == 1:
             raise forms.ValidationError("Tipo documento para persona natural no puede ser Nit.")
+        return field
+
+    def clean_id_number(self):
+        field = self.cleaned_data.get('id_type')
+        if Person.objects.filter(pk=field).exists():
+            obj = Person.objects.get(pk=field)
+            if obj.state == 0:
+                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
+            else:
+                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
         return field
 
     def save(self, *args, **kwargs):
@@ -57,6 +68,16 @@ class Person_LegalCreateForm(forms.ModelForm):
         field = self.cleaned_data.get('id_type')
         if field != 1:
             raise forms.ValidationError("Tipo documento para persona jurídica debe ser Nit.")
+        return field
+
+    def clean_id_number(self):
+        field = self.cleaned_data.get('id_type')
+        if Person.objects.filter(pk=field).exists():
+            obj = Person.objects.get(pk=field)
+            if obj.state == 0:
+                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
+            else:
+                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
         return field
 
     def save(self, *args, **kwargs):
@@ -325,50 +346,54 @@ class Person_StaffUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
+class Person_NaturalDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Natural
+        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address']
+
+    def clean(self):
+        objs = []
+        for obj in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
+            if (not obj.hidden or obj.field.many_to_many) and obj.related_name: 
+                for obj in eval(f'self.instance.{obj.related_name}.all()'):
+                    objs.append(obj)
+        if len(objs) > 0:
+            msg = f'Direccion no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
+            self.add_error(None, msg)
+
+        if self.has_changed(): 
+            self.add_error(None, f'Hubo cambios en los datos del objeto.')
+
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
+
+class Person_LegalDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Person_Legal
+        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address', 'staff']
+
+    def clean(self):
+        objs = []
+        for obj in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
+            if (not obj.hidden or obj.field.many_to_many) and obj.related_name: 
+                for obj in eval(f'self.instance.{obj.related_name}.all()'):
+                    objs.append(obj)
+        if len(objs) > 0:
+            msg = f'Direccion no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
+            self.add_error(None, msg)
+
+        if self.has_changed(): 
+            self.add_error(None, f'Hubo cambios en los datos del objeto.')
+
+    def set_hidden_field(self, field):
+        self.fields[field].widget.attrs['hidden'] = True
+        self.fields[field].required = False
+
 PersonListModelFormSet = forms.modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)
 Person_PhoneModelFormSet = forms.modelformset_factory(Person_Phone, fields=('person', 'phone', 'use'), extra=0)
 Person_EmailModelFormSet = forms.modelformset_factory(Person_E_Mail, fields=('person', 'e_mail', 'use'), extra=0)
 Person_AddressModelFormSet = forms.modelformset_factory(Person_Address, fields=('person', 'address', 'use'), extra=0)
 Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person', 'staff', 'appointment'), extra=0)
-
-def person_natural_m2m_data(*args):
-    m2m_data = {
-        'phone': {
-            'class': Person_Phone,
-            'formset': Person_PhoneModelFormSet,
-            'filter_expresion': 'person__id_number',
-            'create_url': 'people:people_phone_create',
-            'update_url': 'people:people_phone_update',
-            'delete_url': 'people:people_phone_delete'
-        },
-        'e_mail': {
-            'class': Person_E_Mail,
-            'formset': Person_EmailModelFormSet,
-            'filter_expresion': 'person__id_number',
-            'create_url': 'people:people_email_create',
-            'update_url': 'people:people_email_update',
-            'delete_url': 'people:people_email_delete'
-        },
-        'address': {
-            'class': Person_Address,
-            'formset': Person_AddressModelFormSet,
-            'filter_expresion': 'person__id_number',
-            'create_url': 'people:people_address_create',
-            'update_url': 'people:people_address_update',
-            'delete_url': 'people:people_address_delete'
-        }      
-    }
-    return m2m_data
-
-def person_legal_m2m_data(*args):
-    m2m_data = person_natural_m2m_data()
-    m2m_data['staff'] = {
-        'class': Person_Legal_Person_Natural,
-        'formset': Person_Legal_Person_NaturalModelFormSet,
-        'filter_expresion': 'person__id_number',
-        'create_url': 'people:people_staff_create',
-        'update_url': 'people:people_staff_update',
-        'delete_url': 'people:people_staff_delete'
-    }        
-    return m2m_data
-

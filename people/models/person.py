@@ -40,6 +40,7 @@ class Person(BaseModel):
         through_fields=('person', 'phone'),
         related_name='people',
         related_query_name='person',
+        blank=True,
         verbose_name='Teléfono'
     )
     address = models.ManyToManyField(
@@ -48,6 +49,7 @@ class Person(BaseModel):
         through_fields=('person', 'address'),
         related_name='people',
         related_query_name='person',
+        blank=True,
         verbose_name='Dirección'
     )
     e_mail = models.ManyToManyField(
@@ -56,6 +58,7 @@ class Person(BaseModel):
         through_fields=('person', 'e_mail'),
         related_name='people',
         related_query_name='person',
+        blank=True,
         verbose_name='Correo Electrónico'
     )
 
@@ -109,6 +112,7 @@ class Person_Legal(Person):
         through_fields=('person', 'staff'),
         related_name='people_legal',
         related_query_name='person_legal',
+        blank=True,
         verbose_name='Personal'
     )
 
@@ -251,12 +255,12 @@ class Person_Legal_Person_Natural(BaseModel):
     person = models.ForeignKey(
         Person_Legal,
         on_delete=models.PROTECT,
-        verbose_name='Persona Jurídica'
+        verbose_name='Empresa'
     )
     staff = models.ForeignKey(
         Person_Natural,
         on_delete=models.PROTECT,
-        verbose_name='Persona Natural'
+        verbose_name='Personal'
     )
     appointment = models.PositiveSmallIntegerField(
         choices=APPOINTMENT_CHOICE,
@@ -265,8 +269,8 @@ class Person_Legal_Person_Natural(BaseModel):
 
     class Meta:
         app_label = 'people'
-        verbose_name = 'Persona Natural con Cargo en Persona Jurídica'
-        verbose_name_plural = 'Personas Naturales con Cargos en Personas Jurídicas'
+        verbose_name = 'Personal'
+        verbose_name_plural = 'Personal'
         constraints = [
             models.UniqueConstraint(fields=['person', 'staff'], name='unique_person_staff'),
         ]
