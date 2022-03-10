@@ -29,12 +29,16 @@ class Realty(BaseModel):
         choices=USE_CHOICE,
         verbose_name='Uso'
     )
+    code = models.CharField(
+        max_length=32,
+        primary_key=True,
+        verbose_name='Código'
+    )
     address = models.ForeignKey(
         'references.Address',
         on_delete=models.PROTECT,
         related_name='realties',
         related_query_name='realty',
-        primary_key=True,
         verbose_name='Dirección'
     )
     estate = models.ManyToManyField(

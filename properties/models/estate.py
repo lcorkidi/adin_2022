@@ -4,20 +4,24 @@ from adin.core.models import BaseModel
 class Estate(BaseModel):
 
     national_number_1 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional'
+        verbose_name='Número Predial Nacional 1/3'
     )
     national_number_2 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional'
+        verbose_name='Número Predial Naciona 2/3'
     )
     national_number_3 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional'
+        verbose_name='Número Predial Nacional 3/3'
+    )
+    code = models.CharField(
+        max_length=32,
+        primary_key=True,
+        verbose_name='Código'
     )
     address = models.ForeignKey(
         'references.Address',
         on_delete=models.PROTECT,
         related_name='estates',
         related_query_name='estate',
-        primary_key=True,
         verbose_name='Dirección'
     )
     owner = models.ManyToManyField(

@@ -6,16 +6,17 @@ from adin.core.views import GenericDetailView, GenericUpdateView, GenericDeleteV
 from people.models import Person, Person_Natural, Person_Legal, Person_Phone, Person_E_Mail, Person_Address, Person_Legal_Person_Natural
 from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_PhoneCreateForm, Person_EmailCreateForm, Person_AddressCreateForm, Person_StaffCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_PhoneUpdateForm, Person_EmailUpdateForm, Person_AddressUpdateForm, Person_StaffUpdateForm, PersonListModelFormSet, person_natural_m2m_data, person_legal_m2m_data 
 
-per_title = Person._meta.verbose_name_plural
-per_urls = { 'list':'people:people_list', 'create':'people:people_create', 'detail':'people:people_detail', 'update':'people:people_update', 'delete':'people:people_delete' }
+title = Person._meta.verbose_name_plural
+ref_urls = { 'list':'people:people_list', 'create':'people:people_create', 'detail':'people:people_detail', 'update':'people:people_update', 'delete':'people:people_delete' }
+rel_urls = { 'create': 'people:people_staff_create', 'delete': 'people:people_address_delete', 'update': 'people:people_staff_update' }
 
 class PeopleListView(LoginRequiredMixin, View):
 
     template = 'adin/generic_list.html'
     formset = PersonListModelFormSet
     choice_fields = ['id_type']
-    title = per_title
-    ref_urls = per_urls
+    title = title
+    ref_urls = ref_urls
     
     def get(self, request):
         formset = self.formset(queryset=Person.objects.all().exclude(state=0).order_by('complete_name'))
@@ -34,19 +35,19 @@ class PeopleDetailView(LoginRequiredMixin, View):
 
 class People_NaturalDetailView(GenericDetailView):
 
-    title = per_title
+    title = title
     model = Person_Natural
     form = Person_NaturalDetailForm
-    ref_urls = per_urls
+    ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
 class People_LegalDetailView(GenericDetailView):
 
-    title = per_title
+    title = title
     model = Person_Legal
     form = Person_LegalDetailForm
-    ref_urls = per_urls
+    ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     m2m_data = person_legal_m2m_data
 
@@ -54,9 +55,9 @@ class PeopleCreateView(LoginRequiredMixin, View):
 
     template = 'people/people_create.html'
     form = PersonCreateForm
-    title = per_title
+    title = title
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     
     def get(self, request):
         form = self.form()
@@ -79,9 +80,9 @@ class People_NaturalCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_NaturalCreateForm
-    title = per_title
+    title = title
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['type']
     choice_fields = ['type']
     
@@ -107,9 +108,9 @@ class People_LegalCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_LegalCreateForm
-    title = per_title
+    title = title
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['type', 'id_type']
     choice_fields = ['type', 'id_type']
     
@@ -137,7 +138,7 @@ class People_PhoneCreateView(GenericCreateRelatedView):
     form = Person_PhoneCreateForm
     title = Person_Phone._meta.verbose_name_plural
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['person']
 
 class People_EmailCreateView(GenericCreateRelatedView):
@@ -146,7 +147,7 @@ class People_EmailCreateView(GenericCreateRelatedView):
     form = Person_EmailCreateForm
     title = Person_E_Mail._meta.verbose_name_plural
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['person']
 
 class People_AddressCreateView(GenericCreateRelatedView):
@@ -155,7 +156,7 @@ class People_AddressCreateView(GenericCreateRelatedView):
     form = Person_AddressCreateForm
     title = Person_Address._meta.verbose_name_plural
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['person']
 
 class People_StaffCreateView(GenericCreateRelatedView):
@@ -164,7 +165,7 @@ class People_StaffCreateView(GenericCreateRelatedView):
     form = Person_StaffCreateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     subtitle = 'Crear'
-    ref_urls = per_urls
+    ref_urls = ref_urls
     readonly_fields = ['person']
 
 class PeopleUpdateView(LoginRequiredMixin, View):
@@ -181,8 +182,8 @@ class People_NaturalUpdateView(GenericUpdateView):
 
     model = Person_Natural
     form = Person_NaturalUpdateForm
-    title = per_title
-    ref_urls = per_urls
+    title = title
+    ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
@@ -191,8 +192,8 @@ class People_LegalUpdateView(GenericUpdateView):
 
     model = Person_Legal
     form = Person_LegalUpdateForm
-    title = per_title
-    ref_urls = per_urls
+    title = title
+    ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
     m2m_data = person_legal_m2m_data
@@ -203,7 +204,7 @@ class People_PhoneUpdateView(GenericUpdateRelatedView):
     model = Person_Phone
     form = Person_PhoneUpdateForm
     title = Person_Phone._meta.verbose_name_plural
-    ref_urls = per_urls
+    ref_urls = ref_urls
     rel_urls = { 'create': 'people:people_phone_create', 'delete': 'people:people_phone_delete'}
     readonly_fields = ['person', 'phone']
 
@@ -213,8 +214,8 @@ class People_EmailUpdateView(GenericUpdateRelatedView):
     model = Person_E_Mail
     form = Person_EmailUpdateForm
     title = Person_E_Mail._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_email_create', 'delete': 'people:people_email_delete'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     readonly_fields = ['person', 'email']
 
 class People_AddressUpdateView(GenericUpdateRelatedView):
@@ -223,8 +224,8 @@ class People_AddressUpdateView(GenericUpdateRelatedView):
     model = Person_Address
     form = Person_AddressUpdateForm
     title = Person_Address._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_address_create', 'delete': 'people:people_address_delete'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     readonly_fields = ['person', 'address']
 
 class People_StaffUpdateView(GenericUpdateRelatedView):
@@ -233,8 +234,8 @@ class People_StaffUpdateView(GenericUpdateRelatedView):
     model = Person_Legal_Person_Natural
     form = Person_StaffUpdateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_staff_create', 'delete': 'people:people_staff_delete'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     readonly_fields = ['person_legal', 'person_naural']
 
 class PeopleDeleteView(LoginRequiredMixin, View):
@@ -249,19 +250,19 @@ class PeopleDeleteView(LoginRequiredMixin, View):
 
 class People_NaturalDeleteView(GenericDeleteView):
 
-    title = per_title
+    title = title
     model = Person_Natural
     form = Person_NaturalDetailForm
-    ref_urls = per_urls
+    ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
 class People_LegalDeleteView(GenericDeleteView):
 
-    title = per_title
+    title = title
     model = Person_Legal
     form = Person_LegalDetailForm
-    ref_urls = per_urls
+    ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     m2m_data = person_legal_m2m_data
 
@@ -271,8 +272,8 @@ class People_PhoneDeleteView(GenericDeleteRelatedView):
     model = Person_Phone
     form = Person_PhoneUpdateForm
     title = Person_Phone._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_phone_create', 'update': 'people:people_phone_update'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     choice_fields = ['use']
 
 class People_EmailDeleteView(GenericDeleteRelatedView):
@@ -281,8 +282,8 @@ class People_EmailDeleteView(GenericDeleteRelatedView):
     model = Person_E_Mail
     form = Person_EmailUpdateForm
     title = Person_E_Mail._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_email_create', 'update': 'people:people_email_update'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     choice_fields = ['use']
 
 class People_AddressDeleteView(GenericDeleteRelatedView):
@@ -291,8 +292,8 @@ class People_AddressDeleteView(GenericDeleteRelatedView):
     model = Person_Address
     form = Person_AddressUpdateForm
     title = Person_Address._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_address_create', 'update': 'people:people_address_update'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     choice_fields = ['use']
 
 class People_StaffDeleteView(GenericDeleteRelatedView):
@@ -301,6 +302,6 @@ class People_StaffDeleteView(GenericDeleteRelatedView):
     model = Person_Legal_Person_Natural
     form = Person_StaffUpdateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
-    ref_urls = per_urls
-    rel_urls = { 'create': 'people:people_staff_create', 'update': 'people:people_staff_update'}
+    ref_urls = ref_urls
+    rel_urls = rel_urls
     choice_fields = ['appointment']
