@@ -5,6 +5,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from scripts.utils import df2objs
 
+class GenericListView(LoginRequiredMixin, View):
+    
+    template = 'adin/generic_list.html'
+    formset = None
+    model = None
+    title = None
+    ref_urls = None
+    choice_fields = None
+    actions_off = None
+    list_order = None
+    
+    def get(self, request):
+        formset = self.formset(queryset=self.model.objects.all().exclude(state=0).order_by(self.list_order))
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off}
+        return render(request, self.template, context)
+
+
 class GenericDetailView(LoginRequiredMixin, View):
 
     template = 'adin/generic_detail.html'

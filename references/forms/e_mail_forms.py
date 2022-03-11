@@ -2,12 +2,6 @@ from django import forms
 
 from references.models import E_Mail
 
-class E_MailDetailModelForm(forms.ModelForm):
-
-    class Meta:
-        model = E_Mail
-        fields = ['e_mail']
-
 class E_MailCreateModelForm(forms.ModelForm):
 
     class Meta:
@@ -20,6 +14,12 @@ class E_MailCreateModelForm(forms.ModelForm):
         add = E_Mail(**base_args)
         add.save()
         return add
+
+class E_MailDetailModelForm(forms.ModelForm):
+
+    class Meta:
+        model = E_Mail
+        fields = ['e_mail']
 
 class E_MailDeleteModelForm(forms.ModelForm):
 

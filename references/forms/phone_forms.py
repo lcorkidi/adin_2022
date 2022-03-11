@@ -2,12 +2,6 @@ from django import forms
 
 from references.models import Phone
 
-class PhoneDetailModelForm(forms.ModelForm):
-
-    class Meta:
-        model = Phone
-        fields = ['code']
-
 class PhoneCreateModelForm(forms.ModelForm):
 
     class Meta:
@@ -20,6 +14,13 @@ class PhoneCreateModelForm(forms.ModelForm):
         add = Phone(**base_args)
         add.save()
         return add
+
+class PhoneDetailModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Phone
+        fields = ['code']
+
 
 class PhoneDeleteModelForm(forms.ModelForm):
 

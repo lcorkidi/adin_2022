@@ -2,12 +2,6 @@ from django import forms
 
 from references.models import Address
 
-class AddressDetailModelForm(forms.ModelForm):
-
-    class Meta:
-        model = Address
-        fields = ['code']
-
 class AddressCreateModelForm(forms.ModelForm):
 
     class Meta:
@@ -20,6 +14,12 @@ class AddressCreateModelForm(forms.ModelForm):
         add = Address(**base_args)
         add.save()
         return add
+
+class AddressDetailModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Address
+        fields = ['code']
 
 class AddressDeleteModelForm(forms.ModelForm):
 

@@ -1,27 +1,25 @@
-from django.shortcuts import render
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from adin.core.views import GenericDetailView, GenericCreateView, GenericDeleteView
+from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView
 from references.models import E_Mail
 from references.forms.e_mail_forms import E_MailDetailModelForm, E_MailCreateModelForm, E_MailDeleteModelForm, E_MailListModelFormSet
 
 title = E_Mail._meta.verbose_name_plural
 ref_urls = { 'list':'references:e_mail_list', 'create':'references:e_mail_create', 'detail':'references:e_mail_detail', 'delete':'references:e_mail_delete' }
 
-class E_MailListView(LoginRequiredMixin, View):
+class E_MailListView(GenericListView):
 
     template = 'adin/generic_list.html'
     formset = E_MailListModelFormSet
+    model = E_Mail
     title = title
     ref_urls = ref_urls
     actions_off = ['update']
     list_order = 'e_mail'
-    
-    def get(self, request):
-        formset = self.formset(queryset=E_Mail.objects.all().exclude(state=0).order_by(self.list_order))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_off': self.actions_off}
-        return render(request, self.template, context)
+
+class E_MailCreateView(GenericCreateView):
+
+    form = E_MailCreateModelForm
+    title = title
+    ref_urls = ref_urls
 
 class E_MailDetailView(GenericDetailView):
 
@@ -30,12 +28,6 @@ class E_MailDetailView(GenericDetailView):
     form = E_MailDetailModelForm
     ref_urls = ref_urls
     actions_off = ['update']
-
-class E_MailCreateView(GenericCreateView):
-
-    form = E_MailCreateModelForm
-    title = title
-    ref_urls = ref_urls
 
 class E_MailDeleteView(GenericDeleteView):
 

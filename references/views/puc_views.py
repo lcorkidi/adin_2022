@@ -1,17 +1,15 @@
 from django.shortcuts import render
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import Cast
 from django.db.models.fields import CharField
 
-from adin.core.views import GenericCreateBulkView, GenericDeleteBulkView
+from adin.core.views import GenericListView, GenericCreateBulkView, GenericDeleteBulkView
 from references.models import PUC
 from references.forms.puc_forms import PUCListModelFormSet
 
 title = PUC._meta.verbose_name_plural
 ref_urls = { 'list':'references:puc_list', 'create':'references:puc_create', 'detail':'references:puc_detail', 'delete':'references:puc_delete' }
 
-class PUCListView(LoginRequiredMixin, View):
+class PUCListView(GenericListView):
 
     template = 'adin/generic_list_bulk.html'
     formset = PUCListModelFormSet
