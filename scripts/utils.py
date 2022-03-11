@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
 from references.models import Address, PUC, E_Mail, Phone
-from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Appraisal
+from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
 
 def df2objs(dr, rdi, save=False):
     user = get_user_model().objects.all()[0]

@@ -40,6 +40,16 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <label class="nav-link dropdown-toggle text-white" id="propertiesDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Propiedades</label>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="propertiesDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'properties:estate_list' %}"><strong>Predios</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>    
         </div>
     </nav>

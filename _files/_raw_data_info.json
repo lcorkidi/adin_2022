@@ -140,7 +140,7 @@
         "attrs_2_relate": [            
         ]
     },
-    "Appraisal": {
+    "Estate_Appraisal": {
         "data_attrs": [
             "type",
             "date",

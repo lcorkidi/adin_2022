@@ -57,8 +57,8 @@ def run():
     dt11 = datetime.now()
     print('Estates_People: {}'.format(dt11-dt10))
 
-    # create appraisals
-    df2objs(pd.read_csv('_files/appraisals_raw.csv'), _raw_data_info, True)
+    # create estates_appraisals
+    df2objs(pd.read_csv('_files/estates_appraisals_raw.csv'), _raw_data_info, True)
     dt12 = datetime.now()
     print('Appraisals: {}'.format(dt12-dt11))
 

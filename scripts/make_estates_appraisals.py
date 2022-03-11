@@ -1,7 +1,7 @@
 import pandas as pd
 from scripts.utils import df2objs
 
-data_df = pd.read_csv('_files/appraisals_raw.csv')
+data_df = pd.read_csv('_files/estates_appraisals_raw.csv')
 info_df = pd.read_json('_files/_raw_data_info.json')
 
 def run():

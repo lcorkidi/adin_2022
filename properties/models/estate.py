@@ -81,3 +81,39 @@ class Estate_Person(BaseModel):
 
     def __str__(self) -> str:
         return f'{self.estate.pk}_{self.person.complete_name}'
+
+class Estate_Appraisal(BaseModel):
+
+    TYPE_CHOICE = [
+        (0, 'Catastral'),
+        (1, 'Comercial')
+    ]
+
+    estate = models.ForeignKey(
+        'properties.Estate',
+        on_delete=models.CASCADE,
+        related_name='estates_appraisals',
+        related_query_name='estate_appraisal',
+        verbose_name='Avaluo Predio'
+    )
+    type = models.PositiveSmallIntegerField(
+        choices=TYPE_CHOICE,
+        verbose_name='Tipo'
+    )
+    date = models.DateField(
+        verbose_name='Fecha'
+    )
+    value = models.PositiveBigIntegerField(
+        verbose_name='Valor'
+    )
+
+    class Meta:
+        app_label = 'properties'
+        verbose_name = 'Avaluo Predio'
+        verbose_name_plural = 'Avaluos Predios'
+
+    def __repr__(self) -> str:
+        return f'Estate_Appraisal: {self.get_type_display()}_{self.date}_{self.value}>'
+
+    def __str__(self) -> str:
+        return f'{self.get_type_display()}_{self.date}_{self.value}'
