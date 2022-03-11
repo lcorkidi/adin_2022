@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView
 from people.models import Person, Person_Natural, Person_Legal
@@ -19,15 +19,18 @@ class PersonListView(GenericListView):
     title = title
     ref_urls = ref_urls
     list_order = 'complete_name'
+    permission_required = 'people.view_person'
 
-class PersonCreateView(LoginRequiredMixin, View):
+
+class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = PersonCreateForm
     title = title
     subtitle = 'Crear'
     ref_urls = ref_urls
-    
+    permission_required = 'people.add_person'
+
     def get(self, request):
         form = self.form()
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
@@ -45,7 +48,7 @@ class PersonCreateView(LoginRequiredMixin, View):
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
-class Person_NaturalCreateView(LoginRequiredMixin, View):
+class Person_NaturalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_NaturalCreateForm
@@ -54,6 +57,7 @@ class Person_NaturalCreateView(LoginRequiredMixin, View):
     ref_urls = ref_urls
     readonly_fields = ['type']
     choice_fields = ['type']
+    permission_required = 'people.add_person'
     
     def get(self, request):
         form = self.form(initial={'type': 0})
@@ -73,7 +77,7 @@ class Person_NaturalCreateView(LoginRequiredMixin, View):
         per = form.save()            
         return redirect(self.ref_urls['update'], per.pk)
 
-class Person_LegalCreateView(LoginRequiredMixin, View):
+class Person_LegalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_LegalCreateForm
@@ -82,6 +86,7 @@ class Person_LegalCreateView(LoginRequiredMixin, View):
     ref_urls = ref_urls
     readonly_fields = ['type', 'id_type']
     choice_fields = ['type', 'id_type']
+    permission_required = 'people.add_person'
     
     def get(self, request):
         form = self.form(initial={'type': 1, 'id_type': 1})
@@ -101,7 +106,9 @@ class Person_LegalCreateView(LoginRequiredMixin, View):
         per = form.save()            
         return redirect(self.ref_urls['update'], per.pk)
 
-class PersonDetailView(LoginRequiredMixin, View):
+class PersonDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = 'people.view_person'
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -120,6 +127,7 @@ class Person_NaturalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
+    permission_required = 'people.view_person'
 
 class Person_LegalDetailView(GenericDetailView):
 
@@ -130,8 +138,11 @@ class Person_LegalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data
+    permission_required = 'people.view_person'
 
-class PersonUpdateView(LoginRequiredMixin, View):
+class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = 'people.change_person'
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -151,6 +162,7 @@ class Person_NaturalUpdateView(GenericUpdateView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
+    permission_required = 'people.change_person'
 
 class Person_LegalUpdateView(GenericUpdateView):
 
@@ -162,8 +174,11 @@ class Person_LegalUpdateView(GenericUpdateView):
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data
+    permission_required = 'people.change_person'
 
-class PersonDeleteView(LoginRequiredMixin, View):
+class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = 'people.delete_person'
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -182,6 +197,7 @@ class Person_NaturalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
+    permission_required = 'people.delete_person'
 
 class Person_LegalDeleteView(GenericDeleteView):
 
@@ -192,3 +208,4 @@ class Person_LegalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data
+    permission_required = 'people.delete_person'

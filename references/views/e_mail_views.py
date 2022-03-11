@@ -14,12 +14,14 @@ class E_MailListView(GenericListView):
     ref_urls = ref_urls
     actions_off = ['update']
     list_order = 'e_mail'
+    permission_required = 'people.view_e_mail'
 
 class E_MailCreateView(GenericCreateView):
 
     form = E_MailCreateModelForm
     title = title
     ref_urls = ref_urls
+    permission_required = 'people.add_e_mail'
 
 class E_MailDetailView(GenericDetailView):
 
@@ -28,6 +30,7 @@ class E_MailDetailView(GenericDetailView):
     form = E_MailDetailModelForm
     ref_urls = ref_urls
     actions_off = ['update']
+    permission_required = 'people.view_e_mail'
 
 class E_MailDeleteView(GenericDeleteView):
 
@@ -36,3 +39,4 @@ class E_MailDeleteView(GenericDeleteView):
     form = E_MailDeleteModelForm
     ref_urls = ref_urls
     actions_off = ['update']
+    permission_required = 'people.delete_e_mail'

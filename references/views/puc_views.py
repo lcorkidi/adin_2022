@@ -25,15 +25,18 @@ class PUCListView(GenericListView):
         formset = self.formset(queryset=PUC.objects.annotate(char_code=Cast('code', CharField())).order_by('char_code')[:50])
         context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_off': actions_off}
         return render(request, self.template, context)
+    permission_required = 'people.view_puc'
 
 class PUCCreateView(GenericCreateBulkView):
 
     title = title
     ref_urls = ref_urls
+    permission_required = 'people.add_puc'
 
 class PUCDeleteView(GenericDeleteBulkView):
 
     title = title
     model = PUC
     ref_urls = ref_urls
+    permission_required = 'people.delete_puc'
     

@@ -1,11 +1,11 @@
 import pandas as pd
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from scripts.utils import df2objs
 
-class GenericListView(LoginRequiredMixin, View):
+class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     template = 'adin/generic_list.html'
     formset = None
@@ -22,7 +22,7 @@ class GenericListView(LoginRequiredMixin, View):
         return render(request, self.template, context)
 
 
-class GenericDetailView(LoginRequiredMixin, View):
+class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_detail.html'
     title = None
@@ -50,7 +50,7 @@ class GenericDetailView(LoginRequiredMixin, View):
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
-class GenericCreateView(LoginRequiredMixin, View):
+class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = None
@@ -72,7 +72,7 @@ class GenericCreateView(LoginRequiredMixin, View):
         per = form.save()            
         return redirect(self.ref_urls['list'])
 
-class GenericUpdateView(LoginRequiredMixin, View):
+class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_update.html'
     model = None
@@ -125,7 +125,7 @@ class GenericUpdateView(LoginRequiredMixin, View):
         return redirect(self.ref_urls['list'])
 
 
-class GenericDeleteView(LoginRequiredMixin, View):
+class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_delete.html'
     title = None
@@ -181,7 +181,7 @@ class GenericDeleteView(LoginRequiredMixin, View):
         obj.save()
         return redirect(self.ref_urls['list'])
 
-class GenericCreateRelatedView(LoginRequiredMixin, View):
+class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = None
     form = None
@@ -207,7 +207,7 @@ class GenericCreateRelatedView(LoginRequiredMixin, View):
         form.save()            
         return redirect(self.ref_urls['update'], pk)
 
-class GenericUpdateRelatedView(LoginRequiredMixin, View):
+class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = None
     model = None
@@ -237,7 +237,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, View):
         form.save(self.readonly_fields)           
         return redirect(self.ref_urls['update'], ret_pk)
 
-class GenericDeleteRelatedView(LoginRequiredMixin, View):
+class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = None
     model = None
@@ -261,7 +261,7 @@ class GenericDeleteRelatedView(LoginRequiredMixin, View):
         obj.save()
         return redirect(self.ref_urls['update'], ret_pk)
 
-class GenericCreateBulkView(LoginRequiredMixin, View):
+class GenericCreateBulkView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create_bulk.html'
     title = None
@@ -278,7 +278,7 @@ class GenericCreateBulkView(LoginRequiredMixin, View):
         df2objs(data_df, info_df, True)
         return redirect(self.ref_urls['list'])
 
-class GenericDeleteBulkView(LoginRequiredMixin, View):
+class GenericDeleteBulkView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_delete_bulk.html'
     title = None

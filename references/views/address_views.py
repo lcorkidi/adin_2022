@@ -14,12 +14,14 @@ class AddressListView(GenericListView):
     ref_urls = ref_urls
     actions_off = ['update']
     list_order = 'code'
+    permission_required = 'people.view_address'
 
 class AddressCreateView(GenericCreateView):
 
     form = AddressCreateModelForm
     title = title
     ref_urls = ref_urls
+    permission_required = 'people.add_address'
 
 class AddressDetailView(GenericDetailView):
 
@@ -28,6 +30,7 @@ class AddressDetailView(GenericDetailView):
     form = AddressDetailModelForm
     ref_urls = ref_urls
     actions_off = ['update']
+    permission_required = 'people.view_address'
 
 class AddressDeleteView(GenericDeleteView):
 
@@ -36,3 +39,4 @@ class AddressDeleteView(GenericDeleteView):
     form = AddressDeleteModelForm
     ref_urls = ref_urls
     actions_off = ['update']
+    permission_required = 'people.delete_address'

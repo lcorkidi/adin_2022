@@ -14,6 +14,7 @@ class Person_PhoneCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person']
     fk_fields = ['person']
+    permission_required = 'people.add_person_phone'
 
 class Person_PhoneUpdateView(GenericUpdateRelatedView):
 
@@ -25,6 +26,7 @@ class Person_PhoneUpdateView(GenericUpdateRelatedView):
     rel_urls = rel_urls
     readonly_fields = ['person', 'phone']
     fk_fields = ['person']
+    permission_required = 'people.change_person_phone'
 
 class Person_PhoneDeleteView(GenericDeleteRelatedView):
 
@@ -36,3 +38,4 @@ class Person_PhoneDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
     fk_fields = ['person']
+    permission_required = 'people.delete_person_phone'

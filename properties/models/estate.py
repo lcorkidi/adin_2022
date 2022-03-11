@@ -7,7 +7,7 @@ class Estate(BaseModel):
         verbose_name='Número Predial Nacional 1/3'
     )
     national_number_2 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Naciona 2/3'
+        verbose_name='Número Predial Nacional 2/3'
     )
     national_number_3 = models.PositiveBigIntegerField(
         verbose_name='Número Predial Nacional 3/3'
@@ -43,6 +43,9 @@ class Estate(BaseModel):
         app_label = 'properties'
         verbose_name = 'Predio'
         verbose_name_plural = 'Predios'
+        constraints = [
+            models.UniqueConstraint(fields=['code', 'address'], name='unique_code_address'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Estate: {self.address.pk}>'

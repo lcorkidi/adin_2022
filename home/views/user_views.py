@@ -1,21 +1,20 @@
-from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .forms import LogInForm
 
-class LogInView(View):
+from home.forms.User_forms import UserLogInForm
 
-    template = 'home/login.html'
-    form = LogInForm()
+class UserLogInView(View):
+
+    template = 'home/user_login.html'
+    form = UserLogInForm()
 
     def get(self, request):
         context = {'form': self.form}
         return render(request, self.template, context)
 
     def post(self, request):
-        form = LogInForm(request.POST or None)
+        form = UserLogInForm(request.POST or None)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -30,12 +29,3 @@ class LogInView(View):
         else:
             context = {'form': self.form}
             return render(request, self.template, context)
-
-class HomeView(LoginRequiredMixin, View):
-
-    template = 'home/user_home.html'
-    title = 'Inicio'
-
-    def get(self, request):
-        context = {'title': self.title}
-        return render(request, self.template, context)

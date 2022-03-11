@@ -1,8 +1,6 @@
-from cProfile import label
-from attr import attrs
 from django import forms
 
-class LogInForm(forms.Form):
+class UserLogInForm(forms.Form):
 
     username = forms.CharField(
         label='Nombre',

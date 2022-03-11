@@ -14,6 +14,7 @@ class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person_legal']
     fk_fields = [ 'person_legal' ]
+    permission_required = 'people.add_person_legal_person_natural'
 
 class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
@@ -25,6 +26,7 @@ class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
     rel_urls = rel_urls
     readonly_fields = ['person_legal', 'person_natural']
     fk_fields = [ 'person_legal', 'person_natural' ]
+    permission_required = 'people.change_person_legal_person_natural'
 
 class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 
@@ -36,3 +38,4 @@ class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['appointment']
     fk_fields = [ 'person_legal', 'person_natural' ]
+    permission_required = 'people.delete_person_legal_person_natural'

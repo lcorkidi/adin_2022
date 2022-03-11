@@ -14,6 +14,7 @@ class Person_EmailCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person']
     fk_fields = ['person']
+    permission_required = 'people.add_person_e_mail'
 
 class Person_EmailUpdateView(GenericUpdateRelatedView):
 
@@ -25,6 +26,7 @@ class Person_EmailUpdateView(GenericUpdateRelatedView):
     rel_urls = rel_urls
     readonly_fields = ['person', 'e_mail']
     fk_fields = ['person']
+    permission_required = 'people.change_person_e_mail'
 
 class Person_EmailDeleteView(GenericDeleteRelatedView):
 
@@ -36,3 +38,4 @@ class Person_EmailDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
     fk_fields = ['person']
+    permission_required = 'people.delete_person_e_mail'

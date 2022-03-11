@@ -6,7 +6,7 @@ class EstateCreateForm(forms.ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number_1', 'national_number_2', 'national_number_2', 'address', 'total_area']
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'address', 'total_area']
 
 class EstateDetailForm(forms.ModelForm):
 
@@ -22,7 +22,7 @@ class EstateUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number_1', 'national_number_2', 'national_number_2', 'address', 'total_area']
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'address', 'total_area']
 
 class EstateDeleteForm(forms.ModelForm):
 
