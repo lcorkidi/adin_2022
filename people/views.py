@@ -4,14 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from adin.core.views import GenericDetailView, GenericUpdateView, GenericDeleteView, GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
 from people.models import *
-from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_PhoneCreateForm, Person_EmailCreateForm, Person_AddressCreateForm, Person_StaffCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_PhoneUpdateForm, Person_EmailUpdateForm, Person_AddressUpdateForm, Person_StaffUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
+from .forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_PhoneCreateForm, Person_EmailCreateForm, Person_AddressCreateForm, Person_Legal_Person_NaturalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_PhoneUpdateForm, Person_EmailUpdateForm, Person_AddressUpdateForm, Person_Legal_Person_NaturalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
 from .utils import person_natural_m2m_data, person_legal_m2m_data 
 
 title = Person._meta.verbose_name_plural
 ref_urls = { 'list':'people:people_list', 'create':'people:people_create', 'detail':'people:people_detail', 'update':'people:people_update', 'delete':'people:people_delete' }
 rel_urls = { 'create': 'people:people_staff_create', 'delete': 'people:people_address_delete', 'update': 'people:people_staff_update' }
 
-class PeopleListView(LoginRequiredMixin, View):
+class PersonListView(LoginRequiredMixin, View):
 
     template = 'adin/generic_list.html'
     formset = PersonListModelFormSet
@@ -24,7 +24,7 @@ class PeopleListView(LoginRequiredMixin, View):
         context = {'formset': formset, 'choice_fields': self.choice_fields, 'title': self.title, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
-class PeopleDetailView(LoginRequiredMixin, View):
+class PersonDetailView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -34,7 +34,7 @@ class PeopleDetailView(LoginRequiredMixin, View):
             return redirect('people:people_legal_detail', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalDetailView(GenericDetailView):
+class Person_NaturalDetailView(GenericDetailView):
 
     title = title
     model = Person_Natural
@@ -43,7 +43,7 @@ class People_NaturalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
-class People_LegalDetailView(GenericDetailView):
+class Person_LegalDetailView(GenericDetailView):
 
     title = title
     model = Person_Legal
@@ -52,7 +52,7 @@ class People_LegalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     m2m_data = person_legal_m2m_data
 
-class PeopleCreateView(LoginRequiredMixin, View):
+class PersonCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = PersonCreateForm
@@ -77,7 +77,7 @@ class PeopleCreateView(LoginRequiredMixin, View):
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
-class People_NaturalCreateView(LoginRequiredMixin, View):
+class Person_NaturalCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_NaturalCreateForm
@@ -105,7 +105,7 @@ class People_NaturalCreateView(LoginRequiredMixin, View):
         per = form.save()            
         return redirect(self.ref_urls['update'], per.pk)
 
-class People_LegalCreateView(LoginRequiredMixin, View):
+class Person_LegalCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = Person_LegalCreateForm
@@ -133,7 +133,7 @@ class People_LegalCreateView(LoginRequiredMixin, View):
         per = form.save()            
         return redirect(self.ref_urls['update'], per.pk)
 
-class People_PhoneCreateView(GenericCreateRelatedView):
+class Person_PhoneCreateView(GenericCreateRelatedView):
 
     template = 'people/people_related_create.html'
     form = Person_PhoneCreateForm
@@ -142,7 +142,7 @@ class People_PhoneCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person']
 
-class People_EmailCreateView(GenericCreateRelatedView):
+class Peorson_EmailCreateView(GenericCreateRelatedView):
 
     template = 'people/people_related_create.html'
     form = Person_EmailCreateForm
@@ -151,7 +151,7 @@ class People_EmailCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person']
 
-class People_AddressCreateView(GenericCreateRelatedView):
+class Person_AddressCreateView(GenericCreateRelatedView):
 
     template = 'people/people_related_create.html'
     form = Person_AddressCreateForm
@@ -160,16 +160,16 @@ class People_AddressCreateView(GenericCreateRelatedView):
     ref_urls = ref_urls
     readonly_fields = ['person']
 
-class People_StaffCreateView(GenericCreateRelatedView):
+class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
 
     template = 'people/people_related_create.html'
-    form = Person_StaffCreateForm
+    form = Person_Legal_Person_NaturalCreateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     subtitle = 'Crear'
     ref_urls = ref_urls
     readonly_fields = ['person']
 
-class PeopleUpdateView(LoginRequiredMixin, View):
+class PersonUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -179,7 +179,7 @@ class PeopleUpdateView(LoginRequiredMixin, View):
             return redirect('people:people_legal_update', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalUpdateView(GenericUpdateView):
+class Person_NaturalUpdateView(GenericUpdateView):
 
     model = Person_Natural
     form = Person_NaturalUpdateForm
@@ -189,7 +189,7 @@ class People_NaturalUpdateView(GenericUpdateView):
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
-class People_LegalUpdateView(GenericUpdateView):
+class Person_LegalUpdateView(GenericUpdateView):
 
     model = Person_Legal
     form = Person_LegalUpdateForm
@@ -199,7 +199,7 @@ class People_LegalUpdateView(GenericUpdateView):
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
     m2m_data = person_legal_m2m_data
 
-class People_PhoneUpdateView(GenericUpdateRelatedView):
+class Person_PhoneUpdateView(GenericUpdateRelatedView):
 
     template = 'people/people_related_update.html'
     model = Person_Phone
@@ -209,7 +209,7 @@ class People_PhoneUpdateView(GenericUpdateRelatedView):
     rel_urls = { 'create': 'people:people_phone_create', 'delete': 'people:people_phone_delete'}
     readonly_fields = ['person', 'phone']
 
-class People_EmailUpdateView(GenericUpdateRelatedView):
+class Person_EmailUpdateView(GenericUpdateRelatedView):
 
     template = 'people/people_related_update.html'
     model = Person_E_Mail
@@ -219,7 +219,7 @@ class People_EmailUpdateView(GenericUpdateRelatedView):
     rel_urls = rel_urls
     readonly_fields = ['person', 'email']
 
-class People_AddressUpdateView(GenericUpdateRelatedView):
+class Person_AddressUpdateView(GenericUpdateRelatedView):
 
     template = 'people/people_related_update.html'
     model = Person_Address
@@ -229,17 +229,17 @@ class People_AddressUpdateView(GenericUpdateRelatedView):
     rel_urls = rel_urls
     readonly_fields = ['person', 'address']
 
-class People_StaffUpdateView(GenericUpdateRelatedView):
+class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
     template = 'people/people_related_update.html'
     model = Person_Legal_Person_Natural
-    form = Person_StaffUpdateForm
+    form = Person_Legal_Person_NaturalUpdateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     ref_urls = ref_urls
     rel_urls = rel_urls
     readonly_fields = ['person_legal', 'person_naural']
 
-class PeopleDeleteView(LoginRequiredMixin, View):
+class PersonDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
@@ -249,7 +249,7 @@ class PeopleDeleteView(LoginRequiredMixin, View):
             return redirect('people:people_legal_delete', pk)
         return redirect(self.ref_urls['list'])
 
-class People_NaturalDeleteView(GenericDeleteView):
+class Person_NaturalDeleteView(GenericDeleteView):
 
     title = title
     model = Person_Natural
@@ -258,7 +258,7 @@ class People_NaturalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use']
     m2m_data = person_natural_m2m_data
 
-class People_LegalDeleteView(GenericDeleteView):
+class Person_LegalDeleteView(GenericDeleteView):
 
     title = title
     model = Person_Legal
@@ -267,7 +267,7 @@ class People_LegalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     m2m_data = person_legal_m2m_data
 
-class People_PhoneDeleteView(GenericDeleteRelatedView):
+class Person_PhoneDeleteView(GenericDeleteRelatedView):
 
     template = 'people/people_related_delete.html'
     model = Person_Phone
@@ -277,7 +277,7 @@ class People_PhoneDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
 
-class People_EmailDeleteView(GenericDeleteRelatedView):
+class Person_EmailDeleteView(GenericDeleteRelatedView):
 
     template = 'people/people_related_delete.html'
     model = Person_E_Mail
@@ -287,7 +287,7 @@ class People_EmailDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
 
-class People_AddressDeleteView(GenericDeleteRelatedView):
+class Person_AddressDeleteView(GenericDeleteRelatedView):
 
     template = 'people/people_related_delete.html'
     model = Person_Address
@@ -297,11 +297,11 @@ class People_AddressDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
 
-class People_StaffDeleteView(GenericDeleteRelatedView):
+class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 
     template = 'people/people_related_delete.html'
     model = Person_Legal_Person_Natural
-    form = Person_StaffUpdateForm
+    form = Person_Legal_Person_NaturalUpdateForm
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     ref_urls = ref_urls
     rel_urls = rel_urls

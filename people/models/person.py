@@ -109,7 +109,7 @@ class Person_Legal(Person):
     staff = models.ManyToManyField(
         'people.Person_Natural',
         through='Person_Legal_Person_Natural',
-        through_fields=('person', 'staff'),
+        through_fields=('person_legal', 'person_natural'),
         related_name='people_legal',
         related_query_name='person_legal',
         blank=True,
@@ -252,12 +252,12 @@ class Person_Legal_Person_Natural(BaseModel):
         (6, 'Socio')
     ]
 
-    person = models.ForeignKey(
+    person_legal = models.ForeignKey(
         Person_Legal,
         on_delete=models.PROTECT,
         verbose_name='Empresa'
     )
-    staff = models.ForeignKey(
+    person_natural = models.ForeignKey(
         Person_Natural,
         on_delete=models.PROTECT,
         verbose_name='Personal'
@@ -272,11 +272,11 @@ class Person_Legal_Person_Natural(BaseModel):
         verbose_name = 'Personal'
         verbose_name_plural = 'Personal'
         constraints = [
-            models.UniqueConstraint(fields=['person', 'staff'], name='unique_person_staff'),
+            models.UniqueConstraint(fields=['person_legal', 'person_natural'], name='unique_person_legal_person_natural'),
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}_{self.person.complete_name}>'
+        return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}_{self.person_legal.complete_name}>'
 
     def __str__(self) -> str:
-        return f'{self.get_appointment_display()}_{self.person.complete_name}'
+        return f'{self.get_appointment_display()}_{self.person_legal.complete_name}'

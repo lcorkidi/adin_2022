@@ -2,6 +2,7 @@ from django.urls import path
 from .views.address_views import AddressListView, AddressDetailView, AddressCreateView, AddressDeleteView
 from .views.phone_views import PhoneListView, PhoneDetailView, PhoneCreateView, PhoneDeleteView
 from .views.e_mail_views import E_MailListView, E_MailDetailView, E_MailCreateView, E_MailDeleteView
+from .views.puc_views import PUCListView,  PUCCreateView, PUCDeleteView
 
 app_name = 'references'
 
@@ -18,4 +19,7 @@ urlpatterns = [
     path('e_mail_create/', E_MailCreateView.as_view(), name='e_mail_create'),
     path('<str:pk>/e_mail_detail/', E_MailDetailView.as_view(), name='e_mail_detail'),
     path('<str:pk>/e_mail_delete/', E_MailDeleteView.as_view(), name='e_mail_delete'),
+    path('puc_list/', PUCListView.as_view(), name='puc_list'),
+    path('puc_create/', PUCCreateView.as_view(), name='puc_create'),
+    path('puc_delete/', PUCDeleteView.as_view(), name='puc_delete'),
 ]

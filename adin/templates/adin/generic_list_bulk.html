@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content">
+        {% if formset.initial_form_count == 0 %}
+            <div class="alert alert-info">No hay {{ title.lower }} en la base de datos</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }}</span> 
+                    <div>
+                        {% if not 'create' in actions_off %}
+                            <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if not 'delete' in actions_off %}
+                            <a class="text-danger" href="{% url ref_urls.delete %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for field in formset.form %}
+                                <th>{{ field.label }}</th>                              
+                            {% endfor %}
+                            {% if not 'detail' in actions_off %}
+                                <th>Acciones</th>                              
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                    {% if field.name in choice_fields %}
+                                        <td>{% selected_choice form field.name field.value %}</td>
+                                    {% else %}
+                                        <td>{{ field.value }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not 'detail' in actions_off %}
+                                    <td class="table-actions">
+                                        {% if not 'detail' in actions_off %}
+                                            <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                        {% endif %}
+                                    </td>                                    
+                                {% endif %}
+                            </tr>
+                        {% endfor %}                  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

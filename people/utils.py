@@ -49,8 +49,8 @@ def person_legal_m2m_data(*args):
     m2m_data['staff'] = {
         'class': Person_Legal_Person_Natural,
         'formset': Person_Legal_Person_NaturalModelFormSet,
-        'filter_expresion': 'person__id_number',
-        'omit_field' : 'person',
+        'filter_expresion': 'person_legal__id_number',
+        'omit_field' : 'person_legal',
         'create_url': 'people:people_staff_create',
         'update_url': 'people:people_staff_update',
         'delete_url': 'people:people_staff_delete'

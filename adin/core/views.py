@@ -1,6 +1,9 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from scripts.utils import df2objs
 
 class GenericDetailView(LoginRequiredMixin, View):
 
@@ -22,14 +25,14 @@ class GenericDetailView(LoginRequiredMixin, View):
             for attr, data in m2m_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(person__id_number=pk))
+                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
                 m2m_data[attr]['formset'] = formset
         else:
             m2m_data = None
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
-class GenerricCreateView(LoginRequiredMixin, View):
+class GenericCreateView(LoginRequiredMixin, View):
 
     template = 'adin/generic_create.html'
     form = None
@@ -234,3 +237,37 @@ class GenericDeleteRelatedView(LoginRequiredMixin, View):
         obj.state = 0
         obj.save()
         return redirect(self.ref_urls['update'], ret_pk)
+
+class GenericCreateBulkView(LoginRequiredMixin, View):
+
+    template = 'adin/generic_create_bulk.html'
+    title = None
+    subtitle = 'Crear'
+    ref_urls = None
+    
+    def get(self, request):
+        context = {'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        data_df = pd.read_csv(request.FILES['csv'])
+        info_df = pd.read_json('_files/_raw_data_info.json')
+        df2objs(data_df, info_df, True)
+        return redirect(self.ref_urls['list'])
+
+class GenericDeleteBulkView(LoginRequiredMixin, View):
+
+    template = 'adin/generic_delete_bulk.html'
+    title = None
+    subtitle = 'Borrar'
+    model = None
+    ref_urls = None
+    
+    def get(self, request):
+        context = {'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        self.model.objects.all().delete()
+        return redirect(self.ref_urls['list'])
+

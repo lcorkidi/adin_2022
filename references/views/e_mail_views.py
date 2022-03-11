@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from adin.core.views import GenericDetailView, GenerricCreateView, GenericDeleteView
+from adin.core.views import GenericDetailView, GenericCreateView, GenericDeleteView
 from references.models import E_Mail
 from references.forms.e_mail_forms import E_MailDetailModelForm, E_MailCreateModelForm, E_MailDeleteModelForm, E_MailListModelFormSet
 
@@ -31,7 +31,7 @@ class E_MailDetailView(GenericDetailView):
     ref_urls = ref_urls
     actions_off = ['update']
 
-class E_MailCreateView(GenerricCreateView):
+class E_MailCreateView(GenericCreateView):
 
     form = E_MailCreateModelForm
     title = title

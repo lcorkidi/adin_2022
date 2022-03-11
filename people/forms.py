@@ -152,7 +152,7 @@ class Person_AddressCreateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-class Person_StaffCreateForm(forms.ModelForm):
+class Person_Legal_Person_NaturalCreateForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal_Person_Natural
@@ -316,7 +316,7 @@ class Person_AddressUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-class Person_StaffUpdateForm(forms.ModelForm):
+class Person_Legal_Person_NaturalUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal_Person_Natural
@@ -396,4 +396,4 @@ PersonListModelFormSet = forms.modelformset_factory(Person, fields=('complete_na
 Person_PhoneModelFormSet = forms.modelformset_factory(Person_Phone, fields=('person', 'phone', 'use'), extra=0)
 Person_EmailModelFormSet = forms.modelformset_factory(Person_E_Mail, fields=('person', 'e_mail', 'use'), extra=0)
 Person_AddressModelFormSet = forms.modelformset_factory(Person_Address, fields=('person', 'address', 'use'), extra=0)
-Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person', 'staff', 'appointment'), extra=0)
+Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person_legal', 'person_natural', 'appointment'), extra=0)

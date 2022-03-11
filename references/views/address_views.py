@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from adin.core.views import GenericDetailView, GenerricCreateView, GenericDeleteView
+from adin.core.views import GenericDetailView, GenericCreateView, GenericDeleteView
 from references.models import Address
 from references.forms.address_forms import AddressDetailModelForm, AddressCreateModelForm, AddressDeleteModelForm, AddressListModelFormSet
 
@@ -31,7 +31,7 @@ class AddressDetailView(GenericDetailView):
     ref_urls = ref_urls
     actions_off = ['update']
 
-class AddressCreateView(GenerricCreateView):
+class AddressCreateView(GenericCreateView):
 
     form = AddressCreateModelForm
     title = title

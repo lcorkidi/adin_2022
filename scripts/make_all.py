@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from scripts.utils import address2code, df2objs, personcompletename, phone2code
+from scripts.utils import df2objs
 
 _raw_data_info = pd.read_json('_files/_raw_data_info.json')
 

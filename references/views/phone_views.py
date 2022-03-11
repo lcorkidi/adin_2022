@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from adin.core.views import GenericDetailView, GenerricCreateView, GenericDeleteView
+from adin.core.views import GenericDetailView, GenericCreateView, GenericDeleteView
 from references.models import Phone
 from references.forms.phone_forms import PhoneDetailModelForm, PhoneCreateModelForm, PhoneDeleteModelForm, PhoneListModelFormSet
 
@@ -31,7 +31,7 @@ class PhoneDetailView(GenericDetailView):
     ref_urls = ref_urls
     actions_off = ['update']
 
-class PhoneCreateView(GenerricCreateView):
+class PhoneCreateView(GenericCreateView):
 
     form = PhoneCreateModelForm
     title = title
