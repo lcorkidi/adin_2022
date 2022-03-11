@@ -4,12 +4,12 @@ from django.dispatch import receiver
 from .models import Estate, Realty
 
 @receiver(pre_save, sender=Estate)
-def address_save(sender, instance, **kwargs):
+def estate_save(sender, instance, **kwargs):
     if not instance.code:
         instance.code = instance.address.code
 
 @receiver(pre_save, sender=Realty)
-def phone_save(sender, instance, **kwargs):
+def realty_save(sender, instance, **kwargs):
     if not instance.code:
         instance.code = instance.address.code
 

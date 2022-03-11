@@ -16,6 +16,7 @@ class EstateListView(GenericListView):
     title = title
     ref_urls = ref_urls
     list_order = 'code'
+    permission_required = 'properties.view_estate'
 
 class EstateCreateView(GenericCreateView):
 
@@ -24,8 +25,7 @@ class EstateCreateView(GenericCreateView):
     title = title
     subtitle = 'Crear'
     ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type']
-    choice_fields = ['type', 'id_type']
+    permission_required = 'properties.add_estate'
 
 class EstateDetailView(GenericDetailView):
 
@@ -35,6 +35,7 @@ class EstateDetailView(GenericDetailView):
     ref_urls = ref_urls
     fk_fields = ['address', 'person']
     m2m_data = estate_m2m_data
+    permission_required = 'properties.view_estate'
 
 class EstateUpdateView(GenericUpdateView):
 
@@ -42,9 +43,10 @@ class EstateUpdateView(GenericUpdateView):
     form = EstateUpdateForm
     title = title
     ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type', 'id_number']
-    choice_fields = ['type', 'id_type', 'use']
+    readonly_fields = ['code']
+    fk_fields = ['address', 'person']
     m2m_data = estate_m2m_data
+    permission_required = 'properties.change_estate'
 
 class EstateDeleteView(GenericDeleteView):
 
@@ -52,5 +54,6 @@ class EstateDeleteView(GenericDeleteView):
     model = Estate
     form = EstateDeleteForm
     ref_urls = ref_urls
-    choice_fields = ['type', 'id_type', 'use']
+    fk_fields = ['address', 'person']
     m2m_data = estate_m2m_data
+    permission_required = 'properties.delete_estate'
