@@ -3,6 +3,10 @@ from django import template
 from django.utils.html import format_html
 from adin.settings import BASE_DIR
 
+from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
+from references.models import Address, PUC, E_Mail, Phone
+from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
+
 register = template.Library()
 FILE_TMPL = path.join(BASE_DIR,'static/icons-1.7.0/icons/%s.svg')
 
@@ -25,4 +29,11 @@ def selected_choice(form, field_name, field_value):
         return dict(form.fields[field_name].choices)[field_value]
     except:
         return dict(form.fields[field_name].choices)[int(field_value)]
+
+@register.simple_tag(name='fk_str')
+def fk_str(form, field_name):
+    try:
+        return eval(f'form.instance.{field_name}')
+    except:
+        return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk={form[field_name].value()})')
         

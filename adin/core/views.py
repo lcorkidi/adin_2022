@@ -31,6 +31,7 @@ class GenericDetailView(LoginRequiredMixin, View):
     form = None
     ref_urls = None
     choice_fields = None
+    fk_fields = None
     m2m_data = None
     actions_off = None
 
@@ -46,7 +47,7 @@ class GenericDetailView(LoginRequiredMixin, View):
                 m2m_data[attr]['formset'] = formset
         else:
             m2m_data = None
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
 class GenericCreateView(LoginRequiredMixin, View):
@@ -81,6 +82,7 @@ class GenericUpdateView(LoginRequiredMixin, View):
     ref_urls = None
     readonly_fields = None
     choice_fields = None
+    fk_fields = None
     m2m_data = None
 
     def get(self, request, pk):
@@ -98,7 +100,7 @@ class GenericUpdateView(LoginRequiredMixin, View):
                 m2m_data[attr]['formset'] = formset
         else:
             m2m_data = None
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'm2m_data': m2m_data}
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -117,7 +119,7 @@ class GenericUpdateView(LoginRequiredMixin, View):
                     m2m_data[attr]['formset'] = formset
             else:
                 m2m_data = None
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'm2m_data': m2m_data}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'm2m_data': m2m_data}
             return render(request, self.template, context)
         form.save()
         return redirect(self.ref_urls['list'])
@@ -132,6 +134,7 @@ class GenericDeleteView(LoginRequiredMixin, View):
     form = None
     ref_urls = None
     choice_fields = None
+    fk_fields = None
     m2m_data = None
     actions_off = None
 
@@ -148,7 +151,7 @@ class GenericDeleteView(LoginRequiredMixin, View):
                 m2m_data[attr]['formset'] = formset
         else:
             m2m_data = None
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -166,7 +169,7 @@ class GenericDeleteView(LoginRequiredMixin, View):
                         m2m_data[attr]['formset'] = formset
             else:
                 m2m_data = None
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'actions_off': self.actions_off }
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
             return render(request, self.template, context)
         if self.m2m_data:
             m2m_data = self.m2m_data()
@@ -186,18 +189,19 @@ class GenericCreateRelatedView(LoginRequiredMixin, View):
     subtitle = 'Crear'
     ref_urls = None
     readonly_fields = None
+    fk_fields = None
 
     def get(self, request, pk):
         form = self.form({self.readonly_fields[0]:pk})
         form.set_readonly_fields(self.readonly_fields)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'errors':False, 'ref_pk':pk}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':pk}
         return render(request, self.template, context)
 
     def post(self, request, pk):
         form = self.form(request.POST)
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'errors':False, 'ref_pk':pk}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save()            
@@ -213,12 +217,13 @@ class GenericUpdateRelatedView(LoginRequiredMixin, View):
     ref_urls = None
     rel_urls = None
     readonly_fields = None
+    fk_fields = None
 
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
         form.set_readonly_fields(self.readonly_fields)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'form':form, 'errors':False, 'ref_pk':ret_pk}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
@@ -226,7 +231,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, View):
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'form':form, 'errors':False, 'ref_pk':ret_pk}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save(self.readonly_fields)           
@@ -242,11 +247,12 @@ class GenericDeleteRelatedView(LoginRequiredMixin, View):
     ref_urls = None
     rel_urls = None
     choice_fields = None
+    fk_fields = None
     
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):

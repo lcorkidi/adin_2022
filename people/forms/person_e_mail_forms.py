@@ -44,4 +44,11 @@ class Person_EmailUpdateForm(forms.ModelForm):
         per_ema.state_change_date = self.creator
         per_ema.save()
 
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
 Person_EmailModelFormSet = forms.modelformset_factory(Person_E_Mail, fields=('person', 'e_mail', 'use'), extra=0)

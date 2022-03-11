@@ -13,6 +13,7 @@ class Person_PhoneCreateView(GenericCreateRelatedView):
     subtitle = 'Crear'
     ref_urls = ref_urls
     readonly_fields = ['person']
+    fk_fields = ['person']
 
 class Person_PhoneUpdateView(GenericUpdateRelatedView):
 
@@ -21,8 +22,9 @@ class Person_PhoneUpdateView(GenericUpdateRelatedView):
     form = Person_PhoneUpdateForm
     title = Person_Phone._meta.verbose_name_plural
     ref_urls = ref_urls
-    rel_urls = { 'create': 'people:people_phone_create', 'delete': 'people:people_phone_delete'}
+    rel_urls = rel_urls
     readonly_fields = ['person', 'phone']
+    fk_fields = ['person']
 
 class Person_PhoneDeleteView(GenericDeleteRelatedView):
 
@@ -33,3 +35,4 @@ class Person_PhoneDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     choice_fields = ['use']
+    fk_fields = ['person']

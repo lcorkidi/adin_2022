@@ -118,6 +118,7 @@ class Person_NaturalDetailView(GenericDetailView):
     form = Person_NaturalDetailForm
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
+    fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
 
 class Person_LegalDetailView(GenericDetailView):
@@ -127,6 +128,7 @@ class Person_LegalDetailView(GenericDetailView):
     form = Person_LegalDetailForm
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
+    fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data
 
 class PersonUpdateView(LoginRequiredMixin, View):
@@ -147,6 +149,7 @@ class Person_NaturalUpdateView(GenericUpdateView):
     ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use']
+    fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
 
 class Person_LegalUpdateView(GenericUpdateView):
@@ -157,6 +160,7 @@ class Person_LegalUpdateView(GenericUpdateView):
     ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
+    fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data
 
 class PersonDeleteView(LoginRequiredMixin, View):
@@ -176,6 +180,7 @@ class Person_NaturalDeleteView(GenericDeleteView):
     form = Person_NaturalDeleteForm
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
+    fk_fields = [ 'address' ]
     m2m_data = person_natural_m2m_data
 
 class Person_LegalDeleteView(GenericDeleteView):
@@ -185,4 +190,5 @@ class Person_LegalDeleteView(GenericDeleteView):
     form = Person_LegalDeleteForm
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
+    fk_fields = [ 'address', 'person_natural' ]
     m2m_data = person_legal_m2m_data

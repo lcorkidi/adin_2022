@@ -32,5 +32,5 @@ urlpatterns = [
     path('<int:ret_pk>/<int:pk>/person_address_delete/', Person_AddressDeleteView.as_view(), name='person_address_delete'),
     path('<int:pk>/person_legal_person_natural_create/', Person_Legal_Person_NaturalCreateView.as_view(), name='person_legal_person_natural_create'),
     path('<int:ret_pk>/<int:pk>/person_legal_person_natural_update/', Person_Legal_Person_NaturalUpdateView.as_view(), name='person_legal_person_natural_update'),
-    path('<int:ret_pk>/<int:pk>/person_legal_person_natural_delete/', Person_Legal_Person_NaturalDeleteView.as_view(), name='person_legal_person_naturaldelete'),
+    path('<int:ret_pk>/<int:pk>/person_legal_person_natural_delete/', Person_Legal_Person_NaturalDeleteView.as_view(), name='person_legal_person_natural_delete'),
 ]

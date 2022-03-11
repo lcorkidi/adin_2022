@@ -28,7 +28,7 @@ class Person_NaturalCreateForm(forms.ModelForm):
         return field
 
     def clean_id_number(self):
-        field = self.cleaned_data.get('id_type')
+        field = self.cleaned_data.get('id_number')
         if Person.objects.filter(pk=field).exists():
             obj = Person.objects.get(pk=field)
             if obj.state == 0:
@@ -41,7 +41,6 @@ class Person_NaturalCreateForm(forms.ModelForm):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
         base_args['state_change_user'] = self.creator
         per_nat = Person_Natural(**base_args)
-        per_nat.complete_name = personcompletename(per_nat)
         per_nat.save()
         return per_nat
 

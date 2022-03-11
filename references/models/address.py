@@ -1,6 +1,8 @@
 from django.db import models
 from adin.core.models import BaseModel
 
+from references.utils import addresslong
+
 class Address(BaseModel):
 
     STREET_TYPE_CHOICE = [
@@ -191,4 +193,4 @@ class Address(BaseModel):
         return f'<Addresss: {self.code}, {self.city}>'
 
     def __str__(self) -> str:
-        return f'{self.code}, {self.city}'
+        return addresslong(self)

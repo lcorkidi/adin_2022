@@ -27,6 +27,8 @@
                             <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                                 {% if field.name in choice_fields %}
                                     <strong>{% selected_choice form field.name field.value %}</strong>
+                                {% elif field.name in fk_fields %}
+                                    <td><strong>{% fk_str form field.name %}</strong></td>
                                 {% else %}
                                     <strong>{{ field.value }}</strong>
                                 {% endif %}

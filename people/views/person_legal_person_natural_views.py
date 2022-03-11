@@ -12,7 +12,8 @@ class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     subtitle = 'Crear'
     ref_urls = ref_urls
-    readonly_fields = ['person']
+    readonly_fields = ['person_legal']
+    fk_fields = [ 'person_legal' ]
 
 class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
@@ -22,7 +23,8 @@ class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
     title = Person_Legal_Person_Natural._meta.verbose_name_plural
     ref_urls = ref_urls
     rel_urls = rel_urls
-    readonly_fields = ['person_legal', 'person_naural']
+    readonly_fields = ['person_legal', 'person_natural']
+    fk_fields = [ 'person_legal', 'person_natural' ]
 
 class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 
@@ -33,3 +35,4 @@ class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     choice_fields = ['appointment']
+    fk_fields = [ 'person_legal', 'person_natural' ]

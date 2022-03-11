@@ -42,7 +42,11 @@
                                     </div>
                                 </div>
                                 <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                    {{ field.value }}
+                                    {% if field.name in fk_fields %}
+                                        <td><strong>{% fk_str form field.name %}</strong></td>
+                                    {% else %}
+                                        <td><strong>{{ field.value }}</strong></td>
+                                    {% endif %}
                                 </div>
                                 <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
                             </div>

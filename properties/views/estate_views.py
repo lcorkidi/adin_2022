@@ -33,7 +33,7 @@ class EstateDetailView(GenericDetailView):
     model = Estate
     form = EstateDetailForm
     ref_urls = ref_urls
-    choice_fields = ['type', 'id_type', 'use']
+    fk_fields = ['address', 'person']
     m2m_data = estate_m2m_data
 
 class EstateUpdateView(GenericUpdateView):

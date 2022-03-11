@@ -56,6 +56,8 @@
                                                                 {% if not m2m_field.name in data.omit_field %}
                                                                     {% if m2m_field.name in choice_fields %}
                                                                         <td>{% selected_choice m2m_form m2m_field.name m2m_field.value %}</td>
+                                                                    {% elif m2m_field.name in fk_fields %}
+                                                                        <td>{% fk_str m2m_form m2m_field.name %}</td>
                                                                     {% else %}
                                                                         <td>{{ m2m_field.value }}</td>
                                                                     {% endif %}
@@ -89,6 +91,8 @@
                                     {% if field.field.widget.attrs.readonly %}
                                         {% if field.name in choice_fields %}
                                             <td>{% selected_choice form field.name field.value %}</td>
+                                        {% elif field.name in fk_fields %}
+                                            <td><strong>{% fk_str form field.name %}</strong></td>
                                         {% else %}
                                             <strong>{{ field.value }}</strong>
                                         {% endif %}

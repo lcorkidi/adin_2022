@@ -13,6 +13,7 @@ class Person_EmailCreateView(GenericCreateRelatedView):
     subtitle = 'Crear'
     ref_urls = ref_urls
     readonly_fields = ['person']
+    fk_fields = ['person']
 
 class Person_EmailUpdateView(GenericUpdateRelatedView):
 
@@ -22,7 +23,8 @@ class Person_EmailUpdateView(GenericUpdateRelatedView):
     title = Person_E_Mail._meta.verbose_name_plural
     ref_urls = ref_urls
     rel_urls = rel_urls
-    readonly_fields = ['person', 'email']
+    readonly_fields = ['person', 'e_mail']
+    fk_fields = ['person']
 
 class Person_EmailDeleteView(GenericDeleteRelatedView):
 
@@ -33,3 +35,4 @@ class Person_EmailDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     choice_fields = ['use']
+    fk_fields = ['person']

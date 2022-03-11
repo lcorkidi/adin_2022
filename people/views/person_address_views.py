@@ -13,6 +13,7 @@ class Person_AddressCreateView(GenericCreateRelatedView):
     subtitle = 'Crear'
     ref_urls = ref_urls
     readonly_fields = ['person']
+    fk_fields = ['person']
 
 class Person_AddressUpdateView(GenericUpdateRelatedView):
 
@@ -23,6 +24,7 @@ class Person_AddressUpdateView(GenericUpdateRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     readonly_fields = ['person', 'address']
+    fk_fields = ['person', 'address']
 
 class Person_AddressDeleteView(GenericDeleteRelatedView):
 
@@ -33,3 +35,4 @@ class Person_AddressDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     choice_fields = ['use']
+    fk_fields = ['person', 'address']
