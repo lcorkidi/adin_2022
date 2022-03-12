@@ -34,7 +34,7 @@ class Person_NaturalCreateForm(forms.ModelForm):
             if obj.state == 0:
                 raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
             else:
-                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
+                raise forms.ValidationError("Persona con número de documento ya existe.")
         return field
 
     def save(self, *args, **kwargs):
@@ -70,14 +70,14 @@ class Person_LegalCreateForm(forms.ModelForm):
         return field
 
     def clean_id_number(self):
-        field = self.cleaned_data.get('id_type')
-        if Person.objects.filter(pk=field).exists():
-            obj = Person.objects.get(pk=field)
+        data = self.cleaned_data.get('id_number')
+        if self._meta.model.objects.filter(pk=data).exists():
+            obj = self._meta.model.objects.get(pk=data)
             if obj.state == 0:
-                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
+                raise forms.ValidationError(f"{self._meta.verbose_name} con número de documento ya existe y está inactiva.")
             else:
-                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
-        return field
+                raise forms.ValidationError(f"{self._meta.verbose_name} con número de documento ya existe.")
+        return data
 
     def save(self, *args, **kwargs):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
@@ -100,18 +100,6 @@ class Person_NaturalDetailForm(forms.ModelForm):
         model = Person_Natural
         fields = ['type', 'complete_name', 'id_type', 'id_number']
 
-class Person_LegalDetailForm(forms.ModelForm):
-
-    class Meta:
-        model = Person_Legal
-        fields = ['type', 'complete_name', 'id_type', 'id_number']
-
-class Person_NaturalUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = Person_Natural
-        fields = ['type', 'name', 'last_name', 'id_type', 'id_number']
-
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
             if field in fields:
@@ -119,12 +107,11 @@ class Person_NaturalUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-
-class Person_LegalUpdateForm(forms.ModelForm):
+class Person_LegalDetailForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number']
+        fields = ['type', 'complete_name', 'id_type', 'id_number']
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
