@@ -1,24 +1,24 @@
 from django import forms
 
 from properties.models import Estate
-from properties.utils impo
 
 class EstateCreateForm(forms.ModelForm):
+
+    pk_name = 'address'
 
     class Meta:
         model = Estate
         fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'address', 'total_area']
 
-    def clean_id_number(self):
-        field = self.cleaned_data.get('address')
-
-        if Estate.objects.filter(pk=field).exists():
-            obj = Estate.objects.get(pk=field)
+    def clean_address(self):
+        data = self.cleaned_data.get(self.pk_name)
+        if self._meta.model.objects.filter(pk=data).exists():
+            obj = self._meta.model.objects.get(pk=data)
             if obj.state == 0:
-                raise forms.ValidationError("Persona con número de documento ya existe y está inactiva.")
+                raise forms.ValidationError(f"{self._meta.model._meta.verbose_name} con {self._meta.model._meta.get_field(self.pk_name).verbose_name} ya existe y está inactiva.")
             else:
-                raise forms.ValidationError("Persona con número de documento ya existe.")
-        return field
+                raise forms.ValidationError(f"{self._meta.model._meta.verbose_name} con {self._meta.model._meta.get_field(self.pk_name).verbose_name} ya existe.")
+        return data
 
     def save(self, *args, **kwargs):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
@@ -28,6 +28,12 @@ class EstateCreateForm(forms.ModelForm):
         return per_nat
 
 class EstateDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = Estate
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area']
+
+class EstateUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Estate

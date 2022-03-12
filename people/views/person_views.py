@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView
 from people.models import Person, Person_Natural, Person_Legal
-from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
+from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
 from people.utils import person_natural_related_data, person_legal_related_data
 
 title = Person._meta.verbose_name_plural
@@ -155,7 +155,7 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 class Person_NaturalUpdateView(GenericUpdateView):
 
     model = Person_Natural
-    form = Person_NaturalDetailForm
+    form = Person_NaturalUpdateForm
     title = title
     ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']
@@ -167,7 +167,7 @@ class Person_NaturalUpdateView(GenericUpdateView):
 class Person_LegalUpdateView(GenericUpdateView):
 
     model = Person_Legal
-    form = Person_LegalDetailForm
+    form = Person_LegalUpdateForm
     title = title
     ref_urls = ref_urls
     readonly_fields = ['type', 'id_type', 'id_number']

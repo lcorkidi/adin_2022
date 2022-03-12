@@ -105,9 +105,9 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
+        if self.readonly_fields:
+            form.set_readonly_fields(self.readonly_fields)
         if not form.is_valid():
-            if self.readonly_fields:
-                form.set_readonly_fields(self.readonly_fields)
             if self.related_data:
                 related_data = self.related_data()
                 for attr, data in related_data.items():

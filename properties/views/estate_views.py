@@ -1,6 +1,6 @@
 from pyexpat import model
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView
-from properties.forms.estate_forms import EstateCreateForm, EstateDetailForm, EstateDeleteForm, EstateListModelFormSet
+from properties.forms.estate_forms import EstateCreateForm, EstateDetailForm, EstateUpdateForm, EstateDeleteForm, EstateListModelFormSet
 from properties.models import Estate
 from properties.utils import estate_related_data
 
@@ -41,7 +41,7 @@ class EstateDetailView(GenericDetailView):
 class EstateUpdateView(GenericUpdateView):
 
     model = Estate
-    form = EstateDetailForm
+    form = EstateUpdateForm
     title = title
     ref_urls = ref_urls
     readonly_fields = ['code']

@@ -1,61 +1,18 @@
-from django import forms
+from django.forms import modelformset_factory
 
+from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm
 from properties.models import Estate_Person
 
-class Estate_PersonCreateForm(forms.ModelForm):
+class Estate_PersonCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Estate_Person
         fields = '__all__'
 
-    def save(self, *args, **kwargs):
-        base_args = {k: self.cleaned_data[k] for k in self.fields}
-        base_args['state_change_user'] = self.creator
-        per_pho = Estate_Person(**base_args)
-        per_pho.save()
-
-    def set_readonly_fields(self, fields=[]):
-        for field in self.fields:
-            if field in fields:
-                self.fields[field].widget.attrs['readonly'] = True
-            else: 
-                self.fields[field].widget.attrs['readonly'] = False
-
-class Estate_PersonUpdateForm(forms.ModelForm):
+class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Estate_Person
         fields = '__all__'
 
-    def save(self, *args, **kwargs):
-        for delta in self.changed_data:
-            if delta in args[0]:
-                raise forms.ValidationError('No se puede actualizar con esos cambios.')
-        get_args = {}
-        update_args = {}
-        for k in self.fields:
-            if k in args[0]:
-                get_args[k] = self.cleaned_data[k]
-            elif k in self.changed_data:
-                update_args[k] = self.cleaned_data[k]
-        per_pho = Estate_Person.objects.get(**get_args)
-        for k, v in update_args.items():
-            setattr(per_pho, k, v)
-        per_pho.state_change_date = self.creator
-        per_pho.save()
-
-    def set_readonly_fields(self, fields=[]):
-        for field in self.fields:
-            if field in fields:
-                self.fields[field].widget.attrs['readonly'] = True
-            else: 
-                self.fields[field].widget.attrs['readonly'] = False
-
-    def set_readonly_fields(self, fields=[]):
-        for field in self.fields:
-            if field in fields:
-                self.fields[field].widget.attrs['readonly'] = True
-            else: 
-                self.fields[field].widget.attrs['readonly'] = False
-
-Estate_PersonModelFormSet = forms.modelformset_factory(Estate_Person, fields=( 'person', 'percentage'), extra=0)
+Estate_PersonModelFormSet = modelformset_factory(Estate_Person, fields=( 'person', 'percentage'), extra=0)
