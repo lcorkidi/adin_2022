@@ -51,4 +51,4 @@ class Person_EmailUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-Person_EmailModelFormSet = forms.modelformset_factory(Person_E_Mail, fields=('person', 'e_mail', 'use'), extra=0)
+Person_EmailModelFormSet = forms.modelformset_factory(Person_E_Mail, fields=('e_mail', 'use'), extra=0)

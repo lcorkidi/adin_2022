@@ -8,7 +8,6 @@ rel_urls = { 'create': 'people:person_e_mail_create', 'delete': 'people:person_e
 
 class Person_EmailCreateView(GenericCreateRelatedView):
 
-    template = 'people/people_related_create.html'
     form = Person_EmailCreateForm
     title = title
     subtitle = 'Crear'
@@ -19,7 +18,6 @@ class Person_EmailCreateView(GenericCreateRelatedView):
 
 class Person_EmailUpdateView(GenericUpdateRelatedView):
 
-    template = 'people/people_related_update.html'
     model = Person_E_Mail
     form = Person_EmailUpdateForm
     title = title
@@ -31,7 +29,6 @@ class Person_EmailUpdateView(GenericUpdateRelatedView):
 
 class Person_EmailDeleteView(GenericDeleteRelatedView):
 
-    template = 'people/people_related_delete.html'
     model = Person_E_Mail
     form = Person_EmailUpdateForm
     title = title

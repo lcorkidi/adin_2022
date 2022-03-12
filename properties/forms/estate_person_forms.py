@@ -58,4 +58,4 @@ class Estate_PersonUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-Estate_PersonModelFormSet = forms.modelformset_factory(Estate_Person, fields=( 'estate', 'person', 'percentage'), extra=0)
+Estate_PersonModelFormSet = forms.modelformset_factory(Estate_Person, fields=( 'person', 'percentage'), extra=0)

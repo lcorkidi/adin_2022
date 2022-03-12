@@ -19,7 +19,7 @@ class EstateDetailForm(forms.ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area', 'owner']
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area']
 
     def set_hidden_field(self, field):
         self.fields[field].widget.attrs['hidden'] = True
@@ -29,7 +29,7 @@ class EstateUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area', 'owner']
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area']
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -46,7 +46,7 @@ class EstateDeleteForm(forms.ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area', 'owner']
+        fields = [ 'national_number_1', 'national_number_2', 'national_number_3', 'code', 'address', 'total_area']
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:

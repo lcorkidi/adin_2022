@@ -98,27 +98,19 @@ class Person_NaturalDetailForm(forms.ModelForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address']
-
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
+        fields = ['type', 'complete_name', 'id_type', 'id_number']
 
 class Person_LegalDetailForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address', 'staff']
-
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
+        fields = ['type', 'complete_name', 'id_type', 'id_number']
 
 class Person_NaturalUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'name', 'last_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address' ]
+        fields = ['type', 'name', 'last_name', 'id_type', 'id_number']
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -126,17 +118,13 @@ class Person_NaturalUpdateForm(forms.ModelForm):
                 self.fields[field].widget.attrs['readonly'] = True
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
-
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
 
 
 class Person_LegalUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number', 'phone', 'e_mail', 'address', 'staff' ]
+        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number']
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -145,15 +133,11 @@ class Person_LegalUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
-
 class Person_NaturalDeleteForm(forms.ModelForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address']
+        fields = ['type', 'complete_name', 'id_type', 'id_number']
 
     def clean(self):
         objs = []
@@ -167,16 +151,12 @@ class Person_NaturalDeleteForm(forms.ModelForm):
 
         if self.has_changed(): 
             self.add_error(None, f'Hubo cambios en los datos del objeto.')
-
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
 
 class Person_LegalDeleteForm(forms.ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'complete_name', 'id_type', 'id_number', 'phone', 'e_mail', 'address', 'staff']
+        fields = ['type', 'complete_name', 'id_type', 'id_number']
 
     def clean(self):
         objs = []
@@ -190,9 +170,5 @@ class Person_LegalDeleteForm(forms.ModelForm):
 
         if self.has_changed(): 
             self.add_error(None, f'Hubo cambios en los datos del objeto.')
-
-    def set_hidden_field(self, field):
-        self.fields[field].widget.attrs['hidden'] = True
-        self.fields[field].required = False
 
 PersonListModelFormSet = forms.modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)

@@ -8,7 +8,6 @@ rel_urls = { 'create': 'people:person_legal_person_natural_create', 'delete': 'p
 
 class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
 
-    template = 'people/people_related_create.html'
     form = Person_Legal_Person_NaturalCreateForm
     title = title
     subtitle = 'Crear'
@@ -19,7 +18,6 @@ class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
 
 class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
-    template = 'people/people_related_update.html'
     model = Person_Legal_Person_Natural
     form = Person_Legal_Person_NaturalUpdateForm
     title = title
@@ -31,7 +29,6 @@ class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
 class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 
-    template = 'people/people_related_delete.html'
     model = Person_Legal_Person_Natural
     form = Person_Legal_Person_NaturalUpdateForm
     title = title

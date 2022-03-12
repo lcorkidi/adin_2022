@@ -35,5 +35,8 @@ def fk_str(form, field_name):
     try:
         return eval(f'form.instance.{field_name}')
     except:
-        return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk={form[field_name].value()})')
+        try:
+            return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk={form[field_name].value()})')
+        except:
+            return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk="{form[field_name].value()}")')
         

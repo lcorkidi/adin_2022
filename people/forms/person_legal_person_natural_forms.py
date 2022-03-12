@@ -51,4 +51,4 @@ class Person_Legal_Person_NaturalUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person_legal', 'person_natural', 'appointment'), extra=0)
+Person_Legal_Person_NaturalModelFormSet = forms.modelformset_factory(Person_Legal_Person_Natural, fields=('person_natural', 'appointment'), extra=0)

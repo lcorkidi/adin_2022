@@ -8,7 +8,6 @@ rel_urls = { 'create': 'people:person_phone_create', 'delete': 'people:person_ph
 
 class Person_PhoneCreateView(GenericCreateRelatedView):
 
-    template = 'people/people_related_create.html'
     form = Person_PhoneCreateForm
     title = title
     subtitle = 'Crear'
@@ -19,7 +18,6 @@ class Person_PhoneCreateView(GenericCreateRelatedView):
 
 class Person_PhoneUpdateView(GenericUpdateRelatedView):
 
-    template = 'people/people_related_update.html'
     model = Person_Phone
     form = Person_PhoneUpdateForm
     title = title
@@ -31,7 +29,6 @@ class Person_PhoneUpdateView(GenericUpdateRelatedView):
 
 class Person_PhoneDeleteView(GenericDeleteRelatedView):
 
-    template = 'people/people_related_delete.html'
     model = Person_Phone
     form = Person_PhoneUpdateForm
     title = title

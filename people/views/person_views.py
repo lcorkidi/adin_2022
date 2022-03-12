@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView
 from people.models import Person, Person_Natural, Person_Legal
 from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
-from people.utils import person_natural_m2m_data, person_legal_m2m_data
+from people.utils import person_natural_related_data, person_legal_related_data
 
 title = Person._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete' }
@@ -126,7 +126,7 @@ class Person_NaturalDetailView(GenericDetailView):
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
-    m2m_data = person_natural_m2m_data
+    related_data = person_natural_related_data
     permission_required = 'people.view_person'
 
 class Person_LegalDetailView(GenericDetailView):
@@ -137,7 +137,7 @@ class Person_LegalDetailView(GenericDetailView):
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
-    m2m_data = person_legal_m2m_data
+    related_data = person_legal_related_data
     permission_required = 'people.view_person'
 
 class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -161,7 +161,7 @@ class Person_NaturalUpdateView(GenericUpdateView):
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
-    m2m_data = person_natural_m2m_data
+    related_data = person_natural_related_data
     permission_required = 'people.change_person'
 
 class Person_LegalUpdateView(GenericUpdateView):
@@ -173,7 +173,7 @@ class Person_LegalUpdateView(GenericUpdateView):
     readonly_fields = ['type', 'id_type', 'id_number']
     choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
-    m2m_data = person_legal_m2m_data
+    related_data = person_legal_related_data
     permission_required = 'people.change_person'
 
 class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -196,7 +196,7 @@ class Person_NaturalDeleteView(GenericDeleteView):
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
-    m2m_data = person_natural_m2m_data
+    related_data = person_natural_related_data
     permission_required = 'people.delete_person'
 
 class Person_LegalDeleteView(GenericDeleteView):
@@ -207,5 +207,5 @@ class Person_LegalDeleteView(GenericDeleteView):
     ref_urls = ref_urls
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
-    m2m_data = person_legal_m2m_data
+    related_data = person_legal_related_data
     permission_required = 'people.delete_person'

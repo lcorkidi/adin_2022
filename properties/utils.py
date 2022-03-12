@@ -1,8 +1,9 @@
-def estate_m2m_data(*args):
-    from .models import Estate_Person
+def estate_related_data(*args):
+    from .models import Estate_Person, Estate_Appraisal
     from .forms.estate_person_forms import Estate_PersonModelFormSet
+    from .forms.estate_appraisal_forms import Estate_AppraisalModelFormSet
     
-    m2m_data = {
+    related_data = {
         'owner': {
             'class': Estate_Person,
             'formset': Estate_PersonModelFormSet,
@@ -11,7 +12,15 @@ def estate_m2m_data(*args):
             'create_url': 'properties:estate_person_create',
             'update_url': 'properties:estate_person_update',
             'delete_url': 'properties:estate_person_delete'
+        },
+        'Avaluo(s) Predio(s):': {
+            'class': Estate_Appraisal,
+            'formset': Estate_AppraisalModelFormSet,
+            'filter_expresion': 'estate__code',
+            'create_url': 'properties:estate_appraisal_create',
+            'update_url': 'properties:estate_appraisal_update',
+            'delete_url': 'properties:estate_appraisal_delete'
         }      
     }
     
-    return m2m_data
+    return related_data

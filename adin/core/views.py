@@ -32,22 +32,22 @@ class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
     ref_urls = None
     choice_fields = None
     fk_fields = None
-    m2m_data = None
+    related_data = None
     actions_off = None
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        if self.m2m_data:
-            m2m_data = self.m2m_data()
-            for attr, data in m2m_data.items():
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
                 formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                m2m_data[attr]['formset'] = formset
+                related_data[attr]['formset'] = formset
         else:
-            m2m_data = None
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
+            related_data = None
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
 class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -83,24 +83,23 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     readonly_fields = None
     choice_fields = None
     fk_fields = None
-    m2m_data = None
+    related_data = None
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        if self.m2m_data:
-            m2m_data = self.m2m_data()
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
                 formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                m2m_data[attr]['formset'] = formset
+                related_data[attr]['formset'] = formset
         else:
-            m2m_data = None
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'm2m_data': m2m_data}
+            related_data = None
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data}
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -109,17 +108,16 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         if not form.is_valid():
             if self.readonly_fields:
                 form.set_readonly_fields(self.readonly_fields)
-            if self.m2m_data:
-                m2m_data = self.m2m_data()
-                for attr, data in m2m_data.items():
-                    form.set_hidden_field(attr)
+            if self.related_data:
+                related_data = self.related_data()
+                for attr, data in related_data.items():
                     filter_expresion = {}
                     filter_expresion[data['filter_expresion']] = pk
                     formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                    m2m_data[attr]['formset'] = formset
+                    related_data[attr]['formset'] = formset
             else:
-                m2m_data = None
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'm2m_data': m2m_data}
+                related_data = None
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data}
             return render(request, self.template, context)
         form.save()
         return redirect(self.ref_urls['list'])
@@ -135,45 +133,42 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     ref_urls = None
     choice_fields = None
     fk_fields = None
-    m2m_data = None
+    related_data = None
     actions_off = None
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        if self.m2m_data:
-            m2m_data = self.m2m_data()
-            for attr, data in m2m_data.items():
-                form.set_hidden_field(attr)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
                 formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                m2m_data[attr]['formset'] = formset
+                related_data[attr]['formset'] = formset
         else:
-            m2m_data = None
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
+            related_data = None
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
 
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            if self.m2m_data:
-                m2m_data = self.m2m_data()
-                if self.m2m_data:
-                    for attr, data in m2m_data.items():
-                        form.set_hidden_field(attr)
-                        filter_expresion = {}
-                        filter_expresion[data['filter_expresion']] = pk
-                        formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                        m2m_data[attr]['formset'] = formset
+            if self.related_data:
+                related_data = self.related_data()
+                for attr, data in related_data.items():
+                    filter_expresion = {}
+                    filter_expresion[data['filter_expresion']] = pk
+                    formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                    related_data[attr]['formset'] = formset
             else:
-                m2m_data = None
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'm2m_data':m2m_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
+                related_data = None
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
             return render(request, self.template, context)
-        if self.m2m_data:
-            m2m_data = self.m2m_data()
-            for attr, data in m2m_data.items():
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
                 data['class'].objects.exclude(state=0).filter(**filter_expresion).update(state=0)
@@ -183,7 +178,7 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    template = None
+    template = 'adin/generic_create_related.html'
     form = None
     title = None
     subtitle = 'Crear'
@@ -209,7 +204,7 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
 
 class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    template = None
+    template = 'adin/generic_update_related.html'
     model = None
     form = None
     title = None
@@ -239,7 +234,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
 
 class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    template = None
+    template = 'adin/generic_delete_related.html'
     model = None
     title = None
     subtitle = 'Inactivar'

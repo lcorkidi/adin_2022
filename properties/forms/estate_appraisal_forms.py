@@ -1,17 +1,17 @@
 from django import forms
 
-from people.models import Person_Phone
+from properties.models.estate import Estate_Appraisal
 
-class Person_PhoneCreateForm(forms.ModelForm):
+class Estate_AppraisalCreateForm(forms.ModelForm):
 
     class Meta:
-        model = Person_Phone
+        model = Estate_Appraisal
         fields = '__all__'
 
     def save(self, *args, **kwargs):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
         base_args['state_change_user'] = self.creator
-        per_pho = Person_Phone(**base_args)
+        per_pho = Estate_Appraisal(**base_args)
         per_pho.save()
 
     def set_readonly_fields(self, fields=[]):
@@ -21,10 +21,10 @@ class Person_PhoneCreateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-class Person_PhoneUpdateForm(forms.ModelForm):
+class Estate_AppraisalUpdateForm(forms.ModelForm):
 
     class Meta:
-        model = Person_Phone
+        model = Estate_Appraisal
         fields = '__all__'
 
     def save(self, *args, **kwargs):
@@ -38,7 +38,7 @@ class Person_PhoneUpdateForm(forms.ModelForm):
                 get_args[k] = self.cleaned_data[k]
             elif k in self.changed_data:
                 update_args[k] = self.cleaned_data[k]
-        per_pho = Person_Phone.objects.get(**get_args)
+        per_pho = Estate_Appraisal.objects.get(**get_args)
         for k, v in update_args.items():
             setattr(per_pho, k, v)
         per_pho.state_change_date = self.creator
@@ -58,4 +58,4 @@ class Person_PhoneUpdateForm(forms.ModelForm):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-Person_PhoneModelFormSet = forms.modelformset_factory(Person_Phone, fields=('phone', 'use'), extra=0)
+Estate_AppraisalModelFormSet = forms.modelformset_factory(Estate_Appraisal, fields=('type', 'date', 'value'), extra=0)
