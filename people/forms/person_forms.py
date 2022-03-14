@@ -1,10 +1,9 @@
-from django import forms
+from django.forms import ModelForm, ValidationError, modelformset_factory
 
 from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm
 from people.models import Person, Person_Natural, Person_Legal
-from people.utils import personcompletename
 
-class PersonCreateForm(forms.ModelForm):
+class PersonCreateForm(ModelForm):
 
     class Meta:
         model = Person
@@ -21,13 +20,13 @@ class Person_NaturalCreateForm(GenericCreateForm):
     def clean_type(self):
         field = self.cleaned_data.get('type')
         if field != 0:
-            raise forms.ValidationError("Debe ser persona natural.")
+            raise ValidationError("Debe ser persona natural.")
         return field
 
     def clean_id_type(self):
         field = self.cleaned_data.get('id_type')
         if field == 1:
-            raise forms.ValidationError("Tipo documento para persona natural no puede ser Nit.")
+            raise ValidationError("Tipo documento para persona natural no puede ser Nit.")
         return field
 
     def clean_id_number(self):
@@ -44,25 +43,25 @@ class Person_LegalCreateForm(GenericCreateForm):
     def clean_type(self):
         field = self.cleaned_data.get('type')
         if field != 1:
-            raise forms.ValidationError("Debe ser persona jurídica.")
+            raise ValidationError("Debe ser persona jurídica.")
         return field
 
     def clean_id_type(self):
         field = self.cleaned_data.get('id_type')
         if field != 1:
-            raise forms.ValidationError("Tipo documento para persona jurídica debe ser Nit.")
+            raise ValidationError("Tipo documento para persona jurídica debe ser Nit.")
         return field
 
     def clean_id_number(self):
         return self.clean_pk()
 
-class Person_NaturalDetailForm(forms.ModelForm):
+class Person_NaturalDetailForm(ModelForm):
 
     class Meta:
         model = Person_Natural
         fields = ['type', 'complete_name', 'id_type', 'id_number']
 
-class Person_LegalDetailForm(forms.ModelForm):
+class Person_LegalDetailForm(ModelForm):
 
     class Meta:
         model = Person_Legal
@@ -92,4 +91,4 @@ class Person_LegalDeleteForm(GenericDeleteForm):
         model = Person_Legal
         fields = ['type', 'complete_name', 'id_type', 'id_number']
 
-PersonListModelFormSet = forms.modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)
+PersonListModelFormSet = modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)

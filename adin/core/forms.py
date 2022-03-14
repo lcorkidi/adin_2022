@@ -7,9 +7,9 @@ class GenericCreateForm(ModelForm):
     def save(self, *args, **kwargs):
         base_args = {k: self.cleaned_data[k] for k in self.fields}
         base_args['state_change_user'] = self.creator
-        per_nat = self._meta.model(**base_args)
-        per_nat.save()
-        return per_nat
+        obj = self._meta.model(**base_args)
+        obj.save()
+        return obj
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:

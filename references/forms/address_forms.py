@@ -1,43 +1,39 @@
-from django import forms
+from django.forms import ModelForm, ValidationError, modelformset_factory
 
+from adin.core.forms import GenericCreateForm, GenericDeleteForm
 from references.models import Address
+from references.utils import address2code
 
-class AddressCreateModelForm(forms.ModelForm):
+class AddressCreateModelForm(GenericCreateForm):
 
     class Meta:
         model = Address
         exclude = ('code',)
 
-    def save(self, *args, **kwargs):
-        base_args = {k: self.cleaned_data[k] for k in self.fields}
-        base_args['state_change_user'] = self.creator
-        add = Address(**base_args)
-        add.save()
-        return add
-
-class AddressDetailModelForm(forms.ModelForm):
-
-    class Meta:
-        model = Address
-        fields = ['code']
-
-class AddressDeleteModelForm(forms.ModelForm):
-
-    class Meta:
-        model = Address
-        fields = ['code']
-
     def clean(self):
-        objs = []
-        for obj in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
-            if (not obj.hidden or obj.field.many_to_many) and obj.related_name: 
-                for obj in eval(f'self.instance.{obj.related_name}.all()'):
-                    objs.append(obj)
-        if len(objs) > 0:
-            msg = f'Direccion no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
-            self.add_error(None, msg)
+        base_args = {}
+        for field in self.fields:
+            if field:
+                base_args[field] = self.cleaned_data[field]
+        obj = Address(**base_args)
+        code = address2code(obj)
+        if Address.objects.filter(pk=code).exists():
+            obj = Address.objects.get(pk=code)
+            if obj.state == 0:
+                raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos datos ya existe y está inactiva.")
+            else:
+                raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos datos ya existe.")
 
-        if self.has_changed(): 
-            self.add_error(None, f'Hubo cambios en los datos del objeto.')
+class AddressDetailModelForm(ModelForm):
 
-AddressListModelFormSet = forms.modelformset_factory(Address, fields=('code',), extra=0)
+    class Meta:
+        model = Address
+        fields = ['code']
+
+class AddressDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = Address
+        fields = ['code']
+
+AddressListModelFormSet = modelformset_factory(Address, fields=('code',), extra=0)
