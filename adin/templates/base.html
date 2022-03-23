@@ -73,6 +73,31 @@
                         </ul>
                     </li>
                 </ul>
+                {% if group == "admin" %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <label class="nav-link dropdown-toggle text-white" id="userDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</label>
+                            <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="userDropDownLink">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'home:user_register' %}"><strong>Registrar</strong></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+                <ul class="position-absolute end-0 navbar-nav">
+                    <li class="nav-item dropdown">
+                        <label class="nav-link dropdown-toggle text-white" id="userDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.get_username }}</label>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'home:user_logout' %}"><strong>Cerrar Sesión</strong></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'home:user_password_change' %}"><strong>Cambiar Clave</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>    
         </div>
     </nav>

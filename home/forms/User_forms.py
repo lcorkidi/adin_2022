@@ -1,20 +1,48 @@
-from django import forms
+from django.forms import Form, CharField, TextInput, PasswordInput
 
-class UserLogInForm(forms.Form):
+class UserLogInForm(Form):
 
-    username = forms.CharField(
+    username = CharField(
         label='Nombre',
-        widget=forms.TextInput(
+        widget=TextInput(
             attrs={
                 "class": "form-control"
             }
         )
     )
-    password = forms.CharField(
+    password = CharField(
         label='Clave',
-        widget=forms.PasswordInput(
+        widget=PasswordInput(
             attrs={
                 "class": "form-control"
             }
         )
     )
+
+class UserRegisterForm(Form):
+
+    username = CharField(
+        label='Nombre',
+        widget=TextInput(
+            attrs={
+                "class": "form-control"
+            }
+        )
+    )
+    password1 = CharField(
+        label='Clave',
+        widget=PasswordInput(
+            attrs={
+                "class": "form-control"
+            }
+        )
+    )
+    password2 = CharField(
+        label='Repetir Clave',
+        widget=PasswordInput(
+            attrs={
+                "class": "form-control"
+            }
+        )
+    )
+

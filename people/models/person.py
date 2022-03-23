@@ -66,6 +66,9 @@ class Person(BaseModel):
         app_label = 'people'
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
+        permissions = [
+            ('activate_person', 'Can activate inactive person.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Person: {self.complete_name}>'

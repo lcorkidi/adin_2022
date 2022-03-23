@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from home.forms.User_forms import UserLogInForm
+from home.utils import user_group_str
 
 class UserLogInView(View):
 
@@ -29,3 +32,52 @@ class UserLogInView(View):
         else:
             context = {'form': self.form}
             return render(request, self.template, context)
+
+class UserLogOutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('home:user_login')
+
+class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'home/user_create.html'
+    form = UserCreationForm
+    title = 'Usuario'
+    subtitle = 'Crear'
+    permission_required = 'auth.add_user'
+    
+    def get(self, request):
+        form = self.form()
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'group': user_group_str(request.user)}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if not form.is_valid():
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        form.save()            
+        return redirect('home:user_home')
+
+class UserPasswordChangeView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'home/user_create.html'
+    form = PasswordChangeForm
+    title = 'Usuario'
+    subtitle = 'Cambiar Clave'
+    permission_required = 'auth.change_user'
+    
+    def get(self, request):
+        form = self.form(request.user)
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'group': user_group_str(request.user)}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if not form.is_valid():
+            print(form)
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        form.save()            
+        return redirect('home:user_home')
