@@ -39,4 +39,4 @@ class RealtyDeleteForm(GenericDeleteForm):
         model = Realty
         fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
 
-RealtyListModelFormSet = modelformset_factory(Realty, fields=('code', 'use', 'total_area'), extra=0)
+RealtyListModelFormSet = modelformset_factory(Realty, fields=('state', 'code', 'use', 'total_area'), extra=0)

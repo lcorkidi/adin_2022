@@ -7,12 +7,12 @@ class Estate_AppraisalCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Estate_Appraisal
-        fields = '__all__'
+        exclude = ('state',)
 
 class Estate_AppraisalUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Estate_Appraisal
-        fields = '__all__'
+        exclude = ('state',)
 
-Estate_AppraisalModelFormSet = modelformset_factory(Estate_Appraisal, fields=('type', 'date', 'value'), extra=0)
+Estate_AppraisalModelFormSet = modelformset_factory(Estate_Appraisal, fields=('state', 'type', 'date', 'value'), extra=0)

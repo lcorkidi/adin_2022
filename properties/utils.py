@@ -11,7 +11,8 @@ def estate_related_data(*args):
             'omit_field' : 'estate',
             'create_url': 'properties:estate_person_create',
             'update_url': 'properties:estate_person_update',
-            'delete_url': 'properties:estate_person_delete'
+            'delete_url': 'properties:estate_person_delete',
+            'activate_url': 'properties:estate_person_activate'
         },
         'Avaluo(s):': {
             'class': Estate_Appraisal,
@@ -19,7 +20,8 @@ def estate_related_data(*args):
             'filter_expresion': 'estate__national_number',
             'create_url': 'properties:estate_appraisal_create',
             'update_url': 'properties:estate_appraisal_update',
-            'delete_url': 'properties:estate_appraisal_delete'
+            'delete_url': 'properties:estate_appraisal_delete',
+            'activate_url': 'properties:estate_appraisal_activate'
         }      
     }
     
@@ -37,7 +39,8 @@ def realty_related_data(*args):
             'omit_field' : 'realty',
             'create_url': 'properties:realty_estate_create',
             'update_url': 'properties:realty_estate_update',
-            'delete_url': 'properties:realty_estate_delete'
+            'delete_url': 'properties:realty_estate_delete',
+            'activate_url': 'properties:realty_estate_activate'
         }
     }
     

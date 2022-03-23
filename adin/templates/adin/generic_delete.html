@@ -44,7 +44,7 @@
                                 {% else %}
                                     <td><strong>{{ field.value }}</strong></td>
                                 {% endif %}
-                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
                             </div>
                         </div>
                     {% endfor %}

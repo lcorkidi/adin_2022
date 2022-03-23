@@ -60,6 +60,9 @@ class Realty(BaseModel):
         constraints = [
             models.UniqueConstraint(fields=['code', 'address'], name='realty_unique_code_address'),
         ]
+        permissions = [
+            ('activate_realty', 'Can activate realty.'),
+        ]
 
     def is_vacant(self):
         for lease in self.leases_realties.all():

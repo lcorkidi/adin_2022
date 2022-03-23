@@ -1,4 +1,4 @@
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from properties.models import Estate_Appraisal
 from properties.forms.estate_appraisal_forms import Estate_AppraisalCreateForm, Estate_AppraisalUpdateForm
 
@@ -38,3 +38,14 @@ class Estate_AppraisalDeleteView(GenericDeleteRelatedView):
     choice_fields = ['type']
     fk_fields = ['estate']
     permission_required = 'properties.delete_estate_appraisal'
+
+class Estate_AppraisalActivateView(GenericActivateRelatedView):
+
+    model = Estate_Appraisal
+    form = Estate_AppraisalUpdateForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    choice_fields = ['type']
+    fk_fields = ['estate']
+    permission_required = 'properties.activate_estate'

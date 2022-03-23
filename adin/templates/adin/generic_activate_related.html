@@ -23,6 +23,11 @@
                         <div class="d-grid mx-2 gap2">
                             <div class="p-2 fs-5 w-100 text-center">
                                 {{ field.label_tag }}
+                                {% if field.errors %}
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                                 {% if field.name in choice_fields %}
@@ -32,7 +37,7 @@
                                 {% else %}
                                     <strong>{{ field.value }}</strong>
                                 {% endif %}
-                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
                             </div>
                         </div>
                     {% endfor %}

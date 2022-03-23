@@ -37,6 +37,9 @@ class Estate(BaseModel):
         constraints = [
             models.UniqueConstraint(fields=['national_number', 'address'], name='unique_code_address'),
         ]
+        permissions = [
+            ('activate_estate', 'Can activate estate.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Estate: {self.address.pk}>'
@@ -88,7 +91,7 @@ class Estate_Appraisal(BaseModel):
         on_delete=models.CASCADE,
         related_name='estates_appraisals',
         related_query_name='estate_appraisal',
-        verbose_name='Avaluo Predio'
+        verbose_name='Predio'
     )
     type = models.PositiveSmallIntegerField(
         choices=TYPE_CHOICE,

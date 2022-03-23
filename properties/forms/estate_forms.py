@@ -53,4 +53,4 @@ class EstateDeleteForm(GenericDeleteForm):
         model = Estate
         fields = [ 'national_number', 'address', 'total_area']
 
-EstateListModelFormSet = modelformset_factory(Estate, fields=('national_number', 'address', 'total_area'), extra=0)
+EstateListModelFormSet = modelformset_factory(Estate, fields=('state', 'national_number', 'address', 'total_area'), extra=0)
