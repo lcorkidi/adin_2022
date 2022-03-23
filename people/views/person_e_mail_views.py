@@ -15,6 +15,7 @@ class Person_EmailCreateView(GenericCreateRelatedView):
     readonly_fields = ['person']
     fk_fields = ['person']
     permission_required = 'people.add_person_e_mail'
+    related_fields = ['person', 'e_mail']
 
 class Person_EmailUpdateView(GenericUpdateRelatedView):
 

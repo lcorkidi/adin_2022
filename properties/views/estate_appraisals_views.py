@@ -15,6 +15,7 @@ class Estate_AppraisalCreateView(GenericCreateRelatedView):
     readonly_fields = ['estate']
     fk_fields = ['estate']
     permission_required = 'properties.add_estate_appraisal'
+    related_fields = ['estate', 'appraisal']
 
 class Estate_AppraisalUpdateView(GenericUpdateRelatedView):
 

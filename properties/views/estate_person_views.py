@@ -15,6 +15,7 @@ class Estate_PersonCreateView(GenericCreateRelatedView):
     readonly_fields = ['estate']
     fk_fields = ['estate']
     permission_required = 'properties.add_estate_person'
+    related_fields = ['estate', 'person']
 
 class Estate_PersonUpdateView(GenericUpdateRelatedView):
 

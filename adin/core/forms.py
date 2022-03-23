@@ -36,6 +36,7 @@ class GenericUpdateForm(ModelForm):
         for field in self.changed_data:
             if field in self.readonly_fields:
                 self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
 
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
@@ -61,9 +62,22 @@ class GenericDeleteForm(ModelForm):
             raise ValidationError(None, f'Hubo cambios en los datos inmutables del objeto.')
 
 class GeneriCreateRelatedForm(GenericCreateForm):
-    # validate unique constraint value objects is active and raise error if so
-    pass
 
+    related_fields = []
+
+    def clean(self):
+        base_fields = {}
+        for field in self.related_fields:
+            base_fields[field] = self.cleaned_data.get(field)
+        if self._meta.model.objects.filter(**base_fields).exists():
+            obj = self._meta.model.objects.get(**base_fields)
+            if obj.state == 0:
+                raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos valores ya existe y está inactiva.")
+            else:
+                raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos valores ya existe.")
+        return super().clean()
+
+    
 class GenericUpdateRelatedForm(GenericUpdateForm):
 
     def save(self, *args, **kwargs):

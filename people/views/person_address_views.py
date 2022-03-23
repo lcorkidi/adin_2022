@@ -15,6 +15,7 @@ class Person_AddressCreateView(GenericCreateRelatedView):
     readonly_fields = ['person']
     fk_fields = ['person']
     permission_required = 'people.add_person_address'
+    related_fields = ['person', 'address']
 
 class Person_AddressUpdateView(GenericUpdateRelatedView):
 

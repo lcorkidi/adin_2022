@@ -57,6 +57,9 @@ class Realty(BaseModel):
         app_label = 'properties'
         verbose_name = 'Inmueble'
         verbose_name_plural = 'Inmuebles'
+        constraints = [
+            models.UniqueConstraint(fields=['code', 'address'], name='realty_unique_code_address'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Estate_Person: {self.address.pk}>'

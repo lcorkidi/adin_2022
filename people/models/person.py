@@ -173,7 +173,8 @@ class Person_Address(BaseModel):
         (1, 'Trabajo'),
         (2, 'Planta'),
         (3, 'Administración'),
-        (4, 'Punto de Venta')
+        (4, 'Punto de Venta'),
+        (5, 'Establecimiento de Comercio')
     ]
 
     person = models.ForeignKey(

@@ -3,19 +3,10 @@ from adin.core.models import BaseModel
 
 class Estate(BaseModel):
 
-    national_number_1 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional 1/3'
-    )
-    national_number_2 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional 2/3'
-    )
-    national_number_3 = models.PositiveBigIntegerField(
-        verbose_name='Número Predial Nacional 3/3'
-    )
-    code = models.CharField(
-        max_length=32,
+    national_number = models.CharField(
+        max_length=30,
         primary_key=True,
-        verbose_name='Código'
+        verbose_name='Número Predial Nacional'
     )
     address = models.ForeignKey(
         'references.Address',
@@ -44,7 +35,7 @@ class Estate(BaseModel):
         verbose_name = 'Predio'
         verbose_name_plural = 'Predios'
         constraints = [
-            models.UniqueConstraint(fields=['code', 'address'], name='unique_code_address'),
+            models.UniqueConstraint(fields=['national_number', 'address'], name='unique_code_address'),
         ]
 
     def __repr__(self) -> str:

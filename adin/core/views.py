@@ -185,6 +185,7 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
     ref_urls = None
     readonly_fields = None
     fk_fields = None
+    related_fields = None
 
     def get(self, request, pk):
         form = self.form({self.readonly_fields[0]:pk})
@@ -194,9 +195,10 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
 
     def post(self, request, pk):
         form = self.form(request.POST)
+        form.related_fields = self.related_fields
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':pk}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save()            
@@ -226,7 +228,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save(self.readonly_fields)           

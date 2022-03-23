@@ -15,6 +15,7 @@ class Person_Legal_Person_NaturalCreateView(GenericCreateRelatedView):
     readonly_fields = ['person_legal']
     fk_fields = [ 'person_legal' ]
     permission_required = 'people.add_person_legal_person_natural'
+    related_fields = ['person_legal', 'person_naural']
 
 class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 
