@@ -23,7 +23,7 @@ class Account_Structure:
         
     @classmethod
     def levels(cls, code):
-        return cls._LEVELS['len'].apply(lambda l:code[:l] if l<=len(code) else None)
+        return cls._LEVELS['len'].apply(lambda l:str(code)[:l] if l<=len(str(code)) else None)
 
     @classmethod
     def nature(cls, code):

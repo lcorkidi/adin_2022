@@ -1,6 +1,10 @@
+import datetime as dt
 from django.db import models
 
-class Lease_Realty(models.Model):
+from adin.core.models import BaseModel
+from .accountable import Accountable
+
+class Lease_Realty(Accountable):
 
     realty = models.ManyToManyField(
         'properties.Realty', 
@@ -39,13 +43,29 @@ class Lease_Realty(models.Model):
         verbose_name = 'Arriendo Inmueble'
         verbose_name_plural = 'Arriendos Inuembles'
 
+    def active_on_date(self, ref_date):
+        if self.state == 0:
+            return False
+        if self.start_date:
+            start_date = self.start_date
+        else:
+            return False
+        if self.end_date:
+            end_date = self.end_date
+        else:
+            end_date = dt.date.today()
+        if ref_date >= start_date and ref_date <= end_date:
+            return True
+        else:
+            return False
+
     def __repr__(self) -> str:
-        return f'<Lease_Realty: {self.name}>'
+        return f'<Lease_Realty: {self.code}>'
     
     def __str__(self) -> str:
-        return self.name
+        return self.code
 
-class Lease_Realty_Realty(models.Model):
+class Lease_Realty_Realty(BaseModel):
 
     lease = models.ForeignKey(
         Lease_Realty,
@@ -72,7 +92,7 @@ class Lease_Realty_Realty(models.Model):
     def __str__(self) -> str:
         return f'{self.lease.pk}_{self.realty.pk}'
 
-class Lease_Realty_Person(models.Model):
+class Lease_Realty_Person(BaseModel):
 
     ROLE_CHOICE = [
         (0,'Arrendador'),

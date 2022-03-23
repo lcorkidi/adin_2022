@@ -60,6 +60,7 @@ class GenericDeleteForm(ModelForm):
 
         if self.has_changed(): 
             raise ValidationError(None, f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
 
 class GeneriCreateRelatedForm(GenericCreateForm):
 

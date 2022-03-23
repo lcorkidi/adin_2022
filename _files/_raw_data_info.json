@@ -146,5 +146,43 @@
             "realty": "Realty",
             "estate": "Estate"
         }
+    },
+    "Account": {
+        "value_attrs": [
+            "code",
+            "name"
+        ],        
+        "fk_attrs": {
+        }
+    },
+    "Lease_Realty": {
+        "value_attrs": [
+            "code",
+            "doc_date",
+            "start_date"
+        ],        
+        "fk_attrs": {
+        }
+    },
+    "Lease_Realty_Realty": {
+        "value_attrs": [
+            "primary"
+        ],        
+        "fk_attrs": {
+            "lease": "Lease_Realty",
+            "realty": "Realty"
+        }
+    },
+    "Lease_Realty_Person": {
+        "value_attrs": [
+            "role"
+        ],        
+        "fk_attrs": {
+            "lease": "Lease_Realty",
+            "person": "Person",
+            "phone": "Phone",
+            "e_mail": "E_Mail",
+            "address": "Address"
+        }
     }
 }

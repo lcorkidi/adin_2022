@@ -23,6 +23,7 @@ class AddressCreateModelForm(GenericCreateForm):
                 raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos datos ya existe y está inactiva.")
             else:
                 raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos datos ya existe.")
+        return super().clean()
 
 class AddressDetailModelForm(ModelForm):
 

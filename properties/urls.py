@@ -1,9 +1,11 @@
 from django.urls import path
+
 from properties.views.estate_views import EstateListView, EstateDetailView, EstateCreateView, EstateUpdateView, EstateDeleteView
 from properties.views.estate_person_views import Estate_PersonCreateView, Estate_PersonUpdateView, Estate_PersonDeleteView
 from properties.views.estate_appraisals_views import Estate_AppraisalCreateView, Estate_AppraisalUpdateView, Estate_AppraisalDeleteView
 from properties.views.realty_views import RealtyListView, RealtyCreateView, RealtyDetailView, RealtyUpdateView, RealtyDeleteView
 from properties.views.realty_estate_views import Realty_EstateCreateView, Realty_EstateUpdateView, Realty_EstateDeleteView
+
 app_name = 'properties'
 
 urlpatterns = [

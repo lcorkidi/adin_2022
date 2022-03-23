@@ -14,13 +14,14 @@ class Estate_PersonCreateForm(GeneriCreateRelatedForm):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')
         percentage = cleaned_data.get('percentage')
-        if self._meta.model.objects.filter(realty=realty).exists():
+        if self._meta.model.objects.filter(estate=estate).exists():
             total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
         else:
             total_percentage = percentage
         if total_percentage > 100:
             msg = f'Participación total propietarios ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
+        return cleaned_data
 
 class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
 
@@ -36,5 +37,6 @@ class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
         if total_percentage > 100:
             msg = f'Participación total propietarios ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
+        return cleaned_data
 
 Estate_PersonModelFormSet = modelformset_factory(Estate_Person, fields=( 'person', 'percentage'), extra=0)

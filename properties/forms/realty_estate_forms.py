@@ -21,6 +21,7 @@ class Realty_EstateCreateForm(GeneriCreateRelatedForm):
         if total_percentage > 100:
             msg = f'Participación total predios ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
+        return cleaned_data
 
 class Realty_EstateUpdateForm(GenericUpdateRelatedForm):
 
@@ -36,5 +37,6 @@ class Realty_EstateUpdateForm(GenericUpdateRelatedForm):
         if total_percentage > 100:
             msg = f'Participación total presion ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
+        return cleaned_data
 
 Realty_EstateModelFormSet = modelformset_factory(Realty_Estate, fields=( 'estate', 'percentage'), extra=0)
