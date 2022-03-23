@@ -21,6 +21,27 @@ class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
         context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off}
         return render(request, self.template, context)
 
+class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_create.html'
+    form = None
+    title = None
+    subtitle = 'Crear'
+    ref_urls = None
+    
+    def get(self, request):
+        form = self.form()
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if not form.is_valid():
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
+            return render(request, self.template, context)
+        form.creator = request.user
+        form.save()            
+        return redirect(self.ref_urls['list'])
 
 class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -49,28 +70,6 @@ class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
             related_data = None
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off }
         return render(request, self.template, context)
-
-class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    template = 'adin/generic_create.html'
-    form = None
-    title = None
-    subtitle = 'Crear'
-    ref_urls = None
-    
-    def get(self, request):
-        form = self.form()
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
-        return render(request, self.template, context)
-
-    def post(self, request):
-        form = self.form(request.POST)
-        if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
-            return render(request, self.template, context)
-        form.creator = request.user
-        per = form.save()            
-        return redirect(self.ref_urls['list'])
 
 class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

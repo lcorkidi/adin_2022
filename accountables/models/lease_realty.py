@@ -43,21 +43,10 @@ class Lease_Realty(Accountable):
         verbose_name = 'Arriendo Inmueble'
         verbose_name_plural = 'Arriendos Inuembles'
 
-    def active_on_date(self, ref_date):
-        if self.state == 0:
-            return False
-        if self.start_date:
-            start_date = self.start_date
-        else:
-            return False
-        if self.end_date:
-            end_date = self.end_date
-        else:
-            end_date = dt.date.today()
-        if ref_date >= start_date and ref_date <= end_date:
+    def is_active(self):
+        if self.start_date and not self.end_date:
             return True
-        else:
-            return False
+        return False
 
     def __repr__(self) -> str:
         return f'<Lease_Realty: {self.code}>'

@@ -1,6 +1,8 @@
 from django.db import models
 
-class Date_Value(models.Model):
+from adin.core.models import BaseModel
+
+class Date_Value(BaseModel):
 
     accountable = models.ForeignKey(
         'accountables.Accountable',

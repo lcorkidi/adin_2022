@@ -184,5 +184,14 @@
             "e_mail": "E_Mail",
             "address": "Address"
         }
+    },
+    "Date_Value": {
+        "value_attrs": [
+            "date",
+            "value"
+        ],        
+        "fk_attrs": {
+            "accountable": "Accountable"
+        }
     }
 }

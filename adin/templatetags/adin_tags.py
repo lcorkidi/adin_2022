@@ -6,6 +6,8 @@ from adin.settings import BASE_DIR
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
 from references.models import Address, PUC, E_Mail, Phone
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
+from accounting.models import Account, Ledger, Ledger_Type, Charge, Charge_Concept
+from accountables.models import Accountable, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person
 
 register = template.Library()
 FILE_TMPL = path.join(BASE_DIR,'static/icons-1.7.0/icons/%s.svg')

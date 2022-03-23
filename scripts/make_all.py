@@ -72,23 +72,28 @@ def run():
     dt14 = datetime.now()
     print('Realties_Estates: {}'.format(dt14-dt13))
 
-    # create realties_estates
+    # create accounts
     df2objs(pd.read_csv('_files/accounts_raw.csv'), _raw_data_info, True)
     dt15 = datetime.now()
-    print('Realties_Estates: {}'.format(dt15-dt14))
+    print('Accounts: {}'.format(dt15-dt14))
 
-    # create realties_estates
+    # create leases_realties
     df2objs(pd.read_csv('_files/leases_realties_raw.csv'), _raw_data_info, True)
     dt16 = datetime.now()
-    print('Realties_Estates: {}'.format(dt16-dt15))
+    print('Leases_Realties: {}'.format(dt16-dt15))
 
-    # create realties_estates
+    # create leases_realties_realties
     df2objs(pd.read_csv('_files/leases_realties_realties_raw.csv'), _raw_data_info, True)
     dt17 = datetime.now()
-    print('Realties_Estates: {}'.format(dt17-dt16))
+    print('Leases_Realties_Realties: {}'.format(dt17-dt16))
 
-    # create realties_estates
+    # create leases_realties_people
     df2objs(pd.read_csv('_files/leases_realties_people_raw.csv'), _raw_data_info, True)
     dt18 = datetime.now()
-    print('Realties_Estates: {}'.format(dt18-dt17))
-    print('Total: {}'.format(dt18-dt1))
+    print('Leases_Realties_People: {}'.format(dt18-dt17))
+
+    # create dates_values
+    df2objs(pd.read_csv('_files/dates_values_raw.csv'), _raw_data_info, True)
+    dt19 = datetime.now()
+    print('Dates_Values: {}'.format(dt19-dt18))
+    print('Total: {}'.format(dt19-dt1))

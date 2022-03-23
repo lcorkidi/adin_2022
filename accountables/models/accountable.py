@@ -13,3 +13,6 @@ class Accountable(BaseModel):
         app_label = 'accountables'
         verbose_name = 'Contabilizable'
         verbose_name_plural = 'Contabilizables'
+
+    def __str__(self) -> str:
+        return self.code

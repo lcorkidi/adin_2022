@@ -61,6 +61,12 @@ class Realty(BaseModel):
             models.UniqueConstraint(fields=['code', 'address'], name='realty_unique_code_address'),
         ]
 
+    def is_vacant(self):
+        for lease in self.leases_realties.all():
+            if lease.is_active():
+                return False
+        return True
+
     def __repr__(self) -> str:
         return f'<Estate_Person: {self.address.pk}>'
 

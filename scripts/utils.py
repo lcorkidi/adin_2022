@@ -4,7 +4,7 @@ from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, P
 from references.models import Address, PUC, E_Mail, Phone
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
 from accounting.models import Account, Ledger, Ledger_Type, Charge, Charge_Concept
-from accountables.models import Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person
+from accountables.models import Accountable, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
 
 def df2objs(dr, rdi, save=False):
     user = get_user_model().objects.all()[0]

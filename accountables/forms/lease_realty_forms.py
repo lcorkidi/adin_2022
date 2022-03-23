@@ -12,10 +12,26 @@ class Lease_RealtyCreateForm(Form):
     )
     realties = ModelMultipleChoiceField(
         queryset=Realty.objects.all(),
+        required=False,
         label='Propiedades Secundarias'
     )
     doc_date = DateField(
-        widget=SelectDateWidget(),
+        widget=SelectDateWidget(
+            months= {
+                1: 'Enero',
+                2: 'Febrero',
+                3: 'Marzo',
+                4: 'Abril',
+                5: 'Mayo',
+                6: 'Junio',
+                7: 'Julio',
+                8: 'Agosto',
+                9: 'Septiembre',
+                10: 'Octubre',
+                11: 'Noviembre',
+                12: 'Diciembre'
+            }
+        ),
         label = 'Fecha Contrato:'
     )
     fee = IntegerField(
@@ -27,6 +43,10 @@ class Lease_RealtyCreateForm(Form):
         cleaned_data = super().clean()
         realty = cleaned_data.get('realty')
 
+        print(realty.is_vacant())
+
+    def save(self):
+        pass
 
 class Lease_RealtyDetailForm(ModelForm):
 
