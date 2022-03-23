@@ -2,14 +2,14 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView
+from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from people.models import Person, Person_Natural, Person_Legal
 from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, PersonListModelFormSet
 from people.utils import person_natural_related_data, person_legal_related_data
 from home.utils import user_group_str
 
 title = Person._meta.verbose_name_plural
-ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete' }
+ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete', 'activate': 'people:person_activate' }
 
 class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -30,7 +30,6 @@ class PersonListSomeView(GenericListView):
     title = title
     ref_urls = ref_urls
     list_order = 'complete_name'
-    actions_off = [ 'delete' ]
     permission_required = 'people.view_person'
 
 class PersonListAllView(GenericListView):
@@ -170,12 +169,18 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, pk):
         per = Person.objects.get(pk=pk)
         if per.type == 0:
-            return redirect('people:person_natural_update', pk)
+            if request.user.has_perm('people.activate_person'):
+                return redirect('people:person_natural_update_some', pk)
+            else: 
+                return redirect('people:person_natural_update_all', pk)
         elif per.type == 1:
-            return redirect('people:person_legal_update', pk)
+            if request.user.has_perm('people.activate_person'):
+                return redirect('people:person_legal_update_all', pk)
+            else: 
+                return redirect('people:person_legal_update_some', pk)
         return redirect(self.ref_urls['list'])
 
-class Person_NaturalUpdateView(GenericUpdateView):
+class Person_NaturalUpdateSomeView(GenericUpdateView):
 
     model = Person_Natural
     form = Person_NaturalUpdateForm
@@ -187,7 +192,20 @@ class Person_NaturalUpdateView(GenericUpdateView):
     related_data = person_natural_related_data
     permission_required = 'people.change_person'
 
-class Person_LegalUpdateView(GenericUpdateView):
+class Person_NaturalUpdateAllView(GenericUpdateView):
+
+    model = Person_Natural
+    form = Person_NaturalUpdateForm
+    title = title
+    ref_urls = ref_urls
+    readonly_fields = ['type', 'id_type', 'id_number']
+    choice_fields = ['type', 'id_type', 'use']
+    fk_fields = [ 'address' ]
+    related_data = person_natural_related_data
+    permission_required = 'people.activate_person'
+    include_states = [ 0, 1, 2, 3 ]
+
+class Person_LegalUpdateSomeView(GenericUpdateView):
 
     model = Person_Legal
     form = Person_LegalUpdateForm
@@ -198,6 +216,19 @@ class Person_LegalUpdateView(GenericUpdateView):
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
     permission_required = 'people.change_person'
+
+class Person_LegalUpdateAllView(GenericUpdateView):
+
+    model = Person_Legal
+    form = Person_LegalUpdateForm
+    title = title
+    ref_urls = ref_urls
+    readonly_fields = ['type', 'id_type', 'id_number']
+    choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
+    fk_fields = [ 'address', 'person_natural' ]
+    related_data = person_legal_related_data
+    permission_required = 'people.activate_person'
+    include_states = [ 0, 1, 2, 3 ]
 
 class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -232,3 +263,37 @@ class Person_LegalDeleteView(GenericDeleteView):
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
     permission_required = 'people.delete_person'
+
+class PersonActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = 'people.activate_person'
+
+    def get(self, request, pk):
+        per = Person.objects.get(pk=pk)
+        if per.type == 0:
+            return redirect('people:person_natural_activate', pk)
+        elif per.type == 1:
+            return redirect('people:person_legal_activate', pk)
+        return redirect(self.ref_urls['list'])
+
+class Person_NaturalActivateView(GenericActivateView):
+
+    title = title
+    model = Person_Natural
+    form = Person_NaturalDeleteForm
+    ref_urls = ref_urls
+    choice_fields = ['type', 'id_type', 'use']
+    fk_fields = [ 'address' ]
+    related_data = person_natural_related_data
+    permission_required = 'people.activate_person'
+
+class Person_LegalActivateView(GenericActivateView):
+
+    title = title
+    model = Person_Legal
+    form = Person_LegalDeleteForm
+    ref_urls = ref_urls
+    choice_fields = ['type', 'id_type', 'use', 'appointment']
+    fk_fields = [ 'address', 'person_natural' ]
+    related_data = person_legal_related_data
+    permission_required = 'people.activate_person'

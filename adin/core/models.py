@@ -24,8 +24,7 @@ class BaseModel(models.Model):
     )
     state = models.PositiveSmallIntegerField(
         choices=STATE_CHOICE, 
-        default=1,
-        editable=False
+        default=1
     )
 
     class Meta:

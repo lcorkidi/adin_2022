@@ -60,7 +60,9 @@
                                         <tr>
                                             {% for related_field in data.formset.form %}
                                                 {% if not related_field.name in data.omit_field %}
-                                                    <th>{{ related_field.label }}</th>    
+                                                    {% if related_field.name != 'state' %}
+                                                        <th>{{ related_field.label }}</th> 
+                                                    {% endif %}                             
                                                 {% endif %}                          
                                             {% endfor %}
                                             <th>
@@ -76,13 +78,20 @@
                                                         <td>{% selected_choice related_form related_field.name related_field.value %}</td>
                                                     {% elif related_field.name in fk_fields %}
                                                         <td>{% fk_str related_form related_field.name %}</td>
-                                                    {% else %}
+                                                    {% elif related_field.name != 'state' %}
                                                         <td>{{ related_field.value }}</td>
                                                     {% endif %}
                                                 {% endfor %}
                                                 <td>
-                                                    <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
-                                                    <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                    {% if related_form.state.value != 0 %}
+                                                        <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value != 0 %}
+                                                        <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value == 0 and group == 'admin' %}
+                                                        <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                                    {% endif %}
                                                 </td>     
                                             </tr>
                                         {% endfor %}                  

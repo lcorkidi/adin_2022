@@ -85,6 +85,7 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     choice_fields = None
     fk_fields = None
     related_data = None
+    include_states = [ 1, 2, 3 ]
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
@@ -96,7 +97,7 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
             for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                formset = data['formset'](queryset=data['class'].objects.filter(state__in=self.include_states).filter(**filter_expresion))
                 related_data[attr]['formset'] = formset
         else:
             related_data = None
@@ -114,7 +115,7 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 for attr, data in related_data.items():
                     filter_expresion = {}
                     filter_expresion[data['filter_expresion']] = pk
-                    formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                    formset = data['formset'](queryset=data['class'].filter(state__in=self.include_states).filter(**filter_expresion))
                     related_data[attr]['formset'] = formset
             else:
                 related_data = None
@@ -174,6 +175,59 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 filter_expresion[data['filter_expresion']] = pk
                 data['class'].objects.exclude(state=0).filter(**filter_expresion).update(state=0)
         obj.state = 0
+        obj.save()
+        return redirect(self.ref_urls['list'])
+
+class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_activate.html'
+    title = None
+    subtitle = 'Activar'
+    model = None
+    form = None
+    ref_urls = None
+    choice_fields = None
+    fk_fields = None
+    related_data = None
+    actions_off = None
+
+    def get(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
+                filter_expresion = {}
+                filter_expresion[data['filter_expresion']] = pk
+                formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
+                related_data[attr]['formset'] = formset
+        else:
+            related_data = None
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            if self.related_data:
+                related_data = self.related_data()
+                for attr, data in related_data.items():
+                    filter_expresion = {}
+                    filter_expresion[data['filter_expresion']] = pk
+                    formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
+                    related_data[attr]['formset'] = formset
+            else:
+                related_data = None
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
+                filter_expresion = {}
+                filter_expresion[data['filter_expresion']] = pk
+                data['class'].objects.filter(**filter_expresion).update(state=2)
+        obj.state = 2
         obj.save()
         return redirect(self.ref_urls['list'])
 
@@ -256,6 +310,30 @@ class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         obj.state = 0
+        obj.save()
+        return redirect(self.ref_urls['update'], ret_pk)
+
+class GenericActivateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_activate_related.html'
+    model = None
+    title = None
+    subtitle = 'Activar'
+    form = None
+    ref_urls = None
+    rel_urls = None
+    choice_fields = None
+    fk_fields = None
+    
+    def get(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
+        return render(request, self.template, context)
+
+    def post(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        obj.state = 2
         obj.save()
         return redirect(self.ref_urls['update'], ret_pk)
 

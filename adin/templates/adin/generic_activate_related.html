@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content"></div>
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }} - {{ subtitle }}</span> 
+                    <div>
+                        <a href="{% url ref_urls.update ref_pk %}" style="text-decoration:none">
+                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                        </a> |
+                        <a class="text-success" href="{% url rel_urls.create ref_pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        <a href="{% url rel_urls.update ref_pk form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="d-grid mx-2 gap2">
+                            <div class="p-2 fs-5 w-100 text-center">
+                                {{ field.label_tag }}
+                            </div>
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                {% if field.name in choice_fields %}
+                                    <strong>{% selected_choice form field.name field.value %}</strong>
+                                {% elif field.name in fk_fields %}
+                                    <td><strong>{% fk_str form field.name %}</strong></td>
+                                {% else %}
+                                    <strong>{{ field.value }}</strong>
+                                {% endif %}
+                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="d-grid m-2 gap-2">
+                        <input class="btn btn-success" type="submit" value="{{ subtitle }}">
+                        <a href="{% url ref_urls.update ref_pk %}" class="btn btn-secondary active" role="button" aria-pressed="true">Cancelar</a>
+                    </div>
+               </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

@@ -8,7 +8,7 @@ class PhoneCreateModelForm(GenericCreateForm):
 
     class Meta:
         model = Phone
-        exclude = ('code',)
+        exclude = ('state', 'code',)
 
     def clean(self):
         base_args = {}
@@ -37,4 +37,4 @@ class PhoneDeleteModelForm(GenericDeleteForm):
         model = Phone
         fields = ['code']
 
-PhoneListModelFormSet = modelformset_factory(Phone, fields=('code',), extra=0)
+PhoneListModelFormSet = modelformset_factory(Phone, fields=('state', 'code',), extra=0)

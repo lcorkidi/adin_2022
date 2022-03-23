@@ -67,7 +67,7 @@ class Person(BaseModel):
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
         permissions = [
-            ('activate_person', 'Can activate inactive person.'),
+            ('activate_person', 'Can activate person.'),
         ]
 
     def __repr__(self) -> str:

@@ -38,6 +38,9 @@ class Phone(BaseModel):
         constraints = [
             models.UniqueConstraint(fields=['country', 'region', 'number'], name='unique_country_region_number'),
         ]
+        permissions = [
+            ('activate_phone', 'Can activate phone.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Phone: +{self.country}{" " + str(self.region) if self.region != None else ""} {self.number}>'

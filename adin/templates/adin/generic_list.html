@@ -23,7 +23,9 @@
                     <thead>
                         <tr>
                             {% for field in formset.form %}
-                                <th>{{ field.label }}</th>                              
+                                {% if field.name != 'state' %}
+                                    <th>{{ field.label }}</th> 
+                                {% endif %}                             
                             {% endfor %}
                             <th>Acciones</th>                              
                         </tr>
@@ -34,7 +36,7 @@
                                 {% for field in form.visible_fields %}
                                     {% if field.name in choice_fields %}
                                         <td>{% selected_choice form field.name field.value %}</td>
-                                    {% else %}
+                                    {% elif field.name != 'state' %}
                                         <td>{{ field.value }}</td>
                                     {% endif %}
                                 {% endfor %}
@@ -42,11 +44,20 @@
                                     {% if not 'detail' in actions_off %}
                                         <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                     {% endif %}
-                                    {% if not 'update' in actions_off %}
+                                    {% if not 'update' in actions_off and form.state.value != 0 %}
                                         <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                                     {% endif %}
-                                    {% if not 'delete' in actions_off %}
+                                    {% if not 'delete' in actions_off and form.state.value != 0 %}
                                         <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                    {% endif %}
+                                    {% if form.state.value == 0 and group == 'admin' %}
+                                        <a class="text-success" href="{% url ref_urls.activate form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                    {% endif %}
+                                    {% if form.state.value == 1 and group == 'accounting_aux' %}
+                                        <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                                    {% endif %}
+                                    {% if form.state.value == 2 and group == 'admin' %}
+                                        <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                                     {% endif %}
                                 </td>                                    
                             </tr>

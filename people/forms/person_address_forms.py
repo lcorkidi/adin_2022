@@ -15,4 +15,4 @@ class Person_AddressUpdateForm(GenericUpdateRelatedForm):
         model = Person_Address
         fields = '__all__'
                 
-Person_AddressModelFormSet = modelformset_factory(Person_Address, fields=('address', 'use'), extra=0)
+Person_AddressModelFormSet = modelformset_factory(Person_Address, fields=('state', 'address', 'use'), extra=0)

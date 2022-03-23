@@ -26,4 +26,4 @@ class E_MailDeleteModelForm(GenericDeleteForm):
         model = E_Mail
         fields = ['e_mail']
 
-E_MailListModelFormSet = modelformset_factory(E_Mail, fields=('e_mail',), extra=0)
+E_MailListModelFormSet = modelformset_factory(E_Mail, fields=('state', 'e_mail',), extra=0)

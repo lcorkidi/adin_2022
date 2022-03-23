@@ -12,6 +12,9 @@ class Transaction_Type(BaseModel):
         app_label = 'references'
         verbose_name = 'Transacción Tipo'
         verbose_name_plural = 'Transacciones Tipos'
+        permissions = [
+            ('activate_transaction_type', 'Can activate transaction type.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Transaction: {self.name}>'

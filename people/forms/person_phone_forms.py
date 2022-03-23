@@ -15,4 +15,4 @@ class Person_PhoneUpdateForm(GenericUpdateRelatedForm):
         model = Person_Phone
         fields = '__all__'
 
-Person_PhoneModelFormSet = modelformset_factory(Person_Phone, fields=('phone', 'use'), extra=0)
+Person_PhoneModelFormSet = modelformset_factory(Person_Phone, fields=('state', 'phone', 'use'), extra=0)

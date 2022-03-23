@@ -19,7 +19,8 @@ def person_natural_related_data(*args):
             'omit_field' : 'person',
             'create_url': 'people:person_phone_create',
             'update_url': 'people:person_phone_update',
-            'delete_url': 'people:person_phone_delete'
+            'delete_url': 'people:person_phone_delete',
+            'activate_url': 'people:person_phone_activate'
         },
         'Correo(s) Electrónico(s):': {
             'class': Person_E_Mail,
@@ -28,7 +29,8 @@ def person_natural_related_data(*args):
             'omit_field' : 'person',
             'create_url': 'people:person_e_mail_create',
             'update_url': 'people:person_e_mail_update',
-            'delete_url': 'people:person_e_mail_delete'
+            'delete_url': 'people:person_e_mail_delete',
+            'activate_url': 'people:person_e_mail_activate'
         },
         'Direccione(s)': {
             'class': Person_Address,
@@ -37,7 +39,8 @@ def person_natural_related_data(*args):
             'omit_field' : 'person',
             'create_url': 'people:person_address_create',
             'update_url': 'people:person_address_update',
-            'delete_url': 'people:person_address_delete'
+            'delete_url': 'people:person_address_delete',
+            'activate_url': 'people:person_address_activate'
         }      
     }
     return related_data
@@ -55,7 +58,8 @@ def person_legal_related_data(*args):
         'omit_field' : 'person_legal',
         'create_url': 'people:person_legal_person_natural_create',
         'update_url': 'people:person_legal_person_natural_update',
-        'delete_url': 'people:person_legal_person_natural_delete'
+        'delete_url': 'people:person_legal_person_natural_delete',
+        'activate_url': 'people:person_legal_person_natural_activate'
     }        
     return related_data
 

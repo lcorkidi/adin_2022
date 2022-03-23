@@ -8,7 +8,7 @@ class AddressCreateModelForm(GenericCreateForm):
 
     class Meta:
         model = Address
-        exclude = ('code',)
+        exclude = ('state', 'code',)
 
     def clean(self):
         base_args = {}
@@ -37,4 +37,4 @@ class AddressDeleteModelForm(GenericDeleteForm):
         model = Address
         fields = ['code']
 
-AddressListModelFormSet = modelformset_factory(Address, fields=('code',), extra=0)
+AddressListModelFormSet = modelformset_factory(Address, fields=('state', 'code',), extra=0)

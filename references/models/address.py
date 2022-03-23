@@ -188,6 +188,9 @@ class Address(BaseModel):
         app_label = 'references'
         verbose_name = 'Dirección'
         verbose_name_plural = 'Direcciones'
+        permissions = [
+            ('address', 'Can activate address.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Addresss: {self.code}, {self.city}>'

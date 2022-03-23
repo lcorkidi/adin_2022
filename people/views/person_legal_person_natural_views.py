@@ -1,4 +1,4 @@
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from people.models import Person_Legal_Person_Natural
 from people.forms.person_legal_person_natural_forms import Person_Legal_Person_NaturalCreateForm, Person_Legal_Person_NaturalUpdateForm
 
@@ -38,3 +38,14 @@ class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
     choice_fields = ['appointment']
     fk_fields = [ 'person_legal', 'person_natural' ]
     permission_required = 'people.delete_person_legal_person_natural'
+
+class Person_Legal_Person_NaturalActivateView(GenericActivateRelatedView):
+
+    model = Person_Legal_Person_Natural
+    form = Person_Legal_Person_NaturalUpdateForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    choice_fields = ['appointment']
+    fk_fields = [ 'person_legal', 'person_natural' ]
+    permission_required = 'people.activate_person'

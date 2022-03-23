@@ -15,4 +15,4 @@ class Person_Legal_Person_NaturalUpdateForm(GenericUpdateRelatedForm):
         model = Person_Legal_Person_Natural
         fields = '__all__'
 
-Person_Legal_Person_NaturalModelFormSet = modelformset_factory(Person_Legal_Person_Natural, fields=('person_natural', 'appointment'), extra=0)
+Person_Legal_Person_NaturalModelFormSet = modelformset_factory(Person_Legal_Person_Natural, fields=('state', 'person_natural', 'appointment'), extra=0)

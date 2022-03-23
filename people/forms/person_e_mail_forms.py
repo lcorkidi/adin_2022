@@ -15,4 +15,4 @@ class Person_EmailUpdateForm(GenericUpdateRelatedForm):
         model = Person_E_Mail
         fields = '__all__'
 
-Person_EmailModelFormSet = modelformset_factory(Person_E_Mail, fields=('e_mail', 'use'), extra=0)
+Person_EmailModelFormSet = modelformset_factory(Person_E_Mail, fields=('state', 'e_mail', 'use'), extra=0)

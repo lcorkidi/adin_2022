@@ -91,4 +91,4 @@ class Person_LegalDeleteForm(GenericDeleteForm):
         model = Person_Legal
         fields = ['type', 'complete_name', 'id_type', 'id_number']
 
-PersonListModelFormSet = modelformset_factory(Person, fields=('complete_name', 'id_type', 'id_number'), extra=0)
+PersonListModelFormSet = modelformset_factory(Person, fields=('state', 'complete_name', 'id_type', 'id_number'), extra=0)

@@ -1,4 +1,4 @@
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from people.models import Person_Address
 from people.forms.person_address_forms import Person_AddressCreateForm, Person_AddressUpdateForm
 
@@ -38,3 +38,14 @@ class Person_AddressDeleteView(GenericDeleteRelatedView):
     choice_fields = ['use']
     fk_fields = ['person', 'address']
     permission_required = 'people.delete_person_address'
+
+class Person_AddressActivateView(GenericActivateRelatedView):
+
+    model = Person_Address
+    form = Person_AddressUpdateForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    choice_fields = ['use']
+    fk_fields = ['person', 'address']
+    permission_required = 'people.activate_person'
