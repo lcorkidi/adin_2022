@@ -10,7 +10,17 @@ from people.utils import person_natural_related_data, person_legal_related_data
 title = Person._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete' }
 
-class PersonListView(GenericListView):
+class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = 'people.view_person'
+
+    def get(self, request):
+        if request.user.has_perm('people.delete_person'):
+            return redirect('people:person_list_all')
+        else: 
+            return redirect('people:person_list_some')
+
+class PersonListSomeView(GenericListView):
 
     template = 'adin/generic_list.html'
     formset = PersonListModelFormSet
@@ -19,8 +29,20 @@ class PersonListView(GenericListView):
     title = title
     ref_urls = ref_urls
     list_order = 'complete_name'
+    actions_off = [ 'delete' ]
     permission_required = 'people.view_person'
 
+class PersonListAllView(GenericListView):
+
+    template = 'adin/generic_list.html'
+    formset = PersonListModelFormSet
+    model = Person
+    choice_fields = ['id_type']
+    title = title
+    ref_urls = ref_urls
+    list_order = 'complete_name'
+    permission_required = 'people.delete_person'
+    include_states = [ 0, 1, 2, 3 ]
 
 class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

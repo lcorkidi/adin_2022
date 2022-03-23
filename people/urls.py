@@ -1,5 +1,5 @@
 from django.urls import path
-from people.views.person_views import PersonListView, PersonCreateView, Person_NaturalCreateView, Person_LegalCreateView, PersonDetailView, Person_NaturalDetailView, Person_LegalDetailView, PersonUpdateView, Person_NaturalUpdateView, Person_LegalUpdateView, PersonDeleteView, Person_NaturalDeleteView, Person_LegalDeleteView
+from people.views.person_views import PersonListView, PersonListSomeView, PersonListAllView, PersonCreateView, Person_NaturalCreateView, Person_LegalCreateView, PersonDetailView, Person_NaturalDetailView, Person_LegalDetailView, PersonUpdateView, Person_NaturalUpdateView, Person_LegalUpdateView, PersonDeleteView, Person_NaturalDeleteView, Person_LegalDeleteView
 from people.views.person_phone_views import Person_PhoneCreateView, Person_PhoneUpdateView, Person_PhoneDeleteView
 from people.views.person_e_mail_views import Person_EmailCreateView, Person_EmailUpdateView, Person_EmailDeleteView
 from people.views.person_address_views import Person_AddressCreateView, Person_AddressUpdateView, Person_AddressDeleteView
@@ -9,6 +9,8 @@ app_name = 'people'
 
 urlpatterns = [
     path('person_list', PersonListView.as_view(), name='person_list'),
+    path('person_list_some', PersonListSomeView.as_view(), name='person_list_some'),
+    path('person_list_all', PersonListAllView.as_view(), name='person_list_all'),
     path('person_create/', PersonCreateView.as_view(), name='person_create'),
     path('<int:pk>/person_detail/',PersonDetailView.as_view(),name='person_detail'),
     path('<int:pk>/person_update/', PersonUpdateView.as_view(), name='person_update'),

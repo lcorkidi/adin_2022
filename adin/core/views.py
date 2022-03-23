@@ -15,9 +15,10 @@ class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     choice_fields = None
     actions_off = None
     list_order = None
+    include_states = [ 1, 2, 3 ]
     
     def get(self, request):
-        formset = self.formset(queryset=self.model.objects.all().exclude(state=0).order_by(self.list_order))
+        formset = self.formset(queryset=self.model.objects.all().filter(state__in=self.include_states).order_by(self.list_order))
         context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off}
         return render(request, self.template, context)
 
