@@ -1,74 +1,19 @@
-class,code,name
-Account,1,Activo
-Account,11,Disponible
-Account,1110,Bancos
-Account,111005,Moneda nacional
-Account,11100505,"Banco de Occidente, 321654987"
-Account,13,Deudores
-Account,1328,Aportes por cobrar
-Account,132805,Aporte EPS por cobrar
-Account,132810,Aporte pensiones por cobrar
-Account,1380,Deudores varios
-Account,138020,Cuentas por cobrar de terceros
-Account,13802005,Arriendos inmuebles terceros por cobrar
-Account,13802010,IVA arriendos inmuebles terceros por cobrar
-Account,13802015,Servicio publicos terceros por cobrar a inquilino
-Account,138025,Pagos por cuenta de terceros
-Account,13802505,Servicios publicos de terceros por cobrar a propietario
-Account,13802510,IVA servicios publicos terceros por cobrar a propietario
-Account,2,Pasivo
-Account,23,Cuentas por pagar
-Account,2335,Costos y gastos por pagar
-Account,233540,Arrendamientos
-Account,23354005,Arriendo inmueble por pagar
-Account,233550,Servicios publicos por pagar
-Account,23355005,Servicios publicos internos por pagar
-Account,23355010,Servicios publicos de terceros por pagar
-Account,2365,Retencion en la fuente
-Account,236530,Arrendamientos
-Account,23653005,Rentefuente arriendo inmueble por pagar
-Account,2370,Retenciones y aportes de nomina
-Account,237005,Aportes EPS por pagar
-Account,237006,Aportes ARL por pagar
-Account,237010,Aportes cajas por pagar
-Account,2380,Acreedores varios
-Account,238030,Aporte pensiones por pagar
-Account,24,"Impuestos, gravamenes y tasas"
-Account,2408,Impuesto sobre las ventas por pagar
-Account,240805,IVA interno por pagar
-Account,240810,IVA externo por pagar
-Account,25,Obligaciones laborales
-Account,2505,Salarios por pagar
-Account,250505,Salarios por pagar
-Account,250510,Auxilio de transporte por pagar
-Account,2510,Cesatias consolidadas
-Account,251010,Cesantias consolidadas por pagar
-Account,2515,Intereses sobre cesantias por pagar
-Account,2520,Prima por pagar
-Account,2525,Vacaciones por pagar
-Account,28,Otros pasivos
-Account,2815,Ingresos recibidos para terceros
-Account,281505,Valores recibidos para terceros
-Account,28150505,Arriendos inmuebles terceros por pagar
-Account,28150510,IVA arriendos inmuebles terceros por pagar
-Account,28150515,Servicios publicos terceros recuperados por pagar
-Account,5,Gastos
-Account,51,Operaciones de Administracion
-Account,5105,Gastos personal
-Account,510506,Sueldos personal
-Account,510527,Auxilio de transporte personal
-Account,510530,Cesantias personal
-Account,510533,Intereses sobre cesantias personal
-Account,510536,Prima de servicios personal
-Account,510539,Vacaciones personal
-Account,510568,ARL personal
-Account,510569,EPS personal
-Account,510570,Pensiones personal
-Account,510572,Cajas de compensacion personal
-Account,5115,Impuestos
-Account,511570,IVA descontable
-Account,5120,Arrendamientos
-Account,512010,Arriendo inmueble
-Account,5135,Servicios
-Account,513520,Procesamiento electronico de datos
-Account,513535,Telefono
+class,code,type,consecutive,holder,third_party,date
+Ledger,FV-000001,Factura de Venta,1,6108014,900244841,2022-01-01
+Ledger,FV-000002,Factura de Venta,2,6108014,890328485,2022-01-10
+Ledger,FV-000003,Factura de Venta,3,6108014,901012767,2022-01-15
+Ledger,FV-000004,Factura de Venta,4,6108014,900087432,2022-01-15
+Ledger,FV-000005,Factura de Venta,5,6108014,900087432,2022-01-31
+Ledger,FV-000006,Factura de Venta,6,6108014,900244841,2022-02-01
+Ledger,FV-000007,Factura de Venta,7,6108014,890328485,2022-02-01
+Ledger,FV-000008,Factura de Venta,8,6108014,19160350,2022-02-05
+Ledger,FV-000009,Factura de Venta,9,6108014,901012767,2022-02-15
+Ledger,FV-000010,Factura de Venta,10,6108014,900087432,2022-02-28
+Ledger,FV-000011,Factura de Venta,11,6108014,19160350,2022-02-28
+Ledger,FV-000012,Factura de Venta,12,6108014,900244841,2022-03-01
+Ledger,FV-000013,Factura de Venta,13,6108014,890328485,2022-03-01
+Ledger,FV-000014,Factura de Venta,14,6108014,901012767,2022-03-15
+Ledger,RC-000001,Recibo de Caja,1,6108014,900244841,2022-01-10
+,,,,6108014,900244841,2022-01-25
+,,,,6108014,900244841,2022-02-20
+,,,,6108014,900244841,2022-03-10
