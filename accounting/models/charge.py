@@ -35,12 +35,15 @@ class Charge(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Movimiento'
         verbose_name_plural = 'Movimientos'
+        permissions = [
+            ('activate_charge', 'Can activate charge.'),
+        ]
 
     def __repr__(self) -> str:
-        return f'<Charge: {self.ledger.pk}_{self.account.pk}>'
+        return f'<Charge: {self.ledger}_{self.account}_{self.concept}>'
 
     def __str__(self) -> str:
-        return f'{self.ledger.pk}_{self.account.pk}'
+        return f'{self.ledger}_{self.account}_{self.concept}'
 
 class Charge_Concept(BaseModel):
 

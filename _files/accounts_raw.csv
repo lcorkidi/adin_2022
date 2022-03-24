@@ -72,3 +72,15 @@ Account,512010,Arriendo inmueble
 Account,5135,Servicios
 Account,513520,Procesamiento electronico de datos
 Account,513535,Telefono
+Account,8,Cuentas de orden deudoras
+Account,83,Deudoras de control
+Account,8395,Otras cuentas deudoras de control
+Account,839530,Contraparte a retenciones a arriendos inmuebles de terceros
+Account,9,Cuentas de orden acreedoras
+Account,91,Responsabilidades contingentes
+Account,9130,Contratos de administración delegada
+Account,913005,Arriendos inmuebles de terceros por recibir
+Account,93,Acrredoras de control
+Account,9395,Otras cuentas de orden acreedoras de control
+Account,939505,Documentos por cobrar descontados
+Account,93950505,Retenciones a arriendos inmuebles de terceros

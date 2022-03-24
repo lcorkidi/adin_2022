@@ -7,6 +7,7 @@ from django.db.models.fields import CharField
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accounting.forms.account_forms import AccountCreateForm, AccountDetailForm, AccountUpdateForm, AccountDeleteForm, AccountListModelFormSet
 from accounting.models import Account
+from home.utils import user_group_str
 
 title = Account._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:account_list', 'create':'accounting:account_create', 'detail':'accounting:account_detail', 'update':'accounting:account_update', 'delete':'accounting:account_delete', 'activate':'accounting:account_activate' }
@@ -32,7 +33,7 @@ class AccountListSomeView(GenericListView):
     
     def get(self, request):
         formset = self.formset(queryset=Account.objects.filter(state__in=self.include_states).annotate(char_code=Cast('code', CharField())).order_by('char_code'))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off}
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
 class AccountListAllView(GenericListView):
@@ -47,7 +48,7 @@ class AccountListAllView(GenericListView):
     
     def get(self, request):
         formset = self.formset(queryset=Account.objects.filter(state__in=self.include_states).annotate(char_code=Cast('code', CharField())).order_by('char_code'))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off}
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
 class AccountCreateView(GenericCreateView):

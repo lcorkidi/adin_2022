@@ -34,4 +34,4 @@ class Account(BaseModel):
         return f'<Acc: {self.code}>'
     
     def __str__(self) -> str:
-        return self.code
+        return str(self.code)

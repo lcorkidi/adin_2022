@@ -221,8 +221,6 @@
     },
     "Ledger": {
         "value_attrs": [
-            "code",
-            "consecutive",
             "date"
         ],        
         "fk_attrs": {

@@ -11,7 +11,7 @@ class Transaction_TypeCreateModelForm(GenericCreateForm):
         model = Transaction_Type
         fields = ['name']
 
-    def clean_e_mail(self):
+    def clean_name(self):
         return self.clean_pk()
 
 class Transaction_TypeDetailModelForm(ModelForm):

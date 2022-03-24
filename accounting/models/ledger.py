@@ -50,12 +50,15 @@ class Ledger(BaseModel):
         constraints = [
             models.UniqueConstraint(fields=['type', 'consecutive'], name='unique_type_consecutive'),
         ]
+        permissions = [
+            ('activate_ledger', 'Can activate ledger.'),
+        ]
 
     def __repr__(self) -> str:
-        return f'<Ledger: {self.code}_{self.third_party.pk}>'
+        return f'<Ledger: {self.code}^{self.date.strftime("%Y-%m-%d")}_{self.third_party}>'
 
     def __str__(self) -> str:
-        return f'{self.code}_{self.third_party.pk}'
+        return f'{self.code}^{self.date.strftime("%Y-%m-%d")}_{self.third_party}'
 
 class Ledger_Type(BaseModel):
     
