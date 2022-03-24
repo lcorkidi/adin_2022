@@ -133,8 +133,6 @@ USE_TZ = True
 
 USE_L10N = True
 
-USE_THOUSAND_SEPARATOR = True
-
 FORMAT_MODULE_PATH = [
     'adin.formats',
 ]

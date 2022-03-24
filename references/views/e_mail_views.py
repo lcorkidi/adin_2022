@@ -11,7 +11,7 @@ ref_urls = { 'list':'references:e_mail_list', 'create':'references:e_mail_create
 
 class E_MailListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    permission_required = 'references.view_address'
+    permission_required = 'references.view_e_mail'
 
     def get(self, request):
         if request.user.has_perm('references.activate_e_mail'):

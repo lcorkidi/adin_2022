@@ -193,5 +193,52 @@
         "fk_attrs": {
             "accountable": "Accountable"
         }
+    },
+    "Transaction_Type": {
+        "value_attrs": [
+            "name"
+        ],        
+        "fk_attrs": {
+        }
+    },
+    "Charge_Concept": {
+        "value_attrs": [
+            "code",
+            "date"
+        ],        
+        "fk_attrs": {
+            "accountable": "Accountable",
+            "transaction_type": "Transaction_Type"
+        }
+    },
+    "Ledger_Type": {
+        "value_attrs": [
+            "name",
+            "abreviation"
+        ],        
+        "fk_attrs": {
+        }
+    },
+    "Ledger": {
+        "value_attrs": [
+            "code",
+            "consecutive",
+            "date"
+        ],        
+        "fk_attrs": {
+            "type": "Ledger_Type",
+            "holder": "Person",
+            "third_party": "Person"
+        }
+    },
+    "Charge": {
+        "value_attrs": [
+            "value"
+        ],        
+        "fk_attrs": {
+            "ledger": "Ledger",
+            "account": "Account",
+            "concept": "Charge_Concept"
+        }
     }
 }

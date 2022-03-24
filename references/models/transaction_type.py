@@ -5,6 +5,7 @@ class Transaction_Type(BaseModel):
 
     name =  models.CharField(
         max_length=64,
+        primary_key=True,
         verbose_name='Nombre'
     )
 

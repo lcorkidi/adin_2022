@@ -168,12 +168,6 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 related_data = None
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
             return render(request, self.template, context)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                data['class'].objects.exclude(state=0).filter(**filter_expresion).update(state=0)
         obj.state = 0
         obj.save()
         return redirect(self.ref_urls['list'])
@@ -221,12 +215,6 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 related_data = None
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
             return render(request, self.template, context)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                data['class'].objects.filter(**filter_expresion).update(state=2)
         obj.state = 2
         obj.save()
         return redirect(self.ref_urls['list'])

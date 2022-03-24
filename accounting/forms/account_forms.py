@@ -57,4 +57,4 @@ class AccountDeleteForm(GenericDeleteForm):
             self.add_error(None, msg)
         return cleaned_data
 
-AccountListModelFormSet = modelformset_factory(Account, fields=('code', 'name'), extra=0)
+AccountListModelFormSet = modelformset_factory(Account, fields=('state', 'code', 'name'), extra=0)

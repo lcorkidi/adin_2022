@@ -18,6 +18,9 @@ class Account(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Cuenta'
         verbose_name_plural = 'Cuentas'
+        permissions = [
+            ('activate_account', 'Can activate account.'),
+        ]
 
     @property
     def levels(self):

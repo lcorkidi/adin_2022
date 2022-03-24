@@ -10,7 +10,7 @@ from accountables.utils import lease_realty_related_data
 title = Lease_Realty._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate'  }
 
-class Lease_RealtyListView(GenericListView):
+class Lease_RealtyListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     permission_required = 'accountables.view_lease_realty'
 
@@ -61,7 +61,7 @@ class Lease_RealtyDetailView(GenericDetailView):
     related_data = lease_realty_related_data
     permission_required = 'accountables.view_lease_realty'
 
-class Lease_RealtyUpdateView(GenericUpdateView):
+class Lease_RealtyUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     permission_required = 'accountables.change_lease_realty'
 

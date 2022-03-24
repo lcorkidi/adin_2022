@@ -56,7 +56,9 @@
                                         <tr>
                                             {% for related_field in data.formset.form %}
                                                 {% if not related_field.name in data.omit_field %}
-                                                    <th>{{ related_field.label }}</th>    
+                                                    {% if related_field.name != 'state' %}
+                                                        <th>{{ related_field.label }}</th> 
+                                                    {% endif %}                             
                                                 {% endif %}                          
                                             {% endfor %}
                                         </tr>
@@ -69,7 +71,7 @@
                                                         <td>{% selected_choice related_form related_field.name related_field.value %}</td>
                                                     {% elif related_field.name in fk_fields %}
                                                         <td>{% fk_str related_form related_field.name %}</td>
-                                                    {% else %}
+                                                    {% elif related_field.name != 'state' %}
                                                         <td>{{ related_field.value }}</td>
                                                     {% endif %}
                                                 {% endfor %}     

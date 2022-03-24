@@ -1,4 +1,3 @@
-from statistics import mode
 from django.db import models
 from adin.core.models import BaseModel
 
@@ -28,7 +27,8 @@ class Charge(BaseModel):
         related_query_name='charge',
     )
     settled = models.BooleanField(
-        verbose_name='Cruzado'
+        verbose_name='Cruzado',
+        default=False
     )
 
     class Meta:
@@ -49,26 +49,27 @@ class Charge_Concept(BaseModel):
         (1, 'Débito')
     ]
 
+    code = models.CharField(
+        max_length=128,
+        primary_key=True,
+        verbose_name='Código'
+    )
     accountable = models.ForeignKey(
         'accountables.Accountable',
         on_delete=models.PROTECT,
-        related_name='charge_concept',
-        related_query_name='charges_concept',
+        related_name='charges_concepts',
+        related_query_name='charge_concept',
         verbose_name='Contabilizable'
     )
     transaction_type = models.ForeignKey(
         'references.Transaction_Type',
         on_delete=models.PROTECT,
-        related_name='charge_concept',
-        related_query_name='charges_concept',
+        related_name='charges_concepts',
+        related_query_name='charge_concept',
         verbose_name='Tipo Transacción'
     )
     date = models.DateField(
         verbose_name='Fecha'
-    )
-    nature = models.PositiveSmallIntegerField(
-        choices=NATURE_CHOICE,
-        verbose_name='Naturaleza'
     )
 
     class Meta:
@@ -77,7 +78,7 @@ class Charge_Concept(BaseModel):
         verbose_name_plural = 'Conceptos Movimientos'
 
     def __repr__(self) -> str:
-        return f'<Charge_Concept: {self.accountable.pk}_{self.concept.pk}>'
+        return f'<Charge_Concept: {self.code}>'
 
     def __str__(self) -> str:
-        return f'{self.accountable.pk}_{self.concept.pk}'
+        return self.code
