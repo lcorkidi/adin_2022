@@ -14,7 +14,7 @@ class Estate_PersonCreateForm(GeneriCreateRelatedForm):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')
         percentage = cleaned_data.get('percentage')
-        if self._meta.model.objects.filter(estate=estate).exists():
+        if self._meta.model.objects.filter(estate=estate).exclude(state=0).exists():
             total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
         else:
             total_percentage = percentage
@@ -33,7 +33,10 @@ class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')
         percentage = cleaned_data.get('percentage')
-        total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).exclude(pk=self.instance.pk).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        if self._meta.model.objects.filter(estate=estate).exclude(state=0).exists():
+            total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).exclude(pk=self.instance.pk).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        else:
+            total_percentage = percentage
         if total_percentage > 100:
             msg = f'Participación total propietarios ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
@@ -49,7 +52,10 @@ class Estate_PersonActivateForm(GenericUpdateRelatedForm):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')
         percentage = cleaned_data.get('percentage')
-        total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        if self._meta.model.objects.filter(estate=estate).exclude(state=0).exists():
+            total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        else:
+            total_percentage = percentage
         if total_percentage > 100:
             msg = f'Participación total propietarios ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)

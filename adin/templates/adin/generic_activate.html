@@ -14,9 +14,6 @@
                         {% if not 'create' in actions_off %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
-                        {% if not 'update' in actions_off %}
-                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
-                        {% endif %}
                         </a> 
                    </div>
                 </div>
@@ -44,7 +41,7 @@
                                 {% else %}
                                     <td><strong>{{ field.value }}</strong></td>
                                 {% endif %}
-                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
                             </div>
                         </div>
                     {% endfor %}

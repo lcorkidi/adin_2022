@@ -8,13 +8,13 @@ class Realty_EstateCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Realty_Estate
-        fields = '__all__'
+        exclude = ('state',)
 
     def clean(self):
         cleaned_data = super().clean()
         realty = cleaned_data.get('realty')
         percentage = cleaned_data.get('percentage')
-        if self._meta.model.objects.filter(realty=realty).exists():
+        if self._meta.model.objects.filter(realty=realty).exclude(state=0).exists():
             total_percentage = self._meta.model.objects.filter(realty=realty).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
         else:
             total_percentage = percentage
@@ -27,16 +27,38 @@ class Realty_EstateUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Realty_Estate
-        fields = '__all__'
+        exclude = ('state',)
 
     def clean(self):
         cleaned_data = super().clean()
         realty = cleaned_data.get('realty')
         percentage = cleaned_data.get('percentage')
-        total_percentage = self._meta.model.objects.filter(realty=realty).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        if self._meta.model.objects.filter(realty=realty).exclude(state=0).exists():
+            total_percentage = self._meta.model.objects.filter(realty=realty).exclude(state=0).exclude(pk=self.instance.pk).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        else:
+            total_percentage = percentage
         if total_percentage > 100:
             msg = f'Participación total presion ({total_percentage}) no puede sumar mas de 100.'
             self.add_error('percentage', msg)
         return cleaned_data
 
-Realty_EstateModelFormSet = modelformset_factory(Realty_Estate, fields=( 'estate', 'percentage'), extra=0)
+class Realty_EstateActivateForm(GenericUpdateRelatedForm):
+
+    class Meta:
+        model = Realty_Estate
+        exclude = ('state',)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        realty = cleaned_data.get('realty')
+        percentage = cleaned_data.get('percentage')
+        if self._meta.model.objects.filter(realty=realty).exclude(state=0).exists():
+            total_percentage = self._meta.model.objects.filter(realty=realty).exclude(state=0).aggregate(Sum('percentage'))['percentage__sum'] + percentage
+        else:
+            total_percentage = percentage
+        if total_percentage > 100:
+            msg = f'Participación total presion ({total_percentage}) no puede sumar mas de 100.'
+            self.add_error('percentage', msg)
+        return cleaned_data
+
+Realty_EstateModelFormSet = modelformset_factory(Realty_Estate, fields=('state', 'estate', 'percentage'), extra=0)

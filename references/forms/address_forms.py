@@ -29,7 +29,7 @@ class AddressDetailModelForm(ModelForm):
 
     class Meta:
         model = Address
-        fields = ['code']
+        fields = ['state', 'code']
 
 class AddressDeleteModelForm(GenericDeleteForm):
 

@@ -42,6 +42,9 @@ class Lease_Realty(Accountable):
         app_label = 'accountables'
         verbose_name = 'Arriendo Inmueble'
         verbose_name_plural = 'Arriendos Inuembles'
+        permissions = [
+            ('activate_lease_realty', 'Can activate lease realty.'),
+        ]
 
     def is_active(self):
         if self.start_date and not self.end_date:

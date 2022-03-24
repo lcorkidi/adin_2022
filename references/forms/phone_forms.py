@@ -29,7 +29,7 @@ class PhoneDetailModelForm(ModelForm):
 
     class Meta:
         model = Phone
-        fields = ['code']
+        fields = ['state', 'code']
 
 class PhoneDeleteModelForm(GenericDeleteForm):
 

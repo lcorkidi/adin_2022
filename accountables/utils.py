@@ -12,7 +12,8 @@ def lease_realty_related_data(*args):
             'omit_field' : 'lease',
             'create_url': 'accountables:lease_realty_realty_create',
             'update_url': 'accountables:lease_realty_realty_update',
-            'delete_url': 'accountables:lease_realty_realty_delete'
+            'delete_url': 'accountables:lease_realty_realty_delete',
+            'activate_url': 'accountables:lease_realty_realty_activate'
         },
         'Partes:': {
             'class': Lease_Realty_Person,
@@ -21,7 +22,8 @@ def lease_realty_related_data(*args):
             'omit_field' : 'lease',
             'create_url': 'accountables:lease_realty_person_create',
             'update_url': 'accountables:lease_realty_person_update',
-            'delete_url': 'accountables:lease_realty_person_delete'
+            'delete_url': 'accountables:lease_realty_person_delete',
+            'activate_url': 'accountables:lease_realty_person_activate'
         },
         'Canon(es):': {
             'class': Date_Value,
@@ -30,7 +32,8 @@ def lease_realty_related_data(*args):
             'omit_field' : 'accountable',
             'create_url': 'accountables:date_value_create',
             'update_url': 'accountables:date_value_update',
-            'delete_url': 'accountables:date_value_delete'
+            'delete_url': 'accountables:date_value_delete',
+            'activate_url': 'accountables:date_value_activate'
         }
     }
     

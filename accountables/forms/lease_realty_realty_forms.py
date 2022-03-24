@@ -7,12 +7,12 @@ class Lease_Realty_RealtyCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Lease_Realty_Realty
-        fields = '__all__'
+        exclude = ('state',)
 
 class Lease_Realty_RealtyUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Lease_Realty_Realty
-        fields = '__all__'
+        exclude = ('state',)
 
-Lease_Realty_RealtyModelFormSet = modelformset_factory(Lease_Realty_Realty, fields=( 'realty', 'primary'), extra=0)
+Lease_Realty_RealtyModelFormSet = modelformset_factory(Lease_Realty_Realty, fields=('state',  'realty', 'primary'), extra=0)

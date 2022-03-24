@@ -1,4 +1,4 @@
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from accountables.models import Date_Value
 from accountables.forms.date_value_forms import Date_ValueCreateForm, Date_ValueUpdateForm
 
@@ -36,3 +36,13 @@ class Date_ValueDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     fk_fields = ['accountable']
     permission_required = 'accountables.delete_date_value'
+
+class Date_ValueActivateView(GenericActivateRelatedView):
+
+    model = Date_Value
+    form = Date_ValueUpdateForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    fk_fields = ['accountable']
+    permission_required = 'accountables.activate_lease_realty'

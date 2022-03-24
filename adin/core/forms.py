@@ -53,7 +53,8 @@ class GenericDeleteForm(ModelForm):
         for obj in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
             if (not obj.hidden or obj.field.many_to_many) and obj.related_name: 
                 for obj in eval(f'self.instance.{obj.related_name}.all()'):
-                    objs.append(obj)
+                    if obj.state != 0:
+                        objs.append(obj)
         if len(objs) > 0:
             msg = f'Direccion no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
             self.add_error(None, msg)

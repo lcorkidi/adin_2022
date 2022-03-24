@@ -7,12 +7,12 @@ class Person_AddressCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Person_Address
-        fields = '__all__'
+        exclude = ('state',)
 
 class Person_AddressUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Person_Address
-        fields = '__all__'
+        exclude = ('state',)
                 
 Person_AddressModelFormSet = modelformset_factory(Person_Address, fields=('state', 'address', 'use'), extra=0)

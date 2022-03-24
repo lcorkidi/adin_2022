@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
@@ -74,10 +74,11 @@ class UserPasswordChangeView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return render(request, self.template, context)
 
     def post(self, request):
-        form = self.form(request.POST)
+        form = self.form(request.user, request.POST)
         if not form.is_valid():
-            print(form)
+            print(form.error_messages)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'group': user_group_str(request.user)}
             return render(request, self.template, context)
-        form.save()            
+        form.save()
+        update_session_auth_hash(request, form.user)            
         return redirect('home:user_home')

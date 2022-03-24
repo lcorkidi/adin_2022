@@ -59,19 +59,19 @@ class Person_NaturalDetailForm(ModelForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'complete_name', 'id_type', 'id_number']
+        fields = ['state', 'type', 'complete_name', 'id_type', 'id_number']
 
 class Person_LegalDetailForm(ModelForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'complete_name', 'id_type', 'id_number']
+        fields = ['state', 'type', 'complete_name', 'id_type', 'id_number']
 
 class Person_NaturalUpdateForm(GenericUpdateForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'name', 'last_name', 'id_type', 'id_number']
+        fields = [ 'type', 'name', 'last_name', 'id_type', 'id_number']
 
 class Person_LegalUpdateForm(GenericUpdateForm):
 

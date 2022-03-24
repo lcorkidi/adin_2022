@@ -1,4 +1,4 @@
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from accountables.models import Lease_Realty_Realty
 from accountables.forms.lease_realty_realty_forms import Lease_Realty_RealtyCreateForm, Lease_Realty_RealtyUpdateForm
 
@@ -37,3 +37,13 @@ class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     fk_fields = ['lease', 'realty']
     permission_required = 'accountables.delete_lease_realty_realty'
+
+class Lease_Realty_RealtyActivateView(GenericActivateRelatedView):
+
+    model = Lease_Realty_Realty
+    form = Lease_Realty_RealtyUpdateForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    fk_fields = ['lease', 'realty']
+    permission_required = 'accountables.activate_lease_realty'

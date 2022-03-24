@@ -42,7 +42,7 @@
                                     {% else %}
                                         <strong>{{ field.value }}</strong>
                                     {% endif %}
-                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
                                 {% else %}
                                     {{ field }}
                                 {% endif %}

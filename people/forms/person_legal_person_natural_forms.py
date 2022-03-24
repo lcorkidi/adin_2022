@@ -7,12 +7,12 @@ class Person_Legal_Person_NaturalCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Person_Legal_Person_Natural
-        fields = '__all__'
+        exclude = ('state',)
 
 class Person_Legal_Person_NaturalUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Person_Legal_Person_Natural
-        fields = '__all__'
+        exclude = ('state',)
 
 Person_Legal_Person_NaturalModelFormSet = modelformset_factory(Person_Legal_Person_Natural, fields=('state', 'person_natural', 'appointment'), extra=0)

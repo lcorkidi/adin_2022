@@ -28,7 +28,7 @@ class EstateDetailForm(ModelForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number', 'address', 'total_area']
+        fields = ['state',  'national_number', 'address', 'total_area']
 
 class EstateUpdateForm(GenericUpdateForm):
 

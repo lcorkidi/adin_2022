@@ -4,7 +4,7 @@ from properties.views.estate_views import EstateListView, EstateListSomeView, Es
 from properties.views.estate_person_views import Estate_PersonCreateView, Estate_PersonUpdateView, Estate_PersonDeleteView, Estate_PersonActivateView
 from properties.views.estate_appraisals_views import Estate_AppraisalCreateView, Estate_AppraisalUpdateView, Estate_AppraisalDeleteView, Estate_AppraisalActivateView
 from properties.views.realty_views import RealtyListView, RealtyListSomeView, RealtyListAllView, RealtyCreateView, RealtyDetailView, RealtyUpdateView, RealtyUpdateSomeView, RealtyUpdateAllView, RealtyDeleteView, RealtyActivateView
-from properties.views.realty_estate_views import Realty_EstateCreateView, Realty_EstateUpdateView, Realty_EstateDeleteView
+from properties.views.realty_estate_views import Realty_EstateCreateView, Realty_EstateUpdateView, Realty_EstateDeleteView, Realty_EstateActivateView
 
 app_name = 'properties'
 
@@ -40,4 +40,5 @@ urlpatterns = [
     path('<str:pk>/realty_estate_create/', Realty_EstateCreateView.as_view(), name='realty_estate_create'),
     path('<str:ret_pk>/<str:pk>realty_/estate_update/', Realty_EstateUpdateView.as_view(), name='realty_estate_update'),
     path('<str:ret_pk>/<str:pk>/realty_estate_delete/', Realty_EstateDeleteView.as_view(), name='realty_estate_delete'),
+    path('<str:ret_pk>/<str:pk>/realty_estate_activate/', Realty_EstateActivateView.as_view(), name='realty_estate_activate'),
 ]

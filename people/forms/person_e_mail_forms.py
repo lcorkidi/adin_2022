@@ -7,12 +7,12 @@ class Person_EmailCreateForm(GeneriCreateRelatedForm):
 
     class Meta:
         model = Person_E_Mail
-        fields = '__all__'
+        exclude = ('state',)
 
 class Person_EmailUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:
         model = Person_E_Mail
-        fields = '__all__'
+        exclude = ('state',)
 
 Person_EmailModelFormSet = modelformset_factory(Person_E_Mail, fields=('state', 'e_mail', 'use'), extra=0)

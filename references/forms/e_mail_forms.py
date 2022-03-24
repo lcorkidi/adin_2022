@@ -18,7 +18,7 @@ class E_MailDetailModelForm(ModelForm):
 
     class Meta:
         model = E_Mail
-        fields = ['e_mail']
+        fields = ['state', 'e_mail']
 
 class E_MailDeleteModelForm(GenericDeleteForm):
 
