@@ -49,7 +49,7 @@ class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template = 'adin/generic_create.html'
     form = PersonCreateForm
     title = title
-    subtitle = 'Crear'
+    subtitle = 'Escoger tipo'
     ref_urls = ref_urls
     permission_required = 'people.add_person'
 

@@ -43,7 +43,7 @@ class Phone(BaseModel):
         ]
 
     def __repr__(self) -> str:
-        return f'<Phone: +{self.country}{" " + str(self.region) if self.region != None else ""} {self.number}>'
+        return f'<Phone: {self.code}>'
 
     def __str__(self) -> str:
-        return f'+{self.country}{" " + str(self.region) if self.region != None else ""} {self.number}'
+        return self.code

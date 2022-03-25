@@ -111,11 +111,17 @@ class Lease_Realty_Person(BaseModel):
     phone = models.ForeignKey(
         'references.Phone',
         on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        default=None,
         verbose_name='Teléfono'
     )
     e_mail = models.ForeignKey(
         'references.E_Mail',
         on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        default=None,
         verbose_name='Correo Electrónico',
     )
     address = models.ForeignKey(
