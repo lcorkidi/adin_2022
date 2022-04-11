@@ -170,9 +170,9 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         per = Person.objects.get(pk=pk)
         if per.type == 0:
             if request.user.has_perm('people.activate_person'):
-                return redirect('people:person_natural_update_some', pk)
-            else: 
                 return redirect('people:person_natural_update_all', pk)
+            else: 
+                return redirect('people:person_natural_update_some', pk)
         elif per.type == 1:
             if request.user.has_perm('people.activate_person'):
                 return redirect('people:person_legal_update_all', pk)
