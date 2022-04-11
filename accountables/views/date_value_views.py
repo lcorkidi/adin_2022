@@ -23,7 +23,7 @@ class Date_ValueUpdateView(GenericUpdateRelatedView):
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
-    readonly_fields = ['accountable']
+    readonly_fields = ['accountable', 'date']
     fk_fields = ['accountable']
     permission_required = 'accountables.change_date_value'
 

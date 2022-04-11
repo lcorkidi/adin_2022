@@ -1,3 +1,4 @@
+import datetime
 from django.forms import ModelForm, Form, ModelChoiceField, ModelMultipleChoiceField, DateField, SelectDateWidget, IntegerField, modelformset_factory
 
 from adin.core.forms import GenericUpdateForm, GenericDeleteForm
@@ -17,6 +18,7 @@ class Lease_RealtyCreateForm(Form):
     )
     doc_date = DateField(
         widget=SelectDateWidget(
+            years= range(1970, datetime.date.today().year + 10),
             months= {
                 1: 'Enero',
                 2: 'Febrero',
@@ -84,6 +86,7 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
         widgets = {
             'doc_date': SelectDateWidget(), 
             'start_date': SelectDateWidget(
+                years= range(1970, datetime.date.today().year + 10),
                 months= {
                     1: 'Enero',
                     2: 'Febrero',
@@ -100,6 +103,7 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
                 }
             ), 
             'end_date': SelectDateWidget(
+                years= range(1970, datetime.date.today().year + 10),
                 months= {
                     1: 'Enero',
                     2: 'Febrero',
