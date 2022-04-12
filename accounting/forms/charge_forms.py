@@ -19,6 +19,6 @@ class ChaCreateForm(Form):
         label='Crédito'
     )
 
-ChargeCreateFormset = formset_factory(ChaCreateForm, extra=2)
+ChargeCreateFormset = formset_factory(ChaCreateForm, extra=20)
 
 ChargeModelFormSet = modelformset_factory(Charge, fields=('state', 'account', 'value', 'concept'), extra=0)
