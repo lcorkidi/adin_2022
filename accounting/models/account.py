@@ -8,31 +8,34 @@ from adin.core.models import BaseModel
 
 class Chargeables(models.Manager):
     def get_queryset(self):
-        chargeables = []
-        level1_list = super().get_queryset().filter(code__regex=r'^[0-9]{1}$').values_list('code', flat=True)
-        level2_list = (super().get_queryset().filter(code__regex=r'^[0-9]{2}$').annotate(nu_code=F('code')/10).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{2}$').values_list('code', flat=True))
-        level3_list = (super().get_queryset().filter(code__regex=r'^[0-9]{4}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{4}$').values_list('code', flat=True))
-        level4_list = (super().get_queryset().filter(code__regex=r'^[0-9]{6}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{6}$').values_list('code', flat=True))
-        level5_list = (super().get_queryset().filter(code__regex=r'^[0-9]{8}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{8}$').values_list('code', flat=True))
-        level6_list = (super().get_queryset().filter(code__regex=r'^[0-9]{10}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{10}$').values_list('code', flat=True))
-        for obj in level1_list:
-            if obj not in level2_list[0]:
+        try:
+            chargeables = []
+            level1_list = super().get_queryset().filter(code__regex=r'^[0-9]{1}$').values_list('code', flat=True)
+            level2_list = (super().get_queryset().filter(code__regex=r'^[0-9]{2}$').annotate(nu_code=F('code')/10).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{2}$').values_list('code', flat=True))
+            level3_list = (super().get_queryset().filter(code__regex=r'^[0-9]{4}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{4}$').values_list('code', flat=True))
+            level4_list = (super().get_queryset().filter(code__regex=r'^[0-9]{6}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{6}$').values_list('code', flat=True))
+            level5_list = (super().get_queryset().filter(code__regex=r'^[0-9]{8}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{8}$').values_list('code', flat=True))
+            level6_list = (super().get_queryset().filter(code__regex=r'^[0-9]{10}$').annotate(nu_code=F('code')/100).values_list('nu_code', flat=True), super().get_queryset().filter(code__regex=r'^[0-9]{10}$').values_list('code', flat=True))
+            for obj in level1_list:
+                if obj not in level2_list[0]:
+                    chargeables.append(obj)
+            for obj in level2_list[1]:
+                if obj not in level3_list[0]:
+                    chargeables.append(obj)
+            for obj in level3_list[1]:
+                if obj not in level4_list[0]:
+                    chargeables.append(obj)
+            for obj in level4_list[1]:
+                if obj not in level5_list[0]:
+                    chargeables.append(obj)
+            for obj in level5_list[1]:
+                if obj not in level6_list[0]:
+                    chargeables.append(obj)
+            for obj in level6_list[1]:
                 chargeables.append(obj)
-        for obj in level2_list[1]:
-            if obj not in level3_list[0]:
-                chargeables.append(obj)
-        for obj in level3_list[1]:
-            if obj not in level4_list[0]:
-                chargeables.append(obj)
-        for obj in level4_list[1]:
-            if obj not in level5_list[0]:
-                chargeables.append(obj)
-        for obj in level5_list[1]:
-            if obj not in level6_list[0]:
-                chargeables.append(obj)
-        for obj in level6_list[1]:
-            chargeables.append(obj)
-        return super().get_queryset().filter(code__in=chargeables).annotate(char_code=Cast('code', CharField())).order_by('char_code')
+            return super().get_queryset().filter(code__in=chargeables).annotate(char_code=Cast('code', CharField())).order_by('char_code')
+        except:
+            return
 
 class Account(BaseModel):
     

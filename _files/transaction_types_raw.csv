@@ -1,2 +1,3 @@
 class,name
-Transaction_Type,Mensualidad Arriendo Inmueble
+Transaction_Type,Arriendo Inmueble Residencial
+Transaction_Type,Arriendo Inmueble Comercial
