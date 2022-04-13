@@ -67,6 +67,13 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <div class="p-2 fs-5 text-center text-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="d-grid mx-2 gap2">
                         <div class="p-2 fs-5 w-100 text-center">
                             Movimientos:
@@ -82,11 +89,34 @@
                                 </thead>
                                 <tbody>
                                     {{ formset.management_form }}
+                                    {% if formset.non_form_errors %}
+                                        <tr>
+                                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                                <div class="p-2 fs-5 text-center text-danger">
+                                                    {{ formset.non_form_errors }}
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    {% endif %}
                                     {% for related_form in formset %}
+                                        {% if related_form.non_field_errors %}
+                                            <tr>
+                                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                                    <div class="p-2 fs-5 text-center text-danger">
+                                                        {{ related_form.non_field_errors }}
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        {% endif %}
                                         <tr>
                                             {% for related_field in related_form %}
                                                 <td>
                                                     {{ related_field }}
+                                                    {% if related_field.errors %}
+                                                        <div class="p-2 fs-5 text-center text-danger">
+                                                            {{ related_field.errors }}
+                                                        </div>
+                                                    {% endif %}
                                                 </td>
                                             {% endfor %}
                                         </tr>
@@ -95,13 +125,6 @@
                             </table>
                         </div>
                     </div>
-                    {% if form.non_field_errors %}
-                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                            <div class="p-2 fs-5 text-center text-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-                        </div>
-                    {% endif %}
                     <div class="d-grid m-2 gap-2">
                         <input class="btn btn-primary" type="submit" value="{{ subtitle }}">
                     </div>

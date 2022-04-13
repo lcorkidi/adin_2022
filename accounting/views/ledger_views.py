@@ -28,6 +28,7 @@ class LedgerListSomeView(GenericListView):
     model = Ledger
     title = title
     ref_urls = ref_urls
+    fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     list_order = 'code'
     permission_required = 'accounting.view_ledge'
@@ -38,6 +39,7 @@ class LedgerListAllView(GenericListView):
     model = Ledger
     title = title
     ref_urls = ref_urls
+    fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     list_order = 'code'
     permission_required = 'accounting.activate_ledger'
@@ -56,16 +58,19 @@ class LedgerCreateView(GenericCreateView):
     def get(self, request):
         form = self.form()
         formset = self.formset()
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'formset': formset, 'errors':False, 'group': user_group_str(request.user)}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'formset': formset, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
     def post(self, request):
         form = self.form(request.POST)
-        if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+        formset = self.formset(request.POST)
+        if not form.is_valid() or not formset.is_valid():
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'formset': formset, 'group': user_group_str(request.user)}
             return render(request, self.template, context)
         form.creator = request.user
-        form.save()            
+        ledger = form.save()            
+        formset.creator = request.user
+        formset.save(ledger)
         return redirect(self.ref_urls['list'])
 
 class LedgerDetailView(GenericDetailView):
@@ -74,6 +79,7 @@ class LedgerDetailView(GenericDetailView):
     model = Ledger
     form = LedgerDetailModelForm
     ref_urls = ref_urls
+    fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     related_data = ledger_related_data
     permission_required = 'accounting.view_ledger'
@@ -84,15 +90,10 @@ class LedgerDeleteView(GenericDeleteView):
     model = Ledger
     form = LedgerDeleteModelForm
     ref_urls = ref_urls
+    fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     related_data = ledger_related_data
     permission_required = 'accounting.delete_ledger'
-
-    def post(self, request, ret_pk, pk):
-        obj = self.model.objects.get(pk=pk)
-        obj.state = 0
-        obj.save()
-        return redirect(self.ref_urls['update'], ret_pk)
 
 class LedgerActivateView(GenericActivateView):
 
@@ -100,6 +101,7 @@ class LedgerActivateView(GenericActivateView):
     model = Ledger
     form = LedgerDeleteModelForm
     ref_urls = ref_urls
+    fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     related_data = ledger_related_data
     permission_required = 'accounting.activate_ledger'
