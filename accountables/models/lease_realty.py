@@ -1,4 +1,3 @@
-import datetime as dt
 from django.db import models
 
 from adin.core.models import BaseModel
@@ -50,6 +49,9 @@ class Lease_Realty(Accountable):
         if self.start_date and not self.end_date:
             return True
         return False
+
+    def accounting_third_party(self):
+        return self.leases_realties_people.all().filter(role=1)
 
     def __repr__(self) -> str:
         return f'<Lease_Realty: {self.code}>'

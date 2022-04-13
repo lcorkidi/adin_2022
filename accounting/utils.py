@@ -11,6 +11,9 @@ def ledger2code(ledger):
         ref_num_str = '0' + ref_num_str
     return f'{ledger.type.abreviation}-{ref_num_str}'
 
+def ledgertemplate2code(template):
+    return f'{template.ledger_type.abbreviation}_{template.transaction_type.name}'
+
 def ledger_related_data(*args):
     from .models import Charge
     from .forms.charge_forms import ChargeModelFormSet

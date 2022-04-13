@@ -1,4 +1,5 @@
 from django.db import models
+
 from adin.core.models import BaseModel
 
 class Charge(BaseModel):
@@ -47,11 +48,6 @@ class Charge(BaseModel):
 
 class Charge_Concept(BaseModel):
 
-    NATURE_CHOICE = [
-        (-1, 'Crédito'),
-        (1, 'Débito')
-    ]
-
     code = models.CharField(
         max_length=128,
         primary_key=True,
@@ -85,3 +81,47 @@ class Charge_Concept(BaseModel):
 
     def __str__(self) -> str:
         return self.code
+
+class Charge_Template(BaseModel):
+
+    NATURE_CHOICE = [
+        (-1, 'Crédito'),
+        (1, 'Débito')
+    ]
+
+    ledger_template = models.ForeignKey(
+        'accounting.Ledger_Template',
+        on_delete=models.PROTECT,
+        related_name='charges_templates',
+        related_query_name='charge_template',
+        verbose_name='Formato Registro'
+    )
+    account = models.ForeignKey(
+        'accounting.Account',
+        on_delete=models.PROTECT,
+        related_name='charges_templates',
+        related_query_name='charge_template',
+        verbose_name='Cuenta'
+    )
+    nature = models.PositiveIntegerField(
+        choices=NATURE_CHOICE,
+        verbose_name='Naturaleza'
+    )
+    factor = models.ForeignKey(
+        'references.Charge_Factor',
+        on_delete=models.PROTECT,
+        related_name='charges_templates',
+        related_query_name='charge_template',
+        verbose_name='Factor'
+    )
+
+    class Meta:
+        app_label = 'accounting'
+        verbose_name = 'Formato Movimiento'
+        verbose_name_plural = 'Formatos Movimientos'
+
+    def __repr__(self) -> str:
+        return f'<Charge_Template: {self.ledger_template.code}_{self.account}-{self.get_nature_display()}-{self.factor}>'
+
+    def __str__(self) -> str:
+        return f'{self.ledger_template.code}_{self.account}-{self.get_nature_display()}-{self.factor}'

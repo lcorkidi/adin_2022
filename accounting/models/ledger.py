@@ -70,8 +70,7 @@ class Ledger_Type(BaseModel):
     abreviation =  models.CharField(
         max_length=4,
         verbose_name='Abreviación'
-    )
-    
+    )    
 
     class Meta:
         app_label = 'accounting'
@@ -83,3 +82,35 @@ class Ledger_Type(BaseModel):
     
     def __str__(self) -> str:
         return self.name
+
+class Ledger_Template(BaseModel):
+
+    code = models.CharField(
+        max_length=128,
+        primary_key=True
+    )
+    transaction_type = models.ForeignKey(
+        'references.Transaction_Type',
+        on_delete=models.PROTECT,
+        related_name='ledgers_templates',
+        related_query_name='ledger_template',
+        verbose_name='Tipo Transacción'
+    )
+    ledger_type = models.ForeignKey(
+        Ledger_Type,
+        on_delete=models.PROTECT,
+        related_name='ledgers_templates',
+        related_query_name='ledger_template',
+        verbose_name='Tipo Registro'
+    )
+    
+    class Meta:
+        app_label = 'accounting'
+        verbose_name = 'Formato Registro'
+        verbose_name_plural = 'Formatos Registros'
+
+    def __repr__(self) -> str:
+        return f'<Ledger_Template: {self.code}>'
+    
+    def __str__(self) -> str:
+        return self.code
