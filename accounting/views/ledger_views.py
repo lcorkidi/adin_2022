@@ -31,7 +31,7 @@ class LedgerListSomeView(GenericListView):
     fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     list_order = 'code'
-    permission_required = 'accounting.view_ledge'
+    permission_required = 'accounting.view_ledger'
 
 class LedgerListAllView(GenericListView):
 

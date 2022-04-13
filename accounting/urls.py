@@ -4,6 +4,9 @@ from accounting.views.account_views import AccountListView, AccountListSomeView,
 from accounting.views.ledger_views  import LedgerListView, LedgerListSomeView, LedgerListAllView, LedgerCreateView, LedgerDetailView, LedgerDeleteView, LedgerActivateView
 from accounting.views.ledger_type_views import Ledger_TypeListView, Ledger_TypeListSomeView, Ledger_TypeListAllView, Ledger_TypeCreateView, Ledger_TypeDetailView, Ledger_TypeDeleteView, Ledger_TypeActivateView
 from accounting.views.charge_concept_views import Charge_ConceptListView, Charge_ConceptListSomeView, Charge_ConceptListAllView, Charge_ConceptCreateView, Charge_ConceptDetailView, Charge_ConceptDeleteView, Charge_ConceptActivateView
+from accounting.views.ledger_template_views  import Ledger_TemplateListView, Ledger_TemplateListSomeView, Ledger_TemplateListAllView, Ledger_TemplateCreateView, Ledger_TemplateDetailView, Ledger_TemplateDeleteView, Ledger_TemplateActivateView
+
+
 app_name = 'accounting'
 
 urlpatterns = [
@@ -17,7 +20,7 @@ urlpatterns = [
     path('<int:pk>/account_update_all/', AccountUpdateAllView.as_view(), name='account_update_all'),
     path('<int:pk>/account_delete/', AccountDeleteView.as_view(), name='account_delete'),
     path('<int:pk>/account_activate/', AccountActivateView.as_view(), name='account_activate'),
-    path('ledge_list', LedgerListView.as_view(), name='ledger_list'), 
+    path('ledger_list', LedgerListView.as_view(), name='ledger_list'), 
     path('ledger_list_some', LedgerListSomeView.as_view(), name='ledger_list_some'), 
     path('ledger_list_all', LedgerListAllView.as_view(), name='ledger_list_all'), 
     path('ledger_create/', LedgerCreateView.as_view(), name='ledger_create'),
@@ -38,4 +41,11 @@ urlpatterns = [
     path('<str:pk>/charge_concept_detail/', Charge_ConceptDetailView.as_view(),name='charge_concept_detail'),
     path('<str:pk>/charge_concept_delete/', Charge_ConceptDeleteView.as_view(), name='charge_concept_delete'),
     path('<str:pk>/charge_concept_activate/', Charge_ConceptActivateView.as_view(), name='charge_concept_activate'),
+    path('ledger_template_list', Ledger_TemplateListView.as_view(), name='ledger_template_list'), 
+    path('ledger_template_list_some', Ledger_TemplateListSomeView.as_view(), name='ledger_template_list_some'), 
+    path('ledger_template_list_all', Ledger_TemplateListAllView.as_view(), name='ledger_template_list_all'), 
+    path('ledger_template_create/', Ledger_TemplateCreateView.as_view(), name='ledger_template_create'),
+    path('<str:pk>/ledger_template_detail/', Ledger_TemplateDetailView.as_view(),name='ledger_template_detail'),
+    path('<str:pk>/ledger_template_delete/', Ledger_TemplateDeleteView.as_view(), name='ledger_template_delete'),
+    path('<str:pk>/ledger_template_activate/', Ledger_TemplateActivateView.as_view(), name='ledger_template_activate'),
 ]

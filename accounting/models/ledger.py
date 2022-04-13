@@ -108,6 +108,9 @@ class Ledger_Template(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Formato Registro'
         verbose_name_plural = 'Formatos Registros'
+        constraints = [
+            models.UniqueConstraint(fields=['transaction_type', 'ledger_type'], name='unique_trancaction_ledger_types'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Ledger_Template: {self.code}>'
