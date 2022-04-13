@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
 
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
-from references.models import Address, PUC, E_Mail, Phone, Transaction_Type
+from references.models import Address, PUC, E_Mail, Phone, Transaction_Type, Charge_Factor, Factor_Data
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
-from accounting.models import Account, Ledger, Ledger_Type, Charge, Charge_Concept
+from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Concept, Charge_Template
 from accountables.models import Accountable, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
 
 def df2objs(dr, rdi, save=False):

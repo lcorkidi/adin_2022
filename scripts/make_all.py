@@ -121,4 +121,24 @@ def run():
     df2objs(pd.read_csv('_files/charges_raw.csv'), _raw_data_info, True)
     dt24 = datetime.now()
     print('Charge: {}'.format(dt24-dt23))
-    print('Total: {}'.format(dt24-dt1))
+
+    # create charges factors
+    df2objs(pd.read_csv('_files/charges_factors_raw.csv'), _raw_data_info, True)
+    dt25 = datetime.now()
+    print('Charge_Factor: {}'.format(dt25-dt24))
+
+    # create factors data
+    df2objs(pd.read_csv('_files/factors_data_raw.csv'), _raw_data_info, True)
+    dt26 = datetime.now()
+    print('Factor_Data: {}'.format(dt26-dt25))
+
+    # create ledgers templates
+    df2objs(pd.read_csv('_files/ledgers_templates_raw.csv'), _raw_data_info, True)
+    dt27 = datetime.now()
+    print('Ledger_Template: {}'.format(dt27-dt26))
+
+    # create charges templates
+    df2objs(pd.read_csv('_files/charges_templates_raw.csv'), _raw_data_info, True)
+    dt28 = datetime.now()
+    print('Charges_Templates: {}'.format(dt28-dt27))
+    print('Total: {}'.format(dt28-dt1))

@@ -103,7 +103,7 @@ class Charge_Template(BaseModel):
         related_query_name='charge_template',
         verbose_name='Cuenta'
     )
-    nature = models.PositiveIntegerField(
+    nature = models.IntegerField(
         choices=NATURE_CHOICE,
         verbose_name='Naturaleza'
     )

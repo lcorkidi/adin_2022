@@ -13,7 +13,7 @@ class Charge_Factor(BaseModel):
     class Meta:
         app_label = 'references'
         verbose_name = 'Factor Movimiento'
-        verbose_name_plural = 'Factores Moviminetos'
+        verbose_name_plural = 'Factores Movimientos'
         permissions = [
             ('charge_factor', 'Can activate charge factor.'),
         ]

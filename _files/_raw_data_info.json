@@ -238,5 +238,41 @@
             "account": "Account",
             "concept": "Charge_Concept"
         }
+    },
+    "Charge_Factor": {
+        "value_attrs": [
+            "name"
+        ],        
+        "fk_attrs": {
+        }
+    },
+    "Factor_Data": {
+        "value_attrs": [
+            "validity_date",
+            "amount",
+            "percentage",
+            "in_instance_attribute"
+        ],        
+        "fk_attrs": {
+            "factor": "Charge_Factor"
+        }
+    },
+    "Ledger_Template": {
+        "value_attrs": [
+        ],        
+        "fk_attrs": {
+            "transaction_type": "Transaction_Type",
+            "ledger_type": "Ledger_Type"
+        }
+    },
+    "Charge_Template": {
+        "value_attrs": [
+            "nature"
+        ],        
+        "fk_attrs": {
+            "ledger_template": "Ledger_Template",
+            "account": "Account",
+            "factor": "Charge_Factor"
+        }
     }
 }
