@@ -74,7 +74,7 @@ class ChargeCreateForm(Form):
         base_args['ledger'] = args[0]
         base_args['account'] = self.cleaned_data.get('account')
         base_args['concept'] = self.cleaned_data.get('concept')
-        debit = self. cleaned_data.get('debit')
+        debit = self.cleaned_data.get('debit')
         if debit and debit > 0:
             base_args['value'] = debit
         else:

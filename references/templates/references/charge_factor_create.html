@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }} - {{ subtitle }}</span> 
+                    <div>
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
+                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                        </a> 
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info">Para tasa no existente escribir nombre y continuar. Para nuevos datos para tasa existente, escoger tasa y continuar.</div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="d-flex mx-2">
+                            <div class="d-grid w-100">
+                                <div class="p-2 fs-5 text-center">
+                                    {{ field.label_tag }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <div class="p-2 fs-5 text-center text-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-grid m-2 gap-2">
+                        <input class="btn btn-primary" type="submit" value="Continuar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

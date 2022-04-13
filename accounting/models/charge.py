@@ -112,7 +112,7 @@ class Charge_Template(BaseModel):
         on_delete=models.PROTECT,
         related_name='charges_templates',
         related_query_name='charge_template',
-        verbose_name='Factor'
+        verbose_name='Tasa'
     )
 
     class Meta:

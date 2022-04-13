@@ -12,10 +12,10 @@ class Charge_Factor(BaseModel):
 
     class Meta:
         app_label = 'references'
-        verbose_name = 'Factor Movimiento'
-        verbose_name_plural = 'Factores Movimientos'
+        verbose_name = 'Tasa Transacción'
+        verbose_name_plural = 'Tasas Transacciones'
         permissions = [
-            ('charge_factor', 'Can activate charge factor.'),
+            ('activate_charge_factor', 'Can activate charge factor.'),
         ]
 
     # # applies current factor to reg_regtem.value according to the factor's attributes, factors for nature and rounds to int
@@ -44,18 +44,21 @@ class Factor_Data(BaseModel):
         Charge_Factor,
         on_delete=models.PROTECT,
         related_name='datas',
-        related_query_name='data'
+        related_query_name='data',
+        verbose_name='Tasa'
     )
     validity_date = models.DateField(
         verbose_name='Fecha Validez'
     )
     amount = models.PositiveIntegerField(
-        verbose_name='Monto'
+        verbose_name='Monto',
+        default = 0
     )
     percentage = models.DecimalField(
         max_digits=6,
         decimal_places=3,
-        verbose_name='Porcentaje'
+        verbose_name='Porcentaje',
+        default=100
     )
     in_instance_attribute = models.CharField(
         max_length=15,
@@ -67,8 +70,8 @@ class Factor_Data(BaseModel):
 
     class Meta:
         app_label = 'references'
-        verbose_name = 'Datos Factor'
-        verbose_name_plural = 'Datos Factores'
+        verbose_name = 'Datos Tasas'
+        verbose_name_plural = 'Datos Tasas'
         constraints = [
             models.UniqueConstraint(fields=['factor', 'validity_date'], name='unique_factor_validity'),
             models.CheckConstraint(check=Q(percentage__gte=0) & Q(percentage__lte=100), name='facdat_percentage_gte_0_and_lte_100'),

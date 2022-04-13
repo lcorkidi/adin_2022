@@ -4,6 +4,7 @@ from .views.phone_views import PhoneListView, PhoneListSomeView, PhoneListAllVie
 from .views.e_mail_views import E_MailListView, E_MailListSomeView, E_MailListAllView, E_MailDetailView, E_MailCreateView, E_MailDeleteView, E_MailActivateView
 from .views.transaction_type_views import Transaction_TypeListView, Transaction_TypeListSomeView, Transaction_TypeListAllView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
 from .views.puc_views import PUCListView,  PUCCreateView, PUCDeleteView
+from .views.charge_factor_views import Factor_DataListView, Factor_DataListSomeView, Factor_DataListAllView, Charge_FactorCreateView, Factor_DataCreateView, Factor_DataDetailView, Factor_DataDeleteView, Factor_DataActivateView
 
 app_name = 'references'
 
@@ -39,4 +40,12 @@ urlpatterns = [
     path('puc_list/', PUCListView.as_view(), name='puc_list'),
     path('puc_create/', PUCCreateView.as_view(), name='puc_create'),
     path('puc_delete/', PUCDeleteView.as_view(), name='puc_delete'),
+    path('factor_data_list/', Factor_DataListView.as_view(), name='factor_data_list'),
+    path('factor_data_some/', Factor_DataListSomeView.as_view(), name='factor_data_list_some'),
+    path('factor_data_all/', Factor_DataListAllView.as_view(), name='factor_data_list_all'),
+    path('charge_factor_create/', Charge_FactorCreateView.as_view(), name='charge_factor_create'),
+    path('<str:rel_pk>/factor_data_create/', Factor_DataCreateView.as_view(), name='factor_data_create'),
+    path('<str:pk>/factor_data_detail/', Factor_DataDetailView.as_view(), name='factor_data_detail'),
+    path('<str:pk>/factor_data_delete/', Factor_DataDeleteView.as_view(), name='factor_data_delete'),
+    path('<str:pk>/factor_data_activate/', Factor_DataActivateView.as_view(), name='factor_data_activate'),
 ]
