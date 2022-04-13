@@ -36,6 +36,8 @@
                                 {% for field in form.visible_fields %}
                                     {% if field.name in choice_fields %}
                                         <td>{% selected_choice form field.name field.value %}</td>
+                                    {% elif field.name in fk_fields %}
+                                        <td>{% fk_str form field.name %}</td>
                                     {% elif field.name != 'state' %}
                                         <td>{{ field.value }}</td>
                                     {% endif %}

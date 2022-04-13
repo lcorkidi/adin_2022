@@ -1,6 +1,7 @@
+import datetime
 from django.forms import ModelForm, SelectDateWidget, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm
 from accounting.models import Ledger
 
 class LedgerCreateModelForm(GenericCreateForm):
@@ -10,6 +11,7 @@ class LedgerCreateModelForm(GenericCreateForm):
         fields = ['type', 'holder', 'third_party', 'date', 'description']
         widgets = {
             'date': SelectDateWidget(
+                years=range(datetime.date.today().year - 1, datetime.date.today().year + 1),
                 months= {
                     1: 'Enero',
                     2: 'Febrero',

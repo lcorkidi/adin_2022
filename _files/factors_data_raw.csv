@@ -1,0 +1,3 @@
+class,validity_date,amount,percentage,in_instance_attribute,factor
+Factor_Data,2022-01-01,0,19,ZZZZ,IVA 19
+Factor_Data,2022-01-01,0,100,ZZZZ,Base

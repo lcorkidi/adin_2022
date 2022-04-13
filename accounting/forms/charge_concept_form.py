@@ -1,3 +1,4 @@
+import datetime
 from django.forms import ModelForm, SelectDateWidget, ValidationError, modelformset_factory
 
 from adin.core.forms import GenericCreateForm, GenericDeleteForm
@@ -11,6 +12,7 @@ class Charge_ConceptCreateModelForm(GenericCreateForm):
         fields = ['accountable', 'transaction_type', 'date']
         widgets = {
             'date': SelectDateWidget(
+                years= range(datetime.date.today().year - 10, datetime.date.today().year + 10),
                 months= {
                     1: 'Enero',
                     2: 'Febrero',
