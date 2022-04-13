@@ -1,4 +1,5 @@
 from django.db import models
+
 from adin.core.models import BaseModel
 
 class Accountable(BaseModel):
