@@ -60,6 +60,10 @@ class Account(BaseModel):
     objects = models.Manager()
     chargeables = Chargeables()
 
+    @classmethod
+    def account_name(cls, code):
+        return cls.objects.get(code=code).name
+
     @property
     def levels(self):
         return Account_Structure.levels(self.code)

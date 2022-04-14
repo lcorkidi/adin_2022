@@ -153,7 +153,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SHELL_PLUS_IMPORTS = [
     'import pandas as pd',
-    'from scripts.utils import df2objs, get_ledger, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation',
+    'import datetime',
+    'from scripts.utils import df2objs, get_db_ledger, get_csv_ledger, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation, balance, charges_receivable',
     'from accounting.core.structure import Account_Structure'
 ]
 

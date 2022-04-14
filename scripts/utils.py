@@ -1,30 +1,21 @@
 import pandas as pd
+import datetime
 from datetime import date as dt, timedelta as td
 from django.contrib.auth import get_user_model
+from django.db.models import Value, Sum
 
+from accounting.core.structure import Account_Structure
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
 from references.models import Address, PUC, E_Mail, Phone, Transaction_Type, Charge_Factor, Factor_Data
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
 from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Concept, Charge_Template
 from accountables.models import Accountable, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
-
+    
 # load = lambda x: pd.read_csv(f'_files/copy/{x.lower()}.csv')
 # dump = lambda x,n: x.to_csv(f'_files/copy/{n.lower()}.csv', index=False)
 load = lambda x: pd.read_csv(f'../_files/copy/{x.lower()}.csv')
 dump = lambda x,n: x.to_csv(f'../_files/copy/{n.lower()}.csv', index=False)
 
-charges = load('Charge')
-concepts = load('Charge_Concept')
-ledgers = load('Ledger')
-
-def get_ledger():
-
-    return charges\
-            .join(concepts.set_index('code'), on='concept')\
-            .join(ledgers.set_index('code'), on='ledger', lsuffix='_concept')\
-            .sort_values(by=['account','date','ledger'])\
-            .reset_index(drop=True)
-    
 def df2objs(dr, rdi, save=False):
     user = get_user_model().objects.all()[0]
     objs = []
@@ -40,6 +31,20 @@ def df2objs(dr, rdi, save=False):
         if save: obj.save()
         objs.append(obj)
     return objs
+
+def get_db_ledger():    
+    ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
+    return ledger
+
+def get_csv_ledger():
+    charges = load('Charge')
+    concepts = load('Charge_Concept')
+    ledgers = load('Ledger')    
+    return charges\
+            .join(concepts.set_index('code'), on='concept')\
+            .join(ledgers.set_index('code'), on='ledger', lsuffix='_concept')\
+            .sort_values(by=['account','date','ledger'])\
+            .reset_index(drop=True)
 
 def filter_ledger_by_date(ledger, exact_date=None, start_date=None, end_date=None, period=None):
     # these dates must conform all across the api. Forcing column types can be a way to go or having a constant expression for the datetime (iso)format.
@@ -75,3 +80,62 @@ def pending_balance_annotation(ledger, group=['concept__accountable','account'],
         .assign(pending=lambda df:df.groupby(group)['value'].cumsum())
     if last: data = data.groupby(group)[['ledger__date','pending']].last()
     return data
+
+def balance(level=1, start_date=datetime.date(datetime.date.today().year, 1, 1), end_date=datetime.date.today()):
+    ledger = get_db_ledger()
+    ledger = ledger.assign(**{f'level{level+1}': code for level, code in ledger.account.apply(lambda x: Account_Structure.levels(x)).items()})\
+                .assign(previous_balance = ledger.apply(lambda x: x.value if x.ledger__date < start_date else 0, axis=1),
+                 debit = ledger.apply(lambda x: x.value if x.ledger__date >= start_date and  x.ledger__date <= end_date and x.value > 0 else 0, axis=1),
+                 credit = ledger.apply(lambda x: x.value if x.ledger__date >= start_date and  x.ledger__date <= end_date and x.value < 0 else 0, axis=1),
+                 value = ledger.apply(lambda x: x.value if x.ledger__date <= end_date else 0, axis=1))\
+                .groupby(f'level{level}')\
+                .sum()\
+                .rename(columns={'value':'closing_balance'})
+    ledger.index.names = ['account']
+    ledger = ledger.assign(name = ledger.index)
+    ledger = ledger.assign(name = ledger.name.apply(lambda x: Account.account_name(x)))
+    return ledger[['name', 'previous_balance', 'debit', 'credit', 'closing_balance']]
+
+def pending_df(accounts, accountable):    
+    # debit charge query
+    receivable = pd.DataFrame(Charge.objects.filter(account__code__in=accounts, concept__accountable=accountable, value__gt=0).annotate(pending_value=Value(0)).values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
+    
+    # credit charges sum with NaN error correction
+    received_sum = Charge.objects.filter(account__code__in=accounts, concept__accountable=accountable, value__lt=0).aggregate(Sum('value'))['value__sum']
+    if not received_sum:
+        received_sum = 0
+    else:
+        received_sum = -received_sum
+    
+    # each debit obj´s value in query is tallied with previous ones against the credit sum and result registered in added column
+    buffer_sum = 0
+    for pe_index, pe_row in receivable.iterrows():
+        if buffer_sum + pe_row['value'] <= received_sum:
+            receivable.at[pe_index, 'pending_value'] = 0
+        elif buffer_sum < received_sum:
+            receivable.at[pe_index, 'pending_value'] = pe_row['value'] - (received_sum - buffer_sum)
+        else:
+            receivable.at[pe_index, 'pending_value'] = pe_row['value']
+        buffer_sum += pe_row['value']
+        
+    return receivable
+
+def charges_receivable(ledger):    
+    # debit charge query and annottate pending_value
+    receivable = ledger.query('value > 0').assign(pending_value = ledger.value)
+    
+    # credit charges sum 
+    received_sum = -ledger.query('value < 0')['value'].sum()
+    
+    # each debit obj´s value in query is tallied with previous ones against the credit sum and result registered in added column
+    buffer_sum = 0
+    for pe_index, pe_row in receivable.iterrows():
+        if buffer_sum + pe_row['value'] <= received_sum:
+            receivable.at[pe_index, 'pending_value'] = 0
+        elif buffer_sum < received_sum:
+            receivable.at[pe_index, 'pending_value'] = pe_row['value'] - (received_sum - buffer_sum)
+        else:
+            receivable.at[pe_index, 'pending_value'] = pe_row['value']
+        buffer_sum += pe_row['value']
+        
+    return receivable
