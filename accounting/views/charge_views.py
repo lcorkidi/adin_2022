@@ -14,6 +14,8 @@ class ChargeReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     def get(self, request):
         charges = Charge.objects\
+                        .filter(account__in=[13802005, 13802010])\
+                        .order_by('concept__accountable')\
                         .values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value')
         formset = self.formset(initial=charges)
         context = {'formset': formset, 'title': self.title}

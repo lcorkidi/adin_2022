@@ -151,6 +151,12 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SHELL_PLUS_IMPORTS = [
+    'import pandas as pd',
+    'from scripts.utils import df2objs, get_ledger, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation',
+    'from accounting.core.structure import Account_Structure'
+]
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
