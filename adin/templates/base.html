@@ -80,9 +80,6 @@
                                 <a class="dropdown-item" href="{% url 'accounting:ledger_template_list' %}"><strong>Formatos Documentos</strong></a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{% url 'accounting:charge_report' %}"><strong>Reporte Movimientos</strong></a>
-                            </li>
-                            <li>
                                 <a class="dropdown-item" href="{% url 'accounting:account_list' %}"><strong>Cuentas</strong></a>
                             </li>
                             <li>
@@ -90,6 +87,19 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{% url 'accounting:charge_concept_list' %}"><strong>Conceptos Movimientos</strong></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <label class="nav-link dropdown-toggle text-white" id="reportsDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Informes</label>
+                        <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="reportsDropDownLink">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'reports:balance' %}"><strong>Balance</strong></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'reports:charge_report' %}"><strong>Reporte Movimientos</strong></a>
                             </li>
                         </ul>
                     </li>

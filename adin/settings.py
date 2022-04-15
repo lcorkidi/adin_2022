@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'properties',
     'accounting',
     'accountables',
+    'reports',
 
     # Third Party Apps
     'django_extensions',
@@ -154,8 +155,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHELL_PLUS_IMPORTS = [
     'import pandas as pd',
     'import datetime',
-    'from scripts.utils import df2objs, get_db_ledger, get_csv_ledger, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation, balance, charges_receivable',
-    'from accounting.core.structure import Account_Structure'
+    'from scripts.utils import df2objs, get_ledger_csv, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation',
+    'from reports.utils import get_ledger_db, balance, charges_pending',
+    'from accounting.core.structure import Account_Structure',
+    'from django.db.models import F, Q, Value, Sum',
 ]
 
 # LOGGING = {

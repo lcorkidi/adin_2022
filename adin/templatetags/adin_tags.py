@@ -41,4 +41,14 @@ def fk_str(form, field_name):
             return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk={form[field_name].value()})')
         except:
             return eval(f'{form._meta.model._meta.get_field(field_name).related_model.__name__}.objects.get(pk="{form[field_name].value()}")')
+
+@register.simple_tag(name="format2currency")
+def format2currency(field_value, show_zero):
+    if field_value == 0 and not show_zero:
+        return ''
+    return "${:,}".format(field_value)
+
+@register.simple_tag(name="format2date")
+def format2date(field_value):
+    return f'{field_value.day}/{field_value.month}/{field_value.year}'
         

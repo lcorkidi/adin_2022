@@ -18,9 +18,7 @@
                     <thead>
                         <tr>
                             {% for field in formset.form %}
-                                {% if field.name != 'state' %}
-                                    <th>{{ field.label }}</th> 
-                                {% endif %}                             
+                                <th>{{ field.label }}</th> 
                             {% endfor %}
                         </tr>
                     </thead>
@@ -28,7 +26,13 @@
                         {% for form in formset %}
                             <tr>
                                 {% for field in form.visible_fields %}
-                                    <td>{{ field.value }}</td>
+                                    <td>
+                                        {% if field.field.widget.attrs.currency %}
+                                            {% format2currency field.value field.field.widget.attrs.show_zero %}
+                                        {% else %}
+                                            {{ field.value }}
+                                        {% endif %}
+                                    </td>
                                 {% endfor %}
                             </tr>
                         {% endfor %}                  

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content">
+        {% if formset.initial_form_count == 0 %}
+            <div class="alert alert-info">No hay {{ title.lower }} en la base de datos</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }}</span> 
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for field in formset.form %}
+                                <th>{{ field.label }}</th> 
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                    <td>
+                                        {% if field.field.widget.attrs.currency %}
+                                            {% format2currency field.value field.field.widget.attrs.show_zero %}
+                                        {% elif field.field.widget.attrs.date %}
+                                            {% format2date field.value %}
+                                        {% else %}
+                                            {{ field.value }}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}                  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

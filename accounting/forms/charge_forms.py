@@ -1,35 +1,6 @@
-from django.forms import Form, BaseFormSet, CharField, DateField, IntegerField, ModelChoiceField, IntegerField, ValidationError, formset_factory, modelformset_factory
+from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, ValidationError, formset_factory, modelformset_factory
 
 from accounting.models import Charge, Charge_Concept, Account
-
-class ChargeReportForm(Form):
-
-    ledger = CharField(
-        label='Código Registro'
-    )
-    ledger__date = DateField(
-        label='Fecha Registro'
-    )
-    ledger__third_party = CharField(
-        label='Tercero Registro'
-    )
-    concept__accountable = CharField(
-        label='Documento Concepto'
-    )
-    concept__transaction_type = CharField(
-        label='Tipo Concepto'
-    )
-    concept__date = DateField(
-        label='Fecha Concepto'
-    )
-    account = CharField(
-        label='Cuenta'
-    )
-    value = CharField(
-        label='Valor'
-    )
-
-ChargeReportFormSet = formset_factory(ChargeReportForm, extra=0)
  
 class ChargeCreateForm(Form):
 
