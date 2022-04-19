@@ -46,7 +46,7 @@ def fk_str(form, field_name):
 def format2currency(field_value, show_zero):
     if field_value == 0 and not show_zero:
         return ''
-    return "${:,}".format(field_value)
+    return "$ {:,}".format(field_value)
 
 @register.simple_tag(name="format2date")
 def format2date(field_value):

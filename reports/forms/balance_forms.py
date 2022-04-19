@@ -1,5 +1,5 @@
 from attr import attr
-from django.forms import Form, CharField, IntegerField, TextInput, NumberInput, formset_factory
+from django.forms import Form, CharField, IntegerField, BooleanField, NumberInput, formset_factory
 
 class AccountBalanceForm(Form):
 
@@ -15,15 +15,21 @@ class AccountBalanceForm(Form):
     )
     debit = IntegerField(
         widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
-        label='Debito'
+        label='Débito'
     )
     credit = IntegerField(
         widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
-        label='Debito'
+        label='Crédito'
     )
     closing_balance = IntegerField(
         widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
         label='Saldo Posterior'
+    )
+    priority = IntegerField(
+        label='priority'
+    )
+    chargeable = BooleanField(
+        label='chargeable'
     )
 
 AccountBalanceFormSet = formset_factory(AccountBalanceForm, extra=0)

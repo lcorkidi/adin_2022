@@ -8,16 +8,16 @@ from accounting.models import Account, Charge
 def get_ledger_db():    
     ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
     ledger = ledger.rename(columns={'ledger__date':'date', 'ledger__third_party':'third_party', 'concept__accountable':'accountable','concept__transaction_type':'concept'})
-    return ledger\
-            .assign(third_party=ledger.third_party.apply(lambda x: Person.objects.get(pk=x).complete_name),
+    return ledger.assign(third_party=ledger.third_party.apply(lambda x: Person.objects.get(pk=x).complete_name),
                 debit = ledger.apply(lambda x: x.value if x.value > 0 else 0, axis=1),
                 credit = ledger.apply(lambda x: -x.value if x.value < 0 else 0, axis=1))
 
 def df_to_dict(df):
     return df.to_dict('records')
 
-def balance(ledger, level=1, start_date=datetime.date(datetime.date.today().year, 1, 1), end_date=datetime.date.today()):
-    ledger = ledger.assign(**{f'level{level+1}': code for level, code in ledger.account.apply(lambda x: Account_Structure.levels(x)).items()})\
+def level_balance(ledger, level=1, start_date=datetime.date(datetime.date.today().year, 1, 1), end_date=datetime.date.today()):
+    ledger = ledger\
+                .assign(**{f'level{level+1}': code for level, code in ledger.account.apply(lambda x: Account_Structure.levels_full(x)).items()})\
                 .assign(previous_balance = ledger.apply(lambda x: x.value if x.date < start_date else 0, axis=1),
                     debit = ledger.apply(lambda x: x.value if x.date >= start_date and  x.date <= end_date and x.value > 0 else 0, axis=1),
                     credit = ledger.apply(lambda x: -x.value if x.date >= start_date and  x.date <= end_date and x.value < 0 else 0, axis=1),
@@ -28,6 +28,26 @@ def balance(ledger, level=1, start_date=datetime.date(datetime.date.today().year
     ledger = ledger.assign(account = ledger.index)
     ledger = ledger.assign(name = ledger.account.apply(lambda x: Account.account_name(x)))
     return ledger[['account', 'name', 'previous_balance', 'debit', 'credit', 'closing_balance']]
+
+def balance(ledger, level=1, start_date=None, end_date=None):
+    balances_list = []
+    for l in range(1, level+1):
+        balance_params = { 'ledger': ledger }
+        balance_params['level'] = l
+        if start_date:
+            balance_params['start_date'] = start_date
+        if end_date:
+            balance_params['end_date'] = end_date
+        loop_balance = level_balance(**balance_params).assign(priority=level-l+1)
+        balances_list.append(loop_balance)
+    balances = pd.concat(balances_list)
+    balances = balances.assign(**{f'level{level+1}': code for level, code in balances.account.apply(lambda x: Account_Structure.levels_nan(x)).items()},
+                    chargeable = balances.apply(lambda x: True if Account.chargeable(x.account) and x.priority == 1 else False, axis=1))
+    sort_list = []
+    for l in range(1,level):
+        sort_list.append(f'level{l}')
+    sort_list.append('priority')
+    return balances.sort_values(by=sort_list)
 
 def charges_pending(df, receivable=True):    
     # query obligation establishing charges and annottate pending_value

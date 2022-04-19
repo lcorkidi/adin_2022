@@ -96,10 +96,10 @@
                         <label class="nav-link dropdown-toggle text-white" id="reportsDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Informes</label>
                         <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="reportsDropDownLink">
                             <li>
-                                <a class="dropdown-item" href="{% url 'reports:balance' %}"><strong>Balance</strong></a>
+                                <a class="dropdown-item" href="{% url 'reports:balance' 1 0 0 0 %}"><strong>Balance</strong></a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{% url 'reports:charge_report' %}"><strong>Reporte Movimientos</strong></a>
+                                <a class="dropdown-item" href="{% url 'reports:charge_report' 'all' %}"><strong>Reporte Movimientos</strong></a>
                             </li>
                         </ul>
                     </li>

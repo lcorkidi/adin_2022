@@ -7,6 +7,9 @@ from accounting.core import Account_Structure
 from adin.core.models import BaseModel
 
 class Chargeables(models.Manager):
+    def code_list(self):
+        return self.get_queryset().values_list('code', flat=True)
+
     def get_queryset(self):
         try:
             chargeables = []
@@ -55,6 +58,7 @@ class Account(BaseModel):
         verbose_name_plural = 'Cuentas'
         permissions = [
             ('activate_account', 'Can activate account.'),
+            ('view_balance', 'Can view balance.')
         ]
 
     objects = models.Manager()
@@ -63,6 +67,12 @@ class Account(BaseModel):
     @classmethod
     def account_name(cls, code):
         return cls.objects.get(code=code).name
+
+    @classmethod
+    def chargeable(cls, code):
+        if not isinstance(code, int):
+            code = int(code)
+        return True if code in Account.chargeables.code_list() else False
 
     @property
     def levels(self):

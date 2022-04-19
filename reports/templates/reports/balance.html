@@ -14,25 +14,98 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                <div class="d-flex mx-2">
+                    <div class="d-grid w-100">
+                        <div class="p-2 fs-5 text-center">
+                            Nivel:
+                        </div>
+                    </div>
+                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                        {% if level > 1 %}
+                            <a href="{% url 'reports:balance' level|add:'-1' extent year month %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                        <strong>{{ level }}</strong>
+                        {% if level < 6 %}
+                            <a href="{% url 'reports:balance' level|add:'1' extent year month %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid w-100">
+                        <div class="p-2 fs-5 text-center">
+                            Alcance:
+                        </div>
+                    </div>
+                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                        {% if extent == 0 %}
+                            <strong>MENSUAL</strong>
+                            <a href="{% url 'reports:balance' level 1 year month %}" style="text-decoration:none">ANUAL</a>
+                        {% endif %}
+                        {% if extent == 1 %}
+                            <a href="{% url 'reports:balance' level 0 year month %}" style="text-decoration:none">MENSUAL</a>
+                            <strong>ANUAL</strong>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid w-100">
+                        <div class="p-2 fs-5 text-center">
+                            Periodo:
+                        </div>
+                    </div>
+                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                        {% if extent == 0 %}
+                            {% if month > 1 %}
+                                <a href="{% url 'reports:balance' level extent year month|add:'-1' %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                            {% endif %}
+                            <strong>{{ month }}</strong>
+                            {% if month < max_dates.month %}
+                                <a href="{% url 'reports:balance' level extent year month|add:'1' %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                            {% endif %} |
+                        {% endif %}
+                        {% if year > 2022 %}
+                            <a href="{% url 'reports:balance' level|add:'-1' extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                        <strong>{{ year }}</strong>
+                        {% if year < max_dates.year %}
+                            <a href="{% url 'reports:balance' level|add:'1' extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <table id="datatable" class="table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             {% for field in formset.form %}
-                                <th>{{ field.label }}</th> 
+                                {% if field.label != 'priority' and field.label != 'chargeable' %}
+                                    <th>{{ field.label }}</th>
+                                {% endif %} 
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for form in formset %}
-                            <tr>
+                            {% if form.priority.value == 2 %}
+                                <tr style="background-color:lightgray">
+                            {% elif form.priority.value == 3 %}
+                                <tr style="background-color:silver">
+                            {% elif form.priority.value == 4 %}
+                                <tr style="background-color:darkgray">
+                            {% elif form.priority.value == 5 %}
+                                <tr style="background-color:gray">
+                            {% elif form.priority.value == 6 %}
+                                <tr style="background-color:dimgray">
+                            {% else %}
+                                <tr>
+                            {% endif %}    
                                 {% for field in form.visible_fields %}
-                                    <td>
-                                        {% if field.field.widget.attrs.currency %}
-                                            {% format2currency field.value field.field.widget.attrs.show_zero %}
-                                        {% else %}
-                                            {{ field.value }}
-                                        {% endif %}
-                                    </td>
+                                    {% if field.label != 'priority' and field.label != 'chargeable' %}
+                                        <td>
+                                            {% if field.field.widget.attrs.currency %}
+                                                {% format2currency field.value field.field.widget.attrs.show_zero %}
+                                            {% else %}
+                                                {{ field.value }}
+                                            {% endif %}
+                                            {% if form.chargeable.value and field.name != 'name' %}
+                                                <a class="text-secondary" href="{% url 'reports:charge_report' field.name %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %} 
                                 {% endfor %}
                             </tr>
                         {% endfor %}                  

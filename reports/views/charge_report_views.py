@@ -13,7 +13,8 @@ class ChargeReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
     title = 'Reporte Movimientos'
     permission_required = 'accounting.view_charge'
     
-    def get(self, request):
+    def get(self, request, fld):
+        print(fld)
         formset = self.formset(initial=df_to_dict(get_ledger_db()))
         context = {'formset': formset, 'title': self.title, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
