@@ -102,7 +102,7 @@
                                                 {{ field.value }}
                                             {% endif %}
                                             {% if form.chargeable.value and field.name != 'name' %}
-                                                <a class="text-secondary" href="{% url 'reports:charge_report' field.name %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                                <a class="text-secondary" href="{% url 'reports:charge_report' form.account.value field.name %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                             {% endif %}
                                         </td>
                                     {% endif %} 
