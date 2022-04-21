@@ -5,12 +5,17 @@
 {% block main %}
     <div id="content">
         {% if formset.initial_form_count == 0 %}
-            <div class="alert alert-info">No hay {{ title.lower }} en la base de datos</div>
+            <div class="alert alert-info">No hay movimientos en la base de datos para la cuenta y el periodo escogidos.</div>
         {% endif %}
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <span>{{ title }}</span> 
+                    <div>
+                        <a href="{% url 'reports:balance' level extent year month %}" style="text-decoration:none">
+                            {% render_bi 'list-nested' width="20px" height="20px" %}
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -54,6 +59,9 @@
                         {% endif %}
                     </div>
                 </div>
+                <div class="p-2 fs-5 w-100 text-center">
+                    Balance Cuenta:
+                </div>
                 <table id="datatable" class="table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -74,7 +82,7 @@
                                         {% else %}
                                             {{ field.value }}
                                         {% endif %}
-                                        {% if field.name != 'name' %}
+                                        {% if field.field.widget.attrs.detail %}
                                             <a class="text-secondary" href="{% url 'reports:account_report' form.account.value field.name extent year month %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                         {% endif %}
                                     </td>
@@ -83,6 +91,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="p-2 fs-5 w-100 text-center">
+                    Detalle Movimientos:
+                </div>
                 <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                     <thead>
                         <tr>

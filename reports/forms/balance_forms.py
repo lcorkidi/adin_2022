@@ -14,15 +14,15 @@ class AccountBalanceForm(Form):
         label='Saldo Anterior'
     )
     debit = IntegerField(
-        widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
+        widget=NumberInput(attrs={'currency':True, 'show_zero': True, 'detail': True}),
         label='Débito'
     )
     credit = IntegerField(
-        widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
+        widget=NumberInput(attrs={'currency':True, 'show_zero': True, 'detail': True}),
         label='Crédito'
     )
     closing_balance = IntegerField(
-        widget=NumberInput(attrs={'currency':True, 'show_zero': True}),
+        widget=NumberInput(attrs={'currency':True, 'show_zero': True, 'detail': True}),
         label='Saldo Posterior'
     )
     priority = IntegerField(

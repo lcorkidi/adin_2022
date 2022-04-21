@@ -101,7 +101,7 @@
                                             {% else %}
                                                 {{ field.value }}
                                             {% endif %}
-                                            {% if form.chargeable.value and field.name != 'name' %}
+                                            {% if form.chargeable.value and field.field.widget.attrs.detail %}
                                                 <a class="text-secondary" href="{% url 'reports:account_report' form.account.value field.name extent year month %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                             {% endif %}
                                         </td>

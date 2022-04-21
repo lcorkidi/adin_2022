@@ -27,7 +27,6 @@ def get_account_charges(account, start_date=datetime.date(2021, 1, 1), end_date=
 def account_balance(account, start_date=datetime.date(2021, 1, 1), end_date=datetime.date.today()):
     ledger = get_ledger_db()
     account_charges = ledger[ledger.account == account]
-    print(account_charges)
     balance = account_charges\
                 .assign(previous_balance = account_charges.apply(lambda x: x.value if x.date < start_date else 0, axis=1),
                     debit = account_charges.apply(lambda x: x.value if x.date >= start_date and  x.date <= end_date and x.value > 0 else 0, axis=1),

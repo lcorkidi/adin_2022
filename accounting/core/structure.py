@@ -33,7 +33,7 @@ class Account_Structure:
     def level(cls, code):
         if isinstance(code, int):
             code = str(code)
-        return cls._LEVELS['len'].loc[lambda x: x == len(code)].index[0]
+        return cls._LEVELS['len'].loc[lambda x: x == len(code)].index[0] + 1
 
     @classmethod
     def nature(cls, code):
