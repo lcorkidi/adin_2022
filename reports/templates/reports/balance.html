@@ -60,11 +60,11 @@
                             {% endif %} |
                         {% endif %}
                         {% if year > 2022 %}
-                            <a href="{% url 'reports:balance' level|add:'-1' extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                            <a href="{% url 'reports:balance' level extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
                         {% endif %}
                         <strong>{{ year }}</strong>
                         {% if year < max_dates.year %}
-                            <a href="{% url 'reports:balance' level|add:'1' extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                            <a href="{% url 'reports:balance' level extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                                                 {{ field.value }}
                                             {% endif %}
                                             {% if form.chargeable.value and field.name != 'name' %}
-                                                <a class="text-secondary" href="{% url 'reports:charge_report' form.account.value field.name %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                                <a class="text-secondary" href="{% url 'reports:account_report' form.account.value field.name extent year month %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                             {% endif %}
                                         </td>
                                     {% endif %} 

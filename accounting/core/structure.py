@@ -30,5 +30,11 @@ class Account_Structure:
         return cls._LEVELS['len'].apply(lambda l:str(code)[:l] if l<=len(str(code)) else None)
 
     @classmethod
+    def level(cls, code):
+        if isinstance(code, int):
+            code = str(code)
+        return cls._LEVELS['len'].loc[lambda x: x == len(code)].index[0]
+
+    @classmethod
     def nature(cls, code):
         return cls._ACCOUNT_NATURE[str(code)[0]]

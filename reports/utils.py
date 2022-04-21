@@ -5,6 +5,9 @@ from accounting.core.structure import Account_Structure
 from people.models import Person
 from accounting.models import Account, Charge
 
+def df_to_dict(df):
+    return df.to_dict('records')
+
 def get_ledger_db():    
     ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
     ledger = ledger.rename(columns={'ledger__date':'date', 'ledger__third_party':'third_party', 'concept__accountable':'accountable','concept__transaction_type':'concept'})
@@ -12,8 +15,28 @@ def get_ledger_db():
                 debit = ledger.apply(lambda x: x.value if x.value > 0 else 0, axis=1),
                 credit = ledger.apply(lambda x: -x.value if x.value < 0 else 0, axis=1))
 
-def df_to_dict(df):
-    return df.to_dict('records')
+def get_account_charges(account, start_date=datetime.date(2021, 1, 1), end_date=datetime.date.today(), value=0):
+    ledger = get_ledger_db()
+    account_charges = ledger[(ledger.account == account) & (ledger.date >= start_date) & (ledger.date <= end_date)]
+    if value < 0:
+        account_charges = account_charges[account_charges.value < 0]
+    if value > 0:
+        account_charges = account_charges[account_charges.value > 0]
+    return account_charges
+
+def account_balance(account, start_date=datetime.date(2021, 1, 1), end_date=datetime.date.today()):
+    ledger = get_ledger_db()
+    account_charges = ledger[ledger.account == account]
+    print(account_charges)
+    balance = account_charges\
+                .assign(previous_balance = account_charges.apply(lambda x: x.value if x.date < start_date else 0, axis=1),
+                    debit = account_charges.apply(lambda x: x.value if x.date >= start_date and  x.date <= end_date and x.value > 0 else 0, axis=1),
+                    credit = account_charges.apply(lambda x: -x.value if x.date >= start_date and  x.date <= end_date and x.value < 0 else 0, axis=1),
+                    value = account_charges.apply(lambda x: x.value if x.date <= end_date else 0, axis=1))\
+                .rename(columns={'value': 'closing_balance'})\
+                .sum(numeric_only=True)
+    balance['account'] = account
+    return pd.concat([balance, pd.Series([Account.account_name(account), 0, True], index=['name', 'priority', 'chargeable'])]).to_dict()
 
 def level_balance(ledger, level=1, start_date=datetime.date(datetime.date.today().year, 1, 1), end_date=datetime.date.today()):
     ledger = ledger\
