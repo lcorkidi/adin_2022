@@ -18,19 +18,19 @@ class Charge_Factor(BaseModel):
             ('activate_charge_factor', 'Can activate charge factor.'),
         ]
 
-    # # applies current factor to reg_regtem.value according to the factor's attributes, factors for nature and rounds to int
-    # def get_fac_value_from_regtem(self, ref_regtem, ref_chatem):
-    #     facdat = Factor_Data.objects.filter(factor=self).exclude(validity_date__gt=ref_regtem.date).order_by('-validity_date')[0]
-    #     if facdat.in_instance_attribute:
-    #         fac = eval(f'ref_regtem.refbas.{facdat.in_instance_attribute}_id')
-    #         facdat = Factor_Data.objects.filter(factor=fac).exclude(validity_date__gt=ref_regtem.date).order_by('-validity_date')[0]
-    #     if facdat.percentage > 0 and facdat.amount == 0:
-    #         fac_value = int(ref_regtem.value) * float(facdat.percentage / 100)
-    #     elif facdat.percentage > 0 and facdat.amount > 0:
-    #         fac_value = (int(ref_regtem.value) + facdat.amount) * float(facdat.percentage / 100)
-    #     elif facdat.percentage == 0 and facdat.amount > 0:
-    #         fac_value = facdat.amount
-    #     return round(fac_value * ref_chatem.nature, 0)
+    # calculates the product int of the value with to the factor's attributes and nature
+    def factored_value(self, accountable, date, value, nature):
+        facdat = Factor_Data.objects.filter(factor=self).exclude(validity_date__gt=date).order_by('-validity_date')[0]
+        if facdat.in_instance_attribute and facdat.in_instance_attribute != 'ZZZZ':
+            fac = eval(f'accountable.{facdat.in_instance_attribute}_id')
+            facdat = Factor_Data.objects.filter(factor=fac).exclude(validity_date__gt=date).order_by('-validity_date')[0]
+        if facdat.percentage > 0 and facdat.amount == 0:
+            fac_value = int(value) * float(facdat.percentage / 100)
+        elif facdat.percentage > 0 and facdat.amount > 0:
+            fac_value = (int(value) + facdat.amount) * float(facdat.percentage / 100)
+        elif facdat.percentage == 0 and facdat.amount > 0:
+            fac_value = facdat.amount
+        return round(fac_value * nature, 0)
 
     def __repr__(self) -> str:
         return f'<Charge_Factor: {self.name}>'

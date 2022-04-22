@@ -77,10 +77,6 @@ class Charge_Concept(BaseModel):
         verbose_name = 'Concepto Movimiento'
         verbose_name_plural = 'Conceptos Movimientos'
 
-    def __init__(self, *args, **kwargs):
-        super(Charge_Concept, self).__init__(*args, **kwargs)
-        self.code = chacon2code(self)
-
     def __repr__(self) -> str:
         return f'<Charge_Concept: {self.code}>'
 

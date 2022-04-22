@@ -156,7 +156,7 @@ SHELL_PLUS_IMPORTS = [
     'import pandas as pd',
     'import datetime',
     'from scripts.utils import df2objs, get_ledger_csv, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation',
-    'from reports.utils import get_ledger_db, get_account_charges, account_balance, level_balance, balance, charges_pending',
+    'from reports.utils import ledger_from_db, account_charges, account_balance, ledger_level_balance, ledger_balance, charges_pending',
     'from accounting.core.structure import Account_Structure',
     'from django.db.models import F, Q, Value, Sum',
 ]

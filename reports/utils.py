@@ -8,12 +8,15 @@ from accounting.models import Account, Charge
 def df_to_dict(df):
     return df.to_dict('records')
 
-def ledger_from_db():    
-    ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
-    ledger = ledger.rename(columns={'ledger__date':'date', 'ledger__third_party':'third_party', 'concept__accountable':'accountable','concept__transaction_type':'concept'})
-    return ledger.assign(third_party=ledger.third_party.apply(lambda x: Person.objects.get(pk=x).complete_name),
-                debit = ledger.apply(lambda x: x.value if x.value > 0 else 0, axis=1),
-                credit = ledger.apply(lambda x: -x.value if x.value < 0 else 0, axis=1))
+def ledger_from_db():
+    try:    
+        ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
+        ledger = ledger.rename(columns={'ledger__date':'date', 'ledger__third_party':'third_party', 'concept__accountable':'accountable','concept__transaction_type':'concept'})
+        return ledger.assign(third_party=ledger.third_party.apply(lambda x: Person.objects.get(pk=x).complete_name),
+                    debit = ledger.apply(lambda x: x.value if x.value > 0 else 0, axis=1),
+                    credit = ledger.apply(lambda x: -x.value if x.value < 0 else 0, axis=1))
+    except:
+        return
 
 def account_charges(ledger, account, start_date=datetime.date(2021, 1, 1), end_date=datetime.date.today(), value=0):
     account_charges = ledger[(ledger.account == account) & (ledger.date >= start_date) & (ledger.date <= end_date)]

@@ -8,7 +8,7 @@ def run():
     dt1 = datetime.now()
 
     # create addresses
-    df2objs(pd.read_csv('_files/addresse.csv'), _raw_data_info, True)
+    df2objs(pd.read_csv('_files/address.csv'), _raw_data_info, True)
     dt2 = datetime.now()
     print('Addresses: {}'.format(dt2-dt1))
 
@@ -38,7 +38,7 @@ def run():
     print('People_Phones: {}'.format(dt7-dt6))
 
     # create people_addresses
-    df2objs(pd.read_csv('_files/person_addresse.csv'), _raw_data_info, True)
+    df2objs(pd.read_csv('_files/person_address.csv'), _raw_data_info, True)
     dt8 = datetime.now()
     print('People_Addresses: {}'.format(dt8-dt7))
 
@@ -88,7 +88,7 @@ def run():
     print('Leases_Realties_Realties: {}'.format(dt17-dt16))
 
     # create leases_realties_people
-    df2objs(pd.read_csv('_files/lease_realty_people.csv'), _raw_data_info, True)
+    df2objs(pd.read_csv('_files/lease_realty_person.csv'), _raw_data_info, True)
     dt18 = datetime.now()
     print('Leases_Realties_People: {}'.format(dt18-dt17))
 
@@ -102,30 +102,30 @@ def run():
     dt20 = datetime.now()
     print('Transaction_Type: {}'.format(dt20-dt19))
 
-    # create charges_concepts
-    df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
-    dt21 = datetime.now()
-    print('Charge_Concept: {}'.format(dt21-dt20))
+    # # create charges_concepts
+    # df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
+    # dt21 = datetime.now()
+    # print('Charge_Concept: {}'.format(dt21-dt20))
 
     # create ledger_types
     df2objs(pd.read_csv('_files/ledger_type.csv'), _raw_data_info, True)
     dt22 = datetime.now()
-    print('Ledger_Type: {}'.format(dt22-dt21))
+    print('Ledger_Type: {}'.format(dt22-dt20))
 
-    # create ledgers
-    df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
-    dt23 = datetime.now()
-    print('Ledger: {}'.format(dt23-dt22))
+    # # create ledgers
+    # df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
+    # dt23 = datetime.now()
+    # print('Ledger: {}'.format(dt23-dt22))
 
-    # create charges
-    df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
-    dt24 = datetime.now()
-    print('Charge: {}'.format(dt24-dt23))
+    # # create charges
+    # df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
+    # dt24 = datetime.now()
+    # print('Charge: {}'.format(dt24-dt23))
 
     # create charges factors
     df2objs(pd.read_csv('_files/charge_factor.csv'), _raw_data_info, True)
     dt25 = datetime.now()
-    print('Charge_Factor: {}'.format(dt25-dt24))
+    print('Charge_Factor: {}'.format(dt25-dt22))
 
     # create factors data
     df2objs(pd.read_csv('_files/factor_data.csv'), _raw_data_info, True)
