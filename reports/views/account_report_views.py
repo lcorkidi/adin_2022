@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from reports.forms.balance_forms import AccountBalanceForm
 from reports.forms.charge_report_forms import ChargeReportFormSet
-from reports.utils import account_balance, get_account_charges, df_to_dict
+from reports.utils import ledger_from_db, account_balance, account_charges, df_to_dict
 from home.utils import user_group_str
 from accounting.core.structure import Account_Structure
 
@@ -17,6 +17,7 @@ class AccountReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
     formset = ChargeReportFormSet
     title = 'Reporte Movimientos'
     permission_required = 'accounting.view_charge'
+    ledger = ledger_from_db()
     today = datetime.date.today()
     
     def get(self, request, acc, fld, ext, yr, mth):
@@ -43,7 +44,7 @@ class AccountReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
         else:
             value = 0
         print(start_date, end_date)
-        form = self.form(initial=account_balance(acc, start_date, end_date))
-        formset = self.formset(initial=df_to_dict(get_account_charges(acc, start_date, end_date, value)))
+        form = self.form(initial=account_balance(self.ledger, acc, start_date, end_date))
+        formset = self.formset(initial=df_to_dict(account_charges(self.ledger, acc, start_date, end_date, value)))
         context = {'form': form, 'formset': formset, 'title': self.title, 'level': Account_Structure.level(acc), 'account': acc, 'field': fld, 'extent': ext, 'year': yr, 'month': mth, 'max_dates': {'month': self.today.month if self.today.year == yr else 12, 'year': datetime.date.today().year}, 'group': user_group_str(request.user)}
         return render(request, self.template, context)

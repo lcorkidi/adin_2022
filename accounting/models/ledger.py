@@ -1,5 +1,7 @@
 from django.db import models
+
 from adin.core.models import BaseModel
+from accounting.utils import ledger2consecutive, ledger2code, ledgertemplate2code
 
 class Ledger(BaseModel):
 
@@ -53,6 +55,11 @@ class Ledger(BaseModel):
         permissions = [
             ('activate_ledger', 'Can activate ledger.'),
         ]
+
+    def __init__(self, *args, **kwargs):
+        super(Ledger, self).__init__(*args, **kwargs)
+        self.consecutive = ledger2consecutive(self)
+        self.code = ledger2code(self)
 
     def __repr__(self) -> str:
         return f'<Ledger: {self.code}^{self.date.strftime("%Y-%m-%d")}_{self.third_party}>'
@@ -111,6 +118,10 @@ class Ledger_Template(BaseModel):
         constraints = [
             models.UniqueConstraint(fields=['transaction_type', 'ledger_type'], name='unique_trancaction_ledger_types'),
         ]
+
+    def __init__(self, *args, **kwargs):
+        super(Ledger_Template, self).__init__(*args, **kwargs)
+        self.code = ledgertemplate2code(self)
 
     def __repr__(self) -> str:
         return f'<Ledger_Template: {self.code}>'

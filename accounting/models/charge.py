@@ -1,6 +1,7 @@
 from django.db import models
 
 from adin.core.models import BaseModel
+from accounting.utils import chacon2code
 
 class Charge(BaseModel):
 
@@ -75,6 +76,10 @@ class Charge_Concept(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Concepto Movimiento'
         verbose_name_plural = 'Conceptos Movimientos'
+
+    def __init__(self, *args, **kwargs):
+        super(Charge_Concept, self).__init__(*args, **kwargs)
+        self.code = chacon2code(self)
 
     def __repr__(self) -> str:
         return f'<Charge_Concept: {self.code}>'

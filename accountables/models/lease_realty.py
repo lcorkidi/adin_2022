@@ -55,8 +55,12 @@ class Lease_Realty(Accountable):
             return True
         return False
 
+    def accounting_holder(self):
+        from people.models import Person
+        return Person.objects.get(pk=6108014)
+
     def accounting_third_party(self):
-        return self.leases_realties_people.all().filter(role=1)
+        return self.leases_realties_people.all().filter(role=1)[0].person
 
     def pending_date_values(self):
         date_values = Date_Value.objects.filter(accountable=self)
@@ -98,16 +102,16 @@ class Lease_Realty(Accountable):
         date_value_dict = {}
         if self.pending_date_values():
             raise Warning('Pending "Date_Value":', self.pending_date_values())
-        refvals = Date_Value.objects.filter(accountable=self).order_by('date')
-        refval, index = refvals[0], 0
+        date_vals = Date_Value.objects.filter(accountable=self).order_by('date')
+        date_val, index = date_vals[0], 0
         for date in date_list:
-            if index < refvals.count() - 1:
-                if date >= refvals[index + 1].ref_date:
-                    refval, index = refvals[index + 1], index + 1
+            if index < date_vals.count() - 1:
+                if date >= date_vals[index + 1].ref_date:
+                    date_val, index = date_vals[index + 1], index + 1
             if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
-                date_value_dict[date] = round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(refval.value), 0)
+                date_value_dict[date] = round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
             else:
-                date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(refval.value), 0)
+                date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
         return date_value_dict
 
     def __repr__(self) -> str:
