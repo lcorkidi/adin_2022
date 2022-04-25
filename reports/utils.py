@@ -39,18 +39,21 @@ def account_balance(ledger, account, start_date=datetime.date(2021, 1, 1), end_d
     return pd.concat([balance, pd.Series([Account.account_name(account), 0, True], index=['name', 'priority', 'chargeable'])]).to_dict()
 
 def ledger_level_balance(ledger, level=1, start_date=datetime.date(datetime.date.today().year, 1, 1), end_date=datetime.date.today()):
-    ledger = ledger\
-                .assign(**{f'level{level+1}': code for level, code in ledger.account.apply(lambda x: Account_Structure.levels_full(x)).items()})\
-                .assign(previous_balance = ledger.apply(lambda x: x.value if x.date < start_date else 0, axis=1),
-                    debit = ledger.apply(lambda x: x.value if x.date >= start_date and  x.date <= end_date and x.value > 0 else 0, axis=1),
-                    credit = ledger.apply(lambda x: -x.value if x.date >= start_date and  x.date <= end_date and x.value < 0 else 0, axis=1),
-                    value = ledger.apply(lambda x: x.value if x.date <= end_date else 0, axis=1))\
-                .groupby(f'level{level}')\
-                .sum()\
-                .rename(columns={'value':'closing_balance'})
-    ledger = ledger.assign(account = ledger.index)
-    ledger = ledger.assign(name = ledger.account.apply(lambda x: Account.account_name(x)))
-    return ledger[['account', 'name', 'previous_balance', 'debit', 'credit', 'closing_balance']]
+    try:
+        ledger = ledger\
+                    .assign(**{f'level{level+1}': code for level, code in ledger.account.apply(lambda x: Account_Structure.levels_full(x)).items()})\
+                    .assign(previous_balance = ledger.apply(lambda x: x.value if x.date < start_date else 0, axis=1),
+                        debit = ledger.apply(lambda x: x.value if x.date >= start_date and  x.date <= end_date and x.value > 0 else 0, axis=1),
+                        credit = ledger.apply(lambda x: -x.value if x.date >= start_date and  x.date <= end_date and x.value < 0 else 0, axis=1),
+                        value = ledger.apply(lambda x: x.value if x.date <= end_date else 0, axis=1))\
+                    .groupby(f'level{level}')\
+                    .sum()\
+                    .rename(columns={'value':'closing_balance'})
+        ledger = ledger.assign(account = ledger.index)
+        ledger = ledger.assign(name = ledger.account.apply(lambda x: Account.account_name(x)))
+        return ledger[['account', 'name', 'previous_balance', 'debit', 'credit', 'closing_balance']]
+    except:
+        return
 
 def ledger_balance(ledger, level=1, start_date=None, end_date=None):
     balances_list = []

@@ -102,30 +102,30 @@ def run():
     dt20 = datetime.now()
     print('Transaction_Type: {}'.format(dt20-dt19))
 
-    # # create charges_concepts
-    # df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
-    # dt21 = datetime.now()
-    # print('Charge_Concept: {}'.format(dt21-dt20))
+    # create charges_concepts
+    df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
+    dt21 = datetime.now()
+    print('Charge_Concept: {}'.format(dt21-dt20))
 
     # create ledger_types
     df2objs(pd.read_csv('_files/ledger_type.csv'), _raw_data_info, True)
     dt22 = datetime.now()
-    print('Ledger_Type: {}'.format(dt22-dt20))
+    print('Ledger_Type: {}'.format(dt22-dt21))
 
-    # # create ledgers
-    # df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
-    # dt23 = datetime.now()
-    # print('Ledger: {}'.format(dt23-dt22))
+    # create ledgers
+    df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
+    dt23 = datetime.now()
+    print('Ledger: {}'.format(dt23-dt22))
 
-    # # create charges
-    # df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
-    # dt24 = datetime.now()
-    # print('Charge: {}'.format(dt24-dt23))
+    # create charges
+    df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
+    dt24 = datetime.now()
+    print('Charge: {}'.format(dt24-dt23))
 
     # create charges factors
     df2objs(pd.read_csv('_files/charge_factor.csv'), _raw_data_info, True)
     dt25 = datetime.now()
-    print('Charge_Factor: {}'.format(dt25-dt22))
+    print('Charge_Factor: {}'.format(dt25-dt24))
 
     # create factors data
     df2objs(pd.read_csv('_files/factor_data.csv'), _raw_data_info, True)
