@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.db.models import Q
 
@@ -76,6 +77,13 @@ class Factor_Data(BaseModel):
             models.UniqueConstraint(fields=['factor', 'validity_date'], name='unique_factor_validity'),
             models.CheckConstraint(check=Q(percentage__gte=0) & Q(percentage__lte=100), name='facdat_percentage_gte_0_and_lte_100'),
         ]
+
+    def validity_end_date(self):
+        qs = Factor_Data.objects.filter(validity_date__gt=self.validity_date, factor=self.factor)
+        if qs.exists():
+            return qs.order_by('-validity_date')[0].validity_date
+        else:
+            return datetime.date.today()
 
     def __repr__(self) -> str:
         return f'<Factor_Data: {self.factor.name}^{self.validity_date.strftime("%d-%m-%Y")}>'

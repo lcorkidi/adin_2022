@@ -1,7 +1,6 @@
 from django.db import models
 
 from adin.core.models import BaseModel
-from accounting.utils import ledger2consecutive, ledger2code, ledgertemplate2code
 
 class Ledger(BaseModel):
 

@@ -1,8 +1,9 @@
 import datetime
-from django.forms import Form, CharField, ModelChoiceField, ModelForm, SelectDateWidget, modelformset_factory
+from django.forms import Form, CharField, ModelChoiceField, ModelForm, SelectDateWidget, modelformset_factory, ValidationError
 
 from adin.core.forms import GenericCreateForm, GenericDeleteForm
 from references.models import Charge_Factor, Factor_Data
+from accounting.models import Charge
 
 class Charge_FactorCreateForm(Form):
 
@@ -81,5 +82,22 @@ class Factor_DataDeleteForm(GenericDeleteForm):
     class Meta:
         model = Factor_Data
         fields = ['factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute']
+
+    def clean(self):
+        tra_typs = []
+        accs = []
+        for cha_tem in self.instance.factor.charges_templates.all():
+            tra_typs.append(cha_tem.ledger_template.transaction_type)
+            accs.append(cha_tem.account)
+            objs = []
+        for obj in Charge.active.filter(ledger__date__gte=self.instance.validity_date, ledger__date__lt=self.instance.validity_end_date(), concept__transaction_type__in=tra_typs, account__in=accs):
+            objs.append(obj)
+        if len(objs) > 0:
+            msg = f'La tasa no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
+            self.add_error(None, msg)
+
+        if self.has_changed(): 
+            raise ValidationError(None, f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
 
 Factor_DataListModelFormSet = modelformset_factory(Factor_Data, fields=('factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute'), extra=0)

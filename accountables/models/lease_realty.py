@@ -174,6 +174,8 @@ class Lease_Realty_Person(BaseModel):
     phone = models.ForeignKey(
         'references.Phone',
         on_delete=models.PROTECT,
+        related_name='leases_realties_people',
+        related_query_name='lease_realty_person',
         null=True,
         blank=True,
         default=None,
@@ -182,6 +184,8 @@ class Lease_Realty_Person(BaseModel):
     e_mail = models.ForeignKey(
         'references.E_Mail',
         on_delete=models.PROTECT,
+        related_name='leases_realties_people',
+        related_query_name='lease_realty_person',
         null=True,
         blank=True,
         default=None,
@@ -190,6 +194,8 @@ class Lease_Realty_Person(BaseModel):
     address = models.ForeignKey(
         'references.Address',
         on_delete=models.PROTECT,
+        related_name='leases_realties_people',
+        related_query_name='lease_realty_person',
         verbose_name='Dirección'
     )
  
