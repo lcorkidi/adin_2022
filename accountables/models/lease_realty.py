@@ -120,6 +120,20 @@ class Lease_Realty(Accountable):
     def __str__(self) -> str:
         return self.code
 
+class Lease_Realty_RealtyFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Lease_Realty):
+            base_args['lease'] = obj1
+            base_args['realty'] = obj2
+        else:
+            base_args['lease'] = obj2
+            base_args['realty'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Lease_Realty_Realty(BaseModel):
 
     lease = models.ForeignKey(
@@ -135,6 +149,9 @@ class Lease_Realty_Realty(BaseModel):
     primary = models.BooleanField(
         verbose_name='Primario'
     )
+
+    objects = models.Manager()
+    find = Lease_Realty_RealtyFinderManager()
  
     class Meta:
         app_label = 'accountables'
@@ -147,6 +164,20 @@ class Lease_Realty_Realty(BaseModel):
     def __str__(self) -> str:
         return f'{self.lease.pk}_{self.realty.pk}'
 
+class Lease_Realty_PersonFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Lease_Realty):
+            base_args['lease'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['lease'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Lease_Realty_Person(BaseModel):
 
     ROLE_CHOICE = [
@@ -158,8 +189,6 @@ class Lease_Realty_Person(BaseModel):
     lease = models.ForeignKey(
         Lease_Realty,
         on_delete=models.PROTECT,
-        related_name='leases_realties_people',
-        related_query_name='lease_realty_person',
         verbose_name='Contrato'
     )
     person = models.ForeignKey(
@@ -198,6 +227,9 @@ class Lease_Realty_Person(BaseModel):
         related_query_name='lease_realty_person',
         verbose_name='Dirección'
     )
+
+    objects = models.Manager()
+    find = Lease_Realty_PersonFinderManager()
  
     class Meta:
         app_label = 'accountables'

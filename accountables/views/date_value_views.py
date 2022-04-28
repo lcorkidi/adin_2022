@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from accountables.models import Date_Value
-from accountables.forms.date_value_forms import Date_ValueCreateForm, Date_ValueUpdateForm
+from accountables.forms.date_value_forms import Date_ValueCreateForm, Date_ValueUpdateForm, Date_ValueDeleteForm, Date_ValueActivateForm
 
 title = Date_Value._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete' }
@@ -30,7 +30,7 @@ class Date_ValueUpdateView(GenericUpdateRelatedView):
 class Date_ValueDeleteView(GenericDeleteRelatedView):
 
     model = Date_Value
-    form = Date_ValueUpdateForm
+    form = Date_ValueDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
@@ -40,7 +40,7 @@ class Date_ValueDeleteView(GenericDeleteRelatedView):
 class Date_ValueActivateView(GenericActivateRelatedView):
 
     model = Date_Value
-    form = Date_ValueUpdateForm
+    form = Date_ValueActivateForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

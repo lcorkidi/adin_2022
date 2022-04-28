@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from properties.models import Estate
 
 class EstateCreateForm(GenericCreateForm):
@@ -49,8 +49,17 @@ class EstateUpdateForm(GenericUpdateForm):
 
 class EstateDeleteForm(GenericDeleteForm):
 
+    exclude_fields = ['estate_appraisal']
+
     class Meta:
         model = Estate
         fields = [ 'national_number', 'address', 'total_area']
+
+class EstateActivateForm(GenericActivateForm):
+
+    class Meta:
+        model = Estate
+        fields = [ 'national_number', 'address', 'total_area']
+
 
 EstateListModelFormSet = modelformset_factory(Estate, fields=('state', 'national_number', 'address', 'total_area'), extra=0)

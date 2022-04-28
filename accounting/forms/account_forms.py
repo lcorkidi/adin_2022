@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from accounting.models import Account
 
 class AccountCreateForm(GenericCreateForm):
@@ -56,5 +56,11 @@ class AccountDeleteForm(GenericDeleteForm):
             msg = f'Cuenta no se puede inactivar ya que tiene movimientos.'
             self.add_error(None, msg)
         return cleaned_data
+
+class AccountActivateForm(GenericActivateForm):
+
+    class Meta:
+        model = Account
+        fields = [ 'code', 'name' ]
 
 AccountListModelFormSet = modelformset_factory(Account, fields=('state', 'code', 'name'), extra=0)

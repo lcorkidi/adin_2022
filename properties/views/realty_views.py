@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
-from properties.forms.realty_forms import RealtyCreateForm, RealtyDetailForm, RealtyUpdateForm, RealtyDeleteForm, RealtyListModelFormSet
+from properties.forms.realty_forms import RealtyCreateForm, RealtyDetailForm, RealtyUpdateForm, RealtyDeleteForm, RealtyActivateForm, RealtyListModelFormSet
 from properties.models import Realty
 from properties.utils import realty_related_data
 
@@ -113,7 +113,7 @@ class RealtyActivateView(GenericActivateView):
 
     title = title
     model = Realty
-    form = RealtyDeleteForm
+    form = RealtyActivateForm
     ref_urls = ref_urls
     choice_fields = ['type', 'use']
     fk_fields = ['address', 'estate']

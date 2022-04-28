@@ -1,7 +1,7 @@
 from django.forms import modelformset_factory
 from django.db.models import Sum
 
-from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm
+from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from properties.models import Estate_Person
 
 class Estate_PersonCreateForm(GeneriCreateRelatedForm):
@@ -33,7 +33,8 @@ class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')
         percentage = cleaned_data.get('percentage')
-        if self._meta.model.objects.filter(estate=estate).exclude(state=0).exists():
+        if self._meta.model.objects.filter(estate=estate).exclude(state=0).exclude(pk=self.instance.pk).exists():
+            print(percentage)
             total_percentage = self._meta.model.objects.filter(estate=estate).exclude(state=0).exclude(pk=self.instance.pk).aggregate(Sum('percentage'))['percentage__sum'] + percentage
         else:
             total_percentage = percentage
@@ -42,7 +43,15 @@ class Estate_PersonUpdateForm(GenericUpdateRelatedForm):
             self.add_error('percentage', msg)
         return cleaned_data
 
-class Estate_PersonActivateForm(GenericUpdateRelatedForm):
+class Estate_PersonDeleteForm(GenericDeleteRelatedForm):
+
+    class Meta:
+        model = Estate_Person
+        exclude = ('state',)
+
+class Estate_PersonActivateForm(GenericActivateRelatedForm):
+
+    related_fields = ['estate', 'person']
 
     class Meta:
         model = Estate_Person

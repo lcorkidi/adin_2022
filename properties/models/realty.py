@@ -57,6 +57,7 @@ class Realty(BaseModel):
         app_label = 'properties'
         verbose_name = 'Inmueble'
         verbose_name_plural = 'Inmuebles'
+        ordering = ['code']
         constraints = [
             models.UniqueConstraint(fields=['code', 'address'], name='realty_unique_code_address'),
         ]
@@ -76,6 +77,20 @@ class Realty(BaseModel):
     def __str__(self) -> str:
         return self.address.pk
 
+class Realty_EstateFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Realty):
+            base_args['realty'] = obj1
+            base_args['estate'] = obj2
+        else:
+            base_args['realty'] = obj2
+            base_args['estate'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Realty_Estate(BaseModel):
 
     realty = models.ForeignKey(
@@ -93,6 +108,9 @@ class Realty_Estate(BaseModel):
         decimal_places=4,
         verbose_name='Participacion'
     )
+
+    objects = models.Manager()
+    find =  Realty_EstateFinderManager()
 
     class Meta:
         app_label = 'properties'

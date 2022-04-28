@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from properties.models import Realty
 
 class RealtyCreateForm(GenericCreateForm):
@@ -34,6 +34,12 @@ class RealtyUpdateForm(GenericUpdateForm):
         fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
 
 class RealtyDeleteForm(GenericDeleteForm):
+
+    class Meta:
+        model = Realty
+        fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
+
+class RealtyActivateForm(GenericActivateForm):
 
     class Meta:
         model = Realty

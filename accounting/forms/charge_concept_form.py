@@ -1,7 +1,7 @@
 import datetime
 from django.forms import ModelForm, SelectDateWidget, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
 from accounting.models import Charge_Concept
 from accounting.utils import chacon2code
 
@@ -52,6 +52,12 @@ class Charge_ConceptDetailModelForm(ModelForm):
         fields = ['state', 'code', 'accountable', 'transaction_type', 'date']
 
 class Charge_ConceptDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = Charge_Concept
+        fields = ['code', 'accountable', 'transaction_type', 'date']
+
+class Charge_ConceptActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = Charge_Concept

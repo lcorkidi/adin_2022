@@ -224,7 +224,7 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
             return render(request, self.template, context)
         obj.state = 2
         obj.save()
-        return redirect(self.ref_urls['list'])
+        return redirect(self.ref_urls['update'], obj.pk)
 
 class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

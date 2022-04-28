@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger_Type
-from accounting.forms.ledger_type_forms import Ledger_TypeDetailModelForm, Ledger_TypeCreateModelForm, Ledger_TypeDeleteModelForm, Ledger_TypeListModelFormSet
+from accounting.forms.ledger_type_forms import Ledger_TypeDetailModelForm, Ledger_TypeCreateModelForm, Ledger_TypeDeleteModelForm, Ledger_TypeActivateModelForm, Ledger_TypeListModelFormSet
 
 title = Ledger_Type._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_type_list', 'create':'accounting:ledger_type_create', 'detail':'accounting:ledger_type_detail', 'delete':'accounting:ledger_type_delete', 'activate':'accounting:ledger_type_activate' }
@@ -69,7 +69,7 @@ class Ledger_TypeActivateView(GenericActivateView):
 
     title = title
     model = Ledger_Type
-    form = Ledger_TypeDeleteModelForm
+    form = Ledger_TypeActivateModelForm
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'accounting.activate_ledger'

@@ -1,7 +1,7 @@
 from django.forms import modelformset_factory
 from django.db.models import Sum
 
-from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm
+from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from properties.models import Realty_Estate
 
 class Realty_EstateCreateForm(GeneriCreateRelatedForm):
@@ -42,7 +42,15 @@ class Realty_EstateUpdateForm(GenericUpdateRelatedForm):
             self.add_error('percentage', msg)
         return cleaned_data
 
-class Realty_EstateActivateForm(GenericUpdateRelatedForm):
+class Realty_EstateDeleteForm(GenericDeleteRelatedForm):
+
+    class Meta:
+        model = Realty_Estate
+        exclude = ('state',)
+
+class Realty_EstateActivateForm(GenericActivateRelatedForm):
+
+    related_fields = ['estate', 'realty']
 
     class Meta:
         model = Realty_Estate

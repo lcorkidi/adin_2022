@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from properties.models import Realty_Estate
-from properties.forms.realty_estate_forms import Realty_EstateCreateForm, Realty_EstateUpdateForm, Realty_EstateActivateForm
+from properties.forms.realty_estate_forms import Realty_EstateCreateForm, Realty_EstateUpdateForm, Realty_EstateDeleteForm, Realty_EstateActivateForm
 from home.utils import user_group_str
 
 title = Realty_Estate._meta.verbose_name_plural
@@ -34,7 +34,7 @@ class Realty_EstateUpdateView(GenericUpdateRelatedView):
 class Realty_EstateDeleteView(GenericDeleteRelatedView):
 
     model = Realty_Estate
-    form = Realty_EstateUpdateForm
+    form = Realty_EstateDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

@@ -48,6 +48,8 @@ class GenericUpdateForm(ModelForm):
 
 class GenericDeleteForm(ModelForm):
 
+    exclude_fields = []
+
     def clean(self):
         objs = []
         for field in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
@@ -57,7 +59,7 @@ class GenericDeleteForm(ModelForm):
                         thr_obj = field.through.find.from_related(self.instance, obj)
                         if thr_obj.state != 0:
                             objs.append(thr_obj)
-                    else:
+                    elif field.name not in self.exclude_fields:
                         if obj.state != 0:
                             objs.append(obj)
                         
@@ -114,20 +116,6 @@ class GenericDeleteRelatedForm(ModelForm):
         if self.has_changed():
             self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
         return super().clean()
-
-    def save(self, *args, **kwargs):
-        get_args = {}
-        update_args = {}
-        for k in self.fields:
-            if k in args[0]:
-                get_args[k] = self.cleaned_data[k]
-            elif k in self.changed_data:
-                update_args[k] = self.cleaned_data[k]
-        obj = self._meta.model.objects.get(**get_args)
-        for k, v in update_args.items():
-            setattr(obj, k, v)
-        obj.state_change_user = self.creator
-        obj.save()
 
 class GenericActivateRelatedForm(ModelForm):
 

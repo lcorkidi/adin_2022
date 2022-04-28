@@ -47,6 +47,20 @@ class Estate(BaseModel):
     def __str__(self) -> str:
         return self.address.pk
 
+class Estate_PersonFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Estate):
+            base_args['estate'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['estate'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Estate_Person(BaseModel):
 
     estate = models.ForeignKey(
@@ -64,6 +78,9 @@ class Estate_Person(BaseModel):
         decimal_places=4,
         verbose_name='Participacion'
     )
+
+    objects = models.Manager()
+    find =  Estate_PersonFinderManager()
 
     class Meta:
         app_label = 'properties'

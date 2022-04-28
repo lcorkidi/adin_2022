@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger
-from accounting.forms.ledger_forms import LedgerDetailModelForm, LedgerCreateModelForm, LedgerDeleteModelForm, LedgerListModelFormSet
+from accounting.forms.ledger_forms import LedgerDetailModelForm, LedgerCreateModelForm, LedgerDeleteModelForm, LedgerActivateModelForm, LedgerListModelFormSet
 from accounting.forms.charge_forms import ChargeCreateFormset
 from accounting.utils import ledger_related_data
 from home.utils import user_group_str
@@ -99,9 +99,34 @@ class LedgerActivateView(GenericActivateView):
 
     title = title
     model = Ledger
-    form = LedgerDeleteModelForm
+    form = LedgerActivateModelForm
     ref_urls = ref_urls
     fk_fields = ['holder', 'third_party']
     actions_off = ['update']
     related_data = ledger_related_data
     permission_required = 'accounting.activate_ledger'
+
+    def post(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
+                filter_expresion = {}
+                filter_expresion[data['filter_expresion']] = pk
+                formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
+                related_data[attr]['formset'] = formset
+        else:
+            related_data = None
+        if not form.is_valid():
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        if related_data:    
+            for key, data in related_data.items():
+                for form in data['formset']:
+                    ins = form.instance
+                    ins.state = 2
+                    ins.save()
+        obj.state = 2
+        obj.save()
+        return redirect(self.ref_urls['detail'], obj.pk)

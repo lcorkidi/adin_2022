@@ -1,7 +1,7 @@
 import datetime
 from django.forms import ModelForm, SelectDateWidget, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
 from accounting.models import Ledger
 
 class LedgerCreateModelForm(GenericCreateForm):
@@ -36,6 +36,14 @@ class LedgerDetailModelForm(ModelForm):
         fields = ['state', 'code', 'holder', 'third_party', 'date', 'description']
 
 class LedgerDeleteModelForm(GenericDeleteForm):
+
+    exclude_fields = ['charge']
+
+    class Meta:
+        model = Ledger
+        fields = ['code', 'holder', 'third_party', 'date', 'description']
+
+class LedgerActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = Ledger
