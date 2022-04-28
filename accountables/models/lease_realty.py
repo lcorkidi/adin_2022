@@ -50,17 +50,30 @@ class Lease_Realty(Accountable):
             ('activate_lease_realty', 'Can activate lease realty.'),
         ]
 
+    def check_data(self):
+        errors = []
+        if self.lease_realty_person_set.get(lease=self, role=1).count() < 1:
+            errors.append(f'{self} missing lesee.')
+        elif self.lease_realty_person_set.get(lease=self, role=1).count() > 1:
+            errors.append(f'{self} only one lesee.')
+        if self.lease_realty_person_set.get(lease=self, role=3).count() < 1:
+            errors.append(f'{self} missing titular lessor.')
+        elif self.lease_realty_person_set.get(lease=self, role=3).count() > 1:
+            errors.append(f'{self} only one titular lessor..')
+        if self.lease_realty_person_set.get(lease=self, role=2).count() < 1:
+            errors.append(f'{self} missing guarantor.')
+        if self.lease_realty_person_setdate_valu.get(accountable=self, date=self.doc_date).count() < 1:
+            errors.append(f'{self} missing value.')
+        return errors
+
+
     def is_active(self):
         if self.start_date and not self.end_date:
             return True
         return False
 
-    def accounting_holder(self):
-        from people.models import Person
-        return Person.objects.get(pk=6108014)
-
-    def accounting_third_party(self):
-        return self.leases_realties_people.all().filter(role=1)[0].person
+    def ledger_part(self, _role):
+        return self.lease_realty_person_set.get(lease=self, role=_role).person
 
     def pending_date_values(self):
         date_values = Date_Value.objects.filter(accountable=self)
@@ -183,7 +196,8 @@ class Lease_Realty_Person(BaseModel):
     ROLE_CHOICE = [
         (0,'Arrendador'),
         (1,'Arrendatario'),
-        (2,'Fiador')
+        (2,'Fiador'),
+        (3,'Arrendador Titular')
     ]
     
     lease = models.ForeignKey(
@@ -235,6 +249,10 @@ class Lease_Realty_Person(BaseModel):
         app_label = 'accountables'
         verbose_name = 'Parte Arriendo Inmueble'
         verbose_name_plural = 'Partes Arriendos Inmuebles'
+        constraints = [
+            models.UniqueConstraint(condition=models.F('person') & (models.Q(role=1)), name='unique_lesee'),            
+            models.UniqueConstraint(condition=models.F('person') & (models.Q(role=3)), name='unique_titular_lessor'),            
+        ]
 
     def __repr__(self) -> str:
         return f'<Lease_Realty_Person: {self.lease.pk}_{self.person.complete_name}>'
