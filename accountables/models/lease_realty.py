@@ -1,10 +1,12 @@
 import datetime
+import pandas as pd
 from django.db import models
 from dateutil.relativedelta import relativedelta
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
 from .date_value import Date_Value
+from accounting.models import Charge
 from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate
 
 
@@ -50,23 +52,6 @@ class Lease_Realty(Accountable):
             ('activate_lease_realty', 'Can activate lease realty.'),
         ]
 
-    def check_data(self):
-        errors = []
-        if self.lease_realty_person_set.get(lease=self, role=1).count() < 1:
-            errors.append(f'{self} missing lesee.')
-        elif self.lease_realty_person_set.get(lease=self, role=1).count() > 1:
-            errors.append(f'{self} only one lesee.')
-        if self.lease_realty_person_set.get(lease=self, role=3).count() < 1:
-            errors.append(f'{self} missing titular lessor.')
-        elif self.lease_realty_person_set.get(lease=self, role=3).count() > 1:
-            errors.append(f'{self} only one titular lessor..')
-        if self.lease_realty_person_set.get(lease=self, role=2).count() < 1:
-            errors.append(f'{self} missing guarantor.')
-        if self.lease_realty_person_setdate_valu.get(accountable=self, date=self.doc_date).count() < 1:
-            errors.append(f'{self} missing value.')
-        return errors
-
-
     def is_active(self):
         if self.start_date and not self.end_date:
             return True
@@ -93,6 +78,44 @@ class Lease_Realty(Accountable):
             if date_value.date in dates:
                 dates.remove(date_value.date)
         return dates
+
+    def check_charge_concept_in_ledger(self, charge_concept, ledger_template):
+        charges_df = pd.DataFrame(Charge.active.filter(concept=charge_concept, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))
+        if charges_df.empty:
+            return False
+        else:
+            if charges_df.ledger.nunique() != 1:
+                return f'{charge_concept} in multiple ledgers ({charges_df.ledger.unique()[0]}).'
+            base_value = self.date_value_dict()[charge_concept.date]
+            account_value_dict = {}
+            for charge_template in ledger_template.charges_templates.all():
+                account_value_dict[charge_template.account_id] = charge_template.factor.factored_value(self.accountable_ptr, charge_concept.date, base_value, charge_template.nature)
+            charges_df = charges_df.assign(correct=charges_df.apply(lambda x: True if account_value_dict[x.account] == x.value else False, axis=1)) 
+            if len(charges_df) == charges_df.correct.value_counts()[True]:
+                return True
+            else:
+                return charges_df
+
+    def refresh_charge_concepts(self, transaction_type, user):
+        for date in self.date_list():
+            self.create_charge_concept(transaction_type, date, user)
+
+    def create_charge_concept(self, transaction_type, date, user):
+        from accounting.models import Charge_Concept
+        try:
+            charge_concept = Charge_Concept.objects.get(
+                accountable=self.accountable_ptr,
+                transaction_type=transaction_type,
+                date=date
+            )
+        except:
+            charge_concept = Charge_Concept(
+                state_change_user=user,
+                accountable=self.accountable_ptr,
+                transaction_type=transaction_type,
+                date=date
+            )
+            charge_concept.save()
 
     def date_list(self):
         date_list = []
@@ -249,10 +272,6 @@ class Lease_Realty_Person(BaseModel):
         app_label = 'accountables'
         verbose_name = 'Parte Arriendo Inmueble'
         verbose_name_plural = 'Partes Arriendos Inmuebles'
-        constraints = [
-            models.UniqueConstraint(condition=models.F('person') & (models.Q(role=1)), name='unique_lesee'),            
-            models.UniqueConstraint(condition=models.F('person') & (models.Q(role=3)), name='unique_titular_lessor'),            
-        ]
 
     def __repr__(self) -> str:
         return f'<Lease_Realty_Person: {self.lease.pk}_{self.person.complete_name}>'

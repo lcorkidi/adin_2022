@@ -9,7 +9,7 @@ def df_to_dict(df):
     return df.to_dict('records')
 
 def ledger_from_db():
-    ledger = pd.DataFrame(Charge.objects.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
+    ledger = pd.DataFrame(Charge.active.values('ledger', 'ledger__date', 'ledger__third_party', 'concept__accountable', 'concept__transaction_type', 'concept__date', 'account', 'value'))
     if ledger.empty:
         return ledger
     ledger = ledger.rename(columns={'ledger__date':'date', 'ledger__third_party':'third_party', 'concept__accountable':'accountable','concept__transaction_type':'concept'})

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content"></div>
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }} - {{ subtitle }}</span> 
+                    <div>
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
+                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                        </a> |
+                        <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">
+                            {% render_bi 'trash' width="20px" height="20px" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="d-flex mx-2">
+                            <div class="d-grid w-100">
+                                <div class="p-2 fs-5 text-center">
+                                    {{ field.label_tag }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                {% if field.field.widget.attrs.readonly %}
+                                    {% if field.name in choice_fields %}
+                                        <td>{% selected_choice form field.name field.value %}</td>
+                                    {% elif field.name in fk_fields %}
+                                        <td><strong>{% fk_str form field.name %}</strong></td>
+                                    {% else %}
+                                        <strong>{{ field.value }}</strong>
+                                    {% endif %}
+                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for attr, data in related_data.items %}
+                        <div class="d-grid mx-2 gap2">
+                            <div class="p-2 fs-5 w-100 text-center">
+                                {{ attr }}
+                            </div>
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            {% for related_field in data.formset.form %}
+                                                {% if not related_field.name in data.omit_field %}
+                                                    {% if related_field.name != 'state' %}
+                                                        <th>{{ related_field.label }}</th> 
+                                                    {% endif %}                             
+                                                {% endif %}                          
+                                            {% endfor %}
+                                            <th>
+                                                <a class="text-success" href="{% url data.create_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for related_form in data.formset %}
+                                            <tr>
+                                                {% for related_field in related_form.visible_fields %}
+                                                    {% if related_field.name in choice_fields %}
+                                                        <td>{% selected_choice related_form related_field.name related_field.value %}</td>
+                                                    {% elif related_field.name in fk_fields %}
+                                                        <td>{% fk_str related_form related_field.name %}</td>
+                                                    {% elif related_field.name != 'state' %}
+                                                        <td>{{ related_field.value }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <td>
+                                                    {% if related_form.state.value != 0 %}
+                                                        <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value != 0 %}
+                                                        <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value == 0 and group == 'admin' %}
+                                                        <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                </td>     
+                                            </tr>
+                                        {% endfor %}                  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <div class="p-2 fs-5 text-center text-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-grid m-2 gap-2">
+                        <input class="btn btn-primary" type="submit" value="{{ subtitle }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
