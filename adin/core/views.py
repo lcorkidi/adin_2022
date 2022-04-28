@@ -67,7 +67,7 @@ class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
             for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
                 related_data[attr]['formset'] = formset
         else:
             related_data = None
@@ -147,7 +147,7 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
             for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
+                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
                 related_data[attr]['formset'] = formset
         else:
             related_data = None
@@ -157,18 +157,24 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
+        if self.related_data:
+            related_data = self.related_data()
+            for attr, data in related_data.items():
+                filter_expresion = {}
+                filter_expresion[data['filter_expresion']] = pk
+                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
+                related_data[attr]['formset'] = formset
+        else:
+            related_data = None
         if not form.is_valid():
-            if self.related_data:
-                related_data = self.related_data()
-                for attr, data in related_data.items():
-                    filter_expresion = {}
-                    filter_expresion[data['filter_expresion']] = pk
-                    formset = data['formset'](queryset=data['class'].objects.exclude(state=0).filter(**filter_expresion))
-                    related_data[attr]['formset'] = formset
-            else:
-                related_data = None
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
             return render(request, self.template, context)
+        if related_data:    
+            for key, data in related_data.items():
+                for form in data['formset']:
+                    ins = form.instance
+                    ins.state = 0
+                    ins.save()
         obj.state = 0
         obj.save()
         return redirect(self.ref_urls['list'])
@@ -298,6 +304,11 @@ class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        obj.state_change_user = request.user
         obj.state = 0
         obj.save()
         return redirect(self.ref_urls['update'], ret_pk)
@@ -322,6 +333,10 @@ class GenericActivateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, Vi
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
         obj.state = 2
         obj.save()
         return redirect(self.ref_urls['update'], ret_pk)

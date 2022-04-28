@@ -50,17 +50,30 @@ class GenericDeleteForm(ModelForm):
 
     def clean(self):
         objs = []
-        for obj in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
-            if obj.related_name: 
-                for obj in eval(f'self.instance.{obj.related_name}.all()'):
-                    if obj.state != 0:
-                        objs.append(obj)
+        for field in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
+            if field.related_name: 
+                for obj in eval(f'self.instance.{field.related_name}.all()'):
+                    if field.many_to_many:
+                        thr_obj = field.through.find.from_related(self.instance, obj)
+                        if thr_obj.state != 0:
+                            objs.append(thr_obj)
+                    else:
+                        if obj.state != 0:
+                            objs.append(obj)
+                        
         if len(objs) > 0:
             msg = f'{self.instance._meta.verbose_name} no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
             self.add_error(None, msg)
 
         if self.has_changed(): 
-            raise ValidationError(None, f'Hubo cambios en los datos inmutables del objeto.')
+            raise ValidationError(f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
+
+class GenericActivateForm(ModelForm):
+
+    def clean(self):
+        if self.has_changed():
+            self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
         return super().clean()
 
 class GeneriCreateRelatedForm(GenericCreateForm):
@@ -78,7 +91,6 @@ class GeneriCreateRelatedForm(GenericCreateForm):
             else:
                 raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos valores ya existe.")
         return super().clean()
-
     
 class GenericUpdateRelatedForm(GenericUpdateForm):
 
@@ -93,5 +105,43 @@ class GenericUpdateRelatedForm(GenericUpdateForm):
         obj = self._meta.model.objects.get(**get_args)
         for k, v in update_args.items():
             setattr(obj, k, v)
-        obj.state_change_date = self.creator
+        obj.state_change_user = self.creator
         obj.save()
+    
+class GenericDeleteRelatedForm(ModelForm):
+
+    def clean(self):
+        if self.has_changed():
+            self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        get_args = {}
+        update_args = {}
+        for k in self.fields:
+            if k in args[0]:
+                get_args[k] = self.cleaned_data[k]
+            elif k in self.changed_data:
+                update_args[k] = self.cleaned_data[k]
+        obj = self._meta.model.objects.get(**get_args)
+        for k, v in update_args.items():
+            setattr(obj, k, v)
+        obj.state_change_user = self.creator
+        obj.save()
+
+class GenericActivateRelatedForm(ModelForm):
+
+    related_fields = []
+
+    def clean(self):
+        objs = []
+        for field in self.instance._meta._get_fields(forward=True, reverse=False):
+            if field.is_relation:
+                if field.name in self.related_fields:
+                    obj = eval(f'self.instance.{field.name}')
+                    if obj.state == 0:
+                        objs.append(obj)
+        if len(objs) > 0:
+            msg = f'{self.instance._meta.verbose_name} no se puede activar ya que los siguientes objetos están inactivos: {objs}'
+            self.add_error(None, msg)
+        return super().clean()

@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from people.models import Person_Legal_Person_Natural
-from people.forms.person_legal_person_natural_forms import Person_Legal_Person_NaturalCreateForm, Person_Legal_Person_NaturalUpdateForm
+from people.forms.person_legal_person_natural_forms import Person_Legal_Person_NaturalCreateForm, Person_Legal_Person_NaturalUpdateForm, Person_Legal_Person_NaturalDeleteForm, Person_Legal_Person_NaturalActivateForm
 
 title = Person_Legal_Person_Natural._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete' }
@@ -31,7 +31,7 @@ class Person_Legal_Person_NaturalUpdateView(GenericUpdateRelatedView):
 class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 
     model = Person_Legal_Person_Natural
-    form = Person_Legal_Person_NaturalUpdateForm
+    form = Person_Legal_Person_NaturalDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
@@ -42,7 +42,7 @@ class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
 class Person_Legal_Person_NaturalActivateView(GenericActivateRelatedView):
 
     model = Person_Legal_Person_Natural
-    form = Person_Legal_Person_NaturalUpdateForm
+    form = Person_Legal_Person_NaturalActivateForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

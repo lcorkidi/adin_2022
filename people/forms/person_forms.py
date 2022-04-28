@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from people.models import Person, Person_Natural, Person_Legal
 
 class PersonCreateForm(ModelForm):
@@ -90,5 +90,17 @@ class Person_LegalDeleteForm(GenericDeleteForm):
     class Meta:
         model = Person_Legal
         fields = ['type', 'complete_name', 'id_type', 'id_number']
+
+class Person_NaturalActivateForm(GenericActivateForm):
+
+    class Meta:
+        model = Person_Natural
+        fields = [ 'type', 'name', 'last_name', 'id_type', 'id_number']
+
+class Person_LegalActivateForm(GenericActivateForm):
+
+    class Meta:
+        model = Person_Legal
+        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number']
 
 PersonListModelFormSet = modelformset_factory(Person, fields=('state', 'complete_name', 'id_type', 'id_number'), extra=0)

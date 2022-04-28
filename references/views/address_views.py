@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from references.models import Address
-from references.forms.address_forms import AddressDetailModelForm, AddressCreateModelForm, AddressDeleteModelForm, AddressListModelFormSet
+from references.forms.address_forms import AddressDetailModelForm, AddressCreateModelForm, AddressDeleteModelForm, AddressActivateModelForm, AddressListModelFormSet
 
 title = Address._meta.verbose_name_plural
 ref_urls = { 'list':'references:address_list', 'create':'references:address_create', 'detail':'references:address_detail', 'delete':'references:address_delete', 'activate':'references:address_activate' }
@@ -71,7 +71,7 @@ class AddressActivateView(GenericActivateView):
 
     title = title
     model = Address
-    form = AddressDeleteModelForm
+    form = AddressActivateModelForm
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_address'

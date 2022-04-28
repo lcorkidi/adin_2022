@@ -1,7 +1,7 @@
 import datetime
 from django.forms import Form, CharField, ModelChoiceField, ModelForm, SelectDateWidget, modelformset_factory, ValidationError
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericActivateForm
 from references.models import Charge_Factor, Factor_Data
 from accounting.models import Charge
 
@@ -77,7 +77,7 @@ class Factor_DataDetailForm(ModelForm):
         model = Factor_Data
         fields = ['factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute']
 
-class Factor_DataDeleteForm(GenericDeleteForm):
+class Factor_DataDeleteForm(ModelForm):
 
     class Meta:
         model = Factor_Data
@@ -95,9 +95,14 @@ class Factor_DataDeleteForm(GenericDeleteForm):
         if len(objs) > 0:
             msg = f'La tasa no se puede inactivar ya que tiene relación con los siguientes objetos: {objs}'
             self.add_error(None, msg)
-
         if self.has_changed(): 
-            raise ValidationError(None, f'Hubo cambios en los datos inmutables del objeto.')
+            raise ValidationError(f'Hubo cambios en los datos inmutables del objeto.')
         return super().clean()
 
-Factor_DataListModelFormSet = modelformset_factory(Factor_Data, fields=('factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute'), extra=0)
+class Factor_DataActivateModelForm(GenericActivateForm):
+
+    class Meta:
+        model = Factor_Data
+        fields = ['factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute']
+
+Factor_DataListModelFormSet = modelformset_factory(Factor_Data, fields=('state', 'factor', 'validity_date', 'amount', 'percentage', 'in_instance_attribute'), extra=0)

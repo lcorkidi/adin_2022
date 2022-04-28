@@ -1,6 +1,6 @@
 from django.forms import ModelForm, ValidationError, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
 from references.models import Phone
 from references.utils import phone2code
 
@@ -32,6 +32,12 @@ class PhoneDetailModelForm(ModelForm):
         fields = ['state', 'code']
 
 class PhoneDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = Phone
+        fields = ['code']
+
+class PhoneActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = Phone
