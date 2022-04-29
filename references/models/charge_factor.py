@@ -23,7 +23,7 @@ class Charge_Factor(BaseModel):
     def factored_value(self, accountable, date, value, nature):
         facdat = Factor_Data.objects.filter(factor=self).exclude(validity_date__gt=date).order_by('-validity_date')[0]
         if facdat.in_instance_attribute and facdat.in_instance_attribute != 'ZZZZ':
-            fac = eval(f'accountable.{facdat.in_instance_attribute}_id')
+            fac = eval(f'accountable.subclass_obj().{facdat.in_instance_attribute}_id')
             facdat = Factor_Data.objects.filter(factor=fac).exclude(validity_date__gt=date).order_by('-validity_date')[0]
         if facdat.percentage > 0 and facdat.amount == 0:
             fac_value = int(value) * float(facdat.percentage / 100)

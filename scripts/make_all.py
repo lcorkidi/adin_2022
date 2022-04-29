@@ -4,7 +4,7 @@ from scripts.utils import df2objs
 
 _raw_data_info = pd.read_json('_files/_raw_data_info.json')
 
-def run():
+def run(all):
     dt1 = datetime.now()
 
     # create addresses
@@ -103,7 +103,8 @@ def run():
     print('Transaction_Type: {}'.format(dt20-dt19))
 
     # create charges_concepts
-    df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
+    if all != 'False':
+        df2objs(pd.read_csv('_files/charge_concept.csv'), _raw_data_info, True)
     dt21 = datetime.now()
     print('Charge_Concept: {}'.format(dt21-dt20))
 
@@ -113,12 +114,14 @@ def run():
     print('Ledger_Type: {}'.format(dt22-dt21))
 
     # create ledgers
-    df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
+    if all != 'False':
+        df2objs(pd.read_csv('_files/ledger.csv'), _raw_data_info, True)
     dt23 = datetime.now()
     print('Ledger: {}'.format(dt23-dt22))
 
     # create charges
-    df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
+    if all != 'False':
+        df2objs(pd.read_csv('_files/charge.csv'), _raw_data_info, True)
     dt24 = datetime.now()
     print('Charge: {}'.format(dt24-dt23))
 

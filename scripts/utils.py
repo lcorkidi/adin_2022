@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import date as dt, timedelta as td
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
 from references.models import Address, PUC, E_Mail, Phone, Transaction_Type, Charge_Factor, Factor_Data

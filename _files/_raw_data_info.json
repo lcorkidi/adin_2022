@@ -162,6 +162,7 @@
             "start_date"
         ],        
         "fk_attrs": {
+            "subclass": "ContentType"
         }
     },
     "Lease_Realty_Realty": {

@@ -6,7 +6,6 @@ from dateutil.relativedelta import relativedelta
 from adin.core.models import BaseModel
 from .accountable import Accountable
 from .date_value import Date_Value
-from accounting.models import Charge
 from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate
 
 
@@ -57,8 +56,11 @@ class Lease_Realty(Accountable):
             return True
         return False
 
-    def ledger_part(self, _role):
-        return self.lease_realty_person_set.get(lease=self, role=_role).person
+    def ledger_holder(self):
+        return self.lease_realty_person_set.get(lease=self, role=3).person
+
+    def ledger_third_party(self):
+        return self.lease_realty_person_set.get(lease=self, role=1).person
 
     def pending_date_values(self):
         date_values = Date_Value.objects.filter(accountable=self)
@@ -80,6 +82,7 @@ class Lease_Realty(Accountable):
         return dates
 
     def check_charge_concept_in_ledger(self, charge_concept, ledger_template):
+        from accounting.models import Charge
         charges_df = pd.DataFrame(Charge.active.filter(concept=charge_concept, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))
         if charges_df.empty:
             return False
@@ -96,7 +99,27 @@ class Lease_Realty(Accountable):
             else:
                 return charges_df
 
-    def refresh_charge_concepts(self, transaction_type, user):
+    def creaate_ledger_from_template(self, charge_concept, ledger_template, date, user):
+        from accounting.models import Ledger, Charge
+        ledger = Ledger(
+            state_change_user=user,
+            type=ledger_template.ledger_type,
+            holder=self.ledger_part(3),
+            third_party=self.ledger_part(1),
+            date=date
+        )
+        ledger.save()
+
+        for charge_template in ledger_template.charges_templates.all():
+            Charge(
+                state_change_user=user,
+                ledger=ledger,
+                account=charge_template.account,
+                value=charge_template.factor.factored_value(self.accountable_ptr, charge_concept.date, self.date_value_dict()[charge_concept.date], charge_template.nature),
+                concept=charge_concept
+            ).save()
+        
+    def create_charge_concepts(self, transaction_type, user):
         for date in self.date_list():
             self.create_charge_concept(transaction_type, date, user)
 
