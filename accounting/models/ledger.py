@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 
@@ -89,6 +90,11 @@ class Ledger_Template(BaseModel):
     code = models.CharField(
         max_length=128,
         primary_key=True
+    )
+    accountable_class = models.ForeignKey(
+        ContentType,
+        on_delete=models.PROTECT,
+        verbose_name='Clase Contabilizable'
     )
     transaction_type = models.ForeignKey(
         'references.Transaction_Type',

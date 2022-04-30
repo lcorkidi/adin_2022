@@ -262,6 +262,7 @@
         "value_attrs": [
         ],        
         "fk_attrs": {
+            "accountable_class": "ContentType",
             "transaction_type": "Transaction_Type",
             "ledger_type": "Ledger_Type"
         }
