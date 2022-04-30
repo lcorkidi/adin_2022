@@ -1,0 +1,5 @@
+,id,state_change_user_id,state_change_date,state,ledger_id,account_id,value,concept_id,settled
+0,1,1,2022-04-28 22:12:42.482695+00:00,1,FV-00000001,13802005,1500000,Arriendo Inmueble Comercial^2022-01-01_K2C-30-15-B3^2022-01-01,False
+1,2,1,2022-04-28 22:12:42.498727+00:00,1,FV-00000001,13802010,285000,Arriendo Inmueble Comercial^2022-01-01_K2C-30-15-B3^2022-01-01,False
+2,3,1,2022-04-28 22:12:42.513495+00:00,1,FV-00000001,240810,-285000,Arriendo Inmueble Comercial^2022-01-01_K2C-30-15-B3^2022-01-01,False
+3,4,1,2022-04-28 22:12:42.528214+00:00,1,FV-00000001,913005,-1500000,Arriendo Inmueble Comercial^2022-01-01_K2C-30-15-B3^2022-01-01,False

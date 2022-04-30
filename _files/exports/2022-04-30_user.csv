@@ -1,0 +1,2 @@
+,id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined
+0,1,pbkdf2_sha256$320000$B17XQuRHznedO61k5bti3w$PQOTHMbcLYXdeV5S0FcS78mULHu0WgyEOz7yKS5F7Qs=,2022-04-28 22:02:26.532459+00:00,True,leon,,,,True,True,2022-04-28 22:01:22.011988+00:00
