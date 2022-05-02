@@ -1,27 +1,12 @@
 ﻿class,type,name,id_type,id_number,last_name,legal_type
 Person_Natural,0,León,0,6108014,Corkidi Tzuckerman,-9999
 Person_Natural,0,Yehiel,0,1130668637,Corkidi Tzuckerman,-9999
-Person_Legal,1,Coragro,1,800219204,N/A,0
 Person_Natural,0,Alberto,0,19245383,Corkidi Yaffe,-9999
 Person_Natural,0,Isidoro,0,19128434,Corkidi Yaffe,-9999
 Person_Natural,0,Karen,0,67005381,Corkidi Cardenas,-9999
 Person_Natural,0,León,0,94455223,Corkidi Cardenas,-9999
-Person_Legal,1,Andiplast Envases,1,901012053,N/A,1
-Person_Legal,1,Maquinpro de Colombia,1,900582366,N/A,1
-Person_Legal,1,Mulplast,1,900245885,N/A,1
 Person_Natural,0,Alvaro,0,16735385,Beltran Chaves,-9999
-Person_Legal,1,Cocoambiental,1,900961321,N/A,1
-Person_Legal,1,Innovaciones Plasticas,1,805001597,N/A,1
-Person_Legal,1,QW Health de Colombia,1,900575356,N/A,1
-Person_Legal,1,Alimentos Carnicos,1,890904130,N/A,1
-Person_Legal,1,Prodeplasticos,1,830134857,N/A,1
-Person_Legal,1,Palmiplast Industrias,1,900672393,N/A,1
-Person_Legal,1,O´Celeste,1,901063279,N/A,1
-Person_Legal,1,Global Tennis,1,900346960,N/A,1
 Person_Natural,0,Luis Fernando,0,16706546,Silva Riaños,-9999
-Person_Legal,1,ROR Ingenieria,1,890930227,N/A,1
-Person_Legal,1,Someda Intagrated,1,900570334,N/A,1
-Person_Legal,1,Granos y Proteinas,1,900087432,N/A,1
 Person_Natural,0,Natalia,0,1143861826,Quintero Salazar,-9999
 Person_Natural,0,Jean Carlos,0,1193172681,Vernansa Aragon,-9999
 Person_Natural,0,Joseny Marcela,0,1077470443,Mosquera Perea,-9999
@@ -61,25 +46,17 @@ Person_Natural,0,Uriel,0,14941159,Hurtado Sánchez,-9999
 Person_Natural,0,Gabriel,0,14956720,Osorio Salazar,-9999
 Person_Natural,0,Marina,0,31233821,Sanchez Valencia,-9999
 Person_Natural,0,Leydy Diana,0,1114728401,Oca Motato,-9999
-Person_Legal,1,Comercializadora Omega,1,800017469,N/A,2
 Person_Natural,0,Elsa,0,31847384,Lopez Sevillno,-9999
 Person_Natural,0,Maria Elena,0,29581503,Cortes Chamorro,-9999
 Person_Natural,0,Alfonso Eleazar,0,6069454,Guzman Moreno,-9999
 Person_Natural,0,Carlos Alberto,0,6160214,Maya Osorio,-9999
-Person_Legal,1,"Ferreteria,Pinturas Y Productos Agropecuarios",1,805018771,N/A,2
 Person_Natural,0,Fernando,0,2631179,Tascon Ospina,-9999
-Person_Legal,1,Del Corte Mobiliari,1,900206937,N/A,1
 Person_Natural,0,Alix Carolina,0,60391142,Pabon Pabon,-9999
-Person_Legal,1,Universal de Aceros y Trifilados,1,900719717,N/A,1
 Person_Natural,0,Carlos Arturo,0,16750772,Garcia Quijano,-9999
-Person_Legal,1,Asoboce,1,901012767,N/A,1
 Person_Natural,0,Aldenovan,0,16788077,Nieto Molina,-9999
 Person_Natural,0,Carlos Fernando,0,94376160,Montaña Mendez,-9999
-Person_Legal,1,Actividades Textiles,1,900244841,N/A,1
 Person_Natural,0,Patricia,0,66815206,Delgado Quintero,-9999
-Person_Legal,1,Representaciones Especiales,1,890204680,N/A,2
 Person_Natural,0,Alejandro,0,91213359,Gomez Gomez,-9999
-Person_Legal,1,Productos de Caucho y Lona,1,890328485,N/A,1
 Person_Natural,0,Gustavo Alberto,0,16662908,Jaramillo Mejia,-9999
 Person_Natural,0,Diego Fernando,0,16777328,Amaya Guzman,-9999
 Person_Natural,0,Alvaro Jose,0,94497429,Velasco Lloreda,-9999
@@ -90,18 +67,157 @@ Person_Natural,0,Cynthia,0,52695485,Dixon Palau,-9999
 Person_Natural,0,Jacqueline,0,31889682,Lopez Sevillno,-9999
 Person_Natural,0,Carlos Alberto,0,16761696,Sierro Murillo,-9999
 Person_Natural,0,Esther,0,31520503,Tzuckerman Pellman,-9999
-Person_Legal,1,Arquimaderas,1,900858114,N/A,1
-Person_Legal,1,Datecsa,1,800136505,N/A,0
-Person_Legal,1,Diesel Lujo Ferreteria Al Costo,1,901257178,N/A,1
-Person_Legal,1,El Comercio ELectrico,1,890323635,N/A,2
-Person_Legal,1,Electricos del Valle,1,890304345,N/A,0
-Person_Legal,1,Electo Iluminaciones EH,1,901439406,N/A,1
-Person_Legal,1,Ferreteria 5A Norte,1,901462569,N/A,1
-Person_Legal,1,Ferreteria Barbosa y Cia,1,890308587,N/A,1
-Person_Legal,1,Ferreteria Miltialambres,1,860067998,N/A,1
-Person_Legal,1,Ferretornillos Arlex,1,901042248,N/A,1
-Person_Legal,1,Grupo Empresarial Silver,1,900420715,N/A,1
-Person_Legal,1,La Bodeguita Cotic,1,901149951,N/A,1
 Person_Natural,0,Fabiola,0,22173593,Herrera Rueda,-9999
 Person_Natural,0,Elena,0,24839143,Patiño Cruz,-9999
-Person_Legal,1,Uniescolar Papeleria,1,805004110,N/A,2
+Person_Natural,0,Juan Manuel,0,79202867,Osorio,-9999
+Person_Natural,0,María Teresa,0,31202432,Agudelo Velez,-9999
+Person_Natural,0,Ruby,0,26142456,Mondragón Garzón,-9999
+Person_Natural,0,Rosa Elvira,0,23835012,Niño Suarez,-9999
+Person_Natural,0,Javier Emilio,0,19247243,Campo Méndez,-9999
+Person_Natural,0,Yennyfeer,0,34609851,Carabalí Loboa,-9999
+Person_Natural,0,Wiston Mario,0,11799048,Perea Perea,-9999
+Person_Natural,0,Edgar Emilio,0,10545382,Diaz Padilla,-9999
+Person_Natural,0,Yenny Coromoto,0,1107532811,Arango Monsalve,-9999
+Person_Natural,0,Miryan,0,31226418,Arango de Vernaza,-9999
+Person_Natural,0,Alfredo,0,6089797,Campo Penagos,-9999
+Person_Natural,0,Heber,0,19236992,Lerma Manrique,-9999
+Person_Natural,0,Kerlyn,0,31575469,Lerma Palomino,-9999
+Person_Natural,0,Maria Inés,0,38956447,Mejía García,-9999
+Person_Natural,0,Mariela,0,31217621,Tasamá García,-9999
+Person_Natural,0,Magnolia,0,31153700,Tasama García,-9999
+Person_Natural,0,Cielo,0,29992123,Granados de Andrade,-9999
+Person_Natural,0,Jeyer Armando,0,1130600030,Nieto Meneses,-9999
+Person_Natural,0,Alberto,0,9087150,Herrera Montes,-9999
+Person_Natural,0,Javier,0,16650908,Vargas Mosquera,-9999
+Person_Natural,0,Juan Carlos,0,79407654,Ceballos López,-9999
+Person_Natural,0,Amparo,0,31131067,Mejía de Becerra,-9999
+Person_Natural,0,Andrea,0,52818113,Osorio Márquez,-9999
+Person_Natural,0,Javier Francisco,0,16690077,Escobar,-9999
+Person_Natural,0,Ricardo,0,94318792,Orozco Baeza,-9999
+Person_Natural,0,Marconi,0,2421922,Lopez Rizo,-9999
+Person_Natural,0,Stella,0,31170435,Góngora Castañeda,-9999
+Person_Natural,0,Edgar Alonso,0,91437235,Suarez Ovalle,-9999
+Person_Natural,0,Graciela,0,29076370,Quintero Rodríguez,-9999
+Person_Natural,0,María Edilma,0,24903180,Calderon Lozano,-9999
+Person_Natural,0,Jose Samuel,0,5277670,Cordoba Ramos,-9999
+Person_Natural,0,Dagoberto,0,6264988,Cadena Gaviria,-9999
+Person_Natural,0,Livio,0,16727684,Baloco,-9999
+Person_Natural,0,Jose Herminsul,0,16678074,Castro Gómez,-9999
+Person_Natural,0,Leonor,0,31248519,Sanchez Valencia,-9999
+Person_Natural,0,Amparo,0,41715862,Moreno Sarmiento,-9999
+Person_Natural,0,Alfonso,0,17144443,Dominguez Plaza,-9999
+Person_Natural,0,Ferenc,0,16300014,Díaz Hernández,-9999
+Person_Natural,0,Clara Tatiana,0,66858587,Ballesteros Gallego,-9999
+Person_Natural,0,Jesús,0,29212587,Hurtado Sanchez,-9999
+Person_Natural,0,Cesar Augusto,0,79956999,Ramírez Ariza,-9999
+Person_Natural,0,Derly,0,31197760,Uribe Trujillo,-9999
+Person_Natural,0,Nelsy,0,31194640,Uribe Trujillo,-9999
+Person_Natural,0,Angélica,0,1118290288,Peña Rojas,-9999
+Person_Natural,0,Jonathan,0,1113686599,Pernia Rodriguez,-9999
+Person_Natural,0,Libia Yaneth,0,66947940,Sanz Hernandez,-9999
+Person_Natural,0,Justin,0,1144074047,Carreño Ávila,-9999
+Person_Natural,0,Valentina,0,1107086162,Ávila Moreno,-9999
+Person_Natural,0,Carlos Andres,0,94351710,Tonuzco,-9999
+Person_Natural,0,Gilbert Mauricio,0,94432883,Gómez Piedrahita,-9999
+Person_Natural,0,Eloin,0,91018932,Rivera Becerra,-9999
+Person_Natural,0,Carlos Andrés,0,16916088,Gómez Salazar,-9999
+Person_Natural,0,Xiomara Esther,0,66988823,Gómez Salazar,-9999
+Person_Natural,0,Jorge Enrique,0,1144028172,Gómez Tabares,-9999
+Person_Natural,0,Carlos Andrés,0,94520054,Camayo Martinez,-9999
+Person_Natural,0,Claudia Nataly,0,1144141252,González Torres,-9999
+Person_Natural,0,Mayeline,0,34615631,Valencia Castillo,-9999
+Person_Natural,0,Marleny,0,38940326,Valencia Duque,-9999
+Person_Natural,0,Enrique,0,14960254,Arévalo Páez,-9999
+Person_Natural,0,Ayde Alejandra,0,66844066,Montaña Méndez,-9999
+Person_Natural,0,Luis Jairo,0,16689472,Jaramillo Pulgarín,-9999
+Person_Natural,0,Víctor Hugo,0,1055832806,Arias Murillo,-9999
+Person_Natural,0,Julia Mary,0,29102426,Pulgarín Jaramillo,-9999
+Person_Natural,0,José Miguel,0,1144172037,Velazco Renza,-9999
+Person_Natural,0,José,0,111561,Velazco Morales,-9999
+Person_Natural,0,Gloria Esperanza,0,31269723,Chávez Aragón,-9999
+Person_Natural,0,Alexander de Jesús,0,76044042,Ospina,-9999
+Person_Natural,0,Amparo,0,31284289,López Sevillano,-9999
+Person_Natural,0,Soraya,0,31875243,López Sevillano,-9999
+Person_Natural,0,María Olave,0,29041163,Sevillano Mesa,-9999
+Person_Natural,0,Daniela,0,1123630044,Ramírez López,-9999
+Person_Natural,0,Eugenio Enrique,0,15242253,Ramírez,-9999
+Person_Natural,0,Ulises,0,94502327,Lombana Solarte,-9999
+Person_Natural,0,Juan Sebastian,0,1130667388,Gómez López,-9999
+Person_Natural,0,Ricardo,0,16659028,Rojas Torres,-9999
+Person_Natural,0,Luis Alberto,0,70902429,Ceballos Gallo,-9999
+Person_Natural,0,Aimer,0,16342422,Ospina Silva,-9999
+Person_Natural,0,Gladys,0,31211147,Guzmán Osuna,-9999
+Person_Natural,0,Roger,0,94072240,Gómez García,-9999
+Person_Natural,0,Rodrigo,0,19192426,Gómez Medina,-9999
+Person_Natural,0,Carlos Rodrigo,0,94425183,Dixon Palau,-9999
+Person_Natural,0,Gloria,0,31208365,Ortiz de Guzmán,-9999
+Person_Natural,0,Silvia Maria,0,60380724,Martínez Forero,-9999
+Person_Natural,0,Maritza Ines,0,99817156,García,-9999
+Person_Natural,0,Maritza Inés,0,66817156,García,-9999
+Person_Natural,0,Javier Alberto,0,16375922,Acosta González,-9999
+Person_Natural,0,Campo Ramiro,0,14440244,Acosta Burgos,-9999
+Person_Natural,0,Yenny,0,31711123,Ortiz Peñaranda,-9999
+Person_Natural,0,Carlos Alberto,0,31528622,Maya Osorio,-9999
+Person_Natural,0,Alberto Javier,0,16355941,Vélez Mesa,-9999
+Person_Natural,0,Gonzalo,0,16700013,Villegas Aristizábal,-9999
+Person_Natural,0,Luis Felipe,0,16460615,Gómez Rodríguez,-9999
+Person_Natural,0,Jhon Jairo,0,14620657,Gómez Rodríguez,-9999
+Person_Natural,0,Claudia Isabeth,0,66989111,Castaño Belalcázar,-9999
+Person_Natural,0,Carlos Alirio,0,76312391,Collazos Burbano,-9999
+Person_Natural,0,Andres Felipe,0,94413058,Ruiz Carvajal,-9999
+Person_Natural,0,Francisco Steven,0,1130627271,Esguerra Zapata,-9999
+Person_Natural,0,Eleuterio,0,14838560,Palacios Hinestroza,-9999
+Person_Natural,0,Maximino,0,11870121,Mosquera Palacios,-9999
+Person_Natural,0,José Mercedes,0,11870078,Mosquera,-9999
+Person_Natural,0,Eimar Ferney,0,16944737,Palacios Palacios,-9999
+Person_Natural,0,Argenis,0,42060990,Naranjo Arias,-9999
+Person_Natural,0,John Henry,0,94491952,Gamboa Morales,-9999
+Person_Natural,0,Consuelo,0,29869108,Jiménez de Pérez,-9999
+Person_Natural,0,Alejandro,0,1214463044,Cortes Prieto,-9999
+Person_Natural,0,Ruby,0,29142456,Mondragón Garzon,-9999
+Person_Natural,0,Blanca Olivia,0,31884862,Largacha de Mazuera,-9999
+Person_Natural,0,Aide,0,29086611,Orejuela de Mazuera,-9999
+Person_Legal,1,Coragro,1,800219204,ZZZZZ,0
+Person_Legal,1,Andiplast Envases,1,901012053,ZZZZZ,1
+Person_Legal,1,Maquinpro de Colombia,1,900582366,ZZZZZ,1
+Person_Legal,1,Mulplast,1,900245885,ZZZZZ,1
+Person_Legal,1,Cocoambiental,1,900961321,ZZZZZ,1
+Person_Legal,1,Innovaciones Plasticas,1,805001597,ZZZZZ,1
+Person_Legal,1,QW Health de Colombia,1,900575356,ZZZZZ,1
+Person_Legal,1,Alimentos Carnicos,1,890904130,ZZZZZ,1
+Person_Legal,1,Prodeplasticos,1,830134857,ZZZZZ,1
+Person_Legal,1,Palmiplast Industrias,1,900672393,ZZZZZ,1
+Person_Legal,1,O´Celeste,1,901063279,ZZZZZ,1
+Person_Legal,1,Global Tennis,1,900346960,ZZZZZ,1
+Person_Legal,1,ROR Ingenieria,1,890930227,ZZZZZ,1
+Person_Legal,1,Someda Intagrated,1,900570334,ZZZZZ,1
+Person_Legal,1,Granos y Proteinas,1,900087432,ZZZZZ,1
+Person_Legal,1,Comercializadora Omega,1,800017469,ZZZZZ,2
+Person_Legal,1,"Ferreteria,Pinturas Y Productos Agropecuarios",1,805018771,ZZZZZ,2
+Person_Legal,1,Del Corte Mobiliari,1,900206937,ZZZZZ,1
+Person_Legal,1,Universal de Aceros y Trifilados,1,900719717,ZZZZZ,1
+Person_Legal,1,Asoboce,1,901012767,ZZZZZ,1
+Person_Legal,1,Actividades Textiles,1,900244841,ZZZZZ,1
+Person_Legal,1,Representaciones Especiales,1,890204680,ZZZZZ,2
+Person_Legal,1,Productos de Caucho y Lona,1,890328485,ZZZZZ,1
+Person_Legal,1,Arquimaderas,1,900858114,ZZZZZ,1
+Person_Legal,1,Datecsa,1,800136505,ZZZZZ,0
+Person_Legal,1,Diesel Lujo Ferreteria Al Costo,1,901257178,ZZZZZ,1
+Person_Legal,1,El Comercio ELectrico,1,890323635,ZZZZZ,2
+Person_Legal,1,Electricos del Valle,1,890304345,ZZZZZ,0
+Person_Legal,1,Electo Iluminaciones EH,1,901439406,ZZZZZ,1
+Person_Legal,1,Ferreteria 5A Norte,1,901462569,ZZZZZ,1
+Person_Legal,1,Ferreteria Barbosa y Cia,1,890308587,ZZZZZ,1
+Person_Legal,1,Ferreteria Miltialambres,1,860067998,ZZZZZ,1
+Person_Legal,1,Ferretornillos Arlex,1,901042248,ZZZZZ,1
+Person_Legal,1,Grupo Empresarial Silver,1,900420715,ZZZZZ,1
+Person_Legal,1,La Bodeguita Cotic,1,901149951,ZZZZZ,1
+Person_Legal,1,Uniescolar Papeleria,1,805004110,ZZZZZ,2
+Person_Legal,1,Sepia Arte y Diseño,1,901411596,ZZZZZ,1
+Person_Legal,1,Ingeideas Laser,1,901159918,ZZZZZ,1
+Person_Legal,1,Frenos y Direcciones Valencia D.Y Cia,1,805020753,ZZZZZ,2
+Person_Legal,1,Alimentos Carnicos,1,890304130,ZZZZZ,1
+Person_Legal,1,Distriferretera de Colombia,1,900042300,ZZZZZ,1
+Person_Legal,1,Bio Ambar,1,901393460,ZZZZZ,1
+Person_Legal,1,Transporte Carlos A. Collazos,1,900690709,ZZZZZ,1
+Person_Legal,1,Los Alamillos,1,900292996,ZZZZZ,0
