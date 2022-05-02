@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
-from properties.forms.estate_forms import EstateCreateForm, EstateDetailForm, EstateUpdateForm, EstateDeleteForm, EstateListModelFormSet
+from properties.forms.estate_forms import EstateCreateForm, EstateDetailForm, EstateUpdateForm, EstateDeleteForm, EstateActivateForm, EstateListModelFormSet
 from properties.models import Estate
 from properties.utils import estate_related_data
 
@@ -113,7 +113,7 @@ class EstateActivateView(GenericActivateView):
 
     title = title
     model = Estate
-    form = EstateDeleteForm
+    form = EstateActivateForm
     ref_urls = ref_urls
     choice_fields = ['type']
     fk_fields = ['address', 'person']

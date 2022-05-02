@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from properties.models import Estate_Person
-from properties.forms.estate_person_forms import Estate_PersonCreateForm, Estate_PersonUpdateForm, Estate_PersonActivateForm
+from properties.forms.estate_person_forms import Estate_PersonCreateForm, Estate_PersonUpdateForm, Estate_PersonDeleteForm, Estate_PersonActivateForm
 from home.utils import user_group_str
 
 title = Estate_Person._meta.verbose_name_plural
@@ -34,7 +34,7 @@ class Estate_PersonUpdateView(GenericUpdateRelatedView):
 class Estate_PersonDeleteView(GenericDeleteRelatedView):
 
     model = Estate_Person
-    form = Estate_PersonUpdateForm
+    form = Estate_PersonDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

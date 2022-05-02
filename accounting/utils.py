@@ -32,3 +32,22 @@ def ledger_related_data(*args):
     }
 
     return related_data
+
+def ledger_template_related_data(*args):
+    from .models import Charge_Template
+    from .forms.charge_template_forms import Charge_TemplateModelFormSet
+
+    related_data = {
+        'Formatos Movimientos:': {
+            'class': Charge_Template,
+            'formset': Charge_TemplateModelFormSet,
+            'filter_expresion': 'ledger_template__code',
+            'omit_field' : 'ledger_template',
+            'create_url': 'accounting:charge_template_create',
+            'update_url': 'accounting:charge_template_update',
+            'delete_url': 'accounting:charge_template_delete',
+            'activate_url': 'accounting:charge_template_activate'
+        } 
+    }
+
+    return related_data

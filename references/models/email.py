@@ -12,6 +12,7 @@ class E_Mail(BaseModel):
         app_label = 'references'
         verbose_name = 'Correo Electrónico'
         verbose_name_plural = 'Correos Electrónicos'
+        ordering = ['e_mail']
         permissions = [
             ('e_mail', 'Can activate e-mail.'),
         ]

@@ -35,6 +35,7 @@ class Phone(BaseModel):
         app_label = 'references'
         verbose_name = 'Teléfono'
         verbose_name_plural = 'Teléfonos'
+        ordering = ['code']
         constraints = [
             models.UniqueConstraint(fields=['country', 'region', 'number'], name='unique_country_region_number'),
         ]

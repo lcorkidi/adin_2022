@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+
 from adin.core.models import BaseModel
 
 class Ledger(BaseModel):
@@ -89,6 +91,11 @@ class Ledger_Template(BaseModel):
         max_length=128,
         primary_key=True
     )
+    accountable_class = models.ForeignKey(
+        ContentType,
+        on_delete=models.PROTECT,
+        verbose_name='Clase Contabilizable'
+    )
     transaction_type = models.ForeignKey(
         'references.Transaction_Type',
         on_delete=models.PROTECT,
@@ -108,6 +115,22 @@ class Ledger_Template(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Formato Registro'
         verbose_name_plural = 'Formatos Registros'
+        constraints = [
+            models.UniqueConstraint(fields=['transaction_type', 'ledger_type'], name='unique_trancaction_ledger_types'),
+        ]
+        
+    def ledger_from_template(self, charge_concept, date, user):
+        ledger = Ledger(
+            state_change_user=user,
+            type=self.ledger_type,
+            holder=charge_concept.accountable.ledger_holder(),
+            third_party=charge_concept.accountable.ledger_third_party(),
+            date=date
+        )
+        ledger.save()
+
+        for charge_template in self.charges_templates.all():
+            charge_template.charge_from_template(ledger, charge_concept, user)
 
     def __repr__(self) -> str:
         return f'<Ledger_Template: {self.code}>'

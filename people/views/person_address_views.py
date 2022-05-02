@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from people.models import Person_Address
-from people.forms.person_address_forms import Person_AddressCreateForm, Person_AddressUpdateForm
+from people.forms.person_address_forms import Person_AddressCreateForm, Person_AddressUpdateForm, Person_AddressDeleteForm, Person_AddressActivateForm
 
 title = Person_Address._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete' }
@@ -31,7 +31,7 @@ class Person_AddressUpdateView(GenericUpdateRelatedView):
 class Person_AddressDeleteView(GenericDeleteRelatedView):
 
     model = Person_Address
-    form = Person_AddressUpdateForm
+    form = Person_AddressDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
@@ -42,7 +42,7 @@ class Person_AddressDeleteView(GenericDeleteRelatedView):
 class Person_AddressActivateView(GenericActivateRelatedView):
 
     model = Person_Address
-    form = Person_AddressUpdateForm
+    form = Person_AddressActivateForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

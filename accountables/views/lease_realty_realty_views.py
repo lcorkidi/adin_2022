@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from accountables.models import Lease_Realty_Realty
-from accountables.forms.lease_realty_realty_forms import Lease_Realty_RealtyCreateForm, Lease_Realty_RealtyUpdateForm
+from accountables.forms.lease_realty_realty_forms import Lease_Realty_RealtyCreateForm, Lease_Realty_RealtyUpdateForm, Lease_Realty_RealtyDeleteForm, Lease_Realty_RealtyActivateForm
 
 title = Lease_Realty_Realty._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete' }
@@ -31,7 +31,7 @@ class Lease_Realty_RealtyUpdateView(GenericUpdateRelatedView):
 class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
 
     model = Lease_Realty_Realty
-    form = Lease_Realty_RealtyUpdateForm
+    form = Lease_Realty_RealtyDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
@@ -41,7 +41,7 @@ class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
 class Lease_Realty_RealtyActivateView(GenericActivateRelatedView):
 
     model = Lease_Realty_Realty
-    form = Lease_Realty_RealtyUpdateForm
+    form = Lease_Realty_RealtyActivateForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

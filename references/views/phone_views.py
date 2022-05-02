@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from references.models import Phone
-from references.forms.phone_forms import PhoneDetailModelForm, PhoneCreateModelForm, PhoneDeleteModelForm, PhoneListModelFormSet
+from references.forms.phone_forms import PhoneDetailModelForm, PhoneCreateModelForm, PhoneDeleteModelForm, PhoneActivateModelForm, PhoneListModelFormSet
 
 title = Phone._meta.verbose_name_plural
 ref_urls = { 'list':'references:phone_list', 'create':'references:phone_create', 'detail':'references:phone_detail', 'delete':'references:phone_delete', 'activate':'references:phone_activate' }
@@ -71,7 +71,7 @@ class PhoneActivateView(GenericActivateView):
 
     title = title
     model = Phone
-    form = PhoneDeleteModelForm
+    form = PhoneActivateModelForm
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_phone'

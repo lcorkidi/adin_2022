@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
-from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyListModelFormSet
+from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accountables.models import Lease_Realty
 from accountables.utils import lease_realty_related_data
 
@@ -111,7 +111,7 @@ class Lease_RealtyActivateView(GenericActivateView):
 
     title = title
     model = Lease_Realty
-    form = Lease_RealtyDeleteForm
+    form = Lease_RealtyActivateForm
     ref_urls = ref_urls
     choice_fields = ['role']
     fk_fields = ['lease', 'person', 'realty']

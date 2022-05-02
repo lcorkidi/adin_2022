@@ -1,5 +1,6 @@
 from django.db import models
 from adin.core.models import BaseModel
+from references.models import Address, E_Mail, Phone
 
 class Person(BaseModel):
 
@@ -66,6 +67,7 @@ class Person(BaseModel):
         app_label = 'people'
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
+        ordering = ['complete_name']
         permissions = [
             ('activate_person', 'Can activate person.'),
         ]
@@ -87,6 +89,7 @@ class Person_Natural(Person):
         app_label = 'people'
         verbose_name = 'Persona Natural'
         verbose_name_plural = 'Personas Naturales'
+        ordering = ['complete_name']
 
     def __repr__(self) -> str:
         return f'<Person_Natural: {self.complete_name}>'
@@ -123,12 +126,27 @@ class Person_Legal(Person):
         app_label = 'people'
         verbose_name = 'Persona Jurídica'
         verbose_name_plural = 'Personas Jurídicas'
+        ordering = ['complete_name']
 
     def __repr__(self) -> str:
         return f'<Person_Legal: {self.complete_name}>'
     
     def __str__(self) -> str:
         return self.complete_name
+
+class Person_PhoneFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Phone):
+            base_args['phone'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['phone'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 class Person_Phone(BaseModel):
 
@@ -154,6 +172,9 @@ class Person_Phone(BaseModel):
         verbose_name='Uso'
     )
 
+    objects = models.Manager()
+    find = Person_PhoneFinderManager()
+
     class Meta:
         app_label = 'people'
         verbose_name = 'Teléfono Persona'
@@ -168,6 +189,19 @@ class Person_Phone(BaseModel):
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
 
+class Person_AddressFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Address):
+            base_args['address'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['address'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 class Person_Address(BaseModel):
 
@@ -195,6 +229,9 @@ class Person_Address(BaseModel):
         verbose_name='Uso'
     )
 
+    objects = models.Manager()
+    find = Person_AddressFinderManager()
+
     class Meta:
         app_label = 'people'
         verbose_name = 'Dirección Persona'
@@ -204,10 +241,24 @@ class Person_Address(BaseModel):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
+        return f'<Person_Address: {self.get_use_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
+
+class Person_E_MailFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, E_Mail):
+            base_args['e_mail'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['e_mail'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 class Person_E_Mail(BaseModel):
 
@@ -231,6 +282,9 @@ class Person_E_Mail(BaseModel):
         verbose_name='Uso'
     )
 
+    objects = models.Manager()
+    find = Person_E_MailFinderManager()
+
     class Meta:
         app_label = 'people'
         verbose_name = 'Correo Electrónico Personas'
@@ -240,10 +294,24 @@ class Person_E_Mail(BaseModel):
         ]
 
     def __repr__(self) -> str:
-        return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
+        return f'<Person_E_Mail: {self.get_use_display()}_{self.person.complete_name}>'
 
     def __str__(self) -> str:
         return f'{self.get_use_display()}_{self.person.complete_name}'
+
+class Person_Legal_Person_NaturalFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Person_Legal):
+            base_args['person_legal'] = obj1
+            base_args['person_natural'] = obj2
+        else:
+            base_args['person_legal'] = obj2
+            base_args['person_natural'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 class Person_Legal_Person_Natural(BaseModel):
     APPOINTMENT_CHOICE = [
@@ -270,6 +338,9 @@ class Person_Legal_Person_Natural(BaseModel):
         choices=APPOINTMENT_CHOICE,
         verbose_name='Cargo'
     )
+
+    objects = models.Manager()
+    find = Person_Legal_Person_NaturalFinderManager()
 
     class Meta:
         app_label = 'people'

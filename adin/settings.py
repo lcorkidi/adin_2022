@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'properties',
     'accounting',
     'accountables',
+    'reports',
 
     # Third Party Apps
     'django_extensions',
@@ -150,6 +151,15 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SHELL_PLUS_IMPORTS = [
+    'import pandas as pd',
+    'import datetime',
+    'from scripts.utils import df2objs, get_ledger_csv, filter_ledger_by_date, filter_ledger_by_parts, total_balance, pending_balance_annotation',
+    'from reports.utils import ledger_from_db, account_charges, account_balance, ledger_level_balance, ledger_balance, charges_pending',
+    'from accounting.core.structure import Account_Structure',
+    'from django.db.models import F, Q, Value, Sum',
+]
 
 # LOGGING = {
 #     'version': 1,

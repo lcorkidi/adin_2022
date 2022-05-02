@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from properties.models import Estate_Appraisal
-from properties.forms.estate_appraisal_forms import Estate_AppraisalCreateForm, Estate_AppraisalUpdateForm
+from properties.forms.estate_appraisal_forms import Estate_AppraisalCreateForm, Estate_AppraisalUpdateForm, Estate_AppraisalDeleteForm, Estate_AppraisalActivateForm
 
 title = Estate_Appraisal._meta.verbose_name_plural
 ref_urls = { 'list':'properties:estate_list', 'create':'properties:estate_create', 'detail':'properties:estate_detail', 'update':'properties:estate_update', 'delete':'properties:estate_delete' }
@@ -31,7 +31,7 @@ class Estate_AppraisalUpdateView(GenericUpdateRelatedView):
 class Estate_AppraisalDeleteView(GenericDeleteRelatedView):
 
     model = Estate_Appraisal
-    form = Estate_AppraisalUpdateForm
+    form = Estate_AppraisalDeleteForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls
@@ -42,7 +42,7 @@ class Estate_AppraisalDeleteView(GenericDeleteRelatedView):
 class Estate_AppraisalActivateView(GenericActivateRelatedView):
 
     model = Estate_Appraisal
-    form = Estate_AppraisalUpdateForm
+    form = Estate_AppraisalActivateForm
     title = title
     ref_urls = ref_urls
     rel_urls = rel_urls

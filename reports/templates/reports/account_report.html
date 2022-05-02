@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% load adin_tags %}
+{% block PageTitle %}{{ title }} - {% app_name %}{% endblock PageTitle %}
+{% block main %}
+    <div id="content">
+        {% if formset.initial_form_count == 0 %}
+            <div class="alert alert-info">No hay movimientos en la base de datos para la cuenta y el periodo escogidos.</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <span>{{ title }}</span> 
+                    <div>
+                        <a href="{% url 'reports:balance' level extent year month %}" style="text-decoration:none">
+                            {% render_bi 'list-nested' width="20px" height="20px" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex mx-2">
+                    <div class="d-grid w-100">
+                        <div class="p-2 fs-5 text-center">
+                            Alcance:
+                        </div>
+                    </div>
+                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                        {% if extent == 0 %}
+                            <strong>MENSUAL</strong>
+                            <a href="{% url 'reports:account_report' account field 1 year month %}" style="text-decoration:none">ANUAL</a>
+                        {% endif %}
+                        {% if extent == 1 %}
+                            <a href="{% url 'reports:account_report' account field 0 year month %}" style="text-decoration:none">MENSUAL</a>
+                            <strong>ANUAL</strong>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid w-100">
+                        <div class="p-2 fs-5 text-center">
+                            Periodo:
+                        </div>
+                    </div>
+                    <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                        {% if extent == 0 %}
+                            {% if month > 1 %}
+                                <a href="{% url 'reports:account_report' account field extent year month|add:'-1' %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                            {% endif %}
+                            <strong>{{ month }}</strong>
+                            {% if month < max_dates.month %}
+                                <a href="{% url 'reports:account_report' account field extent year month|add:'1' %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                            {% endif %} |
+                        {% endif %}
+                        {% if year > 2022 %}
+                            <a href="{% url 'reports:account_report' account field extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'dash-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                        <strong>{{ year }}</strong>
+                        {% if year < max_dates.year %}
+                            <a href="{% url 'reports:account_report' account field extent year|add:'-1' month %}" style="text-decoration:none">{% render_bi 'plus-square' width="40px" height="40px" %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="p-2 fs-5 w-100 text-center">
+                    Balance Cuenta:
+                </div>
+                <table id="datatable" class="table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for field in form %}
+                                {% if field.label != 'priority' and field.label != 'chargeable' %}
+                                    <th>{{ field.label }}</th>
+                                {% endif %} 
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for field in form.visible_fields %}
+                                {% if field.label != 'priority' and field.label != 'chargeable' %}
+                                    <td>
+                                        {% if field.field.widget.attrs.currency %}
+                                            {% format2currency field.value field.field.widget.attrs.show_zero %}
+                                        {% else %}
+                                            {{ field.value }}
+                                        {% endif %}
+                                        {% if field.field.widget.attrs.detail %}
+                                            <a class="text-secondary" href="{% url 'reports:account_report' form.account.value field.name extent year month %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                        {% endif %}
+                                    </td>
+                                {% endif %} 
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="p-2 fs-5 w-100 text-center">
+                    Detalle Movimientos:
+                </div>
+                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for field in formset.form %}
+                                <th>{{ field.label }}</th> 
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                    <td>
+                                        {% if field.field.widget.attrs.currency %}
+                                            {% format2currency field.value field.field.widget.attrs.show_zero %}
+                                        {% elif field.field.widget.attrs.date %}
+                                            {% format2date field.value %}
+                                        {% else %}
+                                            {{ field.value }}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}                  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

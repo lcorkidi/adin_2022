@@ -5,7 +5,7 @@ from django.db.models.functions import Cast
 from django.db.models.fields import CharField
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
-from accounting.forms.account_forms import AccountCreateForm, AccountDetailForm, AccountUpdateForm, AccountDeleteForm, AccountListModelFormSet
+from accounting.forms.account_forms import AccountCreateForm, AccountDetailForm, AccountUpdateForm, AccountDeleteForm, AccountActivateForm, AccountListModelFormSet
 from accounting.models import Account
 from home.utils import user_group_str
 
@@ -109,6 +109,6 @@ class AccountActivateView(GenericActivateView):
 
     title = title
     model = Account
-    form = AccountDeleteForm
+    form = AccountActivateForm
     ref_urls = ref_urls
     permission_required = 'accounting.activate_account'

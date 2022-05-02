@@ -7,7 +7,7 @@ def personcompletename(person):
 
 def person_natural_related_data(*args):
     from .models import Person_Phone, Person_E_Mail, Person_Address
-    from .forms.person_e_mail_forms import Person_EmailModelFormSet
+    from .forms.person_e_mail_forms import Person_E_MailModelFormSet
     from .forms.person_address_forms import Person_AddressModelFormSet
     from .forms.person_phone_forms import Person_PhoneModelFormSet
     
@@ -24,7 +24,7 @@ def person_natural_related_data(*args):
         },
         'Correo(s) Electrónico(s):': {
             'class': Person_E_Mail,
-            'formset': Person_EmailModelFormSet,
+            'formset': Person_E_MailModelFormSet,
             'filter_expresion': 'person__id_number',
             'omit_field' : 'person',
             'create_url': 'people:person_e_mail_create',

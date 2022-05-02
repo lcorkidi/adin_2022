@@ -5,6 +5,10 @@ class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().exclude(state=0)
 
+class InactiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(state=0)
+
 class BaseModel(models.Model):
 
     STATE_CHOICE = [
@@ -26,6 +30,10 @@ class BaseModel(models.Model):
         choices=STATE_CHOICE, 
         default=1
     )
+
+    objects = models.Manager()
+    active = ActiveManager()
+    inactive = InactiveManager()
 
     class Meta:
         abstract = True

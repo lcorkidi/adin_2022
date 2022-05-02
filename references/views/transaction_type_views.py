@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from references.models import Transaction_Type
-from references.forms.transaction_type_forms import Transaction_TypeDetailModelForm, Transaction_TypeCreateModelForm, Transaction_TypeDeleteModelForm, Transaction_TypeListModelFormSet
+from references.forms.transaction_type_forms import Transaction_TypeDetailModelForm, Transaction_TypeCreateModelForm, Transaction_TypeDeleteModelForm, Transaction_TypeActivateModelForm, Transaction_TypeListModelFormSet
 
 title = Transaction_Type._meta.verbose_name_plural
 ref_urls = { 'list':'references:transaction_type_list', 'create':'references:transaction_type_create', 'detail':'references:transaction_type_detail', 'delete':'references:transaction_type_delete', 'activate':'references:transaction_type_activate' }
@@ -71,7 +71,7 @@ class Transaction_TypeActivateView(GenericActivateView):
 
     title = title
     model = Transaction_Type
-    form = Transaction_TypeDeleteModelForm
+    form = Transaction_TypeActivateModelForm
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_transaction_type'

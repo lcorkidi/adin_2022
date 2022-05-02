@@ -1,6 +1,6 @@
 from django.forms import ModelForm, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
 from references.models import Transaction_Type
 
 class Transaction_TypeCreateModelForm(GenericCreateForm):
@@ -21,6 +21,12 @@ class Transaction_TypeDetailModelForm(ModelForm):
         fields = ['state', 'name']
 
 class Transaction_TypeDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = Transaction_Type
+        fields = ['name']
+
+class Transaction_TypeActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = Transaction_Type

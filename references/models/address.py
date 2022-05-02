@@ -188,6 +188,7 @@ class Address(BaseModel):
         app_label = 'references'
         verbose_name = 'Dirección'
         verbose_name_plural = 'Direcciones'
+        ordering = ['code']
         permissions = [
             ('address', 'Can activate address.'),
         ]

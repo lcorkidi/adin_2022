@@ -1,0 +1,7 @@
+class,nature,account,ledger_template,factor
+Charge_Template,1,13802005,FV_Arriendo Inmueble Comercial,Base
+Charge_Template,1,13802010,FV_Arriendo Inmueble Comercial,IVA
+Charge_Template,-1,240810,FV_Arriendo Inmueble Comercial,IVA
+Charge_Template,-1,913005,FV_Arriendo Inmueble Comercial,Base
+Charge_Template,1,13802005,FV_Arriendo Inmueble Residencial,Base
+Charge_Template,-1,913005,FV_Arriendo Inmueble Residencial,Base

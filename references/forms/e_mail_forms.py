@@ -1,6 +1,6 @@
 from django.forms import ModelForm, modelformset_factory
 
-from adin.core.forms import GenericCreateForm, GenericDeleteForm
+from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
 from references.models import E_Mail
 
 class E_MailCreateModelForm(GenericCreateForm):
@@ -21,6 +21,12 @@ class E_MailDetailModelForm(ModelForm):
         fields = ['state', 'e_mail']
 
 class E_MailDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = E_Mail
+        fields = ['e_mail']
+
+class E_MailActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = E_Mail

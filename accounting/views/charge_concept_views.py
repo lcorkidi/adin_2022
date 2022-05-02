@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Charge_Concept
-from accounting.forms.charge_concept_form import Charge_ConceptDetailModelForm, Charge_ConceptCreateModelForm, Charge_ConceptDeleteModelForm, Charge_ConceptListModelFormSet
+from accounting.forms.charge_concept_form import Charge_ConceptDetailModelForm, Charge_ConceptCreateModelForm, Charge_ConceptDeleteModelForm, Charge_ConceptActivateModelForm, Charge_ConceptListModelFormSet
 
 title = Charge_Concept._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:charge_concept_list', 'create':'accounting:charge_concept_create', 'detail':'accounting:charge_concept_detail', 'delete':'accounting:charge_concept_delete', 'activate':'accounting:charge_concept_activate' }
@@ -73,7 +73,7 @@ class Charge_ConceptActivateView(GenericActivateView):
 
     title = title
     model = Charge_Concept
-    form = Charge_ConceptDeleteModelForm
+    form = Charge_ConceptActivateModelForm
     ref_urls = ref_urls
     fk_fields = ['accountables', 'transaction_type']
     actions_off = ['update']

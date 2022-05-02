@@ -1,7 +1,7 @@
 import datetime
 from django.forms import ModelForm, Form, ModelChoiceField, ModelMultipleChoiceField, DateField, SelectDateWidget, IntegerField, modelformset_factory
 
-from adin.core.forms import GenericUpdateForm, GenericDeleteForm
+from adin.core.forms import GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from accountables.models import Lease_Realty, Lease_Realty_Realty, Date_Value
 from properties.models.realty import Realty
 
@@ -62,7 +62,7 @@ class Lease_RealtyCreateForm(Form):
         realties = self.cleaned_data.get('realties')
         doc_date = self.cleaned_data.get('doc_date')
         value = self.cleaned_data.get('fee')
-        lea_rea = Lease_Realty(code=f'{realty}^{doc_date.strftime("%Y-%m-%d")}', doc_date=doc_date, state_change_user=self.creator)
+        lea_rea = Lease_Realty(code=f'{realty}^{doc_date.strftime("%Y-%m-%d")}', subclass_str='Lease_Realty', doc_date=doc_date, state_change_user=self.creator)
         lea_rea.save()
         lea_rea_rea = Lease_Realty_Realty(lease=lea_rea, realty=realty, primary=True, state_change_user=self.creator)
         lea_rea_rea.save()
@@ -122,6 +122,14 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
         }
 
 class Lease_RealtyDeleteForm(GenericDeleteForm):
+
+    exclude_fields = ['dates_values']
+
+    class Meta:
+        model = Lease_Realty
+        fields = [ 'code', 'doc_date', 'start_date', 'end_date']
+
+class Lease_RealtyActivateForm(GenericActivateForm):
 
     class Meta:
         model = Lease_Realty
