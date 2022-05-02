@@ -62,6 +62,13 @@ class Lease_Realty(Accountable):
     def ledger_third_party(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
+    def pending_charge_concept_dates(self):
+        date_list = self.date_list()
+        for date in self.charges_concepts.values_list('date', flat=True):
+            if date in date_list:
+                date_list.remove(date)
+        return date_list
+
     def pending_date_values(self):
         date_values = Date_Value.objects.filter(accountable=self)
         today = datetime.date.today()
@@ -80,27 +87,6 @@ class Lease_Realty(Accountable):
             if date_value.date in dates:
                 dates.remove(date_value.date)
         return dates
-        
-    def create_charge_concepts(self, transaction_type, user):
-        for date in self.date_list():
-            self.create_charge_concept(transaction_type, date, user)
-
-    def create_charge_concept(self, transaction_type, date, user):
-        from accounting.models import Charge_Concept
-        try:
-            charge_concept = Charge_Concept.objects.get(
-                accountable=self.accountable_ptr,
-                transaction_type=transaction_type,
-                date=date
-            )
-        except:
-            charge_concept = Charge_Concept(
-                state_change_user=user,
-                accountable=self.accountable_ptr,
-                transaction_type=transaction_type,
-                date=date
-            )
-            charge_concept.save()
 
     def date_list(self):
         date_list = []
@@ -121,8 +107,6 @@ class Lease_Realty(Accountable):
     def date_value_dict(self):
         date_list = self.date_list()
         date_value_dict = {}
-        if self.pending_date_values():
-            raise Warning('Pending "Date_Value":', self.pending_date_values())
         date_vals = Date_Value.objects.filter(accountable=self).order_by('date')
         date_val, index = date_vals[0], 0
         for date in date_list:
