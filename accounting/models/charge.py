@@ -1,3 +1,4 @@
+import pandas as pd
 from django.db import models
 
 from adin.core.models import BaseModel
@@ -75,6 +76,23 @@ class Charge_Concept(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Concepto Movimiento'
         verbose_name_plural = 'Conceptos Movimientos'
+
+    def check_in_ledger(self, ledger_template):
+        charges_df = pd.DataFrame(Charge.active.filter(concept=self, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))
+        if charges_df.empty:
+            return False
+        else:
+            if charges_df.ledger.nunique() != 1:
+                return f'{self} in multiple ledgers ({charges_df.ledger.unique()[0]}).'
+            base_value = self.accountable.date_value_dict()[self.date]
+            account_value_dict = {}
+            for charge_template in ledger_template.charges_templates.all():
+                account_value_dict[charge_template.account_id] = charge_template.factor.factored_value(self.accountable, self.date, base_value, charge_template.nature)
+            charges_df = charges_df.assign(correct=charges_df.apply(lambda x: True if account_value_dict[x.account] == x.value else False, axis=1)) 
+            if len(charges_df) == charges_df.correct.value_counts()[True]:
+                return True
+            else:
+                return charges_df
 
     def __repr__(self) -> str:
         return f'<Charge_Concept: {self.code}>'

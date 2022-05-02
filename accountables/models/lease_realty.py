@@ -80,44 +80,6 @@ class Lease_Realty(Accountable):
             if date_value.date in dates:
                 dates.remove(date_value.date)
         return dates
-
-    def check_charge_concept_in_ledger(self, charge_concept, ledger_template):
-        from accounting.models import Charge
-        charges_df = pd.DataFrame(Charge.active.filter(concept=charge_concept, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))
-        if charges_df.empty:
-            return False
-        else:
-            if charges_df.ledger.nunique() != 1:
-                return f'{charge_concept} in multiple ledgers ({charges_df.ledger.unique()[0]}).'
-            base_value = self.date_value_dict()[charge_concept.date]
-            account_value_dict = {}
-            for charge_template in ledger_template.charges_templates.all():
-                account_value_dict[charge_template.account_id] = charge_template.factor.factored_value(self.accountable_ptr, charge_concept.date, base_value, charge_template.nature)
-            charges_df = charges_df.assign(correct=charges_df.apply(lambda x: True if account_value_dict[x.account] == x.value else False, axis=1)) 
-            if len(charges_df) == charges_df.correct.value_counts()[True]:
-                return True
-            else:
-                return charges_df
-
-    def creaate_ledger_from_template(self, charge_concept, ledger_template, date, user):
-        from accounting.models import Ledger, Charge
-        ledger = Ledger(
-            state_change_user=user,
-            type=ledger_template.ledger_type,
-            holder=self.ledger_part(3),
-            third_party=self.ledger_part(1),
-            date=date
-        )
-        ledger.save()
-
-        for charge_template in ledger_template.charges_templates.all():
-            Charge(
-                state_change_user=user,
-                ledger=ledger,
-                account=charge_template.account,
-                value=charge_template.factor.factored_value(self.accountable_ptr, charge_concept.date, self.date_value_dict()[charge_concept.date], charge_template.nature),
-                concept=charge_concept
-            ).save()
         
     def create_charge_concepts(self, transaction_type, user):
         for date in self.date_list():

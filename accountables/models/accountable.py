@@ -30,5 +30,8 @@ class Accountable(BaseModel):
     def ledger_third_party(self):
         return self.subclass_obj().ledger_third_party()
 
+    def date_value_dict(self):
+        return self.subclass_obj().date_value_dict()
+
     def __str__(self) -> str:
         return self.code
