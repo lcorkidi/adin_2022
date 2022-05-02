@@ -38,7 +38,7 @@ class Chargeables(models.Manager):
                 chargeables.append(obj)
             return super().get_queryset().filter(code__in=chargeables).annotate(char_code=Cast('code', CharField())).order_by('char_code')
         except:
-            return
+            return super().get_queryset()
 
 class Account(BaseModel):
     

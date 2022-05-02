@@ -28,7 +28,7 @@ class Ledger_TemplateListSomeView(GenericListView):
     model = Ledger_Template
     title = title
     ref_urls = ref_urls
-    fk_fields = ['transaction_type', 'ledger_type']
+    fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
     actions_off = ['update']
     list_order = 'code'
     permission_required = 'accounting.view_ledger_template'
@@ -39,7 +39,7 @@ class Ledger_TemplateListAllView(GenericListView):
     model = Ledger_Template
     title = title
     ref_urls = ref_urls
-    fk_fields = ['transaction_type', 'ledger_type']
+    fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
     actions_off = ['update']
     list_order = 'code'
     permission_required = 'accounting.activate_ledger_template'
