@@ -61,6 +61,9 @@
                                     {% if form.state.value == 2 and group == 'admin' %}
                                         <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                                     {% endif %}
+                                    {% if accountable %}
+                                         | <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
+                                    {% endif %}
                                 </td>                                    
                             </tr>
                         {% endfor %}                  

@@ -5,10 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accountables.models import Lease_Realty
-from accountables.utils import lease_realty_related_data
+from accountables.utils import lease_realty_related_data, lease_realty_accounting_data
 
 title = Lease_Realty._meta.verbose_name_plural
-ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate'  }
+ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
 
 class Lease_RealtyListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -29,6 +29,7 @@ class Lease_RealtyListSomeView(GenericListView):
     ref_urls = ref_urls
     list_order = 'code'
     permission_required = 'accountables.view_lease_realty'
+    accountable = True
 
 class Lease_RealtyListAllView(GenericListView):
 
@@ -40,6 +41,7 @@ class Lease_RealtyListAllView(GenericListView):
     list_order = 'code'
     permission_required = 'accountables.activate_lease_realty'
     include_states = [ 0, 1, 2, 3 ]
+    accountable = True
 
 class Lease_RealtyCreateView(GenericCreateView):
 
@@ -95,6 +97,18 @@ class Lease_RealtyUpdateAllView(GenericUpdateView):
     related_data = lease_realty_related_data
     permission_required = 'accountables.activate_lease_realty'
     include_states = [ 0, 1, 2, 3 ]
+
+class Lease_RealtyAccountingView(GenericDetailView):
+
+    template = 'accountables/accountable_accounting.html'
+    model = Lease_Realty
+    form = Lease_RealtyUpdateForm
+    title = title
+    ref_urls = ref_urls
+    readonly_fields = ['code', 'realty', 'doc_date', 'start_date', 'end_date']
+    fk_fields = ['realty', 'transaction_type']
+    related_data = lease_realty_accounting_data
+    permission_required = 'accountables.change_lease_realty'
 
 class Lease_RealtyDeleteView(GenericDeleteView):
 

@@ -64,3 +64,5 @@ class Charge_ConceptActivateModelForm(GenericActivateForm):
         fields = ['code', 'accountable', 'transaction_type', 'date']
 
 Charge_ConceptListModelFormSet = modelformset_factory(Charge_Concept, fields=('state', 'code'), extra=0)
+
+Charge_ConceptModelFormSet = modelformset_factory(Charge_Concept, fields=('state', 'transaction_type', 'date',), extra=0)

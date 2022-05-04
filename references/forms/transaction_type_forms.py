@@ -33,3 +33,5 @@ class Transaction_TypeActivateModelForm(GenericActivateForm):
         fields = ['name']
 
 Transaction_TypeListModelFormSet = modelformset_factory(Transaction_Type, fields=('state', 'name',), extra=0)
+
+Transaction_TypeModelFormSet = modelformset_factory(Transaction_Type, fields=('name', ), extra=0)

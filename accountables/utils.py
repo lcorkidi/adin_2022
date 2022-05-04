@@ -38,3 +38,32 @@ def lease_realty_related_data(*args):
     }
     
     return related_data
+
+def lease_realty_accounting_data(*args):
+    from references.models import Transaction_Type
+    from references.forms.transaction_type_forms import Transaction_TypeModelFormSet
+    from accounting.models import Charge_Concept
+    from accounting.forms.charge_concept_form import Charge_ConceptModelFormSet
+    
+    accounting_data = {
+        'Tipos de Cargos':{
+            'class': Transaction_Type,
+            'formset': Transaction_TypeModelFormSet,
+            'filter_expresion': 'lease_realty__code',
+            'm2m_direct': True,
+            'add_url': 'accountables:lease_realty_transaction_type_add',
+            'remove_url': 'accountables:lease_realty_transaction_type_remove'
+        },
+        'Cargos':{
+            'class': Charge_Concept,
+            'formset': Charge_ConceptModelFormSet,
+            'filter_expresion': 'accountable__code',
+            'omit_field' : 'accountable',
+            'create_url': 'accountables:lease_realty_realty_create',
+            'update_url': 'accountables:lease_realty_realty_update',
+            'delete_url': 'accountables:lease_realty_realty_delete',
+            'activate_url': 'accountables:lease_realty_realty_activate'
+        }
+    }
+
+    return accounting_data
