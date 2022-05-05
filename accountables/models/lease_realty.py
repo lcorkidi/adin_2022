@@ -49,7 +49,6 @@ class Lease_Realty(Accountable):
         verbose_name_plural = 'Arriendos Inuembles'
         permissions = [
             ('activate_lease_realty', 'Can activate lease realty.'),
-            ('accounting_lease_realty', 'Can do lease realty accounting.')
         ]
 
     def is_active(self):

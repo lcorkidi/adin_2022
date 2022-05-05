@@ -4,6 +4,7 @@ from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyListSome
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyUpdateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
+from .views.accountable_charge_concept_views import Accountable_Charge_ConceptCreateView, Accountable_Charge_ConceptDeleteView, Accountable_Charge_ConceptActivateView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
 
 app_name = 'accountables'
@@ -30,6 +31,7 @@ urlpatterns = [
     path('<str:ret_pk>/<str:pk>/lease_realty_person_activate/', Lease_Realty_PersonActivateView.as_view(), name='lease_realty_person_activate'),
     path('<str:pk>/accountable_transaction_type_add/', Accountable_Transaction_TypeAddView.as_view(), name='accountable_transaction_type_add'),
     path('<str:pk>/<str:rel_pk>/accountable_transaction_type_remove/', Accountable_Transaction_TypeRemoveView.as_view(), name='accountable_transaction_type_remove'),
+    path('<str:pk>/accountable_charge_concept_create/', Accountable_Charge_ConceptCreateView.as_view(), name='accountable_charge_concept_create'),
     path('<str:pk>/date_value_create/', Date_ValueCreateView.as_view(), name='date_value_create'),
     path('<str:ret_pk>/<str:pk>/date_value_update/', Date_ValueUpdateView.as_view(), name='date_value_update'),
     path('<str:ret_pk>/<str:pk>/date_value_delete/', Date_ValueDeleteView.as_view(), name='date_value_delete'),

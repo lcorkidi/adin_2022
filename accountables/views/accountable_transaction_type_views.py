@@ -15,7 +15,7 @@ class Accountable_Transaction_TypeAddView(LoginRequiredMixin, PermissionRequired
     form = Accountable_Transaction_TypeAddForm
     title = title
     subtitle = 'Adicionar'
-    permission_required = 'accountables.accounting_lease_realty'
+    permission_required = 'accountables.accounting_accountable'
 
     def get(self, request, pk):
         obj = Accountable.active.get(pk=pk)
@@ -42,7 +42,7 @@ class Accountable_Transaction_TypeRemoveView(LoginRequiredMixin, PermissionRequi
     subtitle = 'Retirar'
     rel_urls = rel_urls
     fk_fields = ['tranasction_type']
-    permission_required = 'accountables.accounting_lease_realty'
+    permission_required = 'accountables.accounting_accountable'
 
     def get(self, request, pk, rel_pk):
         obj = Accountable.active.get(pk=pk)

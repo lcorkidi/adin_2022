@@ -8,9 +8,15 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a href="{% url ref_urls.update ref_pk %}" style="text-decoration:none">
-                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> 
+                        {% if accounting %}
+                            <a href="{% url ref_urls.accounting ref_pk %}" style="text-decoration:none">
+                                {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                            </a>
+                        {% else %} 
+                            <a href="{% url ref_urls.update ref_pk %}" style="text-decoration:none">
+                                {% render_bi 'arrow-left-square' width="20px" height="20px" %}
+                            </a> 
+                        {% endif %}
                    </div>
                 </div>
             </div>

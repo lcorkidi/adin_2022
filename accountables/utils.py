@@ -63,10 +63,9 @@ def accountable_related_data(*args):
             'formset': Charge_ConceptModelFormSet,
             'filter_expresion': 'accountable__code',
             'omit_field' : 'accountable',
-            'create_url': 'accountables:lease_realty_realty_create',
-            'update_url': 'accountables:lease_realty_realty_update',
-            'delete_url': 'accountables:lease_realty_realty_delete',
-            'activate_url': 'accountables:lease_realty_realty_activate'
+            'create_url': 'accountables:accountable_charge_concept_create',
+            'delete_url': 'accountables:accountable_charge_concept_delete',
+            'activate_url': 'accountables:accountable_charge_concept_activate'
         }
     }
 

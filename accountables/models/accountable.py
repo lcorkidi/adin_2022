@@ -25,19 +25,15 @@ class Accountable(BaseModel):
     class Meta:
         app_label = 'accountables'
         verbose_name = 'Contabilizable'
-        verbose_name_plural = 'Contabilizables'
+        permissions = [
+            ('accounting_accountable', 'Can do accountable accounting.')
+        ]
 
     def subclass_obj(self):
         return self.subclass.model_class().active.get(code=self.code)
 
-    def ledger_holder(self):
-        return self.subclass_obj().ledger_holder()
-
-    def ledger_third_party(self):
-        return self.subclass_obj().ledger_third_party()
-
-    def date_value_dict(self):
-        return self.subclass_obj().date_value_dict()
+    def __repr__(self) -> str:
+        return f'<Accountable: {self.code}>'
 
     def __str__(self) -> str:
         return self.code
