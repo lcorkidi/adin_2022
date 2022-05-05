@@ -1,3 +1,7 @@
+accountables_ref_urls = {
+    'lease_realty': { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
+}
+
 def lease_realty_related_data(*args):
     from .models import Lease_Realty_Realty, Lease_Realty_Person, Date_Value
     from .forms.lease_realty_realty_forms import Lease_Realty_RealtyModelFormSet
@@ -39,7 +43,7 @@ def lease_realty_related_data(*args):
     
     return related_data
 
-def lease_realty_accounting_data(*args):
+def accountable_related_data(*args):
     from references.models import Transaction_Type
     from references.forms.transaction_type_forms import Transaction_TypeModelFormSet
     from accounting.models import Charge_Concept
@@ -49,10 +53,10 @@ def lease_realty_accounting_data(*args):
         'Tipos de Cargos':{
             'class': Transaction_Type,
             'formset': Transaction_TypeModelFormSet,
-            'filter_expresion': 'lease_realty__code',
+            'filter_expresion': 'accountable__code',
             'm2m_direct': True,
-            'add_url': 'accountables:lease_realty_transaction_type_add',
-            'remove_url': 'accountables:lease_realty_transaction_type_remove'
+            'add_url': 'accountables:accountable_transaction_type_add',
+            'remove_url': 'accountables:accountable_transaction_type_remove'
         },
         'Cargos':{
             'class': Charge_Concept,

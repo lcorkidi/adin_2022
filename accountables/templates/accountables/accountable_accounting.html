@@ -81,7 +81,7 @@
                                                 <td>
                                                     {% if data.m2m_direct %}
                                                         {% if related_form.state.value != 0 %}
-                                                            <a class="text-danger" href="{% url data.remove_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                            <a class="text-danger" href="{% url data.remove_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
                                                         {% endif %}
                                                     {% else %}
                                                         {% if related_form.state.value != 0 %}

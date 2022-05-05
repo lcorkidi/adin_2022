@@ -15,6 +15,12 @@ class Accountable(BaseModel):
         on_delete=models.PROTECT,
         verbose_name='Subclase'
     )
+    transaction_types = models.ManyToManyField(
+        'references.Transaction_Type',
+        related_name='accountables',
+        related_query_name='accountable',
+        verbose_name='Tipos de Cargo'
+    )
 
     class Meta:
         app_label = 'accountables'

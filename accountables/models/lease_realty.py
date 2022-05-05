@@ -42,12 +42,6 @@ class Lease_Realty(Accountable):
         default=None,
         verbose_name='Fecha Desocupacion'
     )
-    transaction_types = models.ManyToManyField(
-        'references.Transaction_Type',
-        related_name='leases_realties',
-        related_query_name='lease_realty',
-        verbose_name='Tipos de Cargo'
-    )
     
     class Meta:
         app_label = 'accountables'
