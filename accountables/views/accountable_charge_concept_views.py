@@ -28,9 +28,11 @@ class Accountable_Charge_ConceptCreateView(LoginRequiredMixin, PermissionRequire
         obj = Accountable.active.get(pk=pk)
         form = self.form(obj, request.POST)
         ref_urls = accountables_ref_urls[obj.subclass.model]
+        form.accountable = obj
         if not form.is_valid():
             context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk': pk, 'accounting':True}
             return render(request, self.template, context)
+        form.creator = request.user
         form.save()
         return redirect(ref_urls['accounting'], pk)
 

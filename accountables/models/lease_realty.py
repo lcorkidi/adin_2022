@@ -64,7 +64,7 @@ class Lease_Realty(Accountable):
 
     def pending_charge_concept_dates(self):
         date_list = self.date_list()
-        for date in self.charges_concepts.values_list('date', flat=True):
+        for date in self.charges_concepts.filter(state=0).values_list('date', flat=True):
             if date in date_list:
                 date_list.remove(date)
         return date_list
