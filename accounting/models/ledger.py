@@ -97,7 +97,7 @@ class Ledger_Template(BaseModel):
         verbose_name='Clase Contabilizable'
     )
     transaction_type = models.ForeignKey(
-        'references.Transaction_Type',
+        'accountables.Accountable_Transaction_Type',
         on_delete=models.PROTECT,
         related_name='ledgers_templates',
         related_query_name='ledger_template',

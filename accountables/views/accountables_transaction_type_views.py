@@ -3,10 +3,10 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
-from references.models import Transaction_Type
-from references.forms.transaction_type_forms import Transaction_TypeDetailModelForm, Transaction_TypeCreateModelForm, Transaction_TypeDeleteModelForm, Transaction_TypeActivateModelForm, Transaction_TypeListModelFormSet
+from accountables.models import Accountable_Transaction_Type
+from accountables.forms.accountables_transaction_type_forms import Transaction_TypeDetailModelForm, Transaction_TypeCreateModelForm, Transaction_TypeDeleteModelForm, Transaction_TypeActivateModelForm, Transaction_TypeListModelFormSet
 
-title = Transaction_Type._meta.verbose_name_plural
+title = Accountable_Transaction_Type._meta.verbose_name_plural
 ref_urls = { 'list':'references:transaction_type_list', 'create':'references:transaction_type_create', 'detail':'references:transaction_type_detail', 'delete':'references:transaction_type_delete', 'activate':'references:transaction_type_activate' }
 
 class Transaction_TypeListView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -23,7 +23,7 @@ class Transaction_TypeListSomeView(GenericListView):
 
     template = 'adin/generic_list.html'
     formset = Transaction_TypeListModelFormSet
-    model = Transaction_Type
+    model = Accountable_Transaction_Type
     title = title
     ref_urls = ref_urls
     actions_off = ['update']
@@ -34,7 +34,7 @@ class Transaction_TypeListAllView(GenericListView):
 
     template = 'adin/generic_list.html'
     formset = Transaction_TypeListModelFormSet
-    model = Transaction_Type
+    model = Accountable_Transaction_Type
     title = title
     ref_urls = ref_urls
     actions_off = ['update']
@@ -52,7 +52,7 @@ class Transaction_TypeCreateView(GenericCreateView):
 class Transaction_TypeDetailView(GenericDetailView):
 
     title = title
-    model = Transaction_Type
+    model = Accountable_Transaction_Type
     form = Transaction_TypeDetailModelForm
     ref_urls = ref_urls
     actions_off = ['update']
@@ -61,7 +61,7 @@ class Transaction_TypeDetailView(GenericDetailView):
 class Transaction_TypeDeleteView(GenericDeleteView):
 
     title = title
-    model = Transaction_Type
+    model = Accountable_Transaction_Type
     form = Transaction_TypeDeleteModelForm
     ref_urls = ref_urls
     actions_off = ['update']
@@ -70,7 +70,7 @@ class Transaction_TypeDeleteView(GenericDeleteView):
 class Transaction_TypeActivateView(GenericActivateView):
 
     title = title
-    model = Transaction_Type
+    model = Accountable_Transaction_Type
     form = Transaction_TypeActivateModelForm
     ref_urls = ref_urls
     actions_off = ['update']

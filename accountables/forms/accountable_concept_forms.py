@@ -1,9 +1,9 @@
-from django.forms import Form, ChoiceField, ValidationError
+from django.forms import Form, ChoiceField, ValidationError, modelformset_factory
 
-from accounting.models import Charge_Concept
-from accounting.utils import chacon2code
+from accountables.models import Accountable_Concept
+from accountables.utils import acc_con2code
 
-class Accountable_Charge_ConceptCreateForm(Form):
+class Accountable_ConceptCreateForm(Form):
 
     transaction_type = ChoiceField(
         choices=(),
@@ -19,7 +19,7 @@ class Accountable_Charge_ConceptCreateForm(Form):
             'transaction_type': [(list(obj.transaction_types.all()).index(item), item) for item in list(obj.transaction_types.all())],
             'date': [(obj.subclass_obj().pending_charge_concept_dates().index(item), item) for item in obj.subclass_obj().pending_charge_concept_dates()]
         }
-        super(Accountable_Charge_ConceptCreateForm, self).__init__(*args, **kwargs)
+        super(Accountable_ConceptCreateForm, self).__init__(*args, **kwargs)
         self.fields['transaction_type'].choices = field_choices['transaction_type']
         self.fields['date'].choices = field_choices['date']
 
@@ -28,14 +28,14 @@ class Accountable_Charge_ConceptCreateForm(Form):
         date = self.cleaned_data.get('date')
         transaction_types = {str(list(self.accountable.transaction_types.all()).index(item)): item for item in list(self.accountable.transaction_types.all())}
         dates = {str(self.accountable.subclass_obj().pending_charge_concept_dates().index(item)): item for item in self.accountable.subclass_obj().pending_charge_concept_dates()}
-        obj = Charge_Concept(
+        obj = Accountable_Concept(
             accountable=self.accountable,
             transaction_type=transaction_types[transaction_type],
             date=dates[date],
         )
-        code = chacon2code(obj)
-        if Charge_Concept.objects.filter(pk=code).exists():
-            obj = Charge_Concept.objects.get(pk=code)
+        code = acc_con2code(obj)
+        if Accountable_Concept.objects.filter(pk=code).exists():
+            obj = Accountable_Concept.objects.get(pk=code)
             if obj.state == 0:
                 raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos datos ya existe y está inactiva.")
             else:
@@ -47,7 +47,7 @@ class Accountable_Charge_ConceptCreateForm(Form):
         date = self.cleaned_data.get('date')
         transaction_types = {str(list(self.accountable.transaction_types.all()).index(item)): item for item in list(self.accountable.transaction_types.all())}
         dates = {str(self.accountable.subclass_obj().pending_charge_concept_dates().index(item)): item for item in self.accountable.subclass_obj().pending_charge_concept_dates()}
-        self.accountable = Charge_Concept(
+        self.accountable = Accountable_Concept(
             accountable=self.accountable,
             transaction_type=transaction_types[transaction_type],
             date=dates[date],
@@ -55,9 +55,10 @@ class Accountable_Charge_ConceptCreateForm(Form):
         )
         self.accountable.save()
 
-class Accountable_Charge_ConceptDeleteForm(Form):
+class Accountable_ConceptDeleteForm(Form):
     pass
 
-class Accountable_Charge_ConceptActivateForm(Form):
+class Accountable_ConceptActivateForm(Form):
     pass
 
+Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date',), extra=0)

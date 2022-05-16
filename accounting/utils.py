@@ -1,6 +1,3 @@
-def chacon2code(chacon):
-    return f'{chacon.transaction_type}^{chacon.date.strftime("%Y-%m-%d")}_{chacon.accountable}'
-
 def ledger2consecutive(ledger):
     from accounting.models import Ledger
     return Ledger.objects.filter(type=ledger.type).count() + 1

@@ -1,7 +1,6 @@
 from django.forms import Form, ModelChoiceField, Select
 
-from accountables.models import Accountable
-from references.models import Transaction_Type
+from accountables.models import Accountable, Accountable_Transaction_Type
 
 class Accountable_Transaction_TypeAddForm(Form):
 
@@ -11,7 +10,7 @@ class Accountable_Transaction_TypeAddForm(Form):
         label='Contrato de Arriendo Inmueble'
     )
     transaction_type = ModelChoiceField(
-        queryset=Transaction_Type.active.all(),
+        queryset=Accountable_Transaction_Type.active.all(),
         widget=Select(attrs={'readonly':False}),
         label='Concepto Cargo'
     )
@@ -38,7 +37,7 @@ class Accountable_Transaction_TypeRemoveForm(Form):
         label='Contrato de Arriendo Inmueble'
     )
     transaction_type = ModelChoiceField(
-        queryset=Transaction_Type.active.all(),
+        queryset=Accountable_Transaction_Type.active.all(),
         label='Concepto Cargo'
     )
 

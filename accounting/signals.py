@@ -1,13 +1,8 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from .models import Charge_Concept, Ledger, Ledger_Template
-from .utils import chacon2code, ledger2consecutive, ledger2code, ledgertemplate2code
-
-@receiver(pre_save, sender=Charge_Concept)
-def charge_concept_save(sender, instance, **kwargs):
-    if not instance.code:
-        instance.code = chacon2code(instance)
+from .models import Ledger, Ledger_Template
+from .utils import ledger2consecutive, ledger2code, ledgertemplate2code
 
 @receiver(pre_save, sender=Ledger)
 def ledger_save(sender, instance, **kwargs):

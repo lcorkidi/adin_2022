@@ -4,12 +4,20 @@ from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyListSome
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyUpdateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
-from .views.accountable_charge_concept_views import Accountable_Charge_ConceptCreateView, Accountable_Charge_ConceptDeleteView, Accountable_Charge_ConceptActivateView
+from .views.accountables_transaction_type_views import Transaction_TypeListView, Transaction_TypeListSomeView, Transaction_TypeListAllView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
+from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
 
 app_name = 'accountables'
 
 urlpatterns = [
+    path('transaction_type_list/', Transaction_TypeListView.as_view(), name='transaction_type_list'),
+    path('transaction_type_list_some/', Transaction_TypeListSomeView.as_view(), name='transaction_type_list_some'),
+    path('transaction_type_list_all/', Transaction_TypeListAllView.as_view(), name='transaction_type_list_all'),
+    path('transaction_type_create/', Transaction_TypeCreateView.as_view(), name='transaction_type_create'),
+    path('<str:pk>/transaction_type_detail/', Transaction_TypeDetailView.as_view(), name='transaction_type_detail'),
+    path('<str:pk>/transaction_type_delete/', Transaction_TypeDeleteView.as_view(), name='transaction_type_delete'),
+    path('<str:pk>/transaction_type_activate/', Transaction_TypeActivateView.as_view(), name='transaction_type_activate'),
     path('lease_realty_list', Lease_RealtyListView.as_view(), name='lease_realty_list'), 
     path('lease_realty_list_some', Lease_RealtyListSomeView.as_view(), name='lease_realty_list_some'), 
     path('lease_realty_list_all', Lease_RealtyListAllView.as_view(), name='lease_realty_list_all'), 
@@ -31,9 +39,9 @@ urlpatterns = [
     path('<str:ret_pk>/<str:pk>/lease_realty_person_activate/', Lease_Realty_PersonActivateView.as_view(), name='lease_realty_person_activate'),
     path('<str:pk>/accountable_transaction_type_add/', Accountable_Transaction_TypeAddView.as_view(), name='accountable_transaction_type_add'),
     path('<str:pk>/<str:rel_pk>/accountable_transaction_type_remove/', Accountable_Transaction_TypeRemoveView.as_view(), name='accountable_transaction_type_remove'),
-    path('<str:pk>/accountable_charge_concept_create/', Accountable_Charge_ConceptCreateView.as_view(), name='accountable_charge_concept_create'),
-    path('<str:pk>/<str:rel_pk>/accountable_charge_concept_delete/', Accountable_Charge_ConceptDeleteView.as_view(), name='accountable_charge_concept_delete'),
-    path('<str:pk>/<str:rel_pk>/accountable_charge_concept_activate/', Accountable_Charge_ConceptActivateView.as_view(), name='accountable_charge_concept_activate'),
+    path('<str:pk>/accountable_charge_concept_create/', Accountable_ConceptCreateView.as_view(), name='accountable_charge_concept_create'),
+    path('<str:ret_pk>/<str:pk>/accountable_charge_concept_delete/', Accountable_ConceptDeleteView.as_view(), name='accountable_charge_concept_delete'),
+    path('<str:ret_pk>/<str:pk>/accountable_charge_concept_activate/', Accountable_ConceptActivateView.as_view(), name='accountable_charge_concept_activate'),
     path('<str:pk>/date_value_create/', Date_ValueCreateView.as_view(), name='date_value_create'),
     path('<str:ret_pk>/<str:pk>/date_value_update/', Date_ValueUpdateView.as_view(), name='date_value_update'),
     path('<str:ret_pk>/<str:pk>/date_value_delete/', Date_ValueDeleteView.as_view(), name='date_value_delete'),

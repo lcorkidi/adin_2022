@@ -1,6 +1,7 @@
 from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, ValidationError, formset_factory, modelformset_factory
 
-from accounting.models import Charge, Charge_Concept, Account
+from accounting.models import Charge, Account
+from accountables.models import Accountable_Concept
  
 class ChargeCreateForm(Form):
 
@@ -10,7 +11,7 @@ class ChargeCreateForm(Form):
         label='Cuenta'
     )
     concept = ModelChoiceField(
-        queryset=Charge_Concept.objects.all(),
+        queryset=Accountable_Concept.objects.all(),
         required=False,
         label='Concepto'
     )

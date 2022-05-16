@@ -2,7 +2,6 @@ from django.urls import path
 from .views.address_views import AddressListView, AddressListSomeView, AddressListAllView, AddressDetailView, AddressCreateView, AddressDeleteView, AddressActivateView
 from .views.phone_views import PhoneListView, PhoneListSomeView, PhoneListAllView, PhoneDetailView, PhoneCreateView, PhoneDeleteView, PhoneActivateView
 from .views.e_mail_views import E_MailListView, E_MailListSomeView, E_MailListAllView, E_MailDetailView, E_MailCreateView, E_MailDeleteView, E_MailActivateView
-from .views.transaction_type_views import Transaction_TypeListView, Transaction_TypeListSomeView, Transaction_TypeListAllView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
 from .views.puc_views import PUCListView,  PUCCreateView, PUCDeleteView
 from .views.charge_factor_views import Factor_DataListView, Factor_DataListSomeView, Factor_DataListAllView, Charge_FactorCreateView, Factor_DataCreateView, Factor_DataDetailView, Factor_DataDeleteView, Factor_DataActivateView
 
@@ -30,13 +29,6 @@ urlpatterns = [
     path('<str:pk>/e_mail_detail/', E_MailDetailView.as_view(), name='e_mail_detail'),
     path('<str:pk>/e_mail_delete/', E_MailDeleteView.as_view(), name='e_mail_delete'),
     path('<str:pk>/e_mail_activate/', E_MailActivateView.as_view(), name='e_mail_activate'),
-    path('transaction_type_list/', Transaction_TypeListView.as_view(), name='transaction_type_list'),
-    path('transaction_type_list_some/', Transaction_TypeListSomeView.as_view(), name='transaction_type_list_some'),
-    path('transaction_type_list_all/', Transaction_TypeListAllView.as_view(), name='transaction_type_list_all'),
-    path('transaction_type_create/', Transaction_TypeCreateView.as_view(), name='transaction_type_create'),
-    path('<str:pk>/transaction_type_detail/', Transaction_TypeDetailView.as_view(), name='transaction_type_detail'),
-    path('<str:pk>/transaction_type_delete/', Transaction_TypeDeleteView.as_view(), name='transaction_type_delete'),
-    path('<str:pk>/transaction_type_activate/', Transaction_TypeActivateView.as_view(), name='transaction_type_activate'),
     path('puc_list/', PUCListView.as_view(), name='puc_list'),
     path('puc_create/', PUCCreateView.as_view(), name='puc_create'),
     path('puc_delete/', PUCDeleteView.as_view(), name='puc_delete'),

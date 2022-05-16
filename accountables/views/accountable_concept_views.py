@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from accountables.forms.accountable_charge_concept_forms import Accountable_Charge_ConceptCreateForm, Accountable_Charge_ConceptDeleteForm, Accountable_Charge_ConceptActivateForm
+from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm
 from accountables.models import Accountable
 from accountables.utils import accountables_ref_urls
 
 title = 'Concepto Cargo'
-rel_urls = { 'create': 'accountables:lease_realty_person_create', 'delete': 'accountables:lease_realty_person_delete', 'update': 'accountables:lease_realty_person_update' }
+rel_urls = { 'create': 'accountables:accountable_charge_concept_create' }
 
-class Accountable_Charge_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Accountable_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_create_related.html'
-    form = Accountable_Charge_ConceptCreateForm
+    form = Accountable_ConceptCreateForm
     title = title
     subtitle = 'Crear'
     permission_required = 'accountables.accounting_accountable'
@@ -36,16 +36,25 @@ class Accountable_Charge_ConceptCreateView(LoginRequiredMixin, PermissionRequire
         form.save()
         return redirect(ref_urls['accounting'], pk)
 
-class Accountable_Charge_ConceptDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Accountable_ConceptDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    form = Accountable_Charge_ConceptDeleteForm
+    template = 'adin/generic_delete_related.html'
+    form = Accountable_ConceptDeleteForm
     title = title
+    subtitle = 'Borrar'
     rel_urls = rel_urls
     permission_required = 'accountables.accounting_accountable'
 
-class Accountable_Charge_ConceptActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    def get(self, request, ret_pk, pk):
+        obj = Accountable.active.get(pk=pk)
+        form = self.form(obj)
+        ref_urls = accountables_ref_urls[obj.subclass.model]
+        context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls': self.rel_urls, 'ref_pk': ret_pk, 'accounting':True}
+        return render(request, self.template, context)
 
-    form = Accountable_Charge_ConceptActivateForm
+class Accountable_ConceptActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    form = Accountable_ConceptActivateForm
     title = title
     rel_urls = rel_urls
     permission_required = 'accountables.accounting_accountable'
