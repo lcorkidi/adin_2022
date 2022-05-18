@@ -1,0 +1,5 @@
+,id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined
+0,1,pbkdf2_sha256$320000$PieGPy8H3NOqpCscmLFtYr$xkGzR20O0pnd8zrymQe69carV0snWa2WN9aEkFMJ7Yc=,2022-04-30 20:19:17.384411+00:00,True,leon_korkidi,,,,True,True,2022-04-06 18:30:52+00:00
+1,2,pbkdf2_sha256$320000$Ra3wlJrFWSUfvE481AHycY$5YMzYyzHZc8jnqquRWJSnnKKmEUJ1bLFN5pU8ANkGiQ=,2022-04-09 22:12:51.756297+00:00,False,juan,,,,False,True,2022-04-09 22:12:36.417665+00:00
+2,3,pbkdf2_sha256$320000$HXLLr8PpauLYwVIrkUeAVc$M8oxkgEYr3d61Et9zk3RR3qy1qSB/Q5TOTNOjSpvVWY=,2022-05-06 14:57:02.548775+00:00,False,yaneth,,,,False,True,2022-04-11 17:11:43+00:00
+3,4,pbkdf2_sha256$320000$bb3erRZV5m8qGVMzdMcDVX$I6764LNQ2GFMiLvUXBaOG2GpOb1inTkwZQQVW3stfo8=,2022-05-06 15:35:30.075926+00:00,False,jaque,,,,False,True,2022-04-11 18:03:36.319546+00:00

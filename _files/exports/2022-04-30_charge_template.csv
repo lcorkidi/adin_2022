@@ -1,7 +1,0 @@
-,id,state_change_user_id,state_change_date,state,ledger_template_id,account_id,nature,factor_id
-0,1,1,2022-04-28 22:01:36.349553+00:00,1,FV_Arriendo Inmueble Comercial,13802005,1,Base
-1,2,1,2022-04-28 22:01:36.354875+00:00,1,FV_Arriendo Inmueble Comercial,13802010,1,IVA
-2,3,1,2022-04-28 22:01:36.360539+00:00,1,FV_Arriendo Inmueble Comercial,240810,-1,IVA
-3,4,1,2022-04-28 22:01:36.366106+00:00,1,FV_Arriendo Inmueble Comercial,913005,-1,Base
-4,5,1,2022-04-28 22:01:36.371098+00:00,1,FV_Arriendo Inmueble Residencial,13802005,1,Base
-5,6,1,2022-04-28 22:01:36.376387+00:00,1,FV_Arriendo Inmueble Residencial,913005,-1,Base

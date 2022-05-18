@@ -1,0 +1,27 @@
+{
+    "Address": {
+        "value_attrs": [
+            "country",
+            "region",
+            "city",
+            "street_type",
+            "street_number",
+            "street_letter",
+            "street_bis",
+            "street_bis_complement",
+            "street_coordinate",
+            "numeral_number",
+            "numeral_letter",
+            "numeral_bis",
+            "numeral_bis_complement",
+            "numeral_coordinate",
+            "height_number",
+            "interior_group_type",
+            "interior_group_code",
+            "interior_type",
+            "interior_code"
+        ],        
+        "fk_attrs": {
+        }
+    }
+}

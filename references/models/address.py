@@ -1,7 +1,7 @@
 from django.db import models
 from adin.core.models import BaseModel
 
-from references.utils import addresslong
+from references.utils import address2code, addresslong
 
 class Address(BaseModel):
 
