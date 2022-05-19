@@ -8,8 +8,8 @@
 conda activate --stack django
 
 # Project paths
-export BASEDIR='/home/jtello/projects/github/AFtools'
-export APPNAME='AFtools'
+export BASEDIR='~/projects/github/adin_2022' # can be better
+export APPNAME='adin'
 export APPDIR=${BASEDIR}/code
 export DOCSDIR=${BASEDIR}/docs
 
