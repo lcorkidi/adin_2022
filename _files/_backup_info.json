@@ -22,6 +22,27 @@
             "interior_code"
         ],        
         "fk_attrs": {
+        },
+        "df_types": {
+            "country": "object",
+            "region": "object",
+            "city": "object",
+            "street_type": "int32",
+            "street_number": "int32",
+            "street_letter": "int32",
+            "street_bis": "bool",
+            "street_bis_complement": "int32",
+            "street_coordinate": "int32",
+            "numeral_number": "int32",
+            "numeral_letter": "int32",
+            "numeral_bis": "bool",
+            "numeral_bis_complement": "int32",
+            "numeral_coordinate": "int32",
+            "height_number": "int32",
+            "interior_group_type": "int32",
+            "interior_group_code": "object",
+            "interior_type": "int32",
+            "interior_code": "object"
         }
     }
 }

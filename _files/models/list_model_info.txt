@@ -1,0 +1,729 @@
+accountables.Accountable
+    Fields:
+        charge_concept - ManyToOneRel
+        dates_values - ManyToOneRel
+        lease_realty - OneToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        subclass - ForeignKey
+        transaction_types - ManyToManyField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        subclass_obj()
+
+accountables.Accountable_Concept
+    Fields:
+        charge - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        accountable - ForeignKey
+        transaction_type - ForeignKey
+        date - DateField
+    Methods (non-private/internal):
+        get_next_by_date()
+        get_next_by_state_change_date()
+        get_previous_by_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accountables.Accountable_Transaction_Type
+    Fields:
+        ledger_template - ManyToOneRel
+        accountable - ManyToManyRel
+        charge_concept - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        name - CharField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accountables.Date_Value
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        accountable - ForeignKey
+        date - DateField
+        value - PositiveIntegerField
+    Methods (non-private/internal):
+        get_next_by_date()
+        get_next_by_state_change_date()
+        get_previous_by_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accountables.Lease_Realty
+    Fields:
+        charge_concept - ManyToOneRel
+        dates_values - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        subclass - ForeignKey
+        transaction_types - ManyToManyField
+        lease_realty_realty - ManyToOneRel
+        lease_realty_person - ManyToOneRel
+        accountable_ptr - OneToOneField
+        doc_date - DateField
+        start_date - DateField
+        end_date - DateField
+        realty - ManyToManyField
+        part - ManyToManyField
+    Methods (non-private/internal):
+        date_list()
+        date_value_dict()
+        get_next_by_doc_date()
+        get_next_by_state_change_date()
+        get_previous_by_doc_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        is_active()
+        ledger_holder()
+        ledger_third_party()
+        pending_charge_concept_dates()
+        pending_date_values()
+        subclass_obj()
+
+accountables.Lease_Realty_Person
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        lease - ForeignKey
+        person - ForeignKey
+        role - PositiveSmallIntegerField
+        phone - ForeignKey
+        e_mail - ForeignKey
+        address - ForeignKey
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_role_display()
+        get_state_display()
+
+accountables.Lease_Realty_Realty
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        lease - ForeignKey
+        realty - ForeignKey
+        primary - BooleanField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accounting.Account
+    Fields:
+        charge - ManyToOneRel
+        charge_template - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - PositiveBigIntegerField
+        name - CharField
+    Methods (non-private/internal):
+        account_name()
+        chargeable()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accounting.Charge
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        ledger - ForeignKey
+        account - ForeignKey
+        value - IntegerField
+        concept - ForeignKey
+        settled - BooleanField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accounting.Charge_Template
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        ledger_template - ForeignKey
+        account - ForeignKey
+        nature - IntegerField
+        factor - ForeignKey
+    Methods (non-private/internal):
+        charge_from__template()
+        get_nature_display()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accounting.Ledger
+    Fields:
+        charge - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        type - ForeignKey
+        consecutive - PositiveIntegerField
+        description - TextField
+        holder - ForeignKey
+        third_party - ForeignKey
+        date - DateField
+    Methods (non-private/internal):
+        get_next_by_date()
+        get_next_by_state_change_date()
+        get_previous_by_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+accounting.Ledger_Template
+    Fields:
+        charge_template - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        accountable_class - ForeignKey
+        transaction_type - ForeignKey
+        ledger_type - ForeignKey
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        ledger_from_template()
+
+accounting.Ledger_Type
+    Fields:
+        ledger - ManyToOneRel
+        ledger_template - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        name - CharField
+        abreviation - CharField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+admin.LogEntry
+    Fields:
+        id - AutoField
+        action_time - DateTimeField
+        user - ForeignKey
+        content_type - ForeignKey
+        object_id - TextField
+        object_repr - CharField
+        action_flag - PositiveSmallIntegerField
+        change_message - TextField
+    Methods (non-private/internal):
+        get_action_flag_display()
+        get_admin_url()
+        get_change_message()
+        get_edited_object()
+        get_next_by_action_time()
+        get_previous_by_action_time()
+        is_addition()
+        is_change()
+        is_deletion()
+
+auth.Group
+    Fields:
+        user - ManyToManyRel
+        id - AutoField
+        name - CharField
+        permissions - ManyToManyField
+    Methods (non-private/internal):
+        natural_key()
+
+auth.Permission
+    Fields:
+        group - ManyToManyRel
+        user - ManyToManyRel
+        id - AutoField
+        name - CharField
+        content_type - ForeignKey
+        codename - CharField
+    Methods (non-private/internal):
+        natural_key()
+
+auth.User
+    Fields:
+        logentry - ManyToOneRel
+        person - ManyToOneRel
+        person_phone - ManyToOneRel
+        person_address - ManyToOneRel
+        person_e_mail - ManyToOneRel
+        person_legal_person_natural - ManyToOneRel
+        address - ManyToOneRel
+        e_mail - ManyToOneRel
+        phone - ManyToOneRel
+        puc - ManyToOneRel
+        charge_factor - ManyToOneRel
+        factor_data - ManyToOneRel
+        estate - ManyToOneRel
+        estate_person - ManyToOneRel
+        estate_appraisal - ManyToOneRel
+        realty - ManyToOneRel
+        realty_estate - ManyToOneRel
+        account - ManyToOneRel
+        charge - ManyToOneRel
+        charge_template - ManyToOneRel
+        ledger - ManyToOneRel
+        ledger_type - ManyToOneRel
+        ledger_template - ManyToOneRel
+        accountable - ManyToOneRel
+        accountable_transaction_type - ManyToOneRel
+        accountable_concept - ManyToOneRel
+        date_value - ManyToOneRel
+        lease_realty_realty - ManyToOneRel
+        lease_realty_person - ManyToOneRel
+        id - AutoField
+        password - CharField
+        last_login - DateTimeField
+        is_superuser - BooleanField
+        username - CharField
+        first_name - CharField
+        last_name - CharField
+        email - EmailField
+        is_staff - BooleanField
+        is_active - BooleanField
+        date_joined - DateTimeField
+        groups - ManyToManyField
+        user_permissions - ManyToManyField
+    Methods (non-private/internal):
+        check_password()
+        email_user()
+        get_all_permissions()
+        get_email_field_name()
+        get_full_name()
+        get_group_permissions()
+        get_next_by_date_joined()
+        get_previous_by_date_joined()
+        get_session_auth_hash()
+        get_short_name()
+        get_user_permissions()
+        get_username()
+        has_module_perms()
+        has_perm()
+        has_perms()
+        has_usable_password()
+        natural_key()
+        normalize_username()
+        set_password()
+        set_unusable_password()
+        username_validator()
+
+contenttypes.ContentType
+    Fields:
+        logentry - ManyToOneRel
+        permission - ManyToOneRel
+        ledger_template - ManyToOneRel
+        accountable - ManyToOneRel
+        id - AutoField
+        app_label - CharField
+        model - CharField
+    Methods (non-private/internal):
+        get_all_objects_for_this_type()
+        get_object_for_this_type()
+        model_class()
+        natural_key()
+
+people.Person
+    Fields:
+        person_natural - OneToOneRel
+        person_legal - OneToOneRel
+        person_phone - ManyToOneRel
+        person_address - ManyToOneRel
+        person_e_mail - ManyToOneRel
+        estate - ManyToManyRel
+        estate_person - ManyToOneRel
+        ledger_holder - ManyToOneRel
+        ledger_third_party - ManyToOneRel
+        lease_realty - ManyToManyRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        id_number - PositiveSmallIntegerField
+        id_type - PositiveSmallIntegerField
+        type - PositiveSmallIntegerField
+        name - CharField
+        complete_name - CharField
+        phone - ManyToManyField
+        address - ManyToManyField
+        e_mail - ManyToManyField
+    Methods (non-private/internal):
+        get_id_type_display()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+
+people.Person_Address
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        person - ForeignKey
+        address - ForeignKey
+        use - PositiveSmallIntegerField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_use_display()
+
+people.Person_E_Mail
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        person - ForeignKey
+        e_mail - ForeignKey
+        use - PositiveSmallIntegerField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_use_display()
+
+people.Person_Legal
+    Fields:
+        person_phone - ManyToOneRel
+        person_address - ManyToOneRel
+        person_e_mail - ManyToOneRel
+        estate - ManyToManyRel
+        estate_person - ManyToOneRel
+        ledger_holder - ManyToOneRel
+        ledger_third_party - ManyToOneRel
+        lease_realty - ManyToManyRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        id_number - PositiveSmallIntegerField
+        id_type - PositiveSmallIntegerField
+        type - PositiveSmallIntegerField
+        name - CharField
+        complete_name - CharField
+        phone - ManyToManyField
+        address - ManyToManyField
+        e_mail - ManyToManyField
+        person_legal_person_natural - ManyToOneRel
+        person_ptr - OneToOneField
+        legal_type - PositiveSmallIntegerField
+        staff - ManyToManyField
+    Methods (non-private/internal):
+        get_id_type_display()
+        get_legal_type_display()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+
+people.Person_Legal_Person_Natural
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        person_legal - ForeignKey
+        person_natural - ForeignKey
+        appointment - PositiveSmallIntegerField
+    Methods (non-private/internal):
+        get_appointment_display()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+people.Person_Natural
+    Fields:
+        person_phone - ManyToOneRel
+        person_address - ManyToOneRel
+        person_e_mail - ManyToOneRel
+        estate - ManyToManyRel
+        estate_person - ManyToOneRel
+        ledger_holder - ManyToOneRel
+        ledger_third_party - ManyToOneRel
+        lease_realty - ManyToManyRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        id_number - PositiveSmallIntegerField
+        id_type - PositiveSmallIntegerField
+        type - PositiveSmallIntegerField
+        name - CharField
+        complete_name - CharField
+        phone - ManyToManyField
+        address - ManyToManyField
+        e_mail - ManyToManyField
+        person_legal - ManyToManyRel
+        person_legal_person_natural - ManyToOneRel
+        person_ptr - OneToOneField
+        last_name - CharField
+    Methods (non-private/internal):
+        get_id_type_display()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+
+people.Person_Phone
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        person - ForeignKey
+        phone - ForeignKey
+        use - PositiveSmallIntegerField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_use_display()
+
+properties.Estate
+    Fields:
+        estate_person - ManyToOneRel
+        estate_appraisal - ManyToOneRel
+        realty - ManyToManyRel
+        realty_estate - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        national_number - CharField
+        address - ForeignKey
+        total_area - FloatField
+        owner - ManyToManyField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+properties.Estate_Appraisal
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        estate - ForeignKey
+        type - PositiveSmallIntegerField
+        date - DateField
+        value - PositiveBigIntegerField
+    Methods (non-private/internal):
+        get_next_by_date()
+        get_next_by_state_change_date()
+        get_previous_by_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+
+properties.Estate_Person
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        estate - ForeignKey
+        person - ForeignKey
+        percentage - DecimalField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+properties.Realty
+    Fields:
+        realty_estate - ManyToOneRel
+        lease_realty - ManyToManyRel
+        lease_realty_realty - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        type - PositiveSmallIntegerField
+        use - PositiveSmallIntegerField
+        code - CharField
+        address - ForeignKey
+        total_area - FloatField
+        estate - ManyToManyField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+        get_use_display()
+        is_vacant()
+
+properties.Realty_Estate
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        realty - ForeignKey
+        estate - ForeignKey
+        percentage - DecimalField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+references.Address
+    Fields:
+        person - ManyToManyRel
+        person_address - ManyToOneRel
+        estate - ManyToOneRel
+        realty - ManyToOneRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        country - CharField
+        region - CharField
+        city - CharField
+        street_type - PositiveSmallIntegerField
+        street_number - PositiveSmallIntegerField
+        street_letter - PositiveSmallIntegerField
+        street_bis - BooleanField
+        street_bis_complement - PositiveSmallIntegerField
+        street_coordinate - PositiveSmallIntegerField
+        numeral_number - PositiveSmallIntegerField
+        numeral_letter - PositiveSmallIntegerField
+        numeral_bis - BooleanField
+        numeral_bis_complement - PositiveSmallIntegerField
+        numeral_coordinate - PositiveSmallIntegerField
+        height_number - PositiveSmallIntegerField
+        interior_group_type - PositiveSmallIntegerField
+        interior_group_code - CharField
+        interior_type - PositiveSmallIntegerField
+        interior_code - CharField
+    Methods (non-private/internal):
+        get_interior_group_type_display()
+        get_interior_type_display()
+        get_next_by_state_change_date()
+        get_numeral_bis_complement_display()
+        get_numeral_coordinate_display()
+        get_numeral_letter_display()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_street_bis_complement_display()
+        get_street_coordinate_display()
+        get_street_letter_display()
+        get_street_type_display()
+
+references.Charge_Factor
+    Fields:
+        data - ManyToOneRel
+        charge_template - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        name - CharField
+    Methods (non-private/internal):
+        factored_value()
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+references.E_Mail
+    Fields:
+        person - ManyToManyRel
+        person_e_mail - ManyToOneRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        e_mail - EmailField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+references.Factor_Data
+    Fields:
+        id - BigAutoField
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        factor - ForeignKey
+        validity_date - DateField
+        amount - PositiveIntegerField
+        percentage - DecimalField
+        in_instance_attribute - CharField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_next_by_validity_date()
+        get_previous_by_state_change_date()
+        get_previous_by_validity_date()
+        get_state_display()
+        validity_end_date()
+
+references.PUC
+    Fields:
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - PositiveBigIntegerField
+        name - CharField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+
+references.Phone
+    Fields:
+        person - ManyToManyRel
+        person_phone - ManyToOneRel
+        lease_realty_person - ManyToOneRel
+        state_change_user - ForeignKey
+        state_change_date - DateTimeField
+        state - PositiveSmallIntegerField
+        code - CharField
+        type - PositiveSmallIntegerField
+        country - PositiveSmallIntegerField
+        region - PositiveSmallIntegerField
+        number - PositiveIntegerField
+    Methods (non-private/internal):
+        get_next_by_state_change_date()
+        get_previous_by_state_change_date()
+        get_state_display()
+        get_type_display()
+
+sessions.Session
+    Fields:
+        session_key - CharField
+        session_data - TextField
+        expire_date - DateTimeField
+    Methods (non-private/internal):
+        get_decoded()
+        get_next_by_expire_date()
+        get_previous_by_expire_date()
+        get_session_store_class()
+
+Total Models Listed: 37

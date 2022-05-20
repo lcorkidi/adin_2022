@@ -1,0 +1,163 @@
+,id,name,content_type_id,codename
+0,136,Can do accountable accounting.,31,accounting_accountable
+1,132,Can add Contabilizable,31,add_accountable
+2,133,Can change Contabilizable,31,change_accountable
+3,134,Can delete Contabilizable,31,delete_accountable
+4,135,Can view Contabilizable,31,view_accountable
+5,151,Can add Concepto Movimiento,35,add_accountable_concept
+6,152,Can change Concepto Movimiento,35,change_accountable_concept
+7,153,Can delete Concepto Movimiento,35,delete_accountable_concept
+8,154,Can view Concepto Movimiento,35,view_accountable_concept
+9,150,Can activate transaction type.,34,activate_transaction_type
+10,146,Can add Transacción Tipo,34,add_accountable_transaction_type
+11,147,Can change Transacción Tipo,34,change_accountable_transaction_type
+12,148,Can delete Transacción Tipo,34,delete_accountable_transaction_type
+13,149,Can view Transacción Tipo,34,view_accountable_transaction_type
+14,142,Can add Fecha Valor,33,add_date_value
+15,143,Can change Fecha Valor,33,change_date_value
+16,144,Can delete Fecha Valor,33,delete_date_value
+17,145,Can view Fecha Valor,33,view_date_value
+18,141,Can activate lease realty.,32,activate_lease_realty
+19,137,Can add Arriendo Inmueble,32,add_lease_realty
+20,138,Can change Arriendo Inmueble,32,change_lease_realty
+21,139,Can delete Arriendo Inmueble,32,delete_lease_realty
+22,140,Can view Arriendo Inmueble,32,view_lease_realty
+23,159,Can add Parte Arriendo Inmueble,37,add_lease_realty_person
+24,160,Can change Parte Arriendo Inmueble,37,change_lease_realty_person
+25,161,Can delete Parte Arriendo Inmueble,37,delete_lease_realty_person
+26,162,Can view Parte Arriendo Inmueble,37,view_lease_realty_person
+27,155,Can add Inmueble Arriendo Inmueble,36,add_lease_realty_realty
+28,156,Can change Inmueble Arriendo Inmueble,36,change_lease_realty_realty
+29,157,Can delete Inmueble Arriendo Inmueble,36,delete_lease_realty_realty
+30,158,Can view Inmueble Arriendo Inmueble,36,view_lease_realty_realty
+31,108,Can activate account.,25,activate_account
+32,104,Can add Cuenta,25,add_account
+33,105,Can change Cuenta,25,change_account
+34,106,Can delete Cuenta,25,delete_account
+35,107,Can view Cuenta,25,view_account
+36,109,Can view balance.,25,view_balance
+37,131,Can activate charge.,30,activate_charge
+38,127,Can add Movimiento,30,add_charge
+39,128,Can change Movimiento,30,change_charge
+40,129,Can delete Movimiento,30,delete_charge
+41,130,Can view Movimiento,30,view_charge
+42,123,Can add Formato Movimiento,29,add_charge_template
+43,124,Can change Formato Movimiento,29,change_charge_template
+44,125,Can delete Formato Movimiento,29,delete_charge_template
+45,126,Can view Formato Movimiento,29,view_charge_template
+46,122,Can activate ledger.,28,activate_ledger
+47,118,Can add Registro,28,add_ledger
+48,119,Can change Registro,28,change_ledger
+49,120,Can delete Registro,28,delete_ledger
+50,121,Can view Registro,28,view_ledger
+51,114,Can add Formato Registro,27,add_ledger_template
+52,115,Can change Formato Registro,27,change_ledger_template
+53,116,Can delete Formato Registro,27,delete_ledger_template
+54,117,Can view Formato Registro,27,view_ledger_template
+55,110,Can add Registro Tipo,26,add_ledger_type
+56,111,Can change Registro Tipo,26,change_ledger_type
+57,112,Can delete Registro Tipo,26,delete_ledger_type
+58,113,Can view Registro Tipo,26,view_ledger_type
+59,1,Can add log entry,1,add_logentry
+60,2,Can change log entry,1,change_logentry
+61,3,Can delete log entry,1,delete_logentry
+62,4,Can view log entry,1,view_logentry
+63,9,Can add group,3,add_group
+64,10,Can change group,3,change_group
+65,11,Can delete group,3,delete_group
+66,12,Can view group,3,view_group
+67,5,Can add permission,2,add_permission
+68,6,Can change permission,2,change_permission
+69,7,Can delete permission,2,delete_permission
+70,8,Can view permission,2,view_permission
+71,13,Can add user,4,add_user
+72,14,Can change user,4,change_user
+73,15,Can delete user,4,delete_user
+74,16,Can view user,4,view_user
+75,17,Can add content type,5,add_contenttype
+76,18,Can change content type,5,change_contenttype
+77,19,Can delete content type,5,delete_contenttype
+78,20,Can view content type,5,view_contenttype
+79,29,Can activate person.,7,activate_person
+80,25,Can add Persona,7,add_person
+81,26,Can change Persona,7,change_person
+82,27,Can delete Persona,7,delete_person
+83,28,Can view Persona,7,view_person
+84,50,Can add Dirección Persona,13,add_person_address
+85,51,Can change Dirección Persona,13,change_person_address
+86,52,Can delete Dirección Persona,13,delete_person_address
+87,53,Can view Dirección Persona,13,view_person_address
+88,46,Can add Correo Electrónico Personas,12,add_person_e_mail
+89,47,Can change Correo Electrónico Personas,12,change_person_e_mail
+90,48,Can delete Correo Electrónico Personas,12,delete_person_e_mail
+91,49,Can view Correo Electrónico Personas,12,view_person_e_mail
+92,30,Can add Persona Jurídica,8,add_person_legal
+93,31,Can change Persona Jurídica,8,change_person_legal
+94,32,Can delete Persona Jurídica,8,delete_person_legal
+95,33,Can view Persona Jurídica,8,view_person_legal
+96,42,Can add Personal,11,add_person_legal_person_natural
+97,43,Can change Personal,11,change_person_legal_person_natural
+98,44,Can delete Personal,11,delete_person_legal_person_natural
+99,45,Can view Personal,11,view_person_legal_person_natural
+100,34,Can add Persona Natural,9,add_person_natural
+101,35,Can change Persona Natural,9,change_person_natural
+102,36,Can delete Persona Natural,9,delete_person_natural
+103,37,Can view Persona Natural,9,view_person_natural
+104,38,Can add Teléfono Persona,10,add_person_phone
+105,39,Can change Teléfono Persona,10,change_person_phone
+106,40,Can delete Teléfono Persona,10,delete_person_phone
+107,41,Can view Teléfono Persona,10,view_person_phone
+108,86,Can activate estate.,20,activate_estate
+109,82,Can add Predio,20,add_estate
+110,83,Can change Predio,20,change_estate
+111,84,Can delete Predio,20,delete_estate
+112,85,Can view Predio,20,view_estate
+113,100,Can add Avaluo Predio,24,add_estate_appraisal
+114,101,Can change Avaluo Predio,24,change_estate_appraisal
+115,102,Can delete Avaluo Predio,24,delete_estate_appraisal
+116,103,Can view Avaluo Predio,24,view_estate_appraisal
+117,96,Can add Propietario Predio,23,add_estate_person
+118,97,Can change Propietario Predio,23,change_estate_person
+119,98,Can delete Propietario Predio,23,delete_estate_person
+120,99,Can view Propietario Predio,23,view_estate_person
+121,91,Can activate realty.,21,activate_realty
+122,87,Can add Inmueble,21,add_realty
+123,88,Can change Inmueble,21,change_realty
+124,89,Can delete Inmueble,21,delete_realty
+125,90,Can view Inmueble,21,view_realty
+126,92,Can add Predio Inmueble,22,add_realty_estate
+127,93,Can change Predio Inmueble,22,change_realty_estate
+128,94,Can delete Predio Inmueble,22,delete_realty_estate
+129,95,Can view Predio Inmueble,22,view_realty_estate
+130,77,Can add Dirección,19,add_address
+131,81,Can activate address.,19,address
+132,78,Can change Dirección,19,change_address
+133,79,Can delete Dirección,19,delete_address
+134,80,Can view Dirección,19,view_address
+135,58,Can activate charge factor.,14,activate_charge_factor
+136,54,Can add Tasa Transacción,14,add_charge_factor
+137,55,Can change Tasa Transacción,14,change_charge_factor
+138,56,Can delete Tasa Transacción,14,delete_charge_factor
+139,57,Can view Tasa Transacción,14,view_charge_factor
+140,72,Can add Correo Electrónico,18,add_e_mail
+141,73,Can change Correo Electrónico,18,change_e_mail
+142,74,Can delete Correo Electrónico,18,delete_e_mail
+143,76,Can activate e-mail.,18,e_mail
+144,75,Can view Correo Electrónico,18,view_e_mail
+145,68,Can add Datos Tasas,17,add_factor_data
+146,69,Can change Datos Tasas,17,change_factor_data
+147,70,Can delete Datos Tasas,17,delete_factor_data
+148,71,Can view Datos Tasas,17,view_factor_data
+149,67,Can activate phone.,16,activate_phone
+150,63,Can add Teléfono,16,add_phone
+151,64,Can change Teléfono,16,change_phone
+152,65,Can delete Teléfono,16,delete_phone
+153,66,Can view Teléfono,16,view_phone
+154,59,Can add Cuenta PUC,15,add_puc
+155,60,Can change Cuenta PUC,15,change_puc
+156,61,Can delete Cuenta PUC,15,delete_puc
+157,62,Can view Cuenta PUC,15,view_puc
+158,21,Can add session,6,add_session
+159,22,Can change session,6,change_session
+160,23,Can delete session,6,delete_session
+161,24,Can view session,6,view_session
