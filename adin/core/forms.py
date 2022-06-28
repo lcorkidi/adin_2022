@@ -84,8 +84,10 @@ class GeneriCreateRelatedForm(GenericCreateForm):
 
     def clean(self):
         base_fields = {}
-        for field in self.related_fields:
-            base_fields[field] = self.cleaned_data.get(field)
+        for field in self.fields:
+            self.cleaned_data[field]
+            if field in self.related_fields:
+                base_fields[field] = self.cleaned_data.get(field)
         if self._meta.model.objects.filter(**base_fields).exists():
             obj = self._meta.model.objects.get(**base_fields)
             if obj.state == 0:

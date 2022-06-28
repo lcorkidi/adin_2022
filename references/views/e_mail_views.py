@@ -75,3 +75,4 @@ class E_MailActivateView(GenericActivateView):
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_e_mail'
+    success_url = 'list'

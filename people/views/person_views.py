@@ -286,6 +286,7 @@ class Person_NaturalActivateView(GenericActivateView):
     fk_fields = [ 'address' ]
     related_data = person_natural_related_data
     permission_required = 'people.activate_person'
+    success_url = 'detail'
 
 class Person_LegalActivateView(GenericActivateView):
 
@@ -297,3 +298,4 @@ class Person_LegalActivateView(GenericActivateView):
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
     permission_required = 'people.activate_person'
+    success_url = 'update'

@@ -70,15 +70,15 @@ class Accountable_Concept(BaseModel):
     accountable = models.ForeignKey(
         Accountable,
         on_delete=models.PROTECT,
-        related_name='charges_concepts',
-        related_query_name='charge_concept',
+        related_name='accountable_concept',
+        related_query_name='accountable_concepts',
         verbose_name='Contabilizable'
     )
     transaction_type = models.ForeignKey(
         Accountable_Transaction_Type,
         on_delete=models.PROTECT,
-        related_name='charges_concepts',
-        related_query_name='charge_concept',
+        related_name='accountable_concept',
+        related_query_name='accountable_concepts',
         verbose_name='Tipo Transacción'
     )
     date = models.DateField(

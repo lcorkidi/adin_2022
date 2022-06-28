@@ -75,3 +75,4 @@ class PhoneActivateView(GenericActivateView):
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_phone'
+    success_url = 'list'

@@ -191,6 +191,7 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     fk_fields = None
     related_data = None
     actions_off = None
+    success_url = None
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
@@ -224,7 +225,10 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
             return render(request, self.template, context)
         obj.state = 2
         obj.save()
-        return redirect(self.ref_urls['update'], obj.pk)
+        if self.success_url != 'list':
+            return redirect(self.ref_urls[self.success_url], obj.pk)
+        else:
+            return redirect(self.ref_urls[self.success_url])
 
 class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

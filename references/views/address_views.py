@@ -75,3 +75,4 @@ class AddressActivateView(GenericActivateView):
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_address'
+    success_url = 'list'

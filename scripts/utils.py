@@ -23,17 +23,16 @@ classes_list = {
         'estate', 
         'estate_person', 
         'estate_appraisal', 
+        'accountable_transaction_type',
         'realty', 
         'realty_estate', 
         'ledger_type', 
         'lease_realty', 
-        'transaction_type', 
         'lease_realty_realty', 
         'lease_realty_person', 
         'date_value', 
         'ledger_template', 
         'charge_template', 
-        'charge_concept', 
         'ledger', 
         'charge'
     ],
@@ -43,8 +42,7 @@ classes_list = {
         'factor_data', 
         'address', 
         'phone', 
-        'e_mail', 
-        'transaction_type'
+        'e_mail'
     ],
     'people': [
         'person', 
@@ -60,8 +58,8 @@ classes_list = {
         'realty_estate'
     ],
     'accountables': [
+        'accountable_transaction_type',
         'lease_realty', 
-        'transaction_type', 
         'lease_realty_realty', 
         'lease_realty_person', 
         'date_value'
@@ -92,7 +90,6 @@ classes_list = {
         'realty_estate', 
         'ledger_type', 
         'lease_realty', 
-        'transaction_type', 
         'lease_realty_realty', 
         'lease_realty_person', 
         'date_value', 
