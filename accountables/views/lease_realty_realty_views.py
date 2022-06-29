@@ -1,6 +1,6 @@
 from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 from accountables.models import Lease_Realty_Realty
-from accountables.forms.lease_realty_realty_forms import Lease_Realty_RealtyCreateForm, Lease_Realty_RealtyUpdateForm, Lease_Realty_RealtyDeleteForm, Lease_Realty_RealtyActivateForm
+from accountables.forms.lease_realty_realty_forms import Lease_Realty_RealtyCreateForm, Lease_Realty_RealtyDeleteForm, Lease_Realty_RealtyActivateForm
 
 title = Lease_Realty_Realty._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete' }
@@ -17,17 +17,6 @@ class Lease_Realty_RealtyCreateView(GenericCreateRelatedView):
     permission_required = 'accountables.add_lease_realty_realty'
     related_fields = ['lease', 'realty']
 
-class Lease_Realty_RealtyUpdateView(GenericUpdateRelatedView):
-
-    model = Lease_Realty_Realty
-    form = Lease_Realty_RealtyUpdateForm
-    title = title
-    ref_urls = ref_urls
-    rel_urls = rel_urls
-    readonly_fields = ['lease', 'realty']
-    fk_fields = ['lease', 'realty']
-    permission_required = 'accountables.change_lease_realty_realty'
-
 class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
 
     model = Lease_Realty_Realty
@@ -36,6 +25,7 @@ class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = ['lease', 'realty']
+    omit_actions = ['update']
     permission_required = 'accountables.delete_lease_realty_realty'
 
 class Lease_Realty_RealtyActivateView(GenericActivateRelatedView):

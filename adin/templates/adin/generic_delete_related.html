@@ -18,7 +18,7 @@
                             </a> |
                         {% endif %}
                         <a class="text-success" href="{% url rel_urls.create ref_pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                        {% if not accounting %}
+                        {% if not accounting and 'update' not in omit_actions %}
                         <a href="{% url rel_urls.update ref_pk form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                         {% endif %} 
                     </div>

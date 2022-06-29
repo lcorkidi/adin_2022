@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyListSomeView, Lease_RealtyListAllView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyUpdateSomeView, Lease_RealtyUpdateAllView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
-from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyUpdateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
+from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
 from .views.accountables_transaction_type_views import Transaction_TypeListView, Transaction_TypeListSomeView, Transaction_TypeListAllView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
@@ -30,7 +30,6 @@ urlpatterns = [
     path('<str:pk>/lease_realty_delete/', Lease_RealtyDeleteView.as_view(), name='lease_realty_delete'),
     path('<str:pk>/lease_realty_activate/', Lease_RealtyActivateView.as_view(), name='lease_realty_activate'),
     path('<str:pk>/lease_realty_realty_create/', Lease_Realty_RealtyCreateView.as_view(), name='lease_realty_realty_create'),
-    path('<str:ret_pk>/<str:pk>/lease_realty_realty_update/', Lease_Realty_RealtyUpdateView.as_view(), name='lease_realty_realty_update'),
     path('<str:ret_pk>/<str:pk>/lease_realty_realty_delete/', Lease_Realty_RealtyDeleteView.as_view(), name='lease_realty_realty_delete'),
     path('<str:ret_pk>/<str:pk>/lease_realty_realty_activate/', Lease_Realty_RealtyActivateView.as_view(), name='lease_realty_realty_activate'),
     path('<str:pk>/lease_realty_person_create/', Lease_Realty_PersonCreateView.as_view(), name='lease_realty_person_create'),

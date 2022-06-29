@@ -83,10 +83,10 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 <td>
-                                                    {% if related_form.state.value != 0 %}
+                                                    {% if related_form.state.value != 0 and 'update' not in data.omit_actions %}
                                                         <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a>
                                                     {% endif %}
-                                                    {% if related_form.state.value != 0 %}
+                                                    {% if related_form.state.value != 0 and 'delete' not in data.omit_actions %}
                                                         <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
                                                     {% endif %}
                                                     {% if related_form.state.value == 0 and group == 'admin' %}

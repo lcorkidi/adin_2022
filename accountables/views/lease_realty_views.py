@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -131,3 +131,39 @@ class Lease_RealtyActivateView(GenericActivateView):
     fk_fields = ['lease', 'person', 'realty']
     related_data = lease_realty_related_data
     permission_required = 'accountables.activate_lease_realty'
+
+    def post(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            if self.related_data:
+                related_data = self.related_data()
+                for attr, data in related_data.items():
+                    filter_expresion = {}
+                    filter_expresion[data['filter_expresion']] = pk
+                    formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
+                    related_data[attr]['formset'] = formset
+            else:
+                related_data = None
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        obj.state = 2
+        obj.save()
+        primary = obj.lease_realty_realty_set.get(primary=True)
+        primary.state = 2
+        primary.save()
+        if obj.lease_realty_person_set.filter(role=3).exists():
+            holder = obj.lease_realty_person_set.get(role=3)
+            holder.state = 2
+            holder.save()
+        if obj.lease_realty_person_set.filter(role=1).exists():
+            leesse = obj.lease_realty_person_set.get(role=1)
+            leesse.state = 2
+            leesse.save()
+        date_value = obj.date_value.get(date=obj.doc_date)
+        date_value.state = 2
+        date_value.save()
+        if self.success_url != 'list':
+            return redirect(self.ref_urls[self.success_url], obj.pk)
+        else:
+            return redirect(self.ref_urls[self.success_url])

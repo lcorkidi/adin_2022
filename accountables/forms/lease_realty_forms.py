@@ -123,6 +123,15 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
             )
         }
 
+    def clean(self):
+        start_date = self.cleaned_data['start_date']
+        end_date = self.cleaned_data['end_date']
+        if end_date and not start_date:
+            self.add_error('end_date', 'No puede haber desocupación sin ocupación.')
+        if start_date and end_date and end_date <= start_date:
+            self.add_error('end_date', 'Desocupación no puede ser anterior a ocupación.')
+        return super().clean()
+
 class Lease_RealtyDeleteForm(GenericDeleteForm):
 
     exclude_fields = ['dates_values']

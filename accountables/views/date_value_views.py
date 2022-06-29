@@ -13,6 +13,7 @@ class Date_ValueCreateView(GenericCreateRelatedView):
     subtitle = 'Crear'
     ref_urls = ref_urls
     readonly_fields = ['accountable']
+    related_fields = ['accountable', 'date']
     fk_fields = ['accountable']
     permission_required = 'accountables.add_date_value'
 
