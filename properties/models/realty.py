@@ -72,7 +72,7 @@ class Realty(BaseModel):
         return True
 
     def __repr__(self) -> str:
-        return f'<Estate_Person: {self.address.pk}>'
+        return f'<Realty: {self.address.pk}>'
 
     def __str__(self) -> str:
         return self.address.pk
@@ -121,7 +121,7 @@ class Realty_Estate(BaseModel):
         ]
 
     def __repr__(self) -> str:
-        return f'<Estate_Person: {self.realty.pk}_{self.estate.pk}>'
+        return f'<Realty_Estate: {self.realty.pk}_{self.estate.pk}>'
 
     def __str__(self) -> str:
         return f'{self.realty.pk}_{self.estate.pk}'

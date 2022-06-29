@@ -1,4 +1,3 @@
-from attr import attr
 from django.forms import Form, CharField, IntegerField, BooleanField, NumberInput, formset_factory
 
 class AccountBalanceForm(Form):
