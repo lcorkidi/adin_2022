@@ -10,6 +10,12 @@ class Realty_EstateCreateForm(GeneriCreateRelatedForm):
         model = Realty_Estate
         exclude = ('state',)
 
+    def clean_estate(self):
+        estate = self.cleaned_data['estate']
+        if estate.state == 0:
+            self.add_error('estate', f'Predio seleccionado inactivo.')
+        return estate
+
     def clean(self):
         cleaned_data = super().clean()
         realty = cleaned_data.get('realty')

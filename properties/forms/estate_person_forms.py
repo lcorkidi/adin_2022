@@ -10,6 +10,12 @@ class Estate_PersonCreateForm(GeneriCreateRelatedForm):
         model = Estate_Person
         exclude = ('state',)
 
+    def clean_person(self):
+        person = self.cleaned_data['person']
+        if person.state == 0:
+            self.add_error('person', f'Persona seleccionada inactiva.')
+        return person
+
     def clean(self):
         cleaned_data = super().clean()
         estate = cleaned_data.get('estate')

@@ -53,7 +53,7 @@ class GenericDeleteForm(ModelForm):
     def clean(self):
         objs = []
         for field in self.instance._meta._get_fields(forward=False, reverse=True, include_hidden=True):
-            if field.related_name: 
+            if field.related_name and field.related_query_name: 
                 for obj in eval(f'self.instance.{field.related_name}.all()'):
                     if field.many_to_many:
                         thr_obj = field.through.find.from_related(self.instance, obj)

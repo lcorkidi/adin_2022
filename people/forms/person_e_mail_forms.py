@@ -9,6 +9,12 @@ class Person_E_MailCreateForm(GeneriCreateRelatedForm):
         model = Person_E_Mail
         exclude = ('state',)
 
+    def clean_e_mail(self):
+        e_mail = self.cleaned_data['e_mail']
+        if e_mail.state == 0:
+            self.add_error('e_mail', f'Correo seleccionado inactivo.')
+        return e_mail
+
 class Person_E_MailUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:

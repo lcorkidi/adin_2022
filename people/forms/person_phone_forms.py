@@ -9,6 +9,12 @@ class Person_PhoneCreateForm(GeneriCreateRelatedForm):
         model = Person_Phone
         exclude = ('state',)
 
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if phone.state == 0:
+            self.add_error('phone', f'Teléfono seleccionado inactivo.')
+        return phone
+
 class Person_PhoneUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:

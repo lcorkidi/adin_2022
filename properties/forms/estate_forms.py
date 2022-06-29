@@ -12,14 +12,16 @@ class EstateCreateForm(GenericCreateForm):
         fields = [ 'national_number', 'address', 'total_area']
 
     def clean_address(self):
-        data = self.cleaned_data.get('address')
-        if self._meta.model.objects.filter(address=data).exists():
-            obj = self._meta.model.objects.get(address=data)
+        address = self.cleaned_data.get('address')
+        if address.state == 0:
+            self.add_error('address', f'Dirección seleccionada inactiva.')
+        if self._meta.model.objects.filter(address=address).exists():
+            obj = self._meta.model.objects.get(address=address)
             if obj.state == 0:
-                raise ValidationError(f"El predio {Estate.objects.get(address=data)} ya tiene esta dirección y está inactivo.")
+                raise ValidationError(f"El predio {Estate.objects.get(address=address)} ya tiene esta dirección y está inactivo.")
             else:
-                raise ValidationError(f"El predio {Estate.objects.get(address=data)} ya tiene esta dirección.")
-        return data
+                raise ValidationError(f"El predio {Estate.objects.get(address=address)} ya tiene esta dirección.")
+        return address
 
     def clean_national_number(self):
         return self.clean_pk()
@@ -37,15 +39,17 @@ class EstateUpdateForm(GenericUpdateForm):
         fields = [ 'national_number', 'address', 'total_area']
 
     def clean_address(self):
-        data = self.cleaned_data.get('address')
-        if 'address' in self.changed_data:
-            if self._meta.model.objects.filter(address=data).exists():
-                obj = self._meta.model.objects.get(address=data)
+        address = self.cleaned_data.get('address')
+        if self.has_changed():
+            if address.state == 0:
+                self.add_error('address', f'Dirección seleccionada inactiva.')
+            if self._meta.model.objects.filter(address=address).exists():
+                obj = self._meta.model.objects.get(address=address)
                 if obj.state == 0:
-                    raise ValidationError(f"El predio {Estate.objects.get(address=data)} ya tiene esta dirección y está inactivo.")
+                    raise ValidationError(f"El predio {Estate.objects.get(address=address)} ya tiene esta dirección y está inactivo.")
                 else:
-                    raise ValidationError(f"El predio {Estate.objects.get(address=data)} ya tiene esta dirección.")
-        return data
+                    raise ValidationError(f"El predio {Estate.objects.get(address=address)} ya tiene esta dirección.")
+        return address
 
 class EstateDeleteForm(GenericDeleteForm):
 
@@ -61,5 +65,10 @@ class EstateActivateForm(GenericActivateForm):
         model = Estate
         fields = [ 'national_number', 'address', 'total_area']
 
+    def clean_address(self):
+        address = self.cleaned_data['address']
+        if address.state == 0:
+                self.add_error(None, f'Dirección del predio inactiva.')
+        return address
 
 EstateListModelFormSet = modelformset_factory(Estate, fields=('state', 'national_number', 'address', 'total_area'), extra=0)

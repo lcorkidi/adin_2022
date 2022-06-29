@@ -191,7 +191,7 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     fk_fields = None
     related_data = None
     actions_off = None
-    success_url = None
+    success_url = 'update'
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
@@ -303,12 +303,14 @@ class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
+        print(form)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
+        print(form)
         if not form.is_valid():
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user)}
             return render(request, self.template, context)

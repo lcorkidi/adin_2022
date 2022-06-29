@@ -23,7 +23,7 @@ class Lease_Realty_RealtyDeleteForm(GenericDeleteRelatedForm):
 
 class Lease_Realty_RealtyActivateForm(GenericActivateRelatedForm):
 
-    related_fields = ['lease', 'person']
+    related_fields = ['lease', 'realty']
 
     class Meta:
         model = Lease_Realty_Realty

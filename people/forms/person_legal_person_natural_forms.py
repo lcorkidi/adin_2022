@@ -9,6 +9,12 @@ class Person_Legal_Person_NaturalCreateForm(GeneriCreateRelatedForm):
         model = Person_Legal_Person_Natural
         exclude = ('state',)
 
+    def clean_person_natural(self):
+        person_natural = self.cleaned_data['person_natural']
+        if person_natural.state == 0:
+            self.add_error('person_natural', f'Personal seleccionado inactivo.')
+        return person_natural
+
 class Person_Legal_Person_NaturalUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:

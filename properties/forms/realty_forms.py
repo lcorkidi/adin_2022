@@ -12,14 +12,16 @@ class RealtyCreateForm(GenericCreateForm):
         fields = [ 'address', 'type', 'use', 'total_area' ]
 
     def clean_address(self):
-        data = self.cleaned_data.get('address')
-        if self._meta.model.objects.filter(address=data).exists():
-            obj = self._meta.model.objects.get(address=data)
+        address = self.cleaned_data.get('address')
+        if address.state == 0:
+            self.add_error('address', f'Dirección seleccionada inactiva.')
+        if self._meta.model.objects.filter(address=address).exists():
+            obj = self._meta.model.objects.get(address=address)
             if obj.state == 0:
-                raise ValidationError(f"El inmueble {Realty.objects.get(address=data)} ya tiene esta dirección y está inactivo.")
+                raise ValidationError(f"El inmueble {Realty.objects.get(address=address)} ya tiene esta dirección y está inactivo.")
             else:
-                raise ValidationError(f"El inmueble {Realty.objects.get(address=data)} ya tiene esta dirección.")
-        return data
+                raise ValidationError(f"El inmueble {Realty.objects.get(address=address)} ya tiene esta dirección.")
+        return address
 
 class RealtyDetailForm(ModelForm):
 
@@ -44,5 +46,11 @@ class RealtyActivateForm(GenericActivateForm):
     class Meta:
         model = Realty
         fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
+
+    def clean_address(self):
+        address = self.cleaned_data['address']
+        if address.state == 0:
+                self.add_error(None, f'Dirección del inmueble inactiva.')
+        return address
 
 RealtyListModelFormSet = modelformset_factory(Realty, fields=('state', 'code', 'use', 'total_area'), extra=0)

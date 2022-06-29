@@ -9,6 +9,12 @@ class Person_AddressCreateForm(GeneriCreateRelatedForm):
         model = Person_Address
         exclude = ('state',)
 
+    def clean_address(self):
+        address = self.cleaned_data['address']
+        if address.state == 0:
+            self.add_error('address', f'Dirección seleccionada inactiva.')
+        return address
+
 class Person_AddressUpdateForm(GenericUpdateRelatedForm):
 
     class Meta:

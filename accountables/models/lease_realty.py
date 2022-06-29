@@ -8,7 +8,6 @@ from .accountable import Accountable
 from .date_value import Date_Value
 from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate
 
-
 class Lease_Realty(Accountable):
 
     realty = models.ManyToManyField(
@@ -164,7 +163,7 @@ class Lease_Realty_Realty(BaseModel):
         verbose_name_plural = 'Inmuebles Arriendos Inmuebles'
 
     def __repr__(self) -> str:
-        return f'<Lease_Realty_Person: {self.lease.pk}_{self.realty.pk}>'
+        return f'<Lease_Realty_Realty: {self.lease.pk}_{self.realty.pk}>'
     
     def __str__(self) -> str:
         return f'{self.lease.pk}_{self.realty.pk}'
