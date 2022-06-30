@@ -1,5 +1,4 @@
 import datetime
-from numpy import NaN
 import pandas as pd
 from django.contrib.contenttypes.models import ContentType
 

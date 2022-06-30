@@ -1,3 +1,3 @@
-class,validity_date,amount,percentage,in_instance_attribute,factor
-Factor_Data,2022-01-01,0,19,ZZZZZ,IVA
-Factor_Data,2022-01-01,0,100,ZZZZZ,Base
+,state_change_user_id,state_change_date,state,validity_date,amount,percentage,in_instance_attribute,factor
+0,1,2022-04-06 18:31:52.990505+00:00,1,2022-01-01,0,19,,IVA
+1,1,2022-04-06 18:31:53.002027+00:00,1,2022-01-01,0,100,,Base
