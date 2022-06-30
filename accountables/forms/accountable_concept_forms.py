@@ -7,7 +7,7 @@ class Accountable_ConceptCreateForm(Form):
 
     transaction_type = ChoiceField(
         choices=(),
-        label='Tipo de Cargo'
+        label='Tipo de Transazzión'
     )
     date = ChoiceField(
         choices=(),

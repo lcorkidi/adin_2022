@@ -51,19 +51,19 @@ def lease_realty_related_data(*args):
 
 def accountable_related_data(*args):
     from accountables.models import Accountable_Transaction_Type, Accountable_Concept
-    from accountables.forms.accountables_transaction_type_forms import Transaction_TypeModelFormSet
+    from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeModelFormSet
     from accountables.forms.accountable_concept_forms import Accountable_ConceptModelFormSet
     
     accounting_data = {
-        'Tipos de Cargos':{
+        'Tipos de Transacción:':{
             'class': Accountable_Transaction_Type,
-            'formset': Transaction_TypeModelFormSet,
+            'formset': Accountable_Transaction_TypeModelFormSet,
             'filter_expresion': 'accountable__code',
             'm2m_direct': True,
             'add_url': 'accountables:accountable_transaction_type_add',
             'remove_url': 'accountables:accountable_transaction_type_remove'
         },
-        'Cargos':{
+        'Transacciones:':{
             'class': Accountable_Concept,
             'formset': Accountable_ConceptModelFormSet,
             'filter_expresion': 'accountable__code',

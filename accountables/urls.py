@@ -3,21 +3,20 @@ from django.urls import path
 from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyListSomeView, Lease_RealtyListAllView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyUpdateSomeView, Lease_RealtyUpdateAllView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
-from .views.accountable_transaction_type_views import Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
-from .views.accountables_transaction_type_views import Transaction_TypeListView, Transaction_TypeListSomeView, Transaction_TypeListAllView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
+from .views.accountable_transaction_type_views import Accountable_Transaction_TypeListView, Accountable_Transaction_TypeListSomeView, Accountable_Transaction_TypeListAllView, Accountable_Transaction_TypeCreateView, Accountable_Transaction_TypeDetailView, Accountable_Transaction_TypeDeleteView, Accountable_Transaction_TypeActivateView, Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
 from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
 
 app_name = 'accountables'
 
 urlpatterns = [
-    path('transaction_type_list/', Transaction_TypeListView.as_view(), name='transaction_type_list'),
-    path('transaction_type_list_some/', Transaction_TypeListSomeView.as_view(), name='transaction_type_list_some'),
-    path('transaction_type_list_all/', Transaction_TypeListAllView.as_view(), name='transaction_type_list_all'),
-    path('transaction_type_create/', Transaction_TypeCreateView.as_view(), name='transaction_type_create'),
-    path('<str:pk>/transaction_type_detail/', Transaction_TypeDetailView.as_view(), name='transaction_type_detail'),
-    path('<str:pk>/transaction_type_delete/', Transaction_TypeDeleteView.as_view(), name='transaction_type_delete'),
-    path('<str:pk>/transaction_type_activate/', Transaction_TypeActivateView.as_view(), name='transaction_type_activate'),
+    path('accountable_transaction_type_list/', Accountable_Transaction_TypeListView.as_view(), name='accountable_transaction_type_list'),
+    path('accountable_transaction_type_list_some/', Accountable_Transaction_TypeListSomeView.as_view(), name='accountable_transaction_type_list_some'),
+    path('accountable_transaction_type_list_all/', Accountable_Transaction_TypeListAllView.as_view(), name='accountable_transaction_type_list_all'),
+    path('accountable_transaction_type_create/', Accountable_Transaction_TypeCreateView.as_view(), name='accountable_transaction_type_create'),
+    path('<str:pk>/accountable_transaction_type_detail/', Accountable_Transaction_TypeDetailView.as_view(), name='accountable_transaction_type_detail'),
+    path('<str:pk>/accountable_transaction_type_delete/', Accountable_Transaction_TypeDeleteView.as_view(), name='accountable_transaction_type_delete'),
+    path('<str:pk>/accountable_transaction_type_activate/', Accountable_Transaction_TypeActivateView.as_view(), name='accountable_transaction_type_activate'),
     path('lease_realty_list', Lease_RealtyListView.as_view(), name='lease_realty_list'), 
     path('lease_realty_list_some', Lease_RealtyListSomeView.as_view(), name='lease_realty_list_some'), 
     path('lease_realty_list_all', Lease_RealtyListAllView.as_view(), name='lease_realty_list_all'), 
