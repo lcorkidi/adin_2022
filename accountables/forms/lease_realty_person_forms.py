@@ -1,6 +1,4 @@
-from email.policy import default
 from django.forms import Form, ModelChoiceField, TypedChoiceField, modelformset_factory
-from sqlalchemy import null
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from accountables.models import Lease_Realty_Person, Lease_Realty
