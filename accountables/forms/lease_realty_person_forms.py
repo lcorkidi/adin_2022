@@ -265,4 +265,4 @@ class Lease_Realty_PersonActivateForm(Form):
             self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
         return super().clean()
 
-Lease_Realty_PersonModelFormSet = modelformset_factory(Lease_Realty_Person, fields=('state',  'person', 'role'), extra=0)
+Lease_Realty_PersonModelFormSet = modelformset_factory(Lease_Realty_Person, fields=('state', 'person', 'role'), extra=0)

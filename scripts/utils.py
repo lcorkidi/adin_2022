@@ -22,7 +22,8 @@ load_lists = {
             'e_mail'
         ],
         'people': [
-            'person', 
+            'person_natural', 
+            'person_legal', 
             'person_address', 
             'person_phone', 
             'person_e_mail'
@@ -42,6 +43,7 @@ load_lists = {
             'accountable_transaction_type'
             ],
         'accounting': [
+            'account', 
             'ledger_type', 
             'ledger_template', 
             'charge_template', 
@@ -52,11 +54,11 @@ load_lists = {
             'puc', 
             'charge_factor', 
             'factor_data', 
-            'account', 
             'address', 
             'phone', 
             'e_mail', 
-            'person', 
+            'person_natural', 
+            'person_legal', 
             'person_address', 
             'person_phone', 
             'person_e_mail', 
@@ -65,12 +67,13 @@ load_lists = {
             'estate_appraisal', 
             'realty', 
             'realty_estate', 
-            'ledger_type', 
             'lease_realty', 
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value', 
             'accountable_transaction_type',
+            'account', 
+            'ledger_type', 
             'ledger_template', 
             'charge_template'
         ],
@@ -78,6 +81,26 @@ load_lists = {
             'charge_concept', 
             'ledger', 
             'charge'
+        ],
+        'temp': [
+            'puc', 
+            'charge_factor', 
+            'factor_data', 
+            'address', 
+            'phone', 
+            'e_mail'
+            'person_address', 
+            'person_phone', 
+            'person_e_mail', 
+            'estate', 
+            'estate_person', 
+            'estate_appraisal', 
+            'realty', 
+            'realty_estate', 
+            'lease_realty', 
+            'lease_realty_realty', 
+            'lease_realty_person', 
+            'date_value', 
         ]
     }
 
@@ -268,8 +291,8 @@ def data_load(load_info, load_list=None):
             timers[counter] = datetime.now()
             print(f"{element} : {timers[counter] - timers[counter - 1]}")
     
-def model_load(load_dict):
-    df_from_csv = pd.read_csv(join(BASE_DIR, f"_files/exports/{load_dict['csv_name']}"), keep_default_na=False)\
+def model_load(load_dict, csv_file=None):
+    df_from_csv = pd.read_csv(csv_file if csv_file else join(BASE_DIR, f"_files/{load_dict['csv_name']}"), keep_default_na=False)\
         .drop(load_dict['to_drop'], axis=1)\
         .rename(columns=load_dict['to_rename'])
     data_dict = df_from_csv\

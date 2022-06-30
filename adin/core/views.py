@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from scripts.utils import df2objs
+from scripts.utils import model_load, load_info
 from home.utils import user_group_str
 
 class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -358,9 +358,7 @@ class GenericCreateBulkView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return render(request, self.template, context)
 
     def post(self, request):
-        data_df = pd.read_csv(request.FILES['csv'])
-        info_df = pd.read_json('_files/_raw_data_info.json')
-        df2objs(data_df, info_df, True)
+        model_load(load_info['puc'], request.FILES['csv'])
         return redirect(self.ref_urls['list'])
 
 class GenericDeleteBulkView(LoginRequiredMixin, PermissionRequiredMixin, View):
