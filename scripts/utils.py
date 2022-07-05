@@ -13,6 +13,29 @@ from accountables.models import Accountable, Accountable_Transaction_Type, Accou
 from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Template
     
 load_lists = {
+        'all': [
+            'puc', 
+            'charge_factor', 
+            'factor_data', 
+            'address', 
+            'phone', 
+            'e_mail',
+            'person_natural', 
+            'person_legal', 
+            'person_address', 
+            'person_phone', 
+            'person_e_mail',
+            'estate', 
+            'estate_person', 
+            'estate_appraisal', 
+            'realty', 
+            'realty_estate',
+            'lease_realty', 
+            'lease_realty_realty', 
+            'lease_realty_person', 
+            'date_value',
+            'accountable_transaction_type'
+        ],
         'references': [
             'puc', 
             'charge_factor', 
@@ -101,6 +124,7 @@ load_lists = {
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value', 
+            'accountable_transaction_type',
         ]
     }
 
@@ -320,7 +344,7 @@ def data_load(load_info, load_list=None):
     counter = 0
     timers = { counter:datetime.now() }
     if not load_list:
-        load_list = load_info.values()
+        load_list = load_lists['all']
     for element in load_list:
         model_load(load_info[element])
         counter = counter + 1
@@ -346,7 +370,6 @@ def model_load(load_dict, csv_file=None):
 
 def m2m_load(load_dict):
     df_from_csv = pd.read_csv(join(BASE_DIR, f"_files/{load_dict['csv_name']}"), keep_default_na=False)
-    non_field_objs = load_dict['non_field_obj_model'].objects.filter(pk__in=list(df_from_csv[load_dict['non_field_obj_column']].unique()))
     df_from_csv.assign(**{load_dict['field_obj_column']:df_from_csv[load_dict['field_obj_column']].apply(lambda x: load_dict['field_obj_model'].objects.get(pk=x))})\
-        .apply(lambda x: eval(f"x[load_dict['field_obj_column']].{load_dict['m2m_field']}.add(non_field_objs.get(pk=x[load_dict['non_field_obj_column']]))"), axis=1)
+        .apply(lambda x: eval(f"x[load_dict['field_obj_column']].{load_dict['m2m_field']}.add(load_dict['non_field_obj_model'].objects.get(pk=x[load_dict['non_field_obj_column']]))"), axis=1)
 
