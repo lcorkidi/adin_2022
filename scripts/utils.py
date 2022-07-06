@@ -7,14 +7,15 @@ from django.contrib.contenttypes.models import ContentType
 
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
 from people.models.person import Person_Legal_Person_Natural
-from references.models import Address, PUC, E_Mail, Phone, Charge_Factor, Factor_Data
+from references.models import Address, PUC, E_Mail, Phone, Charge_Factor, Factor_Data, Calendar_Date
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
 from accountables.models import Accountable, Accountable_Transaction_Type, Accountable_Concept, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
 from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Template
     
 load_lists = {
         'all': [
-            'puc', 
+            'puc',
+            'calendar_date', 
             'charge_factor', 
             'factor_data', 
             'address', 
@@ -38,6 +39,7 @@ load_lists = {
         ],
         'references': [
             'puc', 
+            'calendar_date', 
             'charge_factor', 
             'factor_data', 
             'address', 
@@ -75,6 +77,7 @@ load_lists = {
         ],
         'no-registers': [
             'puc', 
+            'calendar_date', 
             'charge_factor', 
             'factor_data', 
             'address', 
@@ -107,6 +110,7 @@ load_lists = {
         ],
         'temp': [
             'puc', 
+            'calendar_date', 
             'charge_factor', 
             'factor_data', 
             'address', 
@@ -130,7 +134,7 @@ load_lists = {
 
 load_info = { 
         'puc' : {
-            'csv_name' : '0_puc.csv',
+            'csv_name' : 'puc.csv',
             'fk_dict' : {'state_change_user': User},
             'model' : PUC,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -138,8 +142,17 @@ load_info = {
             'bulk' : True,
             'pending_relations' : None
             },
+        'calendar_date' : {
+            'csv_name' : 'calendar_date.csv',
+            'fk_dict' : {'state_change_user':User},
+            'model' : Calendar_Date,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
         'charge_factor' : {
-            'csv_name' : '1_charge_factor.csv',
+            'csv_name' : 'charge_factor.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Charge_Factor,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -148,7 +161,7 @@ load_info = {
             'pending_relations' : None
             },
         'factor_data' : {
-            'csv_name' : '2_factor_data.csv',
+            'csv_name' : 'factor_data.csv',
             'fk_dict' : {'state_change_user':User, 'factor':Charge_Factor},
             'model' : Factor_Data,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -157,7 +170,7 @@ load_info = {
             'pending_relations' : None
             },
         'address' : {
-            'csv_name' : '3_address.csv',
+            'csv_name' : 'address.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Address,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -166,7 +179,7 @@ load_info = {
             'pending_relations' : None
             },
         'phone' : {
-            'csv_name' : '4_phone.csv',
+            'csv_name' : 'phone.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Phone,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -175,7 +188,7 @@ load_info = {
             'pending_relations' : None
             },
         'e_mail' : {
-            'csv_name' : '5_e_mail.csv',
+            'csv_name' : 'e_mail.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : E_Mail,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -184,7 +197,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_natural' : {
-            'csv_name' : '6_person_natural.csv',
+            'csv_name' : 'person_natural.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Person_Natural,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -193,7 +206,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_legal' : {
-            'csv_name' : '7_person_legal.csv',
+            'csv_name' : 'person_legal.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Person_Legal,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -202,7 +215,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_address' : {
-            'csv_name' : '8_person_address.csv',
+            'csv_name' : 'person_address.csv',
             'fk_dict' : {'state_change_user':User, 'person':Person, 'address':Address},
             'model' : Person_Address,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -211,7 +224,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_phone' : {
-            'csv_name' : '9_person_phone.csv',
+            'csv_name' : 'person_phone.csv',
             'fk_dict' : {'state_change_user':User, 'person':Person, 'phone':Phone},
             'model' : Person_Phone,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -220,7 +233,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_e_mail' : {
-            'csv_name' : '10_person_e_mail.csv',
+            'csv_name' : 'person_e_mail.csv',
             'fk_dict' : {'state_change_user':User, 'person':Person, 'e_mail':E_Mail},
             'model' : Person_E_Mail,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -229,7 +242,7 @@ load_info = {
             'pending_relations' : None
             },
         'person_legal_person_natural' : {
-            'csv_name' : '11_person_legal_person_natural.csv',
+            'csv_name' : 'person_legal_person_natural.csv',
             'fk_dict' : {'state_change_user':User, 'person_legal':Person_Legal, 'person_natural':Person_Natural},
             'model' : Person_Legal_Person_Natural,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -238,7 +251,7 @@ load_info = {
             'pending_relations' : None
             },
         'estate' : {
-            'csv_name' : '12_estate.csv',
+            'csv_name' : 'estate.csv',
             'fk_dict' : {'state_change_user':User, 'address':Address},
             'model' : Estate,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -247,7 +260,7 @@ load_info = {
             'pending_relations' : None
             },
         'estate_person' : {
-            'csv_name' : '13_estate_person.csv',
+            'csv_name' : 'estate_person.csv',
             'fk_dict' : {'state_change_user':User, 'estate':Estate, 'person':Person},
             'model' : Estate_Person,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -256,7 +269,7 @@ load_info = {
             'pending_relations' : None
             },
         'estate_appraisal' : {
-            'csv_name' : '14_estate_appraisal.csv',
+            'csv_name' : 'estate_appraisal.csv',
             'fk_dict' : {'state_change_user':User, 'estate':Estate},
             'model' : Estate_Appraisal,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -265,7 +278,7 @@ load_info = {
             'pending_relations' : None
             },
         'realty' : {
-            'csv_name' : '15_realty.csv',
+            'csv_name' : 'realty.csv',
             'fk_dict' : {'state_change_user':User, 'address':Address},
             'model' : Realty,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -274,7 +287,7 @@ load_info = {
             'pending_relations' : None
             },
         'realty_estate' : {
-            'csv_name' : '16_realty_estate.csv',
+            'csv_name' : 'realty_estate.csv',
             'fk_dict' : {'state_change_user':User, 'realty':Realty, 'estate':Estate},
             'model' : Realty_Estate,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -283,7 +296,7 @@ load_info = {
             'pending_relations' : None
             },
         'lease_realty' : {
-            'csv_name' : '17_lease_realty.csv',
+            'csv_name' : 'lease_realty.csv',
             'fk_dict' : {'state_change_user':User, 'subclass':ContentType},
             'model' : Lease_Realty,
             'to_drop' : ['Unnamed: 0', 'state_change_date', 'accountable_ptr_id'],
@@ -292,7 +305,7 @@ load_info = {
             'pending_relations' : None
             },
         'lease_realty_realty' : {
-            'csv_name' : '18_lease_realty_realty.csv',
+            'csv_name' : 'lease_realty_realty.csv',
             'fk_dict' : {'state_change_user':User, 'lease':Lease_Realty, 'realty':Realty},
             'model' : Lease_Realty_Realty,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -301,7 +314,7 @@ load_info = {
             'pending_relations' : None
             },
         'lease_realty_person' : {
-            'csv_name' : '19_lease_realty_person.csv',
+            'csv_name' : 'lease_realty_person.csv',
             'fk_dict' : {'state_change_user':User, 'lease':Lease_Realty, 'person':Person, 'phone':Phone, 'e_mail':E_Mail, 'address':Address},
             'model' : Lease_Realty_Person,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -310,7 +323,7 @@ load_info = {
             'pending_relations' : None
             },
         'date_value' : {
-            'csv_name' : '20_date_value.csv',
+            'csv_name' : 'date_value.csv',
             'fk_dict' : {'state_change_user':User, 'accountable':Accountable},
             'model' : Date_Value,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -319,7 +332,7 @@ load_info = {
             'pending_relations' : None
             },
         'accountable_transaction_type' : {
-            'csv_name' : '21_accountable_transaction_type.csv',
+            'csv_name' : 'accountable_transaction_type.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Accountable_Transaction_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -331,7 +344,7 @@ load_info = {
 
 m2m_info = {
     'accountable_transaction_type' : {
-            'csv_name' : '22_m2m_accountable_transaction_type.csv',
+            'csv_name' : 'm2m_accountable_transaction_type.csv',
             'm2m_field' : 'transaction_types',
             'field_obj_column' : 'accountable',
             'field_obj_model' : Accountable,

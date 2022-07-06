@@ -1,4 +1,5 @@
 from django.urls import path
+from .views.calendar_date_views import Calendar_DateListView, Calendar_DateListSomeView, Calendar_DateListAllView, Calendar_DateDetailView, Calendar_DateCreateView, Calendar_DateDeleteView, Calendar_DateActivateView
 from .views.address_views import AddressListView, AddressListSomeView, AddressListAllView, AddressDetailView, AddressCreateView, AddressDeleteView, AddressActivateView
 from .views.phone_views import PhoneListView, PhoneListSomeView, PhoneListAllView, PhoneDetailView, PhoneCreateView, PhoneDeleteView, PhoneActivateView
 from .views.e_mail_views import E_MailListView, E_MailListSomeView, E_MailListAllView, E_MailDetailView, E_MailCreateView, E_MailDeleteView, E_MailActivateView
@@ -8,6 +9,13 @@ from .views.charge_factor_views import Factor_DataListView, Factor_DataListSomeV
 app_name = 'references'
 
 urlpatterns = [
+    path('calendar_date_list/', Calendar_DateListView.as_view(), name='calendar_date_list'),
+    path('calendar_date_list_some/', Calendar_DateListSomeView.as_view(), name='calendar_date_list_some'),
+    path('calendar_date_list_all/', Calendar_DateListAllView.as_view(), name='calendar_date_list_all'),
+    path('calendar_date_create/', Calendar_DateCreateView.as_view(), name='calendar_date_create'),
+    path('<str:pk>/calendar_date_detail/', Calendar_DateDetailView.as_view(), name='calendar_date_detail'),
+    path('<str:pk>/calendar_date_delete/', Calendar_DateDeleteView.as_view(), name='calendar_date_delete'),
+    path('<str:pk>/calendar_date_activate/', Calendar_DateActivateView.as_view(), name='calendar_date_activate'),
     path('address_list/', AddressListView.as_view(), name='address_list'),
     path('address_list_some/', AddressListSomeView.as_view(), name='address_list_some'),
     path('address_list_all/', AddressListAllView.as_view(), name='address_list_all'),

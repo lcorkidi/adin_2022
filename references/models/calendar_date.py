@@ -16,7 +16,11 @@ class Calendar_Date(BaseModel):
     class Meta:
         app_label = 'references'
         verbose_name = 'Fecha Calendario'
-        verbose_name_plural = 'Fechas Calemndario'
+        verbose_name_plural = 'Fechas Calendario'
+        ordering = ['name']
+        permissions = [
+            ('calendar_date', 'Can activate calendar_date.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Calendar_Date: {self.name}>'

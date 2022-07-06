@@ -26,6 +26,9 @@
                         <label class="nav-link dropdown-toggle text-white" id="referencesDropDownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Referencias</label>
                         <ul class="dropdown-menu dropdown-menu-secodary" aria-labelledby="referencesDropDownLink">
                             <li>
+                                <a class="dropdown-item" href="{% url 'references:calendar_date_list' %}"><strong>Fechas Calendario</strong></a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="{% url 'references:address_list' %}"><strong>Direcciones</strong></a>
                             </li>
                             <li>
