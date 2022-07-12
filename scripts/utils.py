@@ -2,7 +2,7 @@ import pandas as pd
 from os.path import join
 from adin.settings import BASE_DIR
 from datetime import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
 from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, Person_Address, Person_Phone
@@ -12,8 +12,10 @@ from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Esta
 from accountables.models import Accountable, Accountable_Transaction_Type, Accountable_Concept, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
 from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Template
     
-load_lists = {
+models_lists = {
         'all': [
+            'group',
+            'user', 
             'puc',
             'calendar_date', 
             'charge_factor', 
@@ -36,6 +38,10 @@ load_lists = {
             'lease_realty_person', 
             'date_value',
             'accountable_transaction_type'
+        ],
+        'auth': [
+            'group',
+            'user'
         ],
         'references': [
             'puc', 
@@ -76,6 +82,8 @@ load_lists = {
             'charge'
         ],
         'no-registers': [
+            'group',
+            'user', 
             'puc', 
             'calendar_date', 
             'charge_factor', 
@@ -109,6 +117,8 @@ load_lists = {
             'charge'
         ],
         'temp': [
+            'group',
+            'user', 
             'puc', 
             'calendar_date', 
             'charge_factor', 
@@ -132,7 +142,25 @@ load_lists = {
         ]
     }
 
-load_info = { 
+models_info = { 
+        'group' : {
+            'csv_name' : 'group.csv',
+            'fk_dict' : None,
+            'model' : Group,
+            'to_drop' : ['Unnamed: 0'],
+            'to_rename' : None,
+            'bulk' : True,
+            'pending_relations' : ['group_permissions']
+            },
+        'user' : {
+            'csv_name' : 'user.csv',
+            'fk_dict' : None,
+            'model' : User,
+            'to_drop' : ['Unnamed: 0'],
+            'to_rename' : None,
+            'bulk' : True,
+            'pending_relations' : ['user_permissions', 'user_groups']
+            },
         'puc' : {
             'csv_name' : 'puc.csv',
             'fk_dict' : {'state_change_user': User},
@@ -338,13 +366,37 @@ load_info = {
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user'},
             'bulk' : True,
-            'pending_relations' : ['accountable_transaction_type']
+            'pending_relations' : ['accountable_transaction_types']
             }
         }
 
 m2m_info = {
-    'accountable_transaction_type' : {
-            'csv_name' : 'm2m_accountable_transaction_type.csv',
+    'group_permissions' : {
+            'csv_name' : 'm2m_group_permissions.csv',
+            'm2m_field' : 'permissions',
+            'field_obj_column' : 'group',
+            'field_obj_model' : Group,
+            'non_field_obj_column' : 'permission',
+            'non_field_obj_model' : Permission
+    },
+    'user_permissions' : {
+            'csv_name' : 'm2m_user_user_permissions.csv',
+            'm2m_field' : 'user_permissions',
+            'field_obj_column' : 'user',
+            'field_obj_model' : User,
+            'non_field_obj_column' : 'user_permission',
+            'non_field_obj_model' : Permission
+    },
+    'user_groups' : {
+            'csv_name' : 'm2m_user_groups.csv',
+            'm2m_field' : 'groups',
+            'field_obj_column' : 'user',
+            'field_obj_model' : User,
+            'non_field_obj_column' : 'group',
+            'non_field_obj_model' : Group
+    },
+    'accountable_transaction_types' : {
+            'csv_name' : 'm2m_accountable_transaction_types.csv',
             'm2m_field' : 'transaction_types',
             'field_obj_column' : 'accountable',
             'field_obj_model' : Accountable,
@@ -357,7 +409,7 @@ def data_load(load_info, load_list=None):
     counter = 0
     timers = { counter:datetime.now() }
     if not load_list:
-        load_list = load_lists['all']
+        load_list = models_lists['all']
     for element in load_list:
         model_load(load_info[element])
         counter = counter + 1
@@ -365,13 +417,16 @@ def data_load(load_info, load_list=None):
         print(f"{element} : {timers[counter] - timers[counter - 1]}")
     
 def model_load(load_dict, csv_file=None):
-    df_from_csv = pd.read_csv(csv_file if csv_file else join(BASE_DIR, f"_files/{load_dict['csv_name']}"), keep_default_na=False)\
-        .drop(load_dict['to_drop'], axis=1)\
-        .rename(columns=load_dict['to_rename'])
+    df_from_csv = pd.read_csv(csv_file if csv_file else join(BASE_DIR, f"_files/load/{load_dict['csv_name']}"), keep_default_na=False)\
+        .drop(load_dict['to_drop'], axis=1)
+    if load_dict['to_rename']:
+        df_from_csv = df_from_csv.rename(columns=load_dict['to_rename'])
     data_dict = df_from_csv\
-        .assign(**{column: df_from_csv[column].apply(lambda x: None if x == '' else x) for column in df_from_csv.columns})\
-        .assign(**{column: df_from_csv[column].apply(lambda x: None if x == '' else model.objects.get(pk=x)) for column, model in load_dict['fk_dict'].items()})\
-        .to_dict('index')
+        .assign(**{column: df_from_csv[column].apply(lambda x: None if x == '' else x) for column in df_from_csv.columns})
+    if load_dict['fk_dict']:
+        data_dict = data_dict\
+            .assign(**{column: df_from_csv[column].apply(lambda x: None if x == '' else model.objects.get(pk=x)) for column, model in load_dict['fk_dict'].items()})
+    data_dict = data_dict.to_dict('index')
     if load_dict['bulk']:
         load_dict['model'].objects.bulk_create([load_dict['model'](**data) for data in data_dict.values()])
     else:
@@ -382,7 +437,28 @@ def model_load(load_dict, csv_file=None):
             m2m_load(m2m_info[relation])
 
 def m2m_load(load_dict):
-    df_from_csv = pd.read_csv(join(BASE_DIR, f"_files/{load_dict['csv_name']}"), keep_default_na=False)
+    df_from_csv = pd.read_csv(join(BASE_DIR, f"_files/load/{load_dict['csv_name']}"), keep_default_na=False)
     df_from_csv.assign(**{load_dict['field_obj_column']:df_from_csv[load_dict['field_obj_column']].apply(lambda x: load_dict['field_obj_model'].objects.get(pk=x))})\
         .apply(lambda x: eval(f"x[load_dict['field_obj_column']].{load_dict['m2m_field']}.add(load_dict['non_field_obj_model'].objects.get(pk=x[load_dict['non_field_obj_column']]))"), axis=1)
 
+def data_backup(load_info, load_list=None):
+    counter = 0
+    timers = { counter:datetime.now() }
+    if not load_list:
+        load_list = models_lists['all']
+    for element in load_list:
+        model_backup(load_info[element])
+        counter = counter + 1
+        timers[counter] = datetime.now()
+        print(f"{element} : {timers[counter] - timers[counter - 1]}")
+
+def model_backup(load_dict):
+    pd.DataFrame(load_dict['model'].objects.values()).to_csv(f'_files/backup/{datetime.today().strftime("%Y-%m-%d")}_{load_dict["csv_name"]}', float_format='%.0f', na_rep=None)
+    if load_dict['pending_relations']:
+        for relation in load_dict['pending_relations']:
+            m2m_backup(m2m_info[relation])
+
+def m2m_backup(load_dict):
+    pd.DataFrame(load_dict['field_obj_model'].objects.all().values('pk', load_dict['m2m_field']))\
+        .rename(columns={'pk':load_dict['field_obj_column'], load_dict['m2m_field']:load_dict['non_field_obj_column']})\
+        .to_csv(join(BASE_DIR, f'_files/backup/{datetime.today().strftime("%Y-%m-%d")}_m2m_{load_dict["field_obj_column"]}_{load_dict["m2m_field"]}.csv'), index=False)
