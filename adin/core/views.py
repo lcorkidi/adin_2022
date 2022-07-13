@@ -1,10 +1,10 @@
-import pandas as pd
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from scripts.utils import model_load, models_info
 from home.utils import user_group_str
+from adin.utils.related_models import related_data_formsets_call
 
 class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
@@ -63,15 +63,7 @@ class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
-                related_data[attr]['formset'] = formset
-        else:
-            related_data = None
+        related_data = related_data_formsets_call(self.related_data, pk)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user) }
         return render(request, self.template, context)
 
@@ -94,15 +86,7 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         form = self.form(instance=obj)
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.filter(state__in=self.include_states).filter(**filter_expresion))
-                related_data[attr]['formset'] = formset
-        else:
-            related_data = None
+        related_data = related_data_formsets_call(self.related_data, pk)
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
@@ -112,15 +96,7 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
         if not form.is_valid():
-            if self.related_data:
-                related_data = self.related_data()
-                for attr, data in related_data.items():
-                    filter_expresion = {}
-                    filter_expresion[data['filter_expresion']] = pk
-                    formset = data['formset'](queryset=data['class'].objects.filter(state__in=self.include_states).filter(**filter_expresion))
-                    related_data[attr]['formset'] = formset
-            else:
-                related_data = None
+            related_data = related_data_formsets_call(self.related_data, pk)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'group': user_group_str(request.user)}
             return render(request, self.template, context)
         form.save()
@@ -142,30 +118,14 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
-                related_data[attr]['formset'] = formset
-        else:
-            related_data = None
+        related_data = related_data_formsets_call(self.related_data, pk)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].active.filter(**filter_expresion))
-                related_data[attr]['formset'] = formset
-        else:
-            related_data = None
+        related_data = related_data_formsets_call(self.related_data, pk)
         if not form.is_valid():
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
             return render(request, self.template, context)
@@ -196,15 +156,7 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        if self.related_data:
-            related_data = self.related_data()
-            for attr, data in related_data.items():
-                filter_expresion = {}
-                filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
-                related_data[attr]['formset'] = formset
-        else:
-            related_data = None
+        related_data = related_data_formsets_call(self.related_data, pk)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
         return render(request, self.template, context)
 
@@ -212,15 +164,7 @@ class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            if self.related_data:
-                related_data = self.related_data()
-                for attr, data in related_data.items():
-                    filter_expresion = {}
-                    filter_expresion[data['filter_expresion']] = pk
-                    formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
-                    related_data[attr]['formset'] = formset
-            else:
-                related_data = None
+            related_data = related_data_formsets_call(self.related_data, pk)
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
             return render(request, self.template, context)
         obj.state = 2
