@@ -15,6 +15,7 @@ class Accountable_ConceptCreateForm(Form):
     )
     
     def __init__(self, obj, *args, **kwargs):
+        print(type(obj.subclass_obj()))
         field_choices = {
             'transaction_type': [(list(obj.transaction_types.all()).index(item), item) for item in list(obj.transaction_types.all())],
             'date': [(obj.subclass_obj().pending_charge_concept_dates().index(item), item) for item in obj.subclass_obj().pending_charge_concept_dates()]

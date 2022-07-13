@@ -415,6 +415,7 @@ def data_load(load_info, load_list=None):
         counter = counter + 1
         timers[counter] = datetime.now()
         print(f"{element} : {timers[counter] - timers[counter - 1]}")
+    print(f"Total : {timers[counter] - timers[0]}")
     
 def model_load(load_dict, csv_file=None):
     df_from_csv = pd.read_csv(csv_file if csv_file else join(BASE_DIR, f"_files/load/{load_dict['csv_name']}"), keep_default_na=False)\
@@ -451,6 +452,7 @@ def data_backup(load_info, load_list=None):
         counter = counter + 1
         timers[counter] = datetime.now()
         print(f"{element} : {timers[counter] - timers[counter - 1]}")
+    print(f"Total : {timers[counter] - timers[0]}")
 
 def model_backup(load_dict):
     pd.DataFrame(load_dict['model'].objects.values()).to_csv(f'_files/backup/{datetime.today().strftime("%Y-%m-%d")}_{load_dict["csv_name"]}', float_format='%.0f', na_rep=None)
