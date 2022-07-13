@@ -1,8 +1,9 @@
 import datetime
-from django.forms import ModelForm, Form, ModelChoiceField, ModelMultipleChoiceField, DateField, SelectDateWidget, IntegerField, modelformset_factory
+from django.forms import ModelForm, Form, ModelChoiceField, ModelMultipleChoiceField, DateField, IntegerField, modelformset_factory
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.forms import GenericUpdateForm, GenericDeleteForm, GenericActivateForm
+from adin.core.widgets import SelectDateSpanishWidget
 from accountables.models import Lease_Realty, Lease_Realty_Realty, Date_Value
 from properties.models.realty import Realty
 
@@ -18,23 +19,7 @@ class Lease_RealtyCreateForm(Form):
         label='Propiedades Secundarias'
     )
     doc_date = DateField(
-        widget=SelectDateWidget(
-            years= range(1970, datetime.date.today().year + 10),
-            months= {
-                1: 'Enero',
-                2: 'Febrero',
-                3: 'Marzo',
-                4: 'Abril',
-                5: 'Mayo',
-                6: 'Junio',
-                7: 'Julio',
-                8: 'Agosto',
-                9: 'Septiembre',
-                10: 'Octubre',
-                11: 'Noviembre',
-                12: 'Diciembre'
-            }
-        ),
+        widget=SelectDateSpanishWidget(),
         label = 'Fecha Contrato:'
     )
     fee = IntegerField(
@@ -86,41 +71,9 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
         model = Lease_Realty
         fields = [ 'code', 'doc_date', 'start_date', 'end_date']
         widgets = {
-            'doc_date': SelectDateWidget(), 
-            'start_date': SelectDateWidget(
-                years= range(1970, datetime.date.today().year + 10),
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            ), 
-            'end_date': SelectDateWidget(
-                years= range(1970, datetime.date.today().year + 10),
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            )
+            'doc_date': SelectDateSpanishWidget(), 
+            'start_date': SelectDateSpanishWidget(), 
+            'end_date': SelectDateSpanishWidget()
         }
 
     def clean(self):

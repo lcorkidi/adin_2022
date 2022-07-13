@@ -1,7 +1,8 @@
-from django.forms import modelformset_factory, SelectDateWidget
+from django.forms import modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from accountables.models import Date_Value
+from adin.core.widgets import SelectDateSpanishWidget
 
 class Date_ValueCreateForm(GeneriCreateRelatedForm):
 
@@ -9,22 +10,7 @@ class Date_ValueCreateForm(GeneriCreateRelatedForm):
         model = Date_Value
         exclude = ('state',)
         widgets = {
-            'date': SelectDateWidget(
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            )
+            'date': SelectDateSpanishWidget()
         }
 
 class Date_ValueUpdateForm(GenericUpdateRelatedForm):
@@ -33,22 +19,7 @@ class Date_ValueUpdateForm(GenericUpdateRelatedForm):
         model = Date_Value
         exclude = ('state',)
         widgets = {
-            'date': SelectDateWidget(
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            )
+            'date': SelectDateSpanishWidget()
         }
 
 class Date_ValueDeleteForm(GenericDeleteRelatedForm):
@@ -57,23 +28,14 @@ class Date_ValueDeleteForm(GenericDeleteRelatedForm):
         model = Date_Value
         exclude = ('state',)
         widgets = {
-            'date': SelectDateWidget(
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            )
+            'date': SelectDateSpanishWidget()
         }
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date == self.instance.date:
+            self.add_error(None, 'Canon para la fecha del contrato no se puede deactivar.')
+        return date
 
 class Date_ValueActivateForm(GenericActivateRelatedForm):
 
@@ -81,22 +43,7 @@ class Date_ValueActivateForm(GenericActivateRelatedForm):
         model = Date_Value
         exclude = ('state',)
         widgets = {
-            'date': SelectDateWidget(
-                months= {
-                    1: 'Enero',
-                    2: 'Febrero',
-                    3: 'Marzo',
-                    4: 'Abril',
-                    5: 'Mayo',
-                    6: 'Junio',
-                    7: 'Julio',
-                    8: 'Agosto',
-                    9: 'Septiembre',
-                    10: 'Octubre',
-                    11: 'Noviembre',
-                    12: 'Diciembre'
-                }
-            )
+            'date': SelectDateSpanishWidget()
         }
 
 Date_ValueModelFormSet = modelformset_factory(Date_Value, fields=('state', 'date', 'value'), extra=0)
