@@ -96,6 +96,13 @@ class GeneriCreateRelatedForm(GenericCreateForm):
                 raise ValidationError(f"{self._meta.model._meta.verbose_name} con estos valores ya existe.")
         return super().clean()
     
+class GenericDetailRelatedForm(ModelForm):
+
+    def clean(self):
+        if self.has_changed():
+            self.add_error(None, f'Hubo cambios en los datos inmutables del objeto.')
+        return super().clean()
+    
 class GenericUpdateRelatedForm(GenericUpdateForm):
 
     def save(self, *args, **kwargs):

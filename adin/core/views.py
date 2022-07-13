@@ -258,6 +258,36 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
         form.save()            
         return redirect(self.ref_urls['update'], pk)
 
+class GenericDetailRelatedlView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_detail_related.html'
+    model = None
+    title = None
+    subtitle = 'Inactivar'
+    form = None
+    ref_urls = None
+    rel_urls = None
+    choice_fields = None
+    fk_fields = None
+    omit_actions = None
+
+    def get(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
+        return render(request, self.template, context)
+
+    def post(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields,  'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        obj.state_change_user = request.user
+        obj.state = 0
+        obj.save()
+        return redirect(self.ref_urls['update'], ret_pk)
+
 class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_update_related.html'

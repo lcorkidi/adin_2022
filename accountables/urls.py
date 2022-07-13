@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyListSomeView, Lease_RealtyListAllView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyUpdateSomeView, Lease_RealtyUpdateAllView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
-from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
+from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonDetailView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeListView, Accountable_Transaction_TypeListSomeView, Accountable_Transaction_TypeListAllView, Accountable_Transaction_TypeCreateView, Accountable_Transaction_TypeDetailView, Accountable_Transaction_TypeDeleteView, Accountable_Transaction_TypeActivateView, Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
 from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
@@ -32,6 +32,7 @@ urlpatterns = [
     path('<str:ret_pk>/<str:pk>/lease_realty_realty_delete/', Lease_Realty_RealtyDeleteView.as_view(), name='lease_realty_realty_delete'),
     path('<str:ret_pk>/<str:pk>/lease_realty_realty_activate/', Lease_Realty_RealtyActivateView.as_view(), name='lease_realty_realty_activate'),
     path('<str:pk>/lease_realty_person_create/', Lease_Realty_PersonCreateView.as_view(), name='lease_realty_person_create'),
+    path('<str:ret_pk>/<str:pk>/lease_realty_person_detail/', Lease_Realty_PersonDetailView.as_view(), name='lease_realty_person_detail'),
     path('<str:ret_pk>/<str:pk>/lease_realty_person_update/', Lease_Realty_PersonUpdateView.as_view(), name='lease_realty_person_update'),
     path('<str:ret_pk>/<str:pk>/lease_realty_person_delete/', Lease_Realty_PersonDeleteView.as_view(), name='lease_realty_person_delete'),
     path('<str:ret_pk>/<str:pk>/lease_realty_person_activate/', Lease_Realty_PersonActivateView.as_view(), name='lease_realty_person_activate'),

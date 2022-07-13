@@ -83,6 +83,9 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 <td>
+                                                    {% if 'detail' not in data.omit_actions %}
+                                                        <a class="text-secondary" href="{% url data.detail_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                                    {% endif %}
                                                     {% if related_form.state.value != 0 and 'update' not in data.omit_actions %}
                                                         <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a>
                                                     {% endif %}

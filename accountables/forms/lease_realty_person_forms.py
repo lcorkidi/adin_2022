@@ -1,6 +1,6 @@
 from django.forms import Form, ModelChoiceField, TypedChoiceField, modelformset_factory
 
-from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
+from adin.core.forms import GeneriCreateRelatedForm, GenericDetailRelatedForm, GenericUpdateRelatedForm
 from accountables.models import Lease_Realty_Person, Lease_Realty
 from references.models import Phone, E_Mail, Address
 from people.models import Person
@@ -46,6 +46,12 @@ class Lease_Realty_PersonCreateForm(GeneriCreateRelatedForm):
         if address and address.state == 0:
             self.add_error('address', f'Dirección seleccionada inactiva.')
         return address
+
+class Lease_Realty_PersonDetailForm(GenericDetailRelatedForm):
+
+    class Meta:
+        model = Lease_Realty_Person
+        exclude = ('state',)
 
 class Lease_Realty_PersonUpdateForm(GenericUpdateRelatedForm):
 

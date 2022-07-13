@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
-from adin.core.views import GenericCreateRelatedView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
+from adin.core.views import GenericCreateRelatedView, GenericDetailRelatedlView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
 
 from accountables.models import Lease_Realty_Person
-from accountables.forms.lease_realty_person_forms import Lease_Realty_PersonCreateForm, Lease_Realty_PersonUpdateForm, Lease_Realty_PersonDeleteForm, Lease_Realty_PersonActivateForm
+from accountables.forms.lease_realty_person_forms import Lease_Realty_PersonCreateForm, Lease_Realty_PersonDetailForm, Lease_Realty_PersonUpdateForm, Lease_Realty_PersonDeleteForm, Lease_Realty_PersonActivateForm
 from home.utils import user_group_str
 
 title = Lease_Realty_Person._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete' }
-rel_urls = { 'create': 'accountables:lease_realty_person_create', 'delete': 'accountables:lease_realty_person_delete', 'update': 'accountables:lease_realty_person_update' }
+rel_urls = { 'create': 'accountables:lease_realty_person_create', 'detail': 'accountables:lease_realty_person_detail', 'delete': 'accountables:lease_realty_person_delete', 'update': 'accountables:lease_realty_person_update' }
 
 class Lease_Realty_PersonCreateView(GenericCreateRelatedView):
 
@@ -19,6 +19,19 @@ class Lease_Realty_PersonCreateView(GenericCreateRelatedView):
     fk_fields = ['lease']
     permission_required = 'accountables.add_lease_realty_person'
     related_fields = ['lease', 'person']
+
+class Lease_Realty_PersonDetailView(GenericDetailRelatedlView):
+
+    template = 'adin/generic_detail_related.html'
+    subtitle = 'Detalles'
+    model = Lease_Realty_Person
+    form = Lease_Realty_PersonDetailForm
+    title = title
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    choice_fields = ['role']
+    fk_fields = ['lease', 'person']
+    permission_required = 'accountables.delete_lease_realty_person'
 
 class Lease_Realty_PersonUpdateView(GenericUpdateRelatedView):
 
