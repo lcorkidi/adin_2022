@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from reports.forms.balance_forms import AccountBalanceFormSet
 from reports.utils import ledger_from_db, df_to_dict, ledger_balance
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 class BalanceView(LoginRequiredMixin, PermissionRequiredMixin, View):
     

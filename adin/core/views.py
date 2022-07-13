@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from scripts.utils import model_load, models_info
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 from adin.utils.related_models import related_data_formsets_call
 
 class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):

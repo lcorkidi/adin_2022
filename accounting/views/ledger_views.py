@@ -7,7 +7,7 @@ from accounting.models import Ledger
 from accounting.forms.ledger_forms import LedgerDetailModelForm, LedgerCreateModelForm, LedgerDeleteModelForm, LedgerActivateModelForm, LedgerListModelFormSet
 from accounting.forms.charge_forms import ChargeCreateFormset
 from accounting.utils import ledger_related_data
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 title = Ledger._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_list', 'create':'accounting:ledger_create', 'detail':'accounting:ledger_detail', 'delete':'accounting:ledger_delete', 'activate':'accounting:ledger_activate' }

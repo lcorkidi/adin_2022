@@ -7,7 +7,7 @@ from accounting.models import Ledger_Template
 from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateListModelFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
 from accounting.utils import ledger_template_related_data
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 title = Ledger_Template._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_template_list', 'create':'accounting:ledger_template_create', 'detail':'accounting:ledger_template_detail', 'delete':'accounting:ledger_template_delete', 'activate':'accounting:ledger_template_activate' }

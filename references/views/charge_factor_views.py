@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from references.forms.charge_factor_forms import Charge_FactorCreateForm, Factor_DataCreateForm, Factor_DataDetailForm, Factor_DataDeleteForm, Factor_DataListModelFormSet
 from references.models import Factor_Data, Charge_Factor
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 title = Factor_Data._meta.verbose_name_plural
 ref_urls = { 'list':'references:factor_data_list', 'create':'references:charge_factor_create', 'detail':'references:factor_data_detail', 'update':'references:factor_data_update', 'delete':'references:factor_data_delete', 'activate': 'references:factor_data_activate' }

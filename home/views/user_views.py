@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from home.forms.User_forms import UserLogInForm
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 class UserLogInView(View):
 

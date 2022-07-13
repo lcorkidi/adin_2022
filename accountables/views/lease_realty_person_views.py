@@ -3,7 +3,7 @@ from adin.core.views import GenericCreateRelatedView, GenericDetailRelatedlView,
 
 from accountables.models import Lease_Realty_Person
 from accountables.forms.lease_realty_person_forms import Lease_Realty_PersonCreateForm, Lease_Realty_PersonDetailForm, Lease_Realty_PersonUpdateForm, Lease_Realty_PersonDeleteForm, Lease_Realty_PersonActivateForm
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 title = Lease_Realty_Person._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete' }

@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from reports.forms.balance_forms import AccountBalanceForm
 from reports.forms.charge_report_forms import ChargeReportFormSet
 from reports.utils import ledger_from_db, account_balance, account_charges, df_to_dict
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 from accounting.core.structure import Account_Structure
 
 class AccountReportView(LoginRequiredMixin, PermissionRequiredMixin, View):

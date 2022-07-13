@@ -6,7 +6,7 @@ from adin.core.views import GenericListView, GenericDetailView, GenericUpdateVie
 from people.models import Person, Person_Natural, Person_Legal
 from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, Person_NaturalActivateForm, Person_LegalActivateForm, PersonListModelFormSet
 from people.utils import person_natural_related_data, person_legal_related_data
-from home.utils import user_group_str
+from adin.utils.user_data import user_group_str
 
 title = Person._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete', 'activate': 'people:person_activate' }
