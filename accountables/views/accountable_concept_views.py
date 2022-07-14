@@ -3,10 +3,10 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm
-from accountables.models import Accountable
+from accountables.models import Accountable, Accountable_Concept
 from accountables.utils import accountables_ref_urls
 
-title = 'Concepto Cargo'
+title = Accountable_Concept._meta.verbose_name_plural
 rel_urls = { 'create': 'accountables:accountable_charge_concept_create' }
 
 class Accountable_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):

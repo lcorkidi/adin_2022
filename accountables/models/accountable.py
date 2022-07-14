@@ -32,6 +32,9 @@ class Accountable(BaseModel):
     def subclass_obj(self):
         return self.subclass.model_class().active.get(code=self.code)
 
+    def clean_value(self, value):
+        return self.subclass_obj().clean_value(value)
+
     def __repr__(self) -> str:
         return f'<Accountable: {self.code}>'
 
@@ -84,11 +87,14 @@ class Accountable_Concept(BaseModel):
     date = models.DateField(
         verbose_name='Fecha'
     )
+    value = models.PositiveIntegerField(
+        verbose_name='Valor'
+    )
 
     class Meta:
         app_label = 'accountables'
-        verbose_name = 'Concepto Movimiento'
-        verbose_name_plural = 'Conceptos Movimientos'
+        verbose_name = 'Concepto Contabilizable'
+        verbose_name_plural = 'Conceptos Contabilizables'
 
     # def check_in_ledger(self, ledger_template):
     #     charges_df = pd.DataFrame(Charge.active.filter(concept=self, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))

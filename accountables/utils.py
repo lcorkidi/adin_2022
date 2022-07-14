@@ -64,7 +64,7 @@ def accountable_related_data(*args):
             'add_url': 'accountables:accountable_transaction_type_add',
             'remove_url': 'accountables:accountable_transaction_type_remove'
         },
-        'Transacciones:':{
+        'Conceptos Contabilizables:':{
             'class': Accountable_Concept,
             'formset': Accountable_ConceptModelFormSet,
             'filter_expresion': 'accountable__code',

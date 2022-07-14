@@ -61,7 +61,7 @@ class Lease_Realty(Accountable):
     def ledger_third_party(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
-    def pending_charge_concept_dates(self):
+    def pending_accountable_concept_dates(self):
         date_list = self.date_list()
         for date in self.accountable_concept.filter(state=0).values_list('date', flat=True):
             if date in date_list:

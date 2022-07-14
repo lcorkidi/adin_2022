@@ -1,4 +1,4 @@
-from django.forms import Form, ChoiceField, ValidationError, modelformset_factory
+from django.forms import Form, ChoiceField, IntegerField, ValidationError, modelformset_factory
 
 from accountables.models import Accountable_Concept
 from accountables.utils import acc_con2code
@@ -13,12 +13,15 @@ class Accountable_ConceptCreateForm(Form):
         choices=(),
         label='Fecha Cargo'
     )
+    value = IntegerField(
+        label='Valor'
+    )
     
     def __init__(self, obj, *args, **kwargs):
         print(type(obj.subclass_obj()))
         field_choices = {
             'transaction_type': [(list(obj.transaction_types.all()).index(item), item) for item in list(obj.transaction_types.all())],
-            'date': [(obj.subclass_obj().pending_charge_concept_dates().index(item), item) for item in obj.subclass_obj().pending_charge_concept_dates()]
+            'date': [(obj.subclass_obj().pending_accountable_concept_dates().index(item), item) for item in obj.subclass_obj().pending_accountable_concept_dates()]
         }
         super(Accountable_ConceptCreateForm, self).__init__(*args, **kwargs)
         self.fields['transaction_type'].choices = field_choices['transaction_type']
@@ -28,7 +31,7 @@ class Accountable_ConceptCreateForm(Form):
         transaction_type = self.cleaned_data.get('transaction_type')
         date = self.cleaned_data.get('date')
         transaction_types = {str(list(self.accountable.transaction_types.all()).index(item)): item for item in list(self.accountable.transaction_types.all())}
-        dates = {str(self.accountable.subclass_obj().pending_charge_concept_dates().index(item)): item for item in self.accountable.subclass_obj().pending_charge_concept_dates()}
+        dates = {str(self.accountable.subclass_obj().pending_accountable_concept_dates().index(item)): item for item in self.accountable.subclass_obj().pending_accountable_concept_dates()}
         obj = Accountable_Concept(
             accountable=self.accountable,
             transaction_type=transaction_types[transaction_type],
@@ -62,4 +65,4 @@ class Accountable_ConceptDeleteForm(Form):
 class Accountable_ConceptActivateForm(Form):
     pass
 
-Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date',), extra=0)
+Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
