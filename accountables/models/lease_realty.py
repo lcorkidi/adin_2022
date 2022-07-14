@@ -122,7 +122,7 @@ class Lease_Realty(Accountable):
         return f'<Lease_Realty: {self.code}>'
     
     def __str__(self) -> str:
-        return self.code
+        return f'{self.realty}^{self.lease_realty_person_set.get(role=1) if self.lease_realty_person_set.filter(role=1).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}'
 
 class Lease_Realty_RealtyFinderManager(models.Manager):
     def from_related(self, obj1, obj2):
