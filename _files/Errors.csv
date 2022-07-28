@@ -9,8 +9,10 @@ code,type,description
 8,data_check,Person.id_type not valid choice
 9,data_check,Person.type not valid choice
 10,data_check,No Person_Natural.last_name
-11,data_check,Person_Natural Person_Phone.use + Person_Phone.use not more than 0
+11,data_check,Person_Natural Person_Phone.use = 0 + Person_Phone.use = 1 not more than 0
 12,data_check,Person_Natural has 1 or more Person_Phone.use = 2
 13,data_check,Person_Natural has 1 or more Person_Phone.use = 3
 14,data_check,No Person_Legal.legal_type
 15,data_check,Person_Legal.legal_type not valid choice
+16,data_check,Person_Legal Person_Phone.use = 0 + Person_Phone.use = 1 more than 0
+17,data_check,Person_Legal Person_Phone.use not 0 or 1 not more than 0
