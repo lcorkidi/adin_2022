@@ -43,6 +43,11 @@ class Lease_RealtyCreateForm(Form):
                 self.add_error('realties', msg)
         return cleaned_data
 
+    def clean_doc_date(self):
+        doc_date = self.cleaned_data['docdate']
+        print(doc_date)
+        return doc_date
+
     def save(self):
         realty = self.cleaned_data.get('realty')
         realties = self.cleaned_data.get('realties')

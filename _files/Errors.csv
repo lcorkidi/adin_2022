@@ -1,0 +1,16 @@
+code,type,description
+1,data_check,No Person.id_number
+2,data_check,No Person.id_type
+3,data_check,No Person.type
+4,data_check,No Person.name
+5,data_check,No Person.complete_name
+6,data_check,No Person_Natural for Person
+7,data_check,No Person_Legal for Person
+8,data_check,Person.id_type not valid choice
+9,data_check,Person.type not valid choice
+10,data_check,No Person_Natural.last_name
+11,data_check,Person_Natural Person_Phone.use + Person_Phone.use not more than 0
+12,data_check,Person_Natural has 1 or more Person_Phone.use = 2
+13,data_check,Person_Natural has 1 or more Person_Phone.use = 3
+14,data_check,No Person_Legal.legal_type
+15,data_check,Person_Legal.legal_type not valid choice

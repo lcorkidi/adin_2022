@@ -2,6 +2,7 @@ import datetime
 import pandas as pd
 from django.db import models
 from dateutil.relativedelta import relativedelta
+from sqlalchemy import true
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
@@ -122,7 +123,7 @@ class Lease_Realty(Accountable):
         return f'<Lease_Realty: {self.code}>'
     
     def __str__(self) -> str:
-        return f'{self.realty}^{self.lease_realty_person_set.get(role=1) if self.lease_realty_person_set.filter(role=1).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}'
+        return f'{self.lease_realty_realty_set.get(primary=True).realty if self.lease_realty_realty_set.filter(primary=True).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}^{self.lease_realty_person_set.get(role=1).person if self.lease_realty_person_set.filter(role=1).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}'
 
 class Lease_Realty_RealtyFinderManager(models.Manager):
     def from_related(self, obj1, obj2):

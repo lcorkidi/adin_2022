@@ -1,4 +1,5 @@
 from django.db import models
+from sympy import Q
 from adin.core.models import BaseModel
 from references.models import Address, E_Mail, Phone
 
@@ -72,6 +73,35 @@ class Person(BaseModel):
             ('activate_person', 'Can activate person.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+        if not self.id_number:
+            errors.append(1)
+        if not self.id_type and self.id_type != 0:
+            errors.append(2)
+        elif self.id_type not in [0, 1, 2, 3]:
+            errors.append(8)
+        if not self.name:
+            errors.append(4)
+        if not self.complete_name:
+            errors.append(5)
+        if not self.type and self.type != 0:
+            errors.append(3)
+        else:
+            if self.type == 0:
+                if Person_Natural.objects.filter(pk=self.pk).exists():
+                    errors = Person_Natural.objects.get(pk=self.pk).get_obj_errors(errors)
+                else:
+                    errors.append(6)                
+            elif self.type == 1:
+                if Person_Legal.objects.filter(pk=self.pk).exists():
+                    errors = Person_Legal.objects.get(pk=self.pk).get_obj_errors(errors)
+                else:
+                    errors.append(7)
+            else:
+                errors.append(9)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Person: {self.complete_name}>'
 
@@ -90,6 +120,17 @@ class Person_Natural(Person):
         verbose_name = 'Persona Natural'
         verbose_name_plural = 'Personas Naturales'
         ordering = ['complete_name']
+
+    def get_obj_errors(self, errors):
+        if not self.last_name:
+            errors.append(10)
+        if not self.person_phone_set.filter(use__in=[0, 1]).exists():
+            errors.append(11)
+        if self.person_phone_set.filter(use=2).exists():
+            errors.append(12)
+        if self.person_phone_set.filter(use=3).exists():
+            errors.append(13)
+        return errors        
 
     def __repr__(self) -> str:
         return f'<Person_Natural: {self.complete_name}>'
@@ -127,6 +168,17 @@ class Person_Legal(Person):
         verbose_name = 'Persona Jurídica'
         verbose_name_plural = 'Personas Jurídicas'
         ordering = ['complete_name']
+
+    def get_obj_errors(self, errors):
+        if not self.legal_type:
+            errors.append(14)
+        elif self.legal_type not in [0, 1, 2, 3, 4, 5]:
+            errors.append(15)
+        if self.person_phone_set.filter(use__in=[0, 1]).exists():
+            errors.append(16)
+        if not self.person_phone_set.exclude(use__in=[0, 1]).exists():
+            errors.append(17)
+        return errors
 
     def __repr__(self) -> str:
         return f'<Person_Legal: {self.complete_name}>'
