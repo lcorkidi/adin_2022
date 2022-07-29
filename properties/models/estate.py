@@ -41,6 +41,9 @@ class Estate(BaseModel):
             ('activate_estate', 'Can activate estate.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+
     def __repr__(self) -> str:
         return f'<Estate: {self.address.pk}>'
 

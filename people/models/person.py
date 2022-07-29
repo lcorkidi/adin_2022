@@ -204,6 +204,8 @@ class Person_Legal(Person):
             errors.append(29)
         elif self.person_legal_person_natural_set.filter(use__in=[0, 1]).count() > 1:
             errors.append(30)
+        elif self.person_legal_person_natural_set.filter(use=2).count() > 1:
+            errors.append(31)
         return errors
 
     def __repr__(self) -> str:

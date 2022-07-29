@@ -29,3 +29,4 @@ code,type,description
 28,data_check,Person_Legal Person_Adress.use not 0 or 1 not more than 0
 29,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 not more than 0
 30,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 more than 1
+31,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 2 more than 1
