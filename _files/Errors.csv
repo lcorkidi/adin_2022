@@ -16,3 +16,16 @@ code,type,description
 15,data_check,Person_Legal.legal_type not valid choice
 16,data_check,Person_Legal Person_Phone.use = 0 + Person_Phone.use = 1 more than 0
 17,data_check,Person_Legal Person_Phone.use not 0 or 1 not more than 0
+18,data_check,Person_Natural.id_type == 1
+19,data_check,Person_Legal.id_type != 1
+20,data_check,Person.e_mail.use = 0 count 0
+21,data_check,Person.e_mail.use = 0 count > 1
+22,data_check,Person_Natural Person_Address.use = 0 + Person_Address.use = 1 not more than 0
+23,data_check,Person_Natural has 1 or more Person_Address.use = 2
+24,data_check,Person_Natural has 1 or more Person_Address.use = 3
+25,data_check,Person_Natural has 1 or more Person_Address.use = 4
+26,data_check,Person_Natural has 1 or more Person_Address.use = 5
+27,data_check,Person_Legal Person_Address.use = 0 + Person_Address.use = 1 more than 0
+28,data_check,Person_Legal Person_Adress.use not 0 or 1 not more than 0
+29,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 not more than 0
+30,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 more than 1

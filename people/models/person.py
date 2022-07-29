@@ -100,6 +100,10 @@ class Person(BaseModel):
                     errors.append(7)
             else:
                 errors.append(9)
+        if not self.person_e_mail_set.filter(use=0).exists():
+            errors.append(20)
+        elif self.person_e_mail_set.filter(use=0).count() > 1:
+            errors.append(21)
         return errors
 
     def __repr__(self) -> str:
@@ -130,6 +134,18 @@ class Person_Natural(Person):
             errors.append(12)
         if self.person_phone_set.filter(use=3).exists():
             errors.append(13)
+        if self.id_type == 1:
+            errors.append(18)
+        if not self.person_address_set.filter(use__in=[0, 1]).exists():
+            errors.append(22)
+        if self.person_address_set.filter(use=2).exists():
+            errors.append(23)
+        if self.person_address_set.filter(use=3).exists():
+            errors.append(24)
+        if self.person_address_set.filter(use=4).exists():
+            errors.append(25)
+        if self.person_address_set.filter(use=5).exists():
+            errors.append(26)
         return errors        
 
     def __repr__(self) -> str:
@@ -178,6 +194,16 @@ class Person_Legal(Person):
             errors.append(16)
         if not self.person_phone_set.exclude(use__in=[0, 1]).exists():
             errors.append(17)
+        if self.id_type != 1:
+            errors.append(19)
+        if self.person_address_set.filter(use__in=[0, 1]).exists():
+            errors.append(27)
+        if not self.person_address_set.exclude(use__in=[0, 1]).exists():
+            errors.append(28)
+        if not self.person_legal_person_natural_set.filter(use__in=[0, 1]).exists():
+            errors.append(29)
+        elif self.person_legal_person_natural_set.filter(use__in=[0, 1]).count() > 1:
+            errors.append(30)
         return errors
 
     def __repr__(self) -> str:
