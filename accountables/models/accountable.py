@@ -35,6 +35,9 @@ class Accountable(BaseModel):
     def clean_value(self, value):
         return self.subclass_obj().clean_value(value)
 
+    def get_obj_errors(self):
+        return self.subclass_obj().get_obj_errors()
+
     def __repr__(self) -> str:
         return f'<Accountable: {self.code}>'
 

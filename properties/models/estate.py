@@ -43,6 +43,17 @@ class Estate(BaseModel):
 
     def get_obj_errors(self):
         errors = []
+        if not self.national_number:
+            errors.append(32)
+        if not self.address:
+            errors.append(33)
+        if self.owner.count() == 0:
+            errors.append(34)
+        elif self.estate_person_set.exclude(state=0).aggregate(models.Sum('percentage'))['percentage__sum'] != 100:
+            errors.append(36)
+        if not self.total_area:
+            errors.append(35)
+        return errors
 
     def __repr__(self) -> str:
         return f'<Estate: {self.address.pk}>'

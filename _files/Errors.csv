@@ -30,3 +30,8 @@ code,type,description
 29,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 not more than 0
 30,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 more than 1
 31,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 2 more than 1
+32,data_check,NoEstate.national_number
+33,data_check,NoEstate.address
+34,data_check,NoEstate.owner
+35,data_check,NoEstate.total_area
+36,data_check,Estate.estate_preson_set.percentage not 100

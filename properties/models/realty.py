@@ -71,6 +71,28 @@ class Realty(BaseModel):
                 return False
         return True
 
+    def get_obj_errors(self):
+        errors = []
+        if not self.type and self.type != 0:
+            errors.append(37)
+        elif self.type not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            errors.append(43)
+        if not self.use and self.use != 0:
+            errors.append(38)
+        elif self.use not in [0, 1, 2]:
+            errors.append(44)
+        if not self.code:
+            errors.append(39)
+        if not self.address:
+            errors.append(40)
+        if self.estate.count() == 0:
+            errors.append(41)
+        elif self.realty_estate_set.exclude(state=0).aggregate(models.Sum('percentage'))['percentage__sum'] != 100:
+            errors.append(43)
+        if not self.total_area:
+            errors.append(42)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Realty: {self.address.pk}>'
 

@@ -119,6 +119,10 @@ class Lease_Realty(Accountable):
                 date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
         return date_value_dict
 
+    def get_obj_errors(self):
+        errors = []
+        return errors
+
     def __repr__(self) -> str:
         return f'<Lease_Realty: {self.code}>'
     
