@@ -193,6 +193,52 @@ class Address(BaseModel):
             ('address', 'Can activate address.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+        # code (obligatory, function of other attributes, length < 33)
+        if not self.code:
+            errors.append(45)
+        elif self.code != address2code(self):
+            errors.append(46) 
+        elif len(self.code) > 32:
+            errors.append(47)
+        # country (obligatory, length < 33)
+        if not self.country:
+            errors.append(48)
+        elif len(self.country) > 32:
+            errors.append(49)
+        # region (obligatory, length < 33)
+        if not self.region:
+            errors.append(50)
+        elif len(self.region) > 32:
+            errors.append(51)
+        # city (obligatory, length < 33)
+        if not self.city:
+            errors.append(52)
+        elif len(self.city) > 32:
+            errors.append(53)
+        # street_type (obligatory, must be STREET_TYPE_CHOICE)
+        if not self.street_type and self.street_type != 0:
+            errors.append(54)
+        elif self.street_type not in [x for x in range(0,len(self.STREET_TYPE_CHOICE))]:
+            errors.append(55)
+        # street_number (obligatory, positive integer)
+        # street_letter (must be LETTER_CHOICE)
+        # street_bis (must be bool)
+        # street_bis_complement (only if street_bis, must be LETTER_CHOICE)
+        # street_coordinate (must be COORDINATE_CHOICE)
+        # numeral_number (obligatory, positive integer)
+        # numeral_letter (must be LETTER_CHOICE)
+        # numeral_bis (must be bool)
+        # numeral_bis_complement (only if numeral_bis, must be LETTER_CHOICE)
+        # numeral_coordinate (must be COORDINATE_CHOICE)
+        # height_number (obligatory, positive integer)
+        # interior_group_type (only if interior_type, must be INTERIOR_GROUP_TYPE_CHOICE)
+        # interior_group_code (only if interior_group_type, length < 7)
+        # interior_type (must be INTERIOR_TYPE_CHOICE)
+        # interior_code (only if interior_type, length < 7)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Addresss: {self.code}, {self.city}>'
 

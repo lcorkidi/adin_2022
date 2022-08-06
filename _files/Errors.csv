@@ -44,3 +44,14 @@ code,type,description
 42,data_check,No Realty.total_area
 43,data_check,Realty.type not valid choice
 44,data_check,Reralty.use not valid choice
+45,data_check,No Address.code
+46,data_check,Address attributes do not correspond to Address.code
+47,data_check,Address .code length more than 32
+48,data_check,No Address.country
+49,data_check,Address .country length more than 32
+50,data_check,No Address.region
+51,data_check,Address .region length more than 32
+52,data_check,No Address.city
+53,data_check,Address .city length more than 32
+54,data_check,No Address.street_type
+55,data_check,Address.street_type not valid choice
