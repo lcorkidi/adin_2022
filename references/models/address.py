@@ -1,4 +1,5 @@
 from django.db import models
+from pandas import array
 from adin.core.models import BaseModel
 
 from references.utils import address2code, addresslong
@@ -223,20 +224,88 @@ class Address(BaseModel):
         elif self.street_type not in [x for x in range(0,len(self.STREET_TYPE_CHOICE))]:
             errors.append(55)
         # street_number (obligatory, positive integer)
+        if not self.street_number:
+            errors.append(56)
+        elif not self.street_number > 0 and not isinstance(self.street_number, int):
+            errors.append(57)
         # street_letter (must be LETTER_CHOICE)
+        if (self.street_letter or self.street_letter == 0) and self.street_letter not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+            errors.append(58)
         # street_bis (must be bool)
-        # street_bis_complement (only if street_bis, must be LETTER_CHOICE)
+        if self.street_bis:
+            if not isinstance(self.street_bis, bool):
+                errors.append(59)
+            else:
+                # street_bis_complement (only if street_bis, must be LETTER_CHOICE)
+                if not self.street_bis_complement and self.street_bis_complement != 0:
+                    errors.append(60)
+                elif self.street_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+                    errors.append(61)
+        elif self.street_bis_complement:
+            errors.append(72)
         # street_coordinate (must be COORDINATE_CHOICE)
+        if (self.street_coordinate or self.street_coordinate == 0) and self.street_coordinate not in [x for x in range(0,len(self.COORDINATE_CHOICE))]:
+            errors.append(62)
         # numeral_number (obligatory, positive integer)
+        if not self.numeral_number:
+            errors.append(63)
+        elif not self.numeral_number > 0 and not isinstance(self.numeral_number, int):
+            errors.append(64)
         # numeral_letter (must be LETTER_CHOICE)
+        if (self.numeral_letter or self.numeral_letter == 0) and self.numeral_letter not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+            errors.append(65)
         # numeral_bis (must be bool)
-        # numeral_bis_complement (only if numeral_bis, must be LETTER_CHOICE)
+        if self.numeral_bis:
+            if not isinstance(self.numeral_bis, bool):
+                errors.append(66)
+            else:
+                # numeral_bis_complement (only if numeral_bis, must be LETTER_CHOICE)
+                if not self.numeral_bis_complement and self.numeral_bis_complement != 0:
+                    errors.append(67)
+                elif self.numeral_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+                    errors.append(68)
+        elif self.numeral_bis_complement:
+            errors.append(73)
         # numeral_coordinate (must be COORDINATE_CHOICE)
+        if (self.numeral_coordinate or self.numeral_coordinate == 0) and self.numeral_coordinate not in [x for x in range(0,len(self.COORDINATE_CHOICE))]:
+            errors.append(69)
         # height_number (obligatory, positive integer)
-        # interior_group_type (only if interior_type, must be INTERIOR_GROUP_TYPE_CHOICE)
-        # interior_group_code (only if interior_group_type, length < 7)
+        if not self.height_number:
+            errors.append(70)
+        elif not self.height_number > 0 and not isinstance(self.height_number, int):
+            errors.append(71)
         # interior_type (must be INTERIOR_TYPE_CHOICE)
-        # interior_code (only if interior_type, length < 7)
+        if (self.interior_type or self.interior_type == 0):
+            if self.interior_type not in [x for x in range(0,len(self.INTERIOR_TYPE_CHOICE))]:
+                errors.append(74)
+            # interior_code (only if interior_type, length < 7)
+            if not self.interior_code:
+                errors.append(75)
+            elif len(self.interior_code) > 7:
+                errors.append(76)
+            else:
+                # interior_group_type (only if interior_type and interior_code, must be INTERIOR_GROUP_TYPE_CHOICE)
+                if (self.interior_group_type or self.interior_group_type == 0):
+                    if self.interior_group_type not in [x for x in range(0,len(self.INTERIOR_TYPE_CHOICE))]:
+                        errors.append(78)
+                    # interior_group_code (only if interior_group_type, length < 7)
+                    if not self.interior_group_code:
+                        errors.append(79)
+                    elif len(self.interior_group_code) > 7:
+                        errors.append(80)
+                elif (self.interior_group_code or self.interior_group_code == 0):
+                    errors.append(81)
+        else:
+            if (self.interior_code or self.interior_code == 0):
+                errors.append(77)
+                if (self.interior_group_type or self.interior_group_type == 0):
+                    errors.append(82)
+                if (self.interior_group_code or self.interior_group_code == 0):
+                    errors.append(83)
+            if (self.interior_group_type or self.interior_group_type == 0):
+                errors.append(84)
+            if (self.interior_group_code or self.interior_group_code == 0):
+                errors.append(85)
         return errors
 
     def __repr__(self) -> str:

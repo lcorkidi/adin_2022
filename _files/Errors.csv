@@ -55,3 +55,33 @@ code,type,description
 53,data_check,Address .city length more than 32
 54,data_check,No Address.street_type
 55,data_check,Address.street_type not valid choice
+56,data_check,No Address.street_number
+57,data_check,Address.street_number not posistive integer
+58,data_check,Address.street_letter not valid choice
+59,data_check,Address.street_bis not None or bool
+60,data_check,Address.street_bis_complement if Address.street_bis = true
+61,data_check,Address.street_bis_complement valid choice
+62,data_check,Address.street_coordinate is valid choice
+63,data_check,No Address.numeral_number
+64,data_check,Address.numeral_number not posistive integer
+65,data_check,Address.numeral_letter not valid choice
+66,data_check,Address.numeral_bis not None or bool
+67,data_check,Address.numeral_bis_complement if Address.numeral_bis = true
+68,data_check,Address.numeral_bis_complement valid choice
+69,data_check,Address.numeral_coordinate is valid choice
+70,data_check,No Address.height_number
+71,data_check,Address.height_number not posistive integer
+72,data_check,Address.street_bis_complement without Address.street_bis == true
+73,data_check,Address.numeral_bis_complement without Address.numeral_bis == true
+74,data_check,Address.interior_type not valid choice
+75,data_check,No Address.interior_code
+76,data_check,Address.interior_code length more thean 7
+77,data_check,Address.interior_code with no Address.interior_type
+78,data_check,Address.interior_group_type not valid choice
+79,data_check,No Address.interior_group_code
+80,data_check,Address.interior_group_code length more thean 7
+81,data_check,Address.interior_group_code with no Address.interior_group_type
+82,data_check,Address.interior_group_type with no Address.interior_code
+83,data_check,Address.interior_group_code with no Address.interior_code
+84,data_check,Address.interior_group_type with no Address.interior_type
+85,data_check,Address.interior_group_code with no Address.interior_type
