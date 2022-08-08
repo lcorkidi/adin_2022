@@ -17,6 +17,13 @@ class E_Mail(BaseModel):
             ('e_mail', 'Can activate e-mail.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+        # e_mail (obligatory)
+        if not self.e_mail:
+            errors.append(102)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Email: {self.e_mail}>'
 

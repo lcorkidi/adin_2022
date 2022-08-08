@@ -59,14 +59,14 @@ code,type,description
 57,data_check,Address.street_number not posistive integer
 58,data_check,Address.street_letter not valid choice
 59,data_check,Address.street_bis not None or bool
-60,data_check,Address.street_bis_complement if Address.street_bis = true
+60,data_check,
 61,data_check,Address.street_bis_complement valid choice
 62,data_check,Address.street_coordinate is valid choice
 63,data_check,No Address.numeral_number
 64,data_check,Address.numeral_number not posistive integer
 65,data_check,Address.numeral_letter not valid choice
 66,data_check,Address.numeral_bis not None or bool
-67,data_check,Address.numeral_bis_complement if Address.numeral_bis = true
+67,data_check,
 68,data_check,Address.numeral_bis_complement valid choice
 69,data_check,Address.numeral_coordinate is valid choice
 70,data_check,No Address.height_number
@@ -85,3 +85,24 @@ code,type,description
 83,data_check,Address.interior_group_code with no Address.interior_code
 84,data_check,Address.interior_group_type with no Address.interior_type
 85,data_check,Address.interior_group_code with no Address.interior_type
+86,data_check,No Calendar_Date.name
+87,data_check,Calendar_Date.name length more than 63
+88,data_check,No Calendar_Date.date
+89,data_check,Calendar_Date.date not date
+90,data_check,No Charge_Factor.name
+91,data_check,Charge_Factor.name length more than 63
+92,data_check,No Factor_Data.factor
+93,data_check,Factor_Date.factor does not exist
+94,data_check,No Factor_Data.validity_date
+95,data_check,Factor_Data.validity_date not date
+96,data_check,Factor_Data.amount and Factor_Data.percentage and Factor_Data.in_instance_attribute
+97,data_check,No Factor_Data.amount
+98,data_check,No Factor_Data.percentage
+99,data_check,Factor_Data.percentage less than zero or more than 100
+100,data_check,Factor_Data.amount or Factor_Data.percentage non zero value
+101,data_check,Factor_Data.in_instance_attribute length more than 15
+102,data_check,No E_Mail.e_mail
+103,data_check,No PUC.code
+104,data_check,PUC.code not positive integer
+105,data_check,No PUC.name
+106,data_check,PUC.name length more than 100

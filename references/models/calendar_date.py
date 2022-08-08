@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 from adin.core.models import BaseModel
@@ -21,6 +22,20 @@ class Calendar_Date(BaseModel):
         permissions = [
             ('calendar_date', 'Can activate calendar_date.'),
         ]
+
+    def get_obj_errors(self):
+        errors = []
+        # name (obligatory, length < 64)
+        if not self.name:
+            errors.append
+        elif len(self.name) > 63:
+            errors.append(87)
+        # date (obligatory, date)
+        if not self.date:
+            errors.append(88)
+        if isinstance(self.date, datetime):
+            errors.append(89)
+        return errors
 
     def __repr__(self) -> str:
         return f'<Calendar_Date: {self.name}>'

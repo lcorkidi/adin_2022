@@ -237,11 +237,9 @@ class Address(BaseModel):
                 errors.append(59)
             else:
                 # street_bis_complement (only if street_bis, must be LETTER_CHOICE)
-                if not self.street_bis_complement and self.street_bis_complement != 0:
-                    errors.append(60)
-                elif self.street_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
-                    errors.append(61)
-        elif self.street_bis_complement:
+                if (self.street_bis_complement or self.street_bis_complement == 0) and self.street_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+                    errors.append(68)
+        elif self.street_bis_complement or self.street_bis_complement == 0:
             errors.append(72)
         # street_coordinate (must be COORDINATE_CHOICE)
         if (self.street_coordinate or self.street_coordinate == 0) and self.street_coordinate not in [x for x in range(0,len(self.COORDINATE_CHOICE))]:
@@ -260,11 +258,9 @@ class Address(BaseModel):
                 errors.append(66)
             else:
                 # numeral_bis_complement (only if numeral_bis, must be LETTER_CHOICE)
-                if not self.numeral_bis_complement and self.numeral_bis_complement != 0:
-                    errors.append(67)
-                elif self.numeral_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
+                if (self.numeral_bis_complement or self.numeral_bis_complement == 0) and self.numeral_bis_complement not in [x for x in range(0,len(self.LETTER_CHOICE))]:
                     errors.append(68)
-        elif self.numeral_bis_complement:
+        elif self.numeral_bis_complement or self.numeral_bis_complement == 0:
             errors.append(73)
         # numeral_coordinate (must be COORDINATE_CHOICE)
         if (self.numeral_coordinate or self.numeral_coordinate == 0) and self.numeral_coordinate not in [x for x in range(0,len(self.COORDINATE_CHOICE))]:

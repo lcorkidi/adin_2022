@@ -43,6 +43,35 @@ class Phone(BaseModel):
             ('activate_phone', 'Can activate phone.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+        # code (obligatory, length < 16)
+        if not self.code:
+            errors.append(90)
+        elif len(self.code) > 16:
+            errors.append(91)
+        # type (obligatory, TYPE_CHOICE)
+        if not self.type and self.type != 0:
+            errors.append(54)
+        elif self.type not in [x for x in range(0,len(self.TYPE_CHOICE))]:
+            errors.append(55)
+        # country (obligatory, psistive integer)
+        if not self.country:
+            errors.append(56)
+        elif not self.country > 0 and not isinstance(self.country, int):
+            errors.append(57)
+        # region (obligatory, psistive integer)
+        if not self.region:
+            errors.append(56)
+        elif not self.region > 0 and not isinstance(self.region, int):
+            errors.append(57)
+        # number (obligatory, psistive integer)
+        if not self.number:
+            errors.append(56)
+        elif not self.number > 0 and not isinstance(self.number, int):
+            errors.append(57)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Phone: {self.code}>'
 

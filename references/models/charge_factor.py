@@ -33,6 +33,15 @@ class Charge_Factor(BaseModel):
             fac_value = facdat.amount
         return round(fac_value * nature, 0)
 
+    def get_obj_errors(self):
+        errors = []
+        # name (obligatory, length < 64)
+        if not self.name:
+            errors.append(90)
+        elif len(self.name) > 63:
+            errors.append(91)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Charge_Factor: {self.name}>'
 
@@ -84,6 +93,38 @@ class Factor_Data(BaseModel):
             return qs.order_by('-validity_date')[0].validity_date
         else:
             return datetime.date.today()
+
+    def get_obj_errors(self):
+        errors = []
+        # factor (obligatory, related exists)
+        if not self.factor:
+            errors.append(92)
+        if not Charge_Factor.objects.filter(pk=self.factor.pk).exists():
+            errors.append(93)
+        # validity_date (obligatory, date)
+        if not self.validity_date:
+            errors.append(94)
+        if isinstance(self.validity_date, datetime.datetime):
+            errors.append(95)
+        # (ammount and percentage) or in_instance_attribute
+        if (self.amount or self.percentage) and self.in_instance_attribute:
+            errors.append(96)
+        elif not self.in_instance_attribute:
+            # ammount (0 or value)
+            if not self.amount and self.amount != 0:
+                errors.append(97)
+            # percentage (o or 0 to 100)
+            if not self.percentage and self.percentage != 0:
+                errors.append(98)
+            if self.percentage < 0 or self.percentage > 100:
+                errors.append(99)
+        elif self.in_instance_attribute:
+            # in_instance_attribute (length < 16)
+            if self.amount != 0 and self.percentage != 0:
+                errors.append(100)
+            if len(self.in_instance_attribute) > 15:
+                errors.append(101)
+        return errors
 
     def __repr__(self) -> str:
         return f'<Factor_Data: {self.factor.name}^{self.validity_date.strftime("%d-%m-%Y")}>'
