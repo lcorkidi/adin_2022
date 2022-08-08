@@ -75,16 +75,57 @@ class Person(BaseModel):
 
     def get_obj_errors(self):
         errors = []
+        # id_number (obligatory, positive integer)
         if not self.id_number:
             errors.append(1)
+        elif not self.id_number > 0 and not isinstance(self.id_number, int):
+            errors.append(60)
+        # id_type (obligatory, )
         if not self.id_type and self.id_type != 0:
             errors.append(2)
-        elif self.id_type not in [0, 1, 2, 3]:
+        elif self.id_type not in [x for x in range(0,len(self.ID_TYPE_CHOICE))]:
             errors.append(8)
+        # name (obligatory, length < 65)
         if not self.name:
             errors.append(4)
+        elif len(self.name) > 64:
+            errors.append(67)
+        # complete_name (obligatory, length more than 128)
         if not self.complete_name:
             errors.append(5)
+        elif len(self.name) > 128:
+            errors.append(107)
+        #  = models.CharField(
+        #     max_length=128,
+        #     verbose_name='Nombre Completo'
+        # )
+        # phone = models.ManyToManyField(
+        #     'references.Phone',
+        #     through='Person_Phone',
+        #     through_fields=('person', 'phone'),
+        #     related_name='people',
+        #     related_query_name='person',
+        #     blank=True,
+        #     verbose_name='Teléfono'
+        # )
+        # address = models.ManyToManyField(
+        #     'references.Address',
+        #     through='Person_Address',
+        #     through_fields=('person', 'address'),
+        #     related_name='people',
+        #     related_query_name='person',
+        #     blank=True,
+        #     verbose_name='Dirección'
+        # )
+        # e_mail = models.ManyToManyField(
+        #     'references.E_Mail',
+        #     through='Person_E_Mail',
+        #     through_fields=('person', 'e_mail'),
+        #     related_name='people',
+        #     related_query_name='person',
+        #     blank=True,
+        #     verbose_name='Correo Electrónico'
+        # )
         if not self.type and self.type != 0:
             errors.append(3)
         else:

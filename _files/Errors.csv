@@ -59,14 +59,14 @@ code,type,description
 57,data_check,Address.street_number not posistive integer
 58,data_check,Address.street_letter not valid choice
 59,data_check,Address.street_bis not None or bool
-60,data_check,
+60,data_check,Person.id_number not positive integer
 61,data_check,Address.street_bis_complement valid choice
 62,data_check,Address.street_coordinate is valid choice
 63,data_check,No Address.numeral_number
 64,data_check,Address.numeral_number not posistive integer
 65,data_check,Address.numeral_letter not valid choice
 66,data_check,Address.numeral_bis not None or bool
-67,data_check,
+67,data_check,Person.name lengthe more than 64
 68,data_check,Address.numeral_bis_complement valid choice
 69,data_check,Address.numeral_coordinate is valid choice
 70,data_check,No Address.height_number
@@ -106,3 +106,4 @@ code,type,description
 104,data_check,PUC.code not positive integer
 105,data_check,No PUC.name
 106,data_check,PUC.name length more than 100
+107,data_check,Person.complete_name more than 128
