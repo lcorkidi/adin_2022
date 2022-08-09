@@ -1,7 +1,8 @@
 from django.db import models
-from sympy import Q
+
 from adin.core.models import BaseModel
 from references.models import Address, E_Mail, Phone
+from people.utils import personcompletename
 
 class Person(BaseModel):
 
@@ -73,6 +74,12 @@ class Person(BaseModel):
             ('activate_person', 'Can activate person.'),
         ]
 
+    def subclass_obj(self):
+        if self.type == 0:
+            return Person_Natural.objects.get(pk=self.id_number)
+        elif self.type == 1:
+            return Person_Legal.objects.get(pk=self.id_number)
+
     def get_obj_errors(self):
         errors = []
         # id_number (obligatory, positive integer)
@@ -80,67 +87,40 @@ class Person(BaseModel):
             errors.append(1)
         elif not self.id_number > 0 and not isinstance(self.id_number, int):
             errors.append(60)
-        # id_type (obligatory, )
+        # id_type (obligatory, ID_TYPE_CHOICE)
         if not self.id_type and self.id_type != 0:
             errors.append(2)
         elif self.id_type not in [x for x in range(0,len(self.ID_TYPE_CHOICE))]:
             errors.append(8)
+        # type (obligatory, TYPE_CHOICE, child object exists)
+        if not self.type and self.type != 0:
+            errors.append(3)
+        elif self.id_type not in [x for x in range(0,len(self.TYPE_CHOICE))]:
+            errors.append(9)
+        elif self.type == 0:
+            if Person_Natural.objects.filter(pk=self.pk).exists():
+                errors = Person_Natural.objects.get(pk=self.pk).get_obj_errors(errors)
+            else:
+                errors.append(6)                
+        elif self.type == 1:
+            if Person_Legal.objects.filter(pk=self.pk).exists():
+                errors = Person_Legal.objects.get(pk=self.pk).get_obj_errors(errors)
+            else:
+                errors.append(7)
         # name (obligatory, length < 65)
         if not self.name:
             errors.append(4)
         elif len(self.name) > 64:
             errors.append(67)
-        # complete_name (obligatory, length more than 128)
+        # complete_name (obligatory, length more than 128, product of function)
         if not self.complete_name:
             errors.append(5)
-        elif len(self.name) > 128:
-            errors.append(107)
-        #  = models.CharField(
-        #     max_length=128,
-        #     verbose_name='Nombre Completo'
-        # )
-        # phone = models.ManyToManyField(
-        #     'references.Phone',
-        #     through='Person_Phone',
-        #     through_fields=('person', 'phone'),
-        #     related_name='people',
-        #     related_query_name='person',
-        #     blank=True,
-        #     verbose_name='Teléfono'
-        # )
-        # address = models.ManyToManyField(
-        #     'references.Address',
-        #     through='Person_Address',
-        #     through_fields=('person', 'address'),
-        #     related_name='people',
-        #     related_query_name='person',
-        #     blank=True,
-        #     verbose_name='Dirección'
-        # )
-        # e_mail = models.ManyToManyField(
-        #     'references.E_Mail',
-        #     through='Person_E_Mail',
-        #     through_fields=('person', 'e_mail'),
-        #     related_name='people',
-        #     related_query_name='person',
-        #     blank=True,
-        #     verbose_name='Correo Electrónico'
-        # )
-        if not self.type and self.type != 0:
-            errors.append(3)
         else:
-            if self.type == 0:
-                if Person_Natural.objects.filter(pk=self.pk).exists():
-                    errors = Person_Natural.objects.get(pk=self.pk).get_obj_errors(errors)
-                else:
-                    errors.append(6)                
-            elif self.type == 1:
-                if Person_Legal.objects.filter(pk=self.pk).exists():
-                    errors = Person_Legal.objects.get(pk=self.pk).get_obj_errors(errors)
-                else:
-                    errors.append(7)
-            else:
-                errors.append(9)
+            if len(self.name) > 128:
+                errors.append(107)
+            if self.complete_name != personcompletename(self.subclass_obj()):
+                errors.append(108)
+        # e_mail (use 0 count = 1)
         if not self.person_e_mail_set.filter(use=0).exists():
             errors.append(20)
         elif self.person_e_mail_set.filter(use=0).count() > 1:
@@ -167,16 +147,17 @@ class Person_Natural(Person):
         ordering = ['complete_name']
 
     def get_obj_errors(self, errors):
-        if not self.last_name:
-            errors.append(10)
+        # id_type (not id_type = 1)    
+        if self.id_type == 1:
+            errors.append(18)
+        # phone (use 0 or 1 count > 0, use 2 and 3 = 0)
         if not self.person_phone_set.filter(use__in=[0, 1]).exists():
             errors.append(11)
         if self.person_phone_set.filter(use=2).exists():
             errors.append(12)
         if self.person_phone_set.filter(use=3).exists():
             errors.append(13)
-        if self.id_type == 1:
-            errors.append(18)
+        # address (use 0 or 1 count > 0, use 2, 3, 4 and 5 = 0)
         if not self.person_address_set.filter(use__in=[0, 1]).exists():
             errors.append(22)
         if self.person_address_set.filter(use=2).exists():
@@ -187,6 +168,9 @@ class Person_Natural(Person):
             errors.append(25)
         if self.person_address_set.filter(use=5).exists():
             errors.append(26)
+        # last_name (obligatory, length )
+        if not self.last_name:
+            errors.append(10)
         return errors        
 
     def __repr__(self) -> str:
@@ -227,25 +211,30 @@ class Person_Legal(Person):
         ordering = ['complete_name']
 
     def get_obj_errors(self, errors):
-        if not self.legal_type:
-            errors.append(14)
-        elif self.legal_type not in [0, 1, 2, 3, 4, 5]:
-            errors.append(15)
+        # id_type (id_type = 1)    
+        if self.id_type != 1:
+            errors.append(19)
+        # phone (use 0 and 1 = 0, use 2 or 3 count > 0)
         if self.person_phone_set.filter(use__in=[0, 1]).exists():
             errors.append(16)
         if not self.person_phone_set.exclude(use__in=[0, 1]).exists():
             errors.append(17)
-        if self.id_type != 1:
-            errors.append(19)
+        # address (use 0 and 1 = 0, use 2, 3, 4 or 5 count > 0)
         if self.person_address_set.filter(use__in=[0, 1]).exists():
             errors.append(27)
         if not self.person_address_set.exclude(use__in=[0, 1]).exists():
             errors.append(28)
-        if not self.person_legal_person_natural_set.filter(use__in=[0, 1]).exists():
+        # legal_type (obligatory, LEGAL_TYPE_CHOICE)
+        if not self.legal_type:
+            errors.append(14)
+        elif self.legal_type not in [x for x in range(0,len(self.LEGAL_TYPE_CHOICE))]:
+            errors.append(15)
+        # staff (appointment 0 or 1 = 0, appointment 2 > 1)
+        if not self.person_legal_person_natural_set.filter(appointment__in=[0, 1]).exists():
             errors.append(29)
-        elif self.person_legal_person_natural_set.filter(use__in=[0, 1]).count() > 1:
+        elif self.person_legal_person_natural_set.filter(appointment__in=[0, 1]).count() > 1:
             errors.append(30)
-        elif self.person_legal_person_natural_set.filter(use=2).count() > 1:
+        elif self.person_legal_person_natural_set.filter(appointment=2).count() > 1:
             errors.append(31)
         return errors
 
