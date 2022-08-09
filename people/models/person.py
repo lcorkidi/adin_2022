@@ -1,3 +1,4 @@
+import pandas as pd
 from django.db import models
 
 from adin.core.models import BaseModel
@@ -74,6 +75,14 @@ class Person(BaseModel):
             ('activate_person', 'Can activate person.'),
         ]
 
+    @classmethod
+    def get_errors_report(cls, all=False):
+        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        errors_report = objs_df.assign(errors=objs_df[cls._meta.pk.name].apply(lambda x: cls.objects.get(pk=x).get_obj_errors()))
+        if all:
+            return errors_report
+        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+
     def subclass_obj(self):
         if self.type == 0:
             return Person_Natural.objects.get(pk=self.id_number)
@@ -146,6 +155,14 @@ class Person_Natural(Person):
         verbose_name_plural = 'Personas Naturales'
         ordering = ['complete_name']
 
+    @classmethod
+    def get_errors_report(cls, all=False):
+        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        errors_report = objs_df.assign(errors=objs_df['id_number'].apply(lambda x: cls.objects.get(pk=x).person_ptr.get_obj_errors()))
+        if all:
+            return errors_report
+        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+
     def get_obj_errors(self, errors):
         # id_type (not id_type = 1)    
         if self.id_type == 1:
@@ -209,6 +226,14 @@ class Person_Legal(Person):
         verbose_name = 'Persona Jurídica'
         verbose_name_plural = 'Personas Jurídicas'
         ordering = ['complete_name']
+
+    @classmethod
+    def get_errors_report(cls, all=False):
+        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        errors_report = objs_df.assign(errors=objs_df['id_number'].apply(lambda x: cls.objects.get(pk=x).person_ptr.get_obj_errors()))
+        if all:
+            return errors_report
+        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
 
     def get_obj_errors(self, errors):
         # id_type (id_type = 1)    

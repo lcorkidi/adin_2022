@@ -1,7 +1,8 @@
+from math import lgamma
+import pandas as pd
 from django.db import models
-from pandas import array
-from adin.core.models import BaseModel
 
+from adin.core.models import BaseModel
 from references.utils import address2code, addresslong
 
 class Address(BaseModel):
@@ -193,6 +194,14 @@ class Address(BaseModel):
         permissions = [
             ('address', 'Can activate address.'),
         ]
+
+    @classmethod
+    def get_errors_report(cls, all=False):
+        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        errors_report = objs_df.assign(errors=objs_df[cls._meta.pk.name].apply(lambda x: cls.objects.get(pk=x).get_obj_errors()))
+        if all:
+            return errors_report
+        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
 
     def get_obj_errors(self):
         errors = []

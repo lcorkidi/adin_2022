@@ -139,6 +139,17 @@ models_lists = {
             'lease_realty_person', 
             'date_value', 
             'accountable_transaction_type',
+        ],
+        'errors_check': [
+            'address',
+            'calendar_date',
+            'charge_factor',
+            'factor_data',
+            'e_mail',
+            'phone',
+            'puc',
+            'person_natural',
+            'person_legal'
         ]
     }
 
