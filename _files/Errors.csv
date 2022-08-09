@@ -27,8 +27,8 @@ code,type,description
 26,data_check,Person_Natural has 1 or more Person_Address.use = 5
 27,data_check,Person_Legal Person_Address.use = 0 + Person_Address.use = 1 more than 0
 28,data_check,Person_Legal Person_Adress.use not 0 or 1 not more than 0
-29,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 not more than 0
-30,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Phone.use = 1 more than 1
+29,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 +Person_Natural Person_Legal_Person_Natural.appointment = 1 not more than 0
+30,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 0 + Person_Natural Person_Legal_Person_Natural.appointment = 1 more than 1
 31,data_check,Person_Natural Person_Legal_Person_Natural.appointment = 2 more than 1
 32,data_check,No Estate.national_number
 33,data_check,No Estate.address
@@ -107,3 +107,4 @@ code,type,description
 105,data_check,No PUC.name
 106,data_check,PUC.name length more than 100
 107,data_check,Person.complete_name more than 128
+108,data_check,Person.complete_name not correct
