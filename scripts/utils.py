@@ -149,7 +149,12 @@ models_lists = {
             'phone',
             'puc',
             'person_natural',
-            'person_legal'
+            'person_legal',
+            'estate',
+            'estate_appraisal',
+            'realty',
+            'lease_realty',
+            'accountable_transaction_type'
         ]
     }
 

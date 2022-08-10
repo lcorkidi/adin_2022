@@ -2,6 +2,9 @@ accountables_ref_urls = {
     'lease_realty': { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
 }
 
+def lease_realty_code(realty, doc_date):
+    return f'{realty.code}^{doc_date.strftime("%Y-%m-%d")}'
+
 def acc_con2code(chacon):
     return f'{chacon.transaction_type}^{chacon.date.strftime("%Y-%m-%d")}_{chacon.accountable}'
 

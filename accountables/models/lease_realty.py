@@ -2,12 +2,14 @@ import datetime
 import pandas as pd
 from django.db import models
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import true
+from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
 from .date_value import Date_Value
+from accountables.utils import lease_realty_code
 from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate
+from adin.utils.data_check import children_errors_report
 
 class Lease_Realty(Accountable):
 
@@ -41,7 +43,7 @@ class Lease_Realty(Accountable):
         blank=True,
         default=None,
         verbose_name='Fecha Desocupación'
-    )
+    )   
     
     class Meta:
         app_label = 'accountables'
@@ -50,6 +52,25 @@ class Lease_Realty(Accountable):
         permissions = [
             ('activate_lease_realty', 'Can activate lease realty.'),
         ]
+
+    @classmethod
+    def get_errors_report(cls, all=False):
+        return children_errors_report(cls, all)
+
+    @classmethod
+    def check_doc_date_availability(cls, realties, doc_date):
+        for lease in cls.objects.filter(realty__in=realties).distinct():
+            if lease.check_date_intersection(doc_date):
+                return False
+        return True
+
+    def check_date_intersection(self, doc_date):
+        if not self.start_date:
+            return False
+        date_range = pd.date_range(self.start_date, self.end_date if self.end_date else datetime.date.today())
+        if doc_date in date_range:
+            return True
+        return False
 
     def is_active(self):
         if self.start_date and not self.end_date:
@@ -121,6 +142,67 @@ class Lease_Realty(Accountable):
 
     def get_obj_errors(self):
         errors = []
+        # realty (primary count 1 active)
+        if not self.lease_realty_realty_set.exclude(state=0).filter(primary=True).exists():
+            errors.append(130)
+        else:
+            if self.lease_realty_realty_set.exclude(state=0).filter(primary=True).count() > 1:
+                errors.append(131)
+            elif self.lease_realty_realty_set.exclude(state=0).filter(realty__state=0).exists():
+                errors.append(132)
+        # part (role 0 active > 1, role 1 active > 1, role 2 active > 1, role 3 active > 1, active role 0, 1 and 2 active address)
+        if not self.lease_realty_person_set.exclude(state=0).filter(role=0).exists():
+            errors.append(133)
+        elif self.lease_realty_person_set.exclude(state=0).filter(role=0, person__state=0).exists():
+            errors.append(134)
+        if not self.lease_realty_person_set.exclude(state=0).filter(role=1).exists():
+            errors.append(135)
+        elif self.lease_realty_person_set.exclude(state=0).filter(role=1, person__state=0).exists():
+            errors.append(136)
+        if not self.lease_realty_person_set.exclude(state=0).filter(role=2).exists():
+            errors.append(137)
+        elif self.lease_realty_person_set.exclude(state=0).filter(role=2, person__state=0).exists():
+            errors.append(138)
+        if not self.lease_realty_person_set.exclude(state=0).filter(role=3).exists():
+            errors.append(139)
+        elif self.lease_realty_person_set.exclude(state=0).filter(role=3, person__state=0).exists():
+            errors.append(140)
+        if self.lease_realty_person_set.exclude(state=0).filter(role__in=[0, 1, 2], address=None).exists():
+            errors.append(141)
+        # doc_date (obligatory, date, vacant)
+        if not self.doc_date:
+            errors.append(142)
+        else:
+            if not isinstance(self.doc_date, datetime.date):
+                errors.append(143)
+            elif self.realty and not Lease_Realty.check_doc_date_availability(self.realty.all(), self.doc_date):
+                errors.append(144)
+        # start_date (date, vacant)
+        if self.start_date and not isinstance(self.start_date, datetime.date):
+            errors.append(145)
+        elif self.realty and not Lease_Realty.check_doc_date_availability(self.realty.all(), self.start_date):
+            errors.append(146)
+        # end_date (if start_date, < start_date, date)
+        if self.end_date and not isinstance(self.end_date, datetime.date):
+            errors.append(147)
+        elif self.end_date:
+            if not self.start_date:
+                errors.append(148)
+            elif self.end_date < self.start_date:
+                errors.append(149)
+        # code (obligatory, from function)
+        if not self.code:
+            errors.append(150)
+        elif self.lease_realty_realty_set.exclude(state=0).filter(primary=True).count() == 1 and self.doc_date and self.code != lease_realty_code(self.lease_realty_realty_set.exclude(state=0).get(primary=True).realty, self.doc_date):
+            errors.append(151)
+        # subclass (obligatory, = contenttype id)
+        if not self.subclass:
+            errors.append(152)
+        elif self.subclass != self._meta.get_field('subclass').remote_field.model.objects.get(model=self._meta.model.__name__.lower()):
+            errors.append(153)
+        # transaction_types (active)
+        if self.transaction_types.filter(state=0).exists():
+            errors.append(154)
         return errors
 
     def __repr__(self) -> str:

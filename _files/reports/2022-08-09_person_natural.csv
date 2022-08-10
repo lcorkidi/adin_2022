@@ -12,6 +12,7 @@ id_number,id_type,type,name,complete_name,person_ptr_id,last_name,errors
 66858587,0,0,Clara Tatiana,"Ballesteros Gallego, Clara Tatiana",66858587,Ballesteros Gallego,"[11, 22, 20]"
 16727684,0,0,Livio,"Baloco, Livio",16727684,Baloco,"[11, 22, 20]"
 16735385,0,0,Alvaro,"Beltran Chaves, Alvaro",16735385,Beltran Chaves,[]
+123,0,0,Carlos,"Botero, Carlos",123,Botero,"[11, 22, 20]"
 79052475,0,0,Miguel Angel,"Buitrago Poveda, Miguel Angel",79052475,Buitrago Poveda,"[22, 26]"
 6264988,0,0,Dagoberto,"Cadena Gaviria, Dagoberto",6264988,Cadena Gaviria,"[11, 22, 20]"
 31485759,0,0,Liz Deny,"Caicedo Matato, Liz Deny",31485759,Caicedo Matato,"[22, 20]"

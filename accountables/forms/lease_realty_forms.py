@@ -1,10 +1,10 @@
-import datetime
 from django.forms import ModelForm, Form, ModelChoiceField, ModelMultipleChoiceField, DateField, IntegerField, modelformset_factory
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.forms import GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from adin.core.widgets import SelectDateSpanishWidget
 from accountables.models import Lease_Realty, Lease_Realty_Realty, Date_Value
+from accountables.utils import lease_realty_code
 from properties.models.realty import Realty
 
 class Lease_RealtyCreateForm(Form):
@@ -54,7 +54,7 @@ class Lease_RealtyCreateForm(Form):
         doc_date = self.cleaned_data.get('doc_date')
         value = self.cleaned_data.get('fee')
         subclass = ContentType.objects.get(model='lease_realty')
-        lea_rea = Lease_Realty(code=f'{realty}^{doc_date.strftime("%Y-%m-%d")}', subclass=subclass, doc_date=doc_date, state_change_user=self.creator)
+        lea_rea = Lease_Realty(code=lease_realty_code(realty, doc_date), subclass=subclass, doc_date=doc_date, state_change_user=self.creator)
         lea_rea.save()
         lea_rea_rea = Lease_Realty_Realty(lease=lea_rea, realty=realty, primary=True, state_change_user=self.creator)
         lea_rea_rea.save()

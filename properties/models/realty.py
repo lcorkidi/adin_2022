@@ -1,5 +1,7 @@
 from django.db import models
+
 from adin.core.models import BaseModel
+from adin.utils.data_check import errors_report
 
 class Realty(BaseModel):
 
@@ -65,6 +67,10 @@ class Realty(BaseModel):
             ('activate_realty', 'Can activate realty.'),
         ]
 
+    @classmethod
+    def get_errors_report(cls, all=False):
+        return errors_report(cls, all)
+
     def is_vacant(self):
         for lease in self.leases_realties.all():
             if lease.is_active():
@@ -73,23 +79,39 @@ class Realty(BaseModel):
 
     def get_obj_errors(self):
         errors = []
+        # type (oligatory, TYPE_CHOICE)
         if not self.type and self.type != 0:
             errors.append(37)
-        elif self.type not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
+        elif self.type not in [x for x in range(0,len(self.TYPE_CHOICE))]:
             errors.append(43)
+        # use (obligatory, USE_CHOICE)
         if not self.use and self.use != 0:
             errors.append(38)
-        elif self.use not in [0, 1, 2]:
+        elif self.use not in [x for x in range(0,len(self.USE_CHOICE))]:
             errors.append(44)
+        # code (obligatory, = address, length < 33)
         if not self.code:
             errors.append(39)
+        else:
+            if self.address and self.code != self.address.code:
+                errors.append(126)
+            if len(self.code) > 33:
+                errors.append(127)
+        # address (obligatory, active)
         if not self.address:
             errors.append(40)
-        if self.estate.count() == 0:
+        elif self.address.state == 0:
+            errors.append(128)
+        # estate (percentage = 100, active percentage active estate)
+        if self.estate.exclude(realty_estate__state=0).count() == 0:
             errors.append(41)
-        elif self.realty_estate_set.exclude(state=0).aggregate(models.Sum('percentage'))['percentage__sum'] != 100:
-            errors.append(43)
-        if not self.total_area:
+        else:
+            if self.estate.exclude(realty_estate__state=0).filter(state=0).exists():
+                errors.append(112)
+            if self.realty_estate_set.exclude(state=0).aggregate(models.Sum('percentage'))['percentage__sum'] != 100:
+                errors.append(129)
+        # total_area
+        if not self.total_area or self.total_area <= 0:
             errors.append(42)
         return errors
 

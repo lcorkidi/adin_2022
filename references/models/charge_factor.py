@@ -1,9 +1,9 @@
-import pandas as pd
 import datetime
 from django.db import models
 from django.db.models import Q
 
 from adin.core.models import BaseModel
+from adin.utils.data_check import errors_report
 
 class Charge_Factor(BaseModel):
 
@@ -22,11 +22,7 @@ class Charge_Factor(BaseModel):
 
     @classmethod
     def get_errors_report(cls, all=False):
-        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        errors_report = objs_df.assign(errors=objs_df.name.apply(lambda x: cls.objects.get(pk=x).get_obj_errors()))
-        if all:
-            return errors_report
-        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+        return errors_report(cls, all)
 
     # calculates the product int of the value with to the factor's attributes and nature
     def factored_value(self, accountable, date, value, nature):
@@ -98,11 +94,7 @@ class Factor_Data(BaseModel):
 
     @classmethod
     def get_errors_report(cls, all=False):
-        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        errors_report = objs_df.assign(errors=objs_df[cls._meta.pk.name].apply(lambda x: cls.objects.get(pk=x).get_obj_errors()))
-        if all:
-            return errors_report
-        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+        return errors_report(cls, all)
 
     def validity_end_date(self):
         qs = Factor_Data.objects.filter(validity_date__gt=self.validity_date, factor=self.factor)

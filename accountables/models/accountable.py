@@ -60,6 +60,15 @@ class Accountable_Transaction_Type(BaseModel):
             ('activate_accountable_transaction_type', 'Can activate transaction type.'),
         ]
 
+    def get_obj_errors(self):
+        errors = []
+        # name (obligatory, length > 64)
+        if not self.name:
+            errors.append(155)
+        elif len(self.name) > 64:
+            errors.append(156)
+        return errors
+
     def __repr__(self) -> str:
         return f'<Transaction: {self.name}>'
     
@@ -115,6 +124,35 @@ class Accountable_Concept(BaseModel):
     #             return True
     #         else:
     #             return charges_df
+
+    def get_obj_errors(self):
+        errors = []
+        # code = models.CharField(
+        #     max_length=128,
+        #     primary_key=True,
+        #     verbose_name='Código'
+        # )
+        # accountable = models.ForeignKey(
+        #     Accountable,
+        #     on_delete=models.PROTECT,
+        #     related_name='accountable_concept',
+        #     related_query_name='accountable_concepts',
+        #     verbose_name='Contabilizable'
+        # )
+        # transaction_type = models.ForeignKey(
+        #     Accountable_Transaction_Type,
+        #     on_delete=models.PROTECT,
+        #     related_name='accountable_concept',
+        #     related_query_name='accountable_concepts',
+        #     verbose_name='Tipo Transacción'
+        # )
+        # date = models.DateField(
+        #     verbose_name='Fecha'
+        # )
+        # value = models.PositiveIntegerField(
+        #     verbose_name='Valor'
+        # )
+        return errors
 
     def __repr__(self) -> str:
         return f'<Charge_Concept: {self.code}>'

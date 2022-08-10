@@ -40,7 +40,6 @@ code,type,description
 39,data_check,No Realty.code
 40,data_check,No Realty.address
 41,data_check,No Realty.estate
-43,data_check,Realty.realty_estate_set.percentage not 100
 42,data_check,No Realty.total_area
 43,data_check,Realty.type not valid choice
 44,data_check,Reralty.use not valid choice
@@ -108,3 +107,51 @@ code,type,description
 106,data_check,PUC.name length more than 100
 107,data_check,Person.complete_name more than 128
 108,data_check,Person.complete_name not correct
+109,data_check,Estate.national_number length not 30
+110,data_check,Estate.national_number conflict with other Estate obj
+111,data_check,Estate.address conflict with other Estate obj
+112,data_check,Estate.owner with active percentage is inactive
+113,data_check,No Estate_Appraisal.estate
+114,data_check,Estate_Appraisal.estate not active
+115,data_check,No Estate_Appraisal.type
+116,data_check,Estate_Appraisal.type not valid choice
+117,data_check,No Estate_Appraisal.date
+118,data_check,Estate_Appraisal.date not valid
+119,data_check,No Estate_Appraisal.value
+120,data_check,Estate_Appraisal.valuse not positive integer
+121,data_check,Person.phone inactive
+122,data_check,Person.address inactive
+123,data_check,Person.e_mail inactive
+124,data_check,Person_Legal.Person_Legal_Person_Natural inactive
+125,data_check,Estate.address inactive
+126,data_check,Realty.code and Realty.address do not correspond
+127,data_check,Realty.code length > 33
+128,data_check,Realty.address inactive
+129,data_check,Realty.realty_estate_set.percentage not 100
+130,data_check,No Lease_Realty.realty = primary
+131,data_check,Lease_Realty.realty = primary > 1
+132,data_check,Lease_Realty.realty inactive
+133,data_check,No Lease_Realty.part = 0
+134,data_check,Lease_Realty.part = 0 inactive
+135,data_check,No Lease_Realty.part = 1
+136,data_check,Lease_Realty.part = 1 inactive
+137,data_check,No Lease_Realty.part = 2
+138,data_check,Lease_Realty.part = 2 inactive
+139,data_check,No Lease_Realty.part = 3
+140,data_check,Lease_Realty.part = 3 inactive
+141,data_check,"No Lease_Realty.part.address for role 0, 1 & 2"
+142,data_check,No Lease_Realty.doc_date
+143,data_check,Lease_Realty.doc_date not valid
+144,data_check,Lease_Realty.doc_date intersects
+145,data_check,Lease_Realty.start_date not valid
+146,data_check,Lease_Realty.start_date intersects
+147,data_check,Lease_Realty.end_date not valid
+148,data_check,Lease_Realty.end_date with no Lease_Realty.start_date
+149,data_check,Lease_Realty.end_date < Lease_Realty.start_date
+150,data_check,No Lease_Realty.code
+151,data_check,Lease_Realty.code does not correspond
+152,data_check,No Lease_Realty.subclass
+153,data_check,Lease_Realty.subclass does not correspond
+154,data_check,Lease_Realty.transaction_types inactive
+155,data_check,No Accountable_Transaction_Type.name
+156,data_check,Accountable_Transaction_Type.name length more than 64

@@ -4,6 +4,7 @@ from django.db import models
 from adin.core.models import BaseModel
 from references.models import Address, E_Mail, Phone
 from people.utils import personcompletename
+from adin.utils.data_check import errors_report, children_errors_report
 
 class Person(BaseModel):
 
@@ -77,11 +78,7 @@ class Person(BaseModel):
 
     @classmethod
     def get_errors_report(cls, all=False):
-        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        errors_report = objs_df.assign(errors=objs_df[cls._meta.pk.name].apply(lambda x: cls.objects.get(pk=x).get_obj_errors()))
-        if all:
-            return errors_report
-        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+        return errors_report(cls, all)
 
     def subclass_obj(self):
         if self.type == 0:
@@ -129,11 +126,19 @@ class Person(BaseModel):
                 errors.append(107)
             if self.complete_name != personcompletename(self.subclass_obj()):
                 errors.append(108)
-        # e_mail (use 0 count = 1)
-        if not self.person_e_mail_set.filter(use=0).exists():
+        # phone (active)
+        if self.person_phone_set.exclude(state=0).filter(person__state=0).exists():
+            errors.append(121)
+        # address
+        if self.person_address_set.exclude(state=0).filter(person__state=0).exists():
+            errors.append(122)
+        # e_mail (use 0 count = 1, active)
+        if not self.person_e_mail_set.exclude(state=0).filter(use=0).exists():
             errors.append(20)
-        elif self.person_e_mail_set.filter(use=0).count() > 1:
+        elif self.person_e_mail_set.exclude(state=0).filter(use=0).count() > 1:
             errors.append(21)
+        if self.person_e_mail_set.exclude(state=0).filter(person__state=0).exists():
+            errors.append(123)
         return errors
 
     def __repr__(self) -> str:
@@ -157,33 +162,29 @@ class Person_Natural(Person):
 
     @classmethod
     def get_errors_report(cls, all=False):
-        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        errors_report = objs_df.assign(errors=objs_df['id_number'].apply(lambda x: cls.objects.get(pk=x).person_ptr.get_obj_errors()))
-        if all:
-            return errors_report
-        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+        return children_errors_report(cls, all)
 
     def get_obj_errors(self, errors):
         # id_type (not id_type = 1)    
         if self.id_type == 1:
             errors.append(18)
         # phone (use 0 or 1 count > 0, use 2 and 3 = 0)
-        if not self.person_phone_set.filter(use__in=[0, 1]).exists():
+        if not self.person_phone_set.exclude(state=0).filter(use__in=[0, 1]).exists():
             errors.append(11)
-        if self.person_phone_set.filter(use=2).exists():
+        if self.person_phone_set.exclude(state=0).filter(use=2).exists():
             errors.append(12)
-        if self.person_phone_set.filter(use=3).exists():
+        if self.person_phone_set.exclude(state=0).filter(use=3).exists():
             errors.append(13)
         # address (use 0 or 1 count > 0, use 2, 3, 4 and 5 = 0)
-        if not self.person_address_set.filter(use__in=[0, 1]).exists():
+        if not self.person_address_set.exclude(state=0).filter(use__in=[0, 1]).exists():
             errors.append(22)
-        if self.person_address_set.filter(use=2).exists():
+        if self.person_address_set.exclude(state=0).filter(use=2).exists():
             errors.append(23)
-        if self.person_address_set.filter(use=3).exists():
+        if self.person_address_set.exclude(state=0).filter(use=3).exists():
             errors.append(24)
-        if self.person_address_set.filter(use=4).exists():
+        if self.person_address_set.exclude(state=0).filter(use=4).exists():
             errors.append(25)
-        if self.person_address_set.filter(use=5).exists():
+        if self.person_address_set.exclude(state=0).filter(use=5).exists():
             errors.append(26)
         # last_name (obligatory, length )
         if not self.last_name:
@@ -229,38 +230,36 @@ class Person_Legal(Person):
 
     @classmethod
     def get_errors_report(cls, all=False):
-        objs_df = pd.DataFrame(cls.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        errors_report = objs_df.assign(errors=objs_df['id_number'].apply(lambda x: cls.objects.get(pk=x).person_ptr.get_obj_errors()))
-        if all:
-            return errors_report
-        return errors_report[errors_report['errors'].map(lambda x: len(x) > 0)]
+        return children_errors_report(cls, all)
 
     def get_obj_errors(self, errors):
         # id_type (id_type = 1)    
         if self.id_type != 1:
             errors.append(19)
         # phone (use 0 and 1 = 0, use 2 or 3 count > 0)
-        if self.person_phone_set.filter(use__in=[0, 1]).exists():
+        if self.person_phone_set.exclude(state=0).filter(use__in=[0, 1]).exists():
             errors.append(16)
-        if not self.person_phone_set.exclude(use__in=[0, 1]).exists():
+        if not self.person_phone_set.exclude(state=0, use__in=[0, 1]).exists():
             errors.append(17)
         # address (use 0 and 1 = 0, use 2, 3, 4 or 5 count > 0)
-        if self.person_address_set.filter(use__in=[0, 1]).exists():
+        if self.person_address_set.exclude(state=0).filter(use__in=[0, 1]).exists():
             errors.append(27)
-        if not self.person_address_set.exclude(use__in=[0, 1]).exists():
+        if not self.person_address_set.exclude(state=0, use__in=[0, 1]).exists():
             errors.append(28)
         # legal_type (obligatory, LEGAL_TYPE_CHOICE)
         if not self.legal_type:
             errors.append(14)
         elif self.legal_type not in [x for x in range(0,len(self.LEGAL_TYPE_CHOICE))]:
             errors.append(15)
-        # staff (appointment 0 or 1 = 0, appointment 2 > 1)
-        if not self.person_legal_person_natural_set.filter(appointment__in=[0, 1]).exists():
+        # staff (appointment 0 or 1 = 0, appointment 2 > 1, active)
+        if not self.person_legal_person_natural_set.exclude(state=0).filter(appointment__in=[0, 1]).exists():
             errors.append(29)
-        elif self.person_legal_person_natural_set.filter(appointment__in=[0, 1]).count() > 1:
+        elif self.person_legal_person_natural_set.exclude(state=0).filter(appointment__in=[0, 1]).count() > 1:
             errors.append(30)
-        elif self.person_legal_person_natural_set.filter(appointment=2).count() > 1:
+        elif self.person_legal_person_natural_set.exclude(state=0).filter(appointment=2).count() > 1:
             errors.append(31)
+        if self.person_legal_person_natural_set.exclude(state=0).filter(person_natural__state=0).exists():
+            errors.append(124)
         return errors
 
     def __repr__(self) -> str:
