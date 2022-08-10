@@ -67,15 +67,16 @@ def accountable_related_data(*args):
             'add_url': 'accountables:accountable_transaction_type_add',
             'remove_url': 'accountables:accountable_transaction_type_remove'
         },
-        'Conceptos Contabilizables:':{
+        'Conceptos Transacciones:':{
             'class': Accountable_Concept,
             'formset': Accountable_ConceptModelFormSet,
             'filter_expresion': 'accountable__code',
             'omit_field' : 'accountable',
             'omit_actions' : ['detail'],
-            'create_url': 'accountables:accountable_charge_concept_create',
-            'delete_url': 'accountables:accountable_charge_concept_delete',
-            'activate_url': 'accountables:accountable_charge_concept_activate'
+            'create_url': 'accountables:accountable_concept_create',
+            'pending_url': 'accountables:pending_accountable_concept_create',
+            'delete_url': 'accountables:accountable_concept_delete',
+            'activate_url': 'accountables:accountable_concept_activate'
         }
     }
 

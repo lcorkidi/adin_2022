@@ -62,6 +62,11 @@
                                             {% else %}
                                                 <th>
                                                     <a class="text-success" href="{% url data.create_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                                    {% if data.pending_url %}
+                                                        <a class="text-success" href="{% url data.pending_url form.instance.pk %}" style="text-decoration:none">
+                                                            {% render_bi 'bag-plus' width="20px" height="20px" %}
+                                                        </a> 
+                                                    {% endif %}
                                                 </th>
                                             {% endif %}
                                         </tr>

@@ -155,10 +155,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHELL_PLUS_IMPORTS = [
     'import pandas as pd',
     'import datetime',
-    'from scripts.utils import data_load, model_load, load_lists, load_info', 
-    'from reports.utils import ledger_from_db, account_charges, account_balance, ledger_level_balance, ledger_balance, charges_pending',
+    'from scripts.utils import data_load, model_load, data_backup, model_backup, models_lists, models_info', 
+    'from reports.utils.balance import ledger_from_db, account_charges, account_balance, ledger_level_balance, ledger_balance, charges_pending',
     'from accounting.core.structure import Account_Structure',
-    'from django.db.models import F, Q, Value, Sum',
+    'from django.db.models import Value',
+    'from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate, previousyearlydate',
 ]
 
 # LOGGING = {
