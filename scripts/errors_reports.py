@@ -10,4 +10,4 @@ def run(models_list=None):
         models_list = models_lists['errors_check']
     for item in models_list:
         errors_report = models_info[item]['model'].get_errors_report(True)
-        errors_report.to_csv(join(BASE_DIR, f'_files/reports/{datetime.today().strftime("%Y-%m-%d")}_{models_info[item]["model"]._meta.model.__name__.lower()}.csv'), float_format='%.0f', na_rep=None, index=False)
+        errors_report.to_csv(join(BASE_DIR, f'_files/reports/{datetime.today().strftime("%Y-%m-%d")}_{models_info[item]["model"]._meta.model.__name__.lower()}_errors.csv'), float_format='%.0f', na_rep=None, index=False)

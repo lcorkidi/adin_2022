@@ -102,24 +102,24 @@ class Lease_Realty(Accountable):
             ref_date = nextyearlydate(self.doc_date, ref_date)
         return dates
 
-    def pending_date_values(self):
-        date_values = Date_Value.objects.filter(accountable=self)
-        today = datetime.date.today()
-        if self.end_date and self.end_date < today:
-            end_date = self.end_date
-        else:
-            end_date = today
-        years = relativedelta(previousmonthlydate(self.doc_date, end_date), self.doc_date).years
-        dates = []
-        ref_date = self.doc_date
-        dates.append(ref_date)
-        for year in range(years):
-            ref_date = nextyearlydate(self.doc_date, ref_date)
-            dates.append(ref_date)
-        for date_value in date_values:
-            if date_value.date in dates:
-                dates.remove(date_value.date)
-        return dates
+    # def pending_date_values(self):
+    #     date_values = Date_Value.objects.filter(accountable=self)
+    #     today = datetime.date.today()
+    #     if self.end_date and self.end_date < today:
+    #         end_date = self.end_date
+    #     else:
+    #         end_date = today
+    #     years = relativedelta(previousmonthlydate(self.doc_date, end_date), self.doc_date).years
+    #     dates = []
+    #     ref_date = self.doc_date
+    #     dates.append(ref_date)
+    #     for year in range(years):
+    #         ref_date = nextyearlydate(self.doc_date, ref_date)
+    #         dates.append(ref_date)
+    #     for date_value in date_values:
+    #         if date_value.date in dates:
+    #             dates.remove(date_value.date)
+    #     return dates
 
     def date_list(self, start_date=None):
         if start_date:
@@ -139,20 +139,20 @@ class Lease_Realty(Accountable):
                 ref_date = nextmonthlydate(self.doc_date, ref_date)
         return date_list
 
-    def date_value_dict(self):
-        date_list = self.date_list()
-        date_value_dict = {}
-        date_vals = Date_Value.objects.filter(accountable=self).order_by('date')
-        date_val, index = date_vals[0], 0
-        for date in date_list:
-            if index < date_vals.count() - 1:
-                if date >= date_vals[index + 1].ref_date:
-                    date_val, index = date_vals[index + 1], index + 1
-            if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
-                date_value_dict[date] = round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
-            else:
-                date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
-        return date_value_dict
+    # def date_value_dict(self):
+    #     date_list = self.date_list()
+    #     date_value_dict = {}
+    #     date_vals = Date_Value.objects.filter(accountable=self).order_by('date')
+    #     date_val, index = date_vals[0], 0
+    #     for date in date_list:
+    #         if index < date_vals.count() - 1:
+    #             if date >= date_vals[index + 1].ref_date:
+    #                 date_val, index = date_vals[index + 1], index + 1
+    #         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
+    #             date_value_dict[date] = round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
+    #         else:
+    #             date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
+    #     return date_value_dict
 
     def get_obj_errors(self):
         errors = []
