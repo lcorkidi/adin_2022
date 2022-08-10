@@ -5,8 +5,8 @@ accountables_ref_urls = {
 def lease_realty_code(realty, doc_date):
     return f'{realty.code}^{doc_date.strftime("%Y-%m-%d")}'
 
-def acc_con2code(chacon):
-    return f'{chacon.transaction_type}^{chacon.date.strftime("%Y-%m-%d")}_{chacon.accountable}'
+def acc_con2code(concept):
+    return f'{concept.transaction_type}^{concept.date.strftime("%Y-%m-%d")}_{concept.accountable}'
 
 def lease_realty_related_data(*args):
     from .models import Lease_Realty_Realty, Lease_Realty_Person, Date_Value

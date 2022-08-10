@@ -154,7 +154,8 @@ models_lists = {
             'estate_appraisal',
             'realty',
             'lease_realty',
-            'accountable_transaction_type'
+            'accountable_transaction_type',
+            'date_value'
         ]
     }
 

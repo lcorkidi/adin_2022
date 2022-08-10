@@ -131,7 +131,7 @@ code,type,description
 130,data_check,No Lease_Realty.realty = primary
 131,data_check,Lease_Realty.realty = primary > 1
 132,data_check,Lease_Realty.realty inactive
-133,data_check,No Lease_Realty.part = 0
+133,data_check,Lease_Realty.role = 3 > 1
 134,data_check,Lease_Realty.part = 0 inactive
 135,data_check,No Lease_Realty.part = 1
 136,data_check,Lease_Realty.part = 1 inactive
@@ -155,3 +155,9 @@ code,type,description
 154,data_check,Lease_Realty.transaction_types inactive
 155,data_check,No Accountable_Transaction_Type.name
 156,data_check,Accountable_Transaction_Type.name length more than 64
+157,data_check,No Date_Value.accountable
+158,data_check,Date_Value.accountable inactive
+159,data_check,No Date_Value.date
+160,data_check,Date_Value.date not valid
+161,data_check,No Date_Value.value
+162,data_check,Date_Value.value not positive integer

@@ -2,13 +2,12 @@ import datetime
 import pandas as pd
 from django.db import models
 from dateutil.relativedelta import relativedelta
-from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
 from .date_value import Date_Value
 from accountables.utils import lease_realty_code
-from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate
+from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate, previousyearlydate
 from adin.utils.data_check import children_errors_report
 
 class Lease_Realty(Accountable):
@@ -83,12 +82,25 @@ class Lease_Realty(Accountable):
     def ledger_third_party(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
-    def pending_accountable_concept_dates(self):
-        date_list = self.date_list()
+    def pending_accountable_concept_dates(self, first_concept_date=None):
+        date_list = self.date_list(first_concept_date) if first_concept_date else self.date_list(self.accountable_concept.latest('date') if self.accountable_concept.exists() else None)
         for date in self.accountable_concept.filter(state=0).values_list('date', flat=True):
             if date in date_list:
                 date_list.remove(date)
         return date_list
+
+    def pending_date_value_dates(self, first_concept_date=None):
+        date_values = [item['date'] for item in self.date_value.exclude(state=0).values('date')]
+        dates = []
+        if first_concept_date:
+            ref_date = previousyearlydate(self.doc_date, first_concept_date)
+        else:
+            ref_date = self.doc_date
+        while ref_date <= datetime.date.today() + relativedelta(months=+3):
+            if ref_date not in date_values:
+                dates.append(ref_date)
+            ref_date = nextyearlydate(self.doc_date, ref_date)
+        return dates
 
     def pending_date_values(self):
         date_values = Date_Value.objects.filter(accountable=self)
@@ -109,7 +121,9 @@ class Lease_Realty(Accountable):
                 dates.remove(date_value.date)
         return dates
 
-    def date_list(self):
+    def date_list(self, start_date=None):
+        if start_date:
+            self.start_date = start_date
         date_list = []
         today = datetime.date.today()
         if self.start_date and self.start_date < today:
@@ -150,10 +164,8 @@ class Lease_Realty(Accountable):
                 errors.append(131)
             elif self.lease_realty_realty_set.exclude(state=0).filter(realty__state=0).exists():
                 errors.append(132)
-        # part (role 0 active > 1, role 1 active > 1, role 2 active > 1, role 3 active > 1, active role 0, 1 and 2 active address)
-        if not self.lease_realty_person_set.exclude(state=0).filter(role=0).exists():
-            errors.append(133)
-        elif self.lease_realty_person_set.exclude(state=0).filter(role=0, person__state=0).exists():
+        # part (role 0 active, role 1 active > 1, role 2 active > 1, role 3 active > 1, active role 0, 1 and 2 active address)
+        if self.lease_realty_person_set.exclude(state=0).filter(role=0, person__state=0).exists():
             errors.append(134)
         if not self.lease_realty_person_set.exclude(state=0).filter(role=1).exists():
             errors.append(135)
@@ -165,8 +177,11 @@ class Lease_Realty(Accountable):
             errors.append(138)
         if not self.lease_realty_person_set.exclude(state=0).filter(role=3).exists():
             errors.append(139)
-        elif self.lease_realty_person_set.exclude(state=0).filter(role=3, person__state=0).exists():
-            errors.append(140)
+        else:
+            if self.lease_realty_person_set.exclude(state=0).filter(role=3).count() > 1:
+                errors.append(133) 
+            if self.lease_realty_person_set.exclude(state=0).filter(role=3, person__state=0).exists():
+                errors.append(140)
         if self.lease_realty_person_set.exclude(state=0).filter(role__in=[0, 1, 2], address=None).exists():
             errors.append(141)
         # doc_date (obligatory, date, vacant)

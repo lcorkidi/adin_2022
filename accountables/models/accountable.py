@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
+from adin.utils.data_check import errors_report
 
 class Accountable(BaseModel):
 
@@ -28,6 +29,10 @@ class Accountable(BaseModel):
         permissions = [
             ('accounting_accountable', 'Can do accountable accounting.')
         ]
+
+    @classmethod
+    def get_errors_report(cls, all=False):
+        return errors_report(cls, all)
 
     def subclass_obj(self):
         return self.subclass.model_class().active.get(code=self.code)
@@ -59,6 +64,10 @@ class Accountable_Transaction_Type(BaseModel):
         permissions = [
             ('activate_accountable_transaction_type', 'Can activate transaction type.'),
         ]
+
+    @classmethod
+    def get_errors_report(cls, all=False):
+        return errors_report(cls, all)
 
     def get_obj_errors(self):
         errors = []

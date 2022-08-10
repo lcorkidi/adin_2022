@@ -75,11 +75,10 @@ def nextmonthlydate(doc_date, ref_date):
 def previousyearlydate(doc_date, ref_date):
     if monthrange(doc_date.year, doc_date.month)[1] - doc_date.day == 0 and doc_date.month == 2:
         return list(rrule(MONTHLY, count=13, bymonthday=-1, dtstart=date(ref_date.year - 1, doc_date.month, 28)))[12].date()
-    return date(ref_date.year, doc_date.month, doc_date.day)
+    return date(ref_date.year, doc_date.month, doc_date.day) if date(ref_date.year, doc_date.month, doc_date.day) <= ref_date else date(ref_date.year - 1, doc_date.month, doc_date.day)
 
 # retunrs next yearly date 
 def nextyearlydate(doc_date, ref_date):
     if monthrange(doc_date.year, doc_date.month)[1] - doc_date.day == 0 and doc_date.month == 2:
         return list(rrule(MONTHLY, count=13, bymonthday=-1, dtstart=date(ref_date.year, doc_date.month, 28)))[12].date()
-    return date(ref_date.year + 1, doc_date.month, doc_date.day)
-    
+    return date(ref_date.year + 1, doc_date.month, doc_date.day) if date(ref_date.year, doc_date.month, doc_date.day) <= ref_date else date(ref_date.year, doc_date.month, doc_date.day)
