@@ -1,5 +1,4 @@
 state,code,country,region,city,street_type,street_number,street_letter,street_bis,street_bis_complement,street_coordinate,numeral_number,numeral_letter,numeral_bis,numeral_bis_complement,numeral_coordinate,height_number,interior_group_type,interior_group_code,interior_type,interior_code,errors
-1,123456789012345678901234567890123,,,,1,1,,,,,1,,,,,1,,,,,"[46, 48, 50, 52]"
 1,A11N-7N-201-A103,Colombia,Valle del Cauca,Cali,0,11,,False,,0,7,,False,,0,201,,,0,103,[]
 1,A11N-7N-201-D22,Colombia,Valle del Cauca,Cali,0,11,,False,,0,7,,False,,0,201,,,5,22,[]
 1,A11N-7N-201-P28,Colombia,Valle del Cauca,Cali,0,11,,False,,0,7,,False,,0,201,,,4,28,[]
