@@ -99,7 +99,7 @@ class Lease_Realty(Accountable):
         return date_value_dict
 
     def pending_accountable_concept_dates(self, first_concept_date=None):
-        date_list = self.date_list(first_concept_date) if first_concept_date else self.date_list(self.accountable_concept.latest('date') if self.accountable_concept.exists() else None)
+        date_list = self.date_list(first_concept_date) if first_concept_date else self.date_list(self.accountable_concept.latest('date').date if self.accountable_concept.exists() else None)
         for date in self.accountable_concept.filter(state=0).values_list('date', flat=True):
             if date in date_list:
                 date_list.remove(date)
@@ -116,6 +116,7 @@ class Lease_Realty(Accountable):
             self.start_date = start_date
         date_list = []
         today = datetime.date.today()
+        print((self.start_date, today))
         if self.start_date and self.start_date < today:
             ref_date = self.start_date
             if self.end_date and self.end_date < today:

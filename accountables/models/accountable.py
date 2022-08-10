@@ -164,7 +164,7 @@ class Accountable_Concept(BaseModel):
         return errors
 
     def __repr__(self) -> str:
-        return f'<Charge_Concept: {self.code}>'
+        return f'<Transaction_Concept: {self.code}>'
 
     def __str__(self) -> str:
         return self.code

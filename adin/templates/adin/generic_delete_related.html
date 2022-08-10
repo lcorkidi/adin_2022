@@ -12,7 +12,7 @@
                             <a href="{% url ref_urls.accounting ref_pk %}" style="text-decoration:none">
                                 {% render_bi 'arrow-left-square' width="20px" height="20px" %}
                             </a> |
-                        {% else %} 
+                        {% elif 'update' not in omit_actions %} 
                             <a href="{% url ref_urls.update ref_pk %}" style="text-decoration:none">
                                 {% render_bi 'arrow-left-square' width="20px" height="20px" %}
                             </a> |
@@ -58,7 +58,9 @@
                     {% endif %}
                     <div class="d-grid m-2 gap-2">
                         <input class="btn btn-danger" type="submit" value="{{ subtitle }}">
-                        <a href="{% url ref_urls.update ref_pk %}" class="btn btn-secondary active" role="button" aria-pressed="true">Cancelar</a>
+                        {% if 'update' not in omit_actions %} 
+                            <a href="{% url ref_urls.update ref_pk %}" class="btn btn-secondary active" role="button" aria-pressed="true">Cancelar</a>
+                        {% endif %}
                     </div>
                </form>
             </div>
