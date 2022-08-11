@@ -58,8 +58,10 @@
                     {% endif %}
                     <div class="d-grid m-2 gap-2">
                         <input class="btn btn-danger" type="submit" value="{{ subtitle }}">
-                        {% if 'update' not in omit_actions %} 
+                        {% if not accounting and 'update' not in omit_actions %} 
                             <a href="{% url ref_urls.update ref_pk %}" class="btn btn-secondary active" role="button" aria-pressed="true">Cancelar</a>
+                        {% elif accounting %} 
+                            <a href="{% url ref_urls.accounting ref_pk %}" class="btn btn-secondary active" role="button" aria-pressed="true">Cancelar</a>
                         {% endif %}
                     </div>
                </form>

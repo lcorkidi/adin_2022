@@ -161,3 +161,15 @@ code,type,description
 160,data_check,Date_Value.date not valid
 161,data_check,No Date_Value.value
 162,data_check,Date_Value.value not positive integer
+163,data_check,No Accountable_Concept.code
+164,data_check,Accountable_Concept.code doesn't correspond
+165,data_check,No Accountable_Concept.acountable
+166,data_check,Accountable_Concept.accountable not active
+167,data_check,No Accountable_Concept.transaction_type
+168,data_check,Accountable_Concept.transaction_type no acctive
+169,data_check,Accountable_Concept.transaction_type not related to Accountable_Concept.accountable
+170,data_check,No Accountable_Concept.date
+171,data_check,Accountable_Concept.date doesn't correspond to Accountable_Concept.accountable
+172,data_check,No Accountable_Concept.value
+173,data_check,Accountable_Concept..value not posiive integer
+174,data_check,Accountable_Concept.value doesn't correspond Accountable_Concept.accountable

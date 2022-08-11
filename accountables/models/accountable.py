@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 from adin.utils.data_check import errors_report
+from accountables.utils import accon_2_code
 
 class Accountable(BaseModel):
 
@@ -136,31 +137,40 @@ class Accountable_Concept(BaseModel):
 
     def get_obj_errors(self):
         errors = []
-        # code = models.CharField(
-        #     max_length=128,
-        #     primary_key=True,
-        #     verbose_name='Código'
-        # )
-        # accountable = models.ForeignKey(
-        #     Accountable,
-        #     on_delete=models.PROTECT,
-        #     related_name='accountable_concept',
-        #     related_query_name='accountable_concepts',
-        #     verbose_name='Contabilizable'
-        # )
-        # transaction_type = models.ForeignKey(
-        #     Accountable_Transaction_Type,
-        #     on_delete=models.PROTECT,
-        #     related_name='accountable_concept',
-        #     related_query_name='accountable_concepts',
-        #     verbose_name='Tipo Transacción'
-        # )
-        # date = models.DateField(
-        #     verbose_name='Fecha'
-        # )
-        # value = models.PositiveIntegerField(
-        #     verbose_name='Valor'
-        # )
+        # code (obligatory, function of attributes)
+        if not self.code:
+            errors.append(163)
+        else:
+            if self.code != accon_2_code(self):
+                errors.append(164)
+        # accountable (obligatory, active)
+        if not self.accountable:
+            errors.append(165)
+        else:
+            if self.accountable.state == 0:
+                errors.append(166)
+        # transaction_type (obligatory, active, related to accountable)
+        if not self.transaction_type:
+            errors.append(167)
+        else:
+            if self.transaction_type.state == 0:
+                errors.append(168)
+            if self.transaction_type not in self.accountable.transaction_type.exclude(state=0):
+                errors.append(169) 
+        # date (obligatory, proper accountable date)
+        if not self.date:
+            errors.append(170)
+        else:
+            if self.date not in self.accountable.monthly_dates():
+                errors.append(171) 
+        # value (obligatory, positive integer, proper accountable value)
+        if not self.value:
+            errors.append(172)
+        else:
+            if not (self.value > 0 and isinstance(self.value, int)):
+                errors.append(173)
+            if self.value != {dt: self.accountable.subclass_obj().get_value_4_date(dt) for dt in self.accountable.subclass_obj().monthly_dates()}[self.date]:
+                errors.append(174) 
         return errors
 
     def __repr__(self) -> str:

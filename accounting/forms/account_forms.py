@@ -15,16 +15,20 @@ class AccountCreateForm(GenericCreateForm):
         code = self.clean_pk()
         code_str = str(code)
         code_len = len(str(code))
+        if code_len == 1:
+            return code
         if code_len in [3, 5, 7, 9] or code_len > 10:
             raise ValidationError('Numero de digitos del código no puede ser igual a 3, 5, 7, 9 o mayor que 10.')
-        if code_len in [1, 2]:
+        if code_len == 2:
             parent_code = int(code_str[:1])
         else:
             parent_code = int(code_str[:code_len - 2])
-        if not Account.objects.filter(code=parent_code).exists():
+        if not Account.objects.exclude(state=0).filter(code=parent_code).exists():
+            if Account.objects.filter(code=parent_code).exists():
+                raise ValidationError(f'Cuenta padre {parent_code} está inactiva.')
             raise ValidationError(f'Cuenta padre {parent_code} no existe.')
         if len(Account.objects.get(pk=parent_code).charges.all()) > 0:
-            msg = f'Cuenta no se puede inactivar ya que cuenta padre tiene movimientos.'
+            msg = f'Cuenta no se puede crear ya que cuenta padre tiene movimientos.'
             self.add_error(None, msg)
         return code
 

@@ -160,6 +160,7 @@ SHELL_PLUS_IMPORTS = [
     'from accounting.core.structure import Account_Structure',
     'from django.db.models import Value',
     'from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate, previousyearlydate',
+    'from dateutil.relativedelta import relativedelta',
 ]
 
 # LOGGING = {
