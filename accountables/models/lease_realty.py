@@ -89,49 +89,6 @@ class Lease_Realty(Accountable):
                 formset_dict.append({'accountable':self, 'transaction_type':self.transaction_types.exclude(state=0)[0], 'date': date, 'value': value,})
         return formset_dict
 
-    # def pending_concept_date_value_dict(self, ref_date=None):
-    #     if not ref_date and not self.accountable_concept.exclude(state=0).exists():
-    #         ref_date = self.doc_date
-    #     elif not ref_date and self.accountable_concept.exclude(state=0).exists():
-    #         ref_date = nextmonthlydate(self.doc_date, self.accountable_concept.exclude(state=0).latest('date').date)
-    #     date_value_dict = {}
-    #     for item in self.pending_accountable_concept_dates(ref_date):
-    #         if self.date_value.filter(date__lte=item).exists() and self.date_value.filter(date__lte=item).latest('date').date >= previousyearlydate(self.doc_date, item):
-    #             date_value_dict[item] = self.get_concept_value4date(item)        
-    #         else:
-    #             date_value_dict[item] = None        
-    #     return date_value_dict
-
-    # def pending_accountable_concept_dates(self, first_concept_date=None):
-    #     date_list = self.date_list(first_concept_date) if first_concept_date else self.date_list(self.accountable_concept.latest('date').date if self.accountable_concept.exists() else None)
-    #     for date in self.accountable_concept.filter(state=0).values_list('date', flat=True):
-    #         if date in date_list:
-    #             date_list.remove(date)
-    #     return date_list
-
-    # def get_concept_value4date(self, date):
-    #     if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
-    #         return int(round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value), 0))
-    #     else:
-    #         return int(round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value), 0))
-
-    # def date_list(self, first_date=None):
-    #     date_list = []
-    #     if not self.start_date:
-    #         return date_list
-    #     elif first_date:
-    #         ref_date = first_date
-    #     else:
-    #         ref_date = self.start_date
-    #     if self.end_date and self.end_date <= datetime.date.today():
-    #         end_date = self.end_date
-    #     else:
-    #         end_date = datetime.date.today()
-    #     while ref_date <= end_date:
-    #         date_list.append(ref_date)
-    #         ref_date = nextmonthlydate(self.doc_date, ref_date)
-    #     return date_list
-
     def pending_concept_date_values(self, first_date=None):
         if not self.start_date:
             return {}
@@ -189,54 +146,6 @@ class Lease_Realty(Accountable):
             date_list.append(ref_date)
             ref_date = nextmonthlydate(self.doc_date, ref_date)
         return date_list
-
-    # def pending_date_values(self):
-    #     date_values = Date_Value.objects.filter(accountable=self)
-    #     today = datetime.date.today()
-    #     if self.end_date and self.end_date < today:
-    #         end_date = self.end_date
-    #     else:
-    #         end_date = today
-    #     years = relativedelta(previousmonthlydate(self.doc_date, end_date), self.doc_date).years
-    #     dates = []
-    #     ref_date = self.doc_date
-    #     dates.append(ref_date)
-    #     for year in range(years):
-    #         ref_date = nextyearlydate(self.doc_date, ref_date)
-    #         dates.append(ref_date)
-    #     for date_value in date_values:
-    #         if date_value.date in dates:
-    #             dates.remove(date_value.date)
-    #     return dates
-
-    # def pending_date_value_dates(self, first_concept_date=None):
-    #     date_values = [item['date'] for item in self.date_value.exclude(state=0).values('date')]
-    #     dates = []
-    #     if first_concept_date:
-    #         ref_date = previousyearlydate(self.doc_date, first_concept_date)
-    #     else:
-    #         ref_date = self.doc_date
-    #     while ref_date <= datetime.date.today() + relativedelta(months=+3):
-    #         if ref_date not in date_values:
-    #             dates.append(ref_date)
-    #         ref_date = nextyearlydate(self.doc_date, ref_date)
-    #     return dates
-
-    # def date_value_dict(self, date_list=None):
-    #     if not date_list:
-    #         date_list = self.date_list()
-    #     date_value_dict = {}
-    #     date_vals = Date_Value.objects.filter(accountable=self).order_by('date')
-    #     date_val, index = date_vals[0], 0
-    #     for date in date_list:
-    #         if index < date_vals.count() - 1:
-    #             if date >= date_vals[index + 1].ref_date:
-    #                 date_val, index = date_vals[index + 1], index + 1
-    #         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
-    #             date_value_dict[date] = round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
-    #         else:
-    #             date_value_dict[date] = round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(date_val.value), 0)
-    #     return date_value_dict
 
     def get_obj_errors(self):
         errors = []

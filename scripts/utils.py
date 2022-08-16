@@ -125,7 +125,9 @@ models_lists = {
             'factor_data', 
             'address', 
             'phone', 
-            'e_mail'
+            'e_mail',
+            'person_natural', 
+            'person_legal', 
             'person_address', 
             'person_phone', 
             'person_e_mail', 
@@ -135,10 +137,7 @@ models_lists = {
             'realty', 
             'realty_estate', 
             'lease_realty', 
-            'lease_realty_realty', 
-            'lease_realty_person', 
-            'date_value', 
-            'accountable_transaction_type',
+            'lease_realty_realty'
         ],
         'errors_check': [
             'address',
