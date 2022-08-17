@@ -1,4 +1,4 @@
-code,accountable_ptr_id,doc_date,start_date,end_date,monthly_dates
+code,accountable_ptr_id,doc_date,start_date,end_date,yearly_dates
 A6N-13N-62-O1^2015-01-01,A6N-13N-62-O1^2015-01-01,2015-01-01,2022-01-01,,"[datetime.date(2022, 1, 1)]"
 A6N-13N-62-S101^2021-04-01,A6N-13N-62-S101^2021-04-01,2021-04-01,2022-01-01,,"[datetime.date(2021, 4, 1), datetime.date(2022, 4, 1)]"
 A6N-13N-62-S102^2021-10-01,A6N-13N-62-S102^2021-10-01,2021-10-01,2022-01-01,,"[datetime.date(2021, 10, 1), datetime.date(2022, 10, 1)]"
