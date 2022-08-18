@@ -134,7 +134,7 @@ class Lease_Realty(Accountable):
         date_list = []
         if not self.start_date:
             return date_list
-        elif first_date:
+        elif first_date > self.doc_date:
             ref_date = first_date
         else:
             ref_date = self.start_date
