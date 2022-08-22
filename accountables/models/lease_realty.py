@@ -95,7 +95,7 @@ class Lease_Realty(Accountable):
         pending_dates = self.pending_concept_dates(first_date)
         return {dt: self.get_value_4_date(dt) for dt in pending_dates}
 
-    def pending_date_values_dates(self, first_date=None):
+    def pending_date_value_dates(self, first_date=None):
         if not self.start_date:
             return []
         date_values_dates = [item['date'] for item in self.date_value.exclude(state=0).values('date')]
@@ -105,7 +105,7 @@ class Lease_Realty(Accountable):
         if not self.start_date:
             return []
         concept_dates = [item['date'] for item in self.accountable_concept.exclude(state=0).values('date')]
-        return [dt for dt in self.monthly_dates(first_date) if dt not in concept_dates and dt < min(self.pending_date_values_dates(first_date) if self.pending_date_values_dates(first_date) else [datetime.date.today()])]        
+        return [dt for dt in self.monthly_dates(first_date) if dt not in concept_dates and dt < min(self.pending_date_value_dates(first_date) if self.pending_date_value_dates(first_date) else [datetime.date.today()])]        
 
     def get_value_4_date(self, date):
         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
