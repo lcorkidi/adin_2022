@@ -1,3 +1,5 @@
 ,state_change_user_id,state_change_date,state,name
-0,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble Residencial
-0,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble Comercial
+0,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble sin IVA
+1,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble con IVA sin ReteFuente
+2,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble con IVA con ReteFuente
+3,1,2022-04-06 18:31:54.684361+00:00,1,Arriendo Inmueble con IVA con ReteFuente y ReteIVA

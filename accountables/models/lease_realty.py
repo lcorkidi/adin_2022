@@ -5,9 +5,8 @@ from dateutil.relativedelta import relativedelta
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
-from .date_value import Date_Value
 from accountables.utils import lease_realty_code
-from adin.utils.date_progression import nextmonthlydate, nextyearlydate, previousmonthlydate, previousyearlydate
+from adin.utils.date_progression import nextmonthlydate, previousmonthlydate, previousyearlydate
 from adin.utils.data_check import children_errors_report
 
 class Lease_Realty(Accountable):
@@ -82,11 +81,10 @@ class Lease_Realty(Accountable):
     def ledger_third_party(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
-    def concept_formset_dict(self):
+    def concept_formset_dict(self, tranasaction_type):
         formset_dict = []
         for date, value in self.pending_concept_date_values().items():
-            if self.transaction_types.exclude(state=0).exists() and date and value:
-                formset_dict.append({'accountable':self, 'transaction_type':self.transaction_types.exclude(state=0)[0], 'date': date, 'value': value,})
+            formset_dict.append({'accountable':self, 'transaction_type':tranasaction_type, 'date': date, 'value': value,})
         return formset_dict
 
     def pending_concept_date_values(self, first_date=None):
@@ -109,15 +107,17 @@ class Lease_Realty(Accountable):
 
     def get_value_4_date(self, date):
         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
-            return int(round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value), 0))
+            return int(round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
         else:
-            return int(round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value), 0))
+            return int(round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
     
     def yearly_dates(self, first_date=None):
         date_list = []
         if not self.start_date:
             return date_list
-        elif first_date:
+        elif not first_date:
+            first_date = self.start_date
+        if first_date > self.doc_date:
             ref_date = previousyearlydate(self.doc_date, first_date)
         else:
             ref_date = self.doc_date
@@ -134,7 +134,7 @@ class Lease_Realty(Accountable):
         date_list = []
         if not self.start_date:
             return date_list
-        elif first_date > self.doc_date:
+        elif first_date:
             ref_date = first_date
         else:
             ref_date = self.start_date
