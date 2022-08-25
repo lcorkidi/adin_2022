@@ -81,10 +81,10 @@ class Lease_Realty(Accountable):
     def ledger_third_party(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
-    def concept_formset_dict(self, tranasaction_type):
+    def concept_formset_dict(self, transaction_type):
         formset_dict = []
         for date, value in self.pending_concept_date_values().items():
-            formset_dict.append({'accountable':self, 'transaction_type':tranasaction_type, 'date': date, 'value': value,})
+            formset_dict.append({'accountable':self, 'transaction_type':transaction_type, 'date': date, 'value': value,})
         return formset_dict
 
     def pending_concept_date_values(self, first_date=None):
@@ -217,7 +217,7 @@ class Lease_Realty(Accountable):
         return f'<Lease_Realty: {self.code}>'
     
     def __str__(self) -> str:
-        return f'{self.lease_realty_realty_set.get(primary=True).realty if self.lease_realty_realty_set.filter(primary=True).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}^{self.lease_realty_person_set.get(role=1).person if self.lease_realty_person_set.filter(role=1).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}'
+        return f'{self.lease_realty_realty_set.get(primary=True).realty if self.lease_realty_realty_set.filter(primary=True).exists() and self.lease_realty_realty_set.filter(primary=True).count()==1 else "None"}^{self.lease_realty_person_set.get(role=1).person if self.lease_realty_person_set.filter(role=1).exists() and self.lease_realty_person_set.filter(role=1).count()==1 else "None"}'
 
 class Lease_Realty_RealtyFinderManager(models.Manager):
     def from_related(self, obj1, obj2):

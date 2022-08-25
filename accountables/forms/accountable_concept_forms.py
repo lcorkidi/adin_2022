@@ -1,7 +1,6 @@
 from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ValidationError, BaseFormSet, modelformset_factory, formset_factory
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
-from adin.core.widgets import SelectDateSpanishWidget
 from accountables.models import Accountable_Concept, Accountable_Transaction_Type, Accountable
 
 class Accountable_ConceptCreateForm(Form):
