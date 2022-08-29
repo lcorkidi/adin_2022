@@ -142,6 +142,7 @@ models_lists = {
             'lease_realty', 
             'lease_realty_realty',
             'date_value',
+            'accountable_transaction_type',
             'accountable_concept',
             'account',
             'ledger_type'
