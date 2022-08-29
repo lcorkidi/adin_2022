@@ -37,7 +37,10 @@ models_lists = {
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value',
-            'accountable_transaction_type'
+            'accountable_transaction_type',
+            'accountable_concept',
+            'account',
+            'ledger_type'
         ],
         'auth': [
             'group',
@@ -137,7 +140,11 @@ models_lists = {
             'realty', 
             'realty_estate', 
             'lease_realty', 
-            'lease_realty_realty'
+            'lease_realty_realty',
+            'date_value',
+            'accountable_concept',
+            'account',
+            'ledger_type'
         ],
         'errors_check': [
             'address',
@@ -385,7 +392,7 @@ models_info = {
             'pending_relations' : ['accountable_transaction_types']
             },
         'accountable_concept' : {
-            'csv_name' : 'accountable_accountable.csv',
+            'csv_name' : 'accountable_concept.csv',
             'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Accountable_Transaction_Type},
             'model' : Accountable_Concept,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
@@ -397,6 +404,15 @@ models_info = {
             'csv_name' : 'account.csv',
             'fk_dict' : {'state_change_user':User},
             'model' : Account,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'ledger_type' : {
+            'csv_name' : 'ledger_type.csv',
+            'fk_dict' : {'state_change_user':User},
+            'model' : Ledger_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user'},
             'bulk' : True,
