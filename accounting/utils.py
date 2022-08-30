@@ -9,7 +9,7 @@ def ledger2code(ledger):
     return f'{ledger.type.abreviation}-{ref_num_str}'
 
 def ledgertemplate2code(template):
-    return f'{template.ledger_type.abreviation}_{template.transaction_type.name}'
+    return f'{template.ledger_type.abreviation}^{template.accountable_class.name}_{template.transaction_type.name}'
 
 def ledger_related_data(*args):
     from .models import Charge

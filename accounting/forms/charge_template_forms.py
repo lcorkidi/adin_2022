@@ -52,16 +52,15 @@ class Charge_TemplateCreateForm(Form):
             return False
         return True
 
-    def save(self, *args, **kwargs):
+    def save(self, ledger_template, creator_user, *args, **kwargs):
         base_args = {}
-        base_args['ledger_template'] = args[0]
+        print((ledger_template, creator_user))
+        base_args['ledger_template'] = ledger_template
         base_args['account'] = self.cleaned_data.get('account')
         base_args['factor'] = self.cleaned_data.get('factor')
         base_args['nature'] = self.cleaned_data.get('nature')
-        base_args['state_change_user'] = self.creator
-        obj = Charge_Template(**base_args)
-        obj.save()
-        return obj
+        base_args['state_change_user'] = creator_user
+        Charge_Template(**base_args).save()
 
 class Charge_TemplateBareFormSet(BaseFormSet):
     
@@ -72,11 +71,10 @@ class Charge_TemplateBareFormSet(BaseFormSet):
             raise ValidationError('No hay formatos movimientos.')
         return super().clean()
 
-    def save(self, *args, **kwargs):
+    def save(self, ledger_template, creator_user, *args, **kwargs):
         for form in self.forms:
             if not all(form[f].value() in [None, ''] for f in form.fields):
-                form.creator = self.creator
-                form.save(args[0])
+                form.save(ledger_template, creator_user)
 
 Charge_TemplateCreateFormset = formset_factory(Charge_TemplateCreateForm, formset=Charge_TemplateBareFormSet, extra=20)
 

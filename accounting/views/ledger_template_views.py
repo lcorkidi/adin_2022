@@ -67,10 +67,8 @@ class Ledger_TemplateCreateView(GenericCreateView):
         if not form.is_valid() or not formset.is_valid():
             context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'form':form, 'formset': formset, 'group': user_group_str(request.user)}
             return render(request, self.template, context)
-        # form.creator = request.user
-        # ledger = form.save()            
-        # formset.creator = request.user
-        # formset.save(ledger)
+        ledger_template = form.save(creator_user=request.user)            
+        formset.save(ledger_template, creator_user=request.user)
         return redirect(self.ref_urls['list'])
 
 class Ledger_TemplateDetailView(GenericDetailView):
@@ -79,7 +77,7 @@ class Ledger_TemplateDetailView(GenericDetailView):
     model = Ledger_Template
     form = Ledger_TemplateDetailModelForm
     ref_urls = ref_urls
-    fk_fields = ['transaction_type', 'ledger_type']
+    fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
     choice_fields = ['nature']
     actions_off = ['update']
     related_data = ledger_template_related_data
