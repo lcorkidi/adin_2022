@@ -65,7 +65,8 @@ def address2code(address):
         7: 'C',
         8: 'T',
         9: 'F',
-        10: 'S'
+        10: 'S',
+        11: 'I'
     }
 
     code = STREET_TYPE_CHOICE[address.street_type]

@@ -69,7 +69,8 @@ class Address(BaseModel):
         (7, 'Casa'),
         (8, 'Lote'),
         (9, 'Finca'),
-        (10, 'Apartaestudio')
+        (10, 'Apartaestudio'),
+        (11, 'Piso')
     ]
 
     code = models.CharField(
