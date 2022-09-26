@@ -20,14 +20,10 @@ class Phone(BaseModel):
         verbose_name='Tipo'
     )
     country = models.PositiveSmallIntegerField(
-        default=57,
         verbose_name='País'
     )
     region = models.PositiveSmallIntegerField(
-        verbose_name='Región',
-        blank=True,
-        null=True,
-        default=None
+        verbose_name='Región'
     )
     number = models.PositiveIntegerField(
         verbose_name='Número'

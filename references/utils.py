@@ -1,5 +1,5 @@
 def phone2code(phone):
-    return f'+{phone.country}{" " + str(phone.region) if phone.region != None else ""} {phone.number}'
+    return f'+{phone.country} {phone.region} {phone.number}'
 
 def address2code(address):
     STREET_TYPE_CHOICE =  {
