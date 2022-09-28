@@ -44,7 +44,8 @@ class Address(BaseModel):
         (24, 'Y'),
         (25, 'Z'),
         (26, 'A1'),
-        (27, 'B1')
+        (27, 'B1'),
+        (28, 'C1')
     ]
     COORDINATE_CHOICE = [
         (0, 'Norte'),
