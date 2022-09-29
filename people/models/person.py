@@ -313,9 +313,6 @@ class Person_Phone(BaseModel):
         app_label = 'people'
         verbose_name = 'Teléfono Persona'
         verbose_name_plural = 'Teléfonos Personas'
-        constraints = [
-            models.UniqueConstraint(fields=['person', 'phone'], name='unique_person_phone'),
-        ]
 
     def __repr__(self) -> str:
         return f'<Person_Phone: {self.get_use_display()}_{self.person.complete_name}>'
@@ -370,9 +367,6 @@ class Person_Address(BaseModel):
         app_label = 'people'
         verbose_name = 'Dirección Persona'
         verbose_name_plural = 'Direcciones Personas'
-        constraints = [
-            models.UniqueConstraint(fields=['person', 'address'], name='unique_person_address'),
-        ]
 
     def __repr__(self) -> str:
         return f'<Person_Address: {self.get_use_display()}_{self.person.complete_name}>'
@@ -423,9 +417,6 @@ class Person_E_Mail(BaseModel):
         app_label = 'people'
         verbose_name = 'Correo Electrónico Personas'
         verbose_name_plural = 'Correos Electrónicos Personas'
-        constraints = [
-            models.UniqueConstraint(fields=['person', 'e_mail'], name='unique_person_e_mail'),
-        ]
 
     def __repr__(self) -> str:
         return f'<Person_E_Mail: {self.get_use_display()}_{self.person.complete_name}>'
@@ -480,9 +471,6 @@ class Person_Legal_Person_Natural(BaseModel):
         app_label = 'people'
         verbose_name = 'Personal'
         verbose_name_plural = 'Personal'
-        constraints = [
-            models.UniqueConstraint(fields=['person_legal', 'person_natural'], name='unique_person_legal_person_natural'),
-        ]
 
     def __repr__(self) -> str:
         return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}_{self.person_legal.complete_name}>'

@@ -141,6 +141,7 @@ models_lists = {
             'realty_estate', 
             'lease_realty', 
             'lease_realty_realty',
+            'lease_realty_person',
             'date_value',
             'accountable_transaction_type',
             'accountable_concept',
