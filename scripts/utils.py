@@ -40,7 +40,9 @@ models_lists = {
             'accountable_transaction_type',
             'accountable_concept',
             'account',
-            'ledger_type'
+            'ledger_type', 
+            'ledger_template', 
+            'charge_template'
         ],
         'auth': [
             'group',
@@ -146,7 +148,9 @@ models_lists = {
             'accountable_transaction_type',
             'accountable_concept',
             'account',
-            'ledger_type'
+            'ledger_type', 
+            'ledger_template', 
+            'charge_template'
         ],
         'errors_check': [
             'address',
@@ -417,6 +421,24 @@ models_info = {
             'model' : Ledger_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'ledger_template' : {
+            'csv_name' : 'ledger_template.csv',
+            'fk_dict' : {'state_change_user':User, 'accountable_class':ContentType , 'transaction_type':Accountable_Transaction_Type, 'ledger_type':Ledger_Type},
+            'model' : Ledger_Template,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_class_id':'accountable_class' , 'transaction_type_id':'transaction_type', 'ledger_type_id':'ledger_type'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'charge_template' : {
+            'csv_name' : 'charge_template.csv',
+            'fk_dict' : {'state_change_user':User, 'ledger_template':Ledger_Template , 'account':Account, 'factor':Charge_Factor},
+            'model' : Charge_Template,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user', 'ledger_template_id':'ledger_template' , 'account_id':'account', 'factor_id':'factor'},
             'bulk' : True,
             'pending_relations' : None
             }

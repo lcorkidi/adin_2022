@@ -1,4 +1,4 @@
 ,id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined
-0,1,pbkdf2_sha256$320000$Y6xBBbvFXh3YffoCK9YW0M$RQUUcWKNDNtGSzShT8q2lEhfe1uflJxdB8+nbSdBsRI=,,True,leon,,,,True,True,2022-09-29 19:12:09.086164+00:00
-1,2,pbkdf2_sha256$320000$AlPghfRXboxGEwzOpqX2W0$qhNMPLNN4IBIwRApPSiWwBjBdeJbF/1ZJq9LgkK/9cg=,,False,jaque,Jaqueline,Ortiz,corkidis@hotmail.com,False,True,2022-07-12 17:44:22.510737+00:00
-2,3,pbkdf2_sha256$320000$ddhdIcwWcKvi0sLRdbOJzX$GjO59OcJiN5hUieNlxUisQSiIesVrS0x4/I1Ke/U5yw=,,False,yaneth,Yaneth,Mera,corkidis@hotmail.com,False,True,2022-07-12 17:44:38.512188+00:00
+0,1,pbkdf2_sha256$320000$242655Vofan6GIOUhjJmg0$ZGMGmpQuY2AOpWcFMp87vfoGcURJsZ0oC4O6fD6oylw=,2022-09-29 19:46:13.963876+00:00,True,leon,,,,True,True,2022-09-29 19:41:22.161836+00:00
+1,2,pbkdf2_sha256$320000$AlPghfRXboxGEwzOpqX2W0$qhNMPLNN4IBIwRApPSiWwBjBdeJbF/1ZJq9LgkK/9cg=,NaT,False,jaque,Jaqueline,Ortiz,corkidis@hotmail.com,False,True,2022-07-12 17:44:22.510737+00:00
+2,3,pbkdf2_sha256$320000$ddhdIcwWcKvi0sLRdbOJzX$GjO59OcJiN5hUieNlxUisQSiIesVrS0x4/I1Ke/U5yw=,NaT,False,yaneth,Yaneth,Mera,corkidis@hotmail.com,False,True,2022-07-12 17:44:38.512188+00:00
