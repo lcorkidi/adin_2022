@@ -57,7 +57,7 @@ class Accountable_ConceptPendingCreateView(LoginRequiredMixin, PermissionRequire
 
     def post(self, request, pk):
         obj = Accountable.active.get(pk=pk)
-        formset = self.formset(request.POST, initial=obj.subclass_obj().concept_formset_dict(), form_kwargs={'accountable':obj})
+        formset = self.formset(request.POST, initial=obj.subclass_obj().concept_formset_dict(obj.subclass_obj().transaction_types.all()[0]), form_kwargs={'accountable':obj})
         ref_urls = accountables_ref_urls[obj.subclass.model]
         if not formset.is_valid():
             context = { 'formset': formset, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk':pk}

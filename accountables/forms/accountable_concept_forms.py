@@ -1,3 +1,4 @@
+import datetime as dt
 from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ValidationError, BaseFormSet, modelformset_factory, formset_factory
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
@@ -48,13 +49,14 @@ class Accountable_ConceptCreateForm(Form):
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
+        date = dt.date(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2]))
         accountable = self.cleaned_data.get('accountable')
-        if not accountable.start_date:
+        if not accountable.subclass_obj().start_date:
             raise ValidationError(f"{accountable} no tiene fecha de ocupación.")
         else:
-            if date < accountable.start_date:
+            if date < accountable.subclass_obj().start_date:
                 self.add_error('date', f'{date} es anterior a fecha de ocupación de {accountable}.')
-        if accountable.end_date and date > accountable.end_date:
+        if accountable.subclass_obj().end_date and date > accountable.subclass_obj().end_date:
             self.add_error('date', f'{date} es posterior a fecha de terminación de {accountable}.')
         if date not in accountable.subclass_obj().pending_concept_dates():
             self.add_error('date', f'{date} no una opcion de disponible para {accountable}.')

@@ -55,8 +55,10 @@ def lease_realty_related_data(*args):
 
 def accountable_related_data(*args):
     from accountables.models import Accountable_Transaction_Type, Accountable_Concept
+    from accounting.models import Ledger_Template
     from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeModelFormSet
     from accountables.forms.accountable_concept_forms import Accountable_ConceptModelFormSet
+    from accounting.forms.ledger_template_forms import Ledger_TemplateAvailableModelFormset
     
     accounting_data = {
         'Tipos de Transacción:':{
@@ -77,6 +79,14 @@ def accountable_related_data(*args):
             'pending_url': 'accountables:pending_accountable_concept_create',
             'delete_url': 'accountables:accountable_concept_delete',
             'activate_url': 'accountables:accountable_concept_activate'
+        },
+        'Formatos Registros:':{
+            'class': Ledger_Template,
+            'formset': Ledger_TemplateAvailableModelFormset,
+            'filter_expresion': 'ledger_template__code',
+            'm2m_direct': True,
+            'add_url': 'accounting:accounting_ledger_add',
+            'remove_url': 'accounting:accounting_ledger_remove'
         }
     }
 

@@ -38,3 +38,5 @@ class Ledger_TemplateDeleteModelForm(ModelForm):
         fields = ['transaction_type', 'ledger_type', 'accountable_class']
 
 Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('transaction_type', 'ledger_type', 'accountable_class'), extra=0)
+
+Ledger_TemplateAvailableModelFormset = modelformset_factory(Ledger_Template, fields=('code', ), extra=0)
