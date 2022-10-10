@@ -1,6 +1,6 @@
 ,state_change_user_id,state_change_date,state,name
-0,1,2022-10-10 18:07:05.976256+00:00,1,Causacion Arriendo Inmueble
-1,1,2022-10-10 18:07:05.976293+00:00,1,Facturacion Arriendo sin IVA
-2,1,2022-10-10 18:07:05.976312+00:00,1,Facturacion Arriendo Inmueble con IVA sin ReteFuente
-3,1,2022-10-10 18:07:05.976329+00:00,1,Facturacion Arriendo Inmueble con IVA con ReteFuente
-4,1,2022-10-10 18:07:05.976344+00:00,1,Facturacion Arriendo Inmueble con IVA con ReteFuente y ReteIVA
+0,1,2022-10-10 21:06:50.070951+00:00,1,Causacion Arriendo Inmueble
+1,1,2022-10-10 21:06:50.070970+00:00,1,Facturacion Arriendo sin IVA
+2,1,2022-10-10 21:06:50.070977+00:00,1,Facturacion Arriendo Inmueble con IVA sin ReteFuente
+3,1,2022-10-10 21:06:50.070982+00:00,1,Facturacion Arriendo Inmueble con IVA con ReteFuente
+4,1,2022-10-10 21:06:50.070988+00:00,1,Facturacion Arriendo Inmueble con IVA con ReteFuente y ReteIVA
