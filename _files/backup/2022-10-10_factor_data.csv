@@ -1,0 +1,3 @@
+,id,state_change_user_id,state_change_date,state,factor_id,validity_date,amount,percentage,in_instance_attribute
+0,1,1,2022-10-10 17:57:01.453993+00:00,1,IVA,2022-01-01,0,19.000,
+1,2,1,2022-10-10 17:57:01.454033+00:00,1,Base,2022-01-01,0,100.000,

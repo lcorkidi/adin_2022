@@ -124,7 +124,7 @@ class Lease_Realty(Accountable):
         if self.end_date and self.end_date <= datetime.date.today():
             end_date = self.end_date
         else:
-            end_date = datetime.date.today() + relativedelta(months=3)
+            end_date = datetime.date.today()
         while ref_date < end_date:
             date_list.append(ref_date)
             ref_date = ref_date + relativedelta(years=1)

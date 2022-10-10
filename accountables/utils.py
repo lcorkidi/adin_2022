@@ -80,14 +80,14 @@ def accountable_related_data(*args):
             'delete_url': 'accountables:accountable_concept_delete',
             'activate_url': 'accountables:accountable_concept_activate'
         },
-        'Formatos Registros:':{
-            'class': Ledger_Template,
-            'formset': Ledger_TemplateAvailableModelFormset,
-            'filter_expresion': 'ledger_template__code',
-            'm2m_direct': True,
-            'add_url': 'accounting:accounting_ledger_add',
-            'remove_url': 'accounting:accounting_ledger_remove'
-        }
+        # 'Formatos Registros:':{
+        #     'class': Ledger_Template,
+        #     'formset': Ledger_TemplateAvailableModelFormset,
+        #     'filter_expresion': 'ledger_template__code',
+        #     'm2m_direct': True,
+        #     'add_url': 'accounting:accounting_ledger_add',
+        #     'remove_url': 'accounting:accounting_ledger_remove'
+        # }
     }
 
     return accounting_data
