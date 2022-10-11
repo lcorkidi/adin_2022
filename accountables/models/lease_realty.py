@@ -75,10 +75,13 @@ class Lease_Realty(Accountable):
             return True
         return False
 
-    def ledger_holder(self):
+    def primary_realty(self):
+        return self.lease_realty_realty_set.get(primary=True).realty
+
+    def primary_lessor(self):
         return self.lease_realty_person_set.get(lease=self, role=3).person
 
-    def ledger_third_party(self):
+    def lessee(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
     def concept_formset_dict(self, transaction_type):
@@ -87,23 +90,23 @@ class Lease_Realty(Accountable):
             formset_dict.append({'accountable':self, 'transaction_type':transaction_type, 'date': date, 'value': value,})
         return formset_dict
 
-    def pending_concept_date_values(self, first_date=None):
+    def pending_concept_date_values(self, first_date=None, extra_months=0):
         if not self.start_date:
             return {}
-        pending_dates = self.pending_concept_dates(first_date)
+        pending_dates = self.pending_concept_dates(first_date, extra_months)
         return {dt: self.get_value_4_date(dt) for dt in pending_dates}
 
-    def pending_date_value_dates(self, first_date=None):
+    def pending_date_value_dates(self, first_date=None, extra_months=0):
         if not self.start_date:
             return []
         date_values_dates = [item['date'] for item in self.date_value.exclude(state=0).values('date')]
-        return [dt for dt in self.yearly_dates(first_date) if dt not in date_values_dates]
+        return [dt for dt in self.yearly_dates(first_date, extra_months) if dt not in date_values_dates]
 
-    def pending_concept_dates(self, first_date=None):
+    def pending_concept_dates(self, first_date=None, extra_months=0):
         if not self.start_date:
             return []
         concept_dates = [item['date'] for item in self.accountable_concept.exclude(state=0).values('date')]
-        return [dt for dt in self.monthly_dates(first_date) if dt not in concept_dates and dt < min(self.pending_date_value_dates(first_date) if self.pending_date_value_dates(first_date) else [datetime.date.today()])]        
+        return [dt for dt in self.monthly_dates(first_date) if dt not in concept_dates and dt < min(self.pending_date_value_dates(first_date, extra_months) if self.pending_date_value_dates(first_date, extra_months) else [datetime.date.today()])]        
 
     def get_value_4_date(self, date):
         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
@@ -111,7 +114,7 @@ class Lease_Realty(Accountable):
         else:
             return int(round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
     
-    def yearly_dates(self, first_date=None):
+    def yearly_dates(self, first_date=None, extra_months=0):
         date_list = []
         if not self.start_date:
             return date_list
@@ -124,7 +127,7 @@ class Lease_Realty(Accountable):
         if self.end_date and self.end_date <= datetime.date.today():
             end_date = self.end_date
         else:
-            end_date = datetime.date.today()
+            end_date = datetime.date.today() + relativedelta(months=extra_months)
         while ref_date < end_date:
             date_list.append(ref_date)
             ref_date = ref_date + relativedelta(years=1)
