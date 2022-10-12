@@ -110,6 +110,9 @@ class Ledger_Template(BaseModel):
         related_query_name='ledger_template',
         verbose_name='Tipo Registro'
     )
+    concept_dependant = models.BooleanField(
+        verbose_name='Requiere Concepto'
+    )
     
     class Meta:
         app_label = 'accounting'

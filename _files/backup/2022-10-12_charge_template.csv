@@ -1,0 +1,7 @@
+,id,state_change_user_id,state_change_date,state,ledger_template_id,account_id,nature,factor_id
+0,1,1,2022-10-12 17:44:44.679127+00:00,1,FV^Arriendo Inmueble_Facturacion Arriendo sin IVA,13802005,1,Base
+1,2,1,2022-10-12 17:44:44.679161+00:00,1,FV^Arriendo Inmueble_Facturacion Arriendo sin IVA,913005,-1,Base
+2,3,1,2022-10-12 17:44:44.679180+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo sin IVA,13802005,-1,Base
+3,4,1,2022-10-12 17:44:44.679197+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo sin IVA,913005,1,Base
+4,5,1,2022-10-12 17:44:44.679213+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo sin IVA,110505,1,Base
+5,6,1,2022-10-12 17:44:44.679230+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo sin IVA,281510,-1,Base

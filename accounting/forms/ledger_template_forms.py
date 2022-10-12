@@ -1,9 +1,11 @@
-from django.forms import Form, ModelForm, ModelChoiceField, modelformset_factory
+import datetime
+from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, modelformset_factory
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.forms import GenericCreateForm
-from accounting.models import Ledger_Template
-from accountables.models import Accountable
+from adin.core.widgets import SelectDateSpanishWidget
+from accounting.models import Ledger_Template, Ledger, Charge
+from accountables.models import Accountable, Accountable_Concept
 
 class Ledger_TemplateCreateModelForm(GenericCreateForm):
 
@@ -14,13 +16,14 @@ class Ledger_TemplateCreateModelForm(GenericCreateForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['transaction_type', 'ledger_type', 'accountable_class']
+        fields = ['transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
 
     def save(self, creator_user, *args, **kwargs):
         base_args = {}
         base_args['accountable_class'] = self.cleaned_data.get('accountable_class')
         base_args['ledger_type'] = self.cleaned_data.get('ledger_type')
         base_args['transaction_type'] = self.cleaned_data.get('transaction_type')
+        base_args['concept_dependant'] = self.cleaned_data.get('concept_dependant')
         base_args['state_change_user'] = creator_user
         ledger_template = Ledger_Template(**base_args)
         ledger_template.save()
@@ -30,13 +33,13 @@ class Ledger_TemplateDetailModelForm(ModelForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['transaction_type', 'ledger_type', 'accountable_class']
+        fields = ['transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
 
 class Ledger_TemplateDeleteModelForm(ModelForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['transaction_type', 'ledger_type', 'accountable_class']
+        fields = ['transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
 
 class Ledger_TemplateSelectForm(Form):
 
@@ -71,10 +74,135 @@ class Ledger_TemplateSelectAccountableForm(Form):
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
 
-    def has_concept(self):
-        accountable = self.cleaned_data.get('accountable')
-        return accountable.accountable_concept.exclude(state=0).exists()
+    def concept_dependant(self):
+        ledger_template = self.cleaned_data.get('ledger_template')
+        return ledger_template.concept_dependant
 
-Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('transaction_type', 'ledger_type', 'accountable_class'), extra=0)
+class Ledger_TemplateConceptDataForm(Form):
+
+    ledger_template = ModelChoiceField(
+        queryset=Ledger_Template.objects.exclude(state=0),
+        label='Formato Registro'
+    )
+    accountable = ModelChoiceField(
+        queryset=Accountable.objects.exclude(state=0),
+        label='Contabilizable'
+    )
+    date = DateField(
+        widget=SelectDateSpanishWidget,
+        label='Fecha Cargo'
+    )
+    value = IntegerField(
+        label='Valor'
+    )
+
+    def __init__(self, *args, **kwargs):
+        obj=kwargs['initial']['ledger_template']
+        field_choices = {
+            'accountable': obj.accountable_class.model_class().__bases__[0].objects.filter(code__in=obj.accountable_class.model_class().active.values_list('code', flat=True))
+        }
+        super(Ledger_TemplateConceptDataForm, self).__init__(*args, **kwargs)
+        self.fields['accountable'].queryset = field_choices['accountable']
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        if date > datetime.date.today():
+            self.add_error('date', "Fecha no puede ser posterior a hoy.")
+        return date
+
+    def clean_value(self):
+        value = self.cleaned_data.get('value')
+        if value <= 0:
+            self.add_error('value', "Valor debe ser mayor que cero.")
+        return value
+
+    def clean(self):
+        ledger_template = self.cleaned_data.get('ledger_template')
+        accountable = self.cleaned_data.get('accountable')
+        date = self.cleaned_data.get('date')
+        value = self.cleaned_data.get('value')
+        if Accountable_Concept.objects.exclude(state=0).filter(
+            accountable=accountable,
+            transaction_type=ledger_template.transaction_type,
+            date=date,
+            value=value
+        ).exists():
+            raise ValidationError(f'Concepto para estos datos ya existe.')
+        return super().clean()
+
+    def save(self):
+        ledger_template = self.cleaned_data.get('ledger_template')
+        accountable = self.cleaned_data.get('accountable')
+        date = self.cleaned_data.get('date')
+        value = self.cleaned_data.get('value')
+        led=Ledger(
+            type=ledger_template.ledger_type,
+            holder=accountable.subclass_obj().primary_lessor(),
+            third_party=accountable.subclass_obj().lessee(),
+            date=date,
+            state_change_user=self.creator
+        )
+        led.save()
+        acc_con=Accountable_Concept(
+            accountable=accountable,
+            transaction_type=ledger_template.transaction_type,
+            date=date,
+            value=value,
+            state_change_user=self.creator
+        )
+        acc_con.save()
+        for cha_tem in ledger_template.charges_templates.all():
+            Charge(
+                ledger=led,
+                account=cha_tem.account,
+                value=cha_tem.factor.factored_value(accountable, acc_con.date, acc_con.value, cha_tem.nature),
+                concept=acc_con,
+            state_change_user=self.creator
+            ).save()
+        acc_con.registered = True
+        acc_con.save()
+        return led 
+
+class Ledger_TemplateSelectConceptForm(Form):
+
+    ledger_template = ModelChoiceField(
+        queryset=Ledger_Template.objects.exclude(state=0),
+        label='Formato Registro'
+    )
+    accountable = ModelChoiceField(
+        queryset=Accountable.objects.exclude(state=0),
+        label='Contabilizable'
+    )
+    accountable_concept = ModelChoiceField(
+        queryset=Accountable_Concept.objects.exclude(state=0),
+        label='Concepto Contabilizable'
+    )
+
+    def __init__(self, *args, **kwargs):
+        lt=kwargs['initial']['ledger_template']
+        acc=kwargs['initial']['accountable']
+        field_choices = {
+            'accountable': lt.accountable_class.model_class().__bases__[0].objects.filter(code__in=lt.accountable_class.model_class().active.values_list('code', flat=True)),
+            'accountable_concept': acc.accountable_concept.filter(transaction_type=lt.transaction_type, registered=False)
+        }
+        super(Ledger_TemplateSelectConceptForm, self).__init__(*args, **kwargs)
+        self.fields['accountable'].queryset = field_choices['accountable']
+        self.fields['accountable_concept'].queryset = field_choices['accountable_concept']
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
+Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant'), extra=0)
 
 Ledger_TemplateAvailableModelFormset = modelformset_factory(Ledger_Template, fields=('code', ), extra=0)

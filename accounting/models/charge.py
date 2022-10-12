@@ -3,6 +3,13 @@ from django.db import models
 
 from adin.core.models import BaseModel
 
+class UnsettledChargeManager(models.Manager):
+    def by_accountable(self, accountable, pending_transaction_type, settling_transaction_type):
+        qs = self.get_queryset().filter(concept__transaction_type=pending_transaction_type, concept__accountable=accountable)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Charge(BaseModel):
 
     ledger = models.ForeignKey(
@@ -32,6 +39,9 @@ class Charge(BaseModel):
         verbose_name='Cruzado',
         default=False
     )
+
+    objects = models.Manager()
+    unsettled = UnsettledChargeManager()
 
     class Meta:
         app_label = 'accounting'

@@ -112,6 +112,10 @@ class Accountable_Concept(BaseModel):
     value = models.PositiveIntegerField(
         verbose_name='Valor'
     )
+    registered = models.BooleanField(
+        verbose_name='Registrado',
+        default=False
+    )
 
     class Meta:
         app_label = 'accountables'
