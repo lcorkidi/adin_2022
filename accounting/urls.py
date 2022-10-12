@@ -3,7 +3,7 @@ from django.urls import path
 from accounting.views.account_views import AccountListView, AccountListSomeView, AccountListAllView, AccountCreateView, AccountDetailView, AccountUpdateView, AccountUpdateSomeView, AccountUpdateAllView, AccountDeleteView, AccountActivateView
 from accounting.views.ledger_views  import LedgerListView, LedgerListSomeView, LedgerListAllView, LedgerCreateView, LedgerDetailView, LedgerDeleteView, LedgerActivateView
 from accounting.views.ledger_type_views import Ledger_TypeListView, Ledger_TypeListSomeView, Ledger_TypeListAllView, Ledger_TypeCreateView, Ledger_TypeDetailView, Ledger_TypeDeleteView, Ledger_TypeActivateView
-from accounting.views.ledger_template_views  import Ledger_TemplateListView, Ledger_TemplateListSomeView, Ledger_TemplateListAllView, Ledger_TemplateCreateView, Ledger_TemplateDetailView, Ledger_TemplateDeleteView, Ledger_TemplateActivateView
+from accounting.views.ledger_template_views  import Ledger_TemplateListView, Ledger_TemplateListSomeView, Ledger_TemplateListAllView, Ledger_TemplateCreateView, Ledger_TemplateDetailView, Ledger_TemplateDeleteView, Ledger_TemplateActivateView, Ledger_TemplateSelectView, Ledger_TemplateSelectAccountableView
 
 app_name = 'accounting'
 
@@ -39,4 +39,6 @@ urlpatterns = [
     path('<str:pk>/ledger_template_detail/', Ledger_TemplateDetailView.as_view(),name='ledger_template_detail'),
     path('<str:pk>/ledger_template_delete/', Ledger_TemplateDeleteView.as_view(), name='ledger_template_delete'),
     path('<str:pk>/ledger_template_activate/', Ledger_TemplateActivateView.as_view(), name='ledger_template_activate'),
+    path('ledger_template_select/', Ledger_TemplateSelectView.as_view(), name='ledger_template_select'),
+    path('<str:pk>/ledger_template_select_accountable/', Ledger_TemplateSelectAccountableView.as_view(), name='ledger_template_select_accountable'),
 ]
