@@ -136,6 +136,7 @@ models_lists = {
             'person_address', 
             'person_phone', 
             'person_e_mail', 
+            'person_legal_person_natural',
             'estate', 
             'estate_person', 
             'estate_appraisal', 
@@ -222,7 +223,7 @@ models_info = {
             'fk_dict' : {'state_change_user':User, 'factor':Charge_Factor},
             'model' : Factor_Data,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
-            'to_rename' : {'state_change_user_id':'state_change_user'},
+            'to_rename' : {'state_change_user_id':'state_change_user', 'factor_id':'factor'},
             'bulk' : True,
             'pending_relations' : None
             },

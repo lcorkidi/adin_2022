@@ -1,3 +1,4 @@
 ,state_change_user_id,state_change_date,state,code,accountable_class_id,transaction_type_id,ledger_type_id,concept_dependant
-0,1,2022-09-29 19:55:33.219224+00:00,1,FV^Arriendo Inmueble_Facturacion Arriendo sin IVA,33,Facturacion Arriendo sin IVA,Factura de Venta,TRUE
-1,1,2022-09-29 19:55:33.219224+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo sin IVA,33,Ingreso Arriendo sin IVA,Recibo de Caja,FALSE
+0,1,2022-10-12 17:44:44.648168+00:00,1,FV^Arriendo Inmueble_Facturacion Arriendo Inmueble,33,Facturacion Arriendo Inmueble,Factura de Venta,TRUE
+1,1,2022-10-12 17:44:44.648203+00:00,1,RC^Arriendo Inmueble_Ingreso Arriendo Inmueble,33,Ingreso Arriendo Inmueble,Recibo de Caja,FALSE
+2,1,2022-10-12 21:32:46.552701+00:00,1,CA^Arriendo Inmueble_Causacion Arriendo Inmueble,33,Causacion Arriendo Inmueble,Causación,TRUE

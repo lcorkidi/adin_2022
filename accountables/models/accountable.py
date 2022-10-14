@@ -57,6 +57,12 @@ class Accountable_Transaction_Type(BaseModel):
         primary_key=True,
         verbose_name='Nombre'
     )
+    controlled_value = models.BooleanField(
+        verbose_name='Valor Supeditato'
+    )
+    relation_dependant = models.BooleanField(
+        verbose_name='Dependiente de Documento'
+    )
 
     class Meta:
         app_label = 'accountables'
