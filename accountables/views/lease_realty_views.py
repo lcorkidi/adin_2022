@@ -5,43 +5,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accountables.models import Lease_Realty
-from accountables.utils import lease_realty_related_data, accountable_related_data
+from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
 
 title = Lease_Realty._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
 
-class Lease_RealtyListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Lease_RealtyListView(GenericListView):
 
-    permission_required = 'accountables.view_lease_realty'
-
-    def get(self, request):
-        if request.user.has_perm('accountables.activate_lease_realty'):
-            return redirect('accountables:lease_realty_list_all')
-        else: 
-            return redirect('accountables:lease_realty_list_some')
-
-class Lease_RealtyListSomeView(GenericListView):
-
-    template = 'adin/generic_list.html'
     formset = Lease_RealtyListModelFormSet
     model = Lease_Realty
     title = title
     ref_urls = ref_urls
+    actions_on = GetActionsOn
     list_order = 'code'
     permission_required = 'accountables.view_lease_realty'
-    accountable = True
-
-class Lease_RealtyListAllView(GenericListView):
-
-    template = 'adin/generic_list.html'
-    formset = Lease_RealtyListModelFormSet
-    model = Lease_Realty
-    title = title
-    ref_urls = ref_urls
-    list_order = 'code'
-    permission_required = 'accountables.activate_lease_realty'
-    include_states = [ 0, 1, 2, 3 ]
-    accountable = True
+    include_states = GetIncludedStates
 
 class Lease_RealtyCreateView(GenericCreateView):
 

@@ -48,3 +48,39 @@ def realty_related_data(*args):
     }
     
     return related_data
+
+def GetActionsOn(self, user, model):
+    actions_on = []
+    per_dict = {
+        'Estate':  {
+            'properties.activate_estate': 'activate',
+            'properties.add_estate': 'create',
+            'properties.change_estate': 'update',
+            'properties.check_estate' : 'check',
+            'properties.delete_estate': 'deactivate',
+            'properties.view_estate': 'detail'
+            },
+        'Realty':  {
+            'properties.activate_realty': 'activate',
+            'properties.add_estate': 'create',
+            'properties.change_estate': 'update',
+            'properties.check_estate' : 'check',
+            'properties.delete_estate': 'deactivate',
+            'properties.view_estate': 'detail'
+            }
+        }
+    permissions = per_dict[model]
+    for per, action in permissions.items():
+        if user.has_perm(per):
+            actions_on.append(action)
+    return actions_on
+
+def GetIncludedStates(self, user, model):
+    perm_dict = {
+        'Estate': 'properties.activate_estate',
+        'Realty': 'properties.activate_realty'
+        }
+    permission = perm_dict[model]
+    if user.has_perm(permission):
+        return [ 0, 1, 2, 3 ]
+    return [ 1, 2, 3 ]

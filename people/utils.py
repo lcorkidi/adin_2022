@@ -67,3 +67,25 @@ def person_legal_related_data(*args):
     }        
     return related_data
 
+def GetActionsOn(self, user, model):
+    actions_on = []
+    per_dict = {
+        'Person':  {
+            'people.activate_person': 'activate',
+            'people.add_person': 'create',
+            'people.change_person': 'update',
+            'people.check_person' : 'check',
+            'people.delete_person': 'deactivate',
+            'people.view_person': 'detail'
+            }
+        }
+    permissions = per_dict[model]
+    for per, action in permissions.items():
+        if user.has_perm(per):
+            actions_on.append(action)
+    return actions_on
+
+def GetIncludedStates(self, user):
+    if user.has_perm('people.activate_person'):
+        return [ 0, 1, 2, 3 ]
+    return [ 1, 2, 3 ]

@@ -18,6 +18,7 @@ class Charge_Factor(BaseModel):
         verbose_name_plural = 'Tasas Transacciones'
         permissions = [
             ('activate_charge_factor', 'Can activate charge factor.'),
+            ('check_charge_factor', 'Can check charge factor.'),
         ]
 
     @classmethod

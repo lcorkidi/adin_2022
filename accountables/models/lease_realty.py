@@ -49,6 +49,8 @@ class Lease_Realty(Accountable):
         verbose_name_plural = 'Arriendos Inuembles'
         permissions = [
             ('activate_lease_realty', 'Can activate lease realty.'),
+            ('check_lease_realty', 'Can check lease realty.'),
+            ('accounting_lease_realty', 'Can do accounting on lease realty.'),
         ]
 
     @classmethod

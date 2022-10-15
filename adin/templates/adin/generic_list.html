@@ -12,7 +12,7 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }}</span> 
                     <div>
-                        {% if not 'create' in actions_off %}
+                        {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
                     </div>
@@ -27,7 +27,11 @@
                                     <th>{{ field.label }}</th> 
                                 {% endif %}                             
                             {% endfor %}
-                            <th>Acciones</th>                              
+                            {% if actions_on|length > 0 %}
+                                {% if 'create' in actions_on and actions_on|length > 1 %}
+                                    <th>Acciones</th>                    
+                                {% endif %}          
+                            {% endif %}          
                         </tr>
                     </thead>
                     <tbody>
@@ -43,25 +47,30 @@
                                     {% endif %}
                                 {% endfor %}
                                 <td class="table-actions">
-                                    {% if not 'detail' in actions_off %}
+                                    {% if form.state.value == 3 %}
+                                        <a class="text-success" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'check-square-fill' width="20px" height="20px" %}</a> |
+                                    {% endif %}
+                                    {% if 'detail' in actions_on %}
                                         <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                     {% endif %}
-                                    {% if not 'update' in actions_off and form.state.value != 0 %}
-                                        <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                                    {% if 'update' in actions_on %}
+                                        {% if form.state.value == 2 or form.state.value == 1 %}
+                                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                                        {% endif %}
+                                        {% if form.state.value == 3 %}
+                                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                                        {% endif %}
                                     {% endif %}
-                                    {% if not 'delete' in actions_off and form.state.value != 0 %}
-                                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
-                                    {% endif %}
-                                    {% if form.state.value == 0 and group == 'admin' %}
-                                        <a class="text-success" href="{% url ref_urls.activate form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
-                                    {% endif %}
-                                    {% if form.state.value == 1 and group == 'accounting_aux' %}
-                                        <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
-                                    {% endif %}
-                                    {% if form.state.value == 2 and group == 'admin' %}
+                                    {% if 'check' in actions_on and form.state.value == 2 %}
                                         <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                                     {% endif %}
-                                    {% if accountable %}
+                                    {% if 'deactivate' in actions_on and form.state.value != 0 %}
+                                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                    {% endif %}
+                                    {% if 'activate' in actions_on and form.state.value == 0 %}
+                                        <a class="text-success" href="{% url ref_urls.activate form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                    {% endif %}
+                                    {% if 'accounting' in actions_on %}
                                          | <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
                                     {% endif %}
                                 </td>                                    

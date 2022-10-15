@@ -101,6 +101,6 @@ class Accountable_Transaction_TypeRemoveForm(Form):
         transaction_type = cleaned_data.get('transaction_type')
         accountable.transaction_types.remove(transaction_type)
 
-Accountable_Transaction_TypeListModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('state', 'name',), extra=0)
+Accountable_Transaction_TypeListModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('state', 'name', 'controlled_value', 'relation_dependant'), extra=0)
 
 Accountable_Transaction_TypeModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('name', ), extra=0)

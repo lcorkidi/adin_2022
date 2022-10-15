@@ -78,6 +78,10 @@ class Ledger_Type(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Registro Tipo'
         verbose_name_plural = 'Registros Tipos'
+        permissions = [
+            ('activate_ledger_type', 'Can activate ledger type.'),
+            ('check_ledger_type', 'Can check ledger type.'),
+        ]
 
     def __repr__(self) -> str:
         return f'<Ledger_Type: {self.name}>'

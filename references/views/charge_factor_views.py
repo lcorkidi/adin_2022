@@ -6,44 +6,22 @@ from adin.core.views import GenericListView, GenericCreateView, GenericDetailVie
 from references.forms.charge_factor_forms import Charge_FactorCreateForm, Factor_DataCreateForm, Factor_DataDetailForm, Factor_DataDeleteForm, Factor_DataListModelFormSet
 from references.models import Factor_Data, Charge_Factor
 from adin.utils.user_data import user_group_str
+from references.utils import GetActionsOn, GetIncludedStates
 
 title = Factor_Data._meta.verbose_name_plural
 ref_urls = { 'list':'references:factor_data_list', 'create':'references:charge_factor_create', 'detail':'references:factor_data_detail', 'update':'references:factor_data_update', 'delete':'references:factor_data_delete', 'activate': 'references:factor_data_activate' }
 
-class Factor_DataListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Factor_DataListView(GenericListView):
 
-    permission_required = 'references.view_factor_data'
-
-    def get(self, request):
-        if request.user.has_perm('references.activate_charge_factor'):
-            return redirect('references:factor_data_list_all')
-        else: 
-            return redirect('references:factor_data_list_some')
-
-class Factor_DataListSomeView(GenericListView):
-
-    template = 'adin/generic_list.html'
     formset = Factor_DataListModelFormSet
     model = Factor_Data
     title = title
-    fk_fields = ['factor']
-    actions_off = ['update']
     ref_urls = ref_urls
+    fk_fields = ['factor']
+    actions_on = GetActionsOn
     list_order = 'validity_date'
     permission_required = 'references.view_factor_data'
-
-class Factor_DataListAllView(GenericListView):
-
-    template = 'adin/generic_list.html'
-    formset = Factor_DataListModelFormSet
-    model = Factor_Data
-    title = title
-    fk_fields = ['factor']
-    actions_off = ['update']
-    ref_urls = ref_urls
-    list_order = 'validity_date'
-    permission_required = 'references.activate_charge_factor'
-    include_states = [ 0, 1, 2, 3 ]
+    include_states = GetIncludedStates
 
 class Charge_FactorCreateView(GenericCreateView):
 

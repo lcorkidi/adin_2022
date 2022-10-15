@@ -5,43 +5,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericDeleteView, GenericActivateView
 from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeDetailModelForm, Accountable_Transaction_TypeCreateModelForm, Accountable_Transaction_TypeDeleteModelForm, Accountable_Transaction_TypeActivateModelForm, Accountable_Transaction_TypeAddForm, Accountable_Transaction_TypeRemoveForm, Accountable_Transaction_TypeListModelFormSet
 from accountables.models import Accountable, Accountable_Transaction_Type
-from accountables.utils import accountables_ref_urls
+from accountables.utils import accountables_ref_urls, GetActionsOn, GetIncludedStates
 
 title = Accountable_Transaction_Type._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:accountable_transaction_type_list', 'create':'accountables:accountable_transaction_type_create', 'detail':'accountables:accountable_transaction_type_detail', 'delete':'accountables:accountable_transaction_type_delete', 'activate':'accountables:accountable_transaction_type_activate', 'add': 'accountables:accountable_transaction_type_add' }
         
-class Accountable_Transaction_TypeListView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Accountable_Transaction_TypeListView(GenericListView):
 
-    permission_required = 'accountables.view_transaction_type'
-
-    def get(self, request):
-        if request.user.has_perm('accountables.activate_transaction_type'):
-            return redirect('accountables:accountable_transaction_type_list_all')
-        else: 
-            return redirect('accountables:accountable_transaction_type_list_some')
-
-class Accountable_Transaction_TypeListSomeView(GenericListView):
-
-    template = 'adin/generic_list.html'
     formset = Accountable_Transaction_TypeListModelFormSet
     model = Accountable_Transaction_Type
     title = title
     ref_urls = ref_urls
-    actions_off = ['update', 'detail']
-    list_order = 'accountable_transaction_type'
-    permission_required = 'references.view_accountable_transaction_type'
-
-class Accountable_Transaction_TypeListAllView(GenericListView):
-
-    template = 'adin/generic_list.html'
-    formset = Accountable_Transaction_TypeListModelFormSet
-    model = Accountable_Transaction_Type
-    title = title
-    ref_urls = ref_urls
-    actions_off = ['update', 'detail']
+    actions_on = GetActionsOn
     list_order = 'name'
-    permission_required = 'accountables.activate_accountable_transaction_type'
-    include_states = [ 0, 1, 2, 3 ]
+    permission_required = 'references.view_accountable_transaction_type'
+    include_states = GetIncludedStates
 
 class Accountable_Transaction_TypeCreateView(GenericCreateView):
 

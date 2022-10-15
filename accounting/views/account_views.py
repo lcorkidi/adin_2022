@@ -7,48 +7,27 @@ from django.db.models.fields import CharField
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accounting.forms.account_forms import AccountCreateForm, AccountDetailForm, AccountUpdateForm, AccountDeleteForm, AccountActivateForm, AccountListModelFormSet
 from accounting.models import Account
-from adin.utils.user_data import user_group_str
+from accounting.utils import GetActionsOn, GetIncludedStates
 
 title = Account._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:account_list', 'create':'accounting:account_create', 'detail':'accounting:account_detail', 'update':'accounting:account_update', 'delete':'accounting:account_delete', 'activate':'accounting:account_activate' }
 
 class AccountListView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    permission_required = 'accounting.view_account'
-
-    def get(self, request):
-        if request.user.has_perm('accounting.activate_account'):
-            return redirect('accounting:account_list_all')
-        else: 
-            return redirect('accounting:account_list_some')
-
-class AccountListSomeView(GenericListView):
-
     template = 'adin/generic_list.html'
     formset = AccountListModelFormSet
     model = Account
     title = title
     ref_urls = ref_urls
+    actions_on = GetActionsOn
     permission_required = 'accounting.view_account'
+    include_states = GetIncludedStates
     
     def get(self, request):
-        formset = self.formset(queryset=Account.objects.filter(state__in=self.include_states).annotate(char_code=Cast('code', CharField())).order_by('char_code'))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user)}
-        return render(request, self.template, context)
-
-class AccountListAllView(GenericListView):
-
-    template = 'adin/generic_list.html'
-    formset = AccountListModelFormSet
-    model = Account
-    title = title
-    ref_urls = ref_urls
-    permission_required = 'accounting.activate_account'
-    include_states = [ 0, 1, 2, 3 ]
-    
-    def get(self, request):
-        formset = self.formset(queryset=Account.objects.filter(state__in=self.include_states).annotate(char_code=Cast('code', CharField())).order_by('char_code'))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user)}
+        include_states = self.include_states(request.user, self.model.__name__)
+        actions_on = self.actions_on(request.user, self.model.__name__)
+        formset = self.formset(queryset=Account.objects.filter(state__in=include_states).annotate(char_code=Cast('code', CharField())).order_by('char_code'))
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)
 
 class AccountCreateView(GenericCreateView):

@@ -74,6 +74,7 @@ class Person(BaseModel):
         ordering = ['complete_name']
         permissions = [
             ('activate_person', 'Can activate person.'),
+            ('check_person', 'Can check person.'),
         ]
 
     @classmethod

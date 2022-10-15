@@ -58,6 +58,7 @@ class Account(BaseModel):
         verbose_name_plural = 'Cuentas'
         permissions = [
             ('activate_account', 'Can activate account.'),
+            ('check_account', 'Can check account.'),
             ('view_balance', 'Can view balance.')
         ]
 

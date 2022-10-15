@@ -166,7 +166,6 @@ class Ledger_TemplateConceptDataForm(Form):
                 concept=acc_con,
             state_change_user=self.creator
             ).save()
-        acc_con.registered = True
         acc_con.save()
         return led 
 

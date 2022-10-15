@@ -1,49 +1,26 @@
 from django.shortcuts import redirect, render
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger
 from accounting.forms.ledger_forms import LedgerDetailModelForm, LedgerCreateModelForm, LedgerDeleteModelForm, LedgerActivateModelForm, LedgerListModelFormSet
 from accounting.forms.charge_forms import ChargeCreateFormset
-from accounting.utils import ledger_related_data
+from accounting.utils import ledger_related_data, GetActionsOn, GetIncludedStates
 from adin.utils.user_data import user_group_str
 
 title = Ledger._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_list', 'create':'accounting:ledger_create', 'detail':'accounting:ledger_detail', 'delete':'accounting:ledger_delete', 'activate':'accounting:ledger_activate' }
 
-class LedgerListView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    permission_required = 'accounting.view_ledger'
-
-    def get(self, request):
-        if request.user.has_perm('accounting.activate_ledger'):
-            return redirect('accounting:ledger_list_all')
-        else: 
-            return redirect('accounting:ledger_list_some')
-
-class LedgerListSomeView(GenericListView):
+class LedgerListView(GenericListView):
 
     formset = LedgerListModelFormSet
     model = Ledger
     title = title
     ref_urls = ref_urls
     fk_fields = ['holder', 'third_party']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     list_order = 'code'
     permission_required = 'accounting.view_ledger'
-
-class LedgerListAllView(GenericListView):
-
-    formset = LedgerListModelFormSet
-    model = Ledger
-    title = title
-    ref_urls = ref_urls
-    fk_fields = ['holder', 'third_party']
-    actions_off = ['update']
-    list_order = 'code'
-    permission_required = 'accounting.activate_ledger'
-    include_states = [ 0, 1, 2, 3 ]
+    include_states = GetIncludedStates
 
 class LedgerCreateView(GenericCreateView):
 

@@ -70,6 +70,7 @@ class Accountable_Transaction_Type(BaseModel):
         verbose_name_plural = 'Transacciones Tipos'
         permissions = [
             ('activate_accountable_transaction_type', 'Can activate transaction type.'),
+            ('check_accountable_transaction_type', 'Can check transaction type.'),
         ]
 
     @classmethod
@@ -118,9 +119,15 @@ class Accountable_Concept(BaseModel):
     value = models.PositiveIntegerField(
         verbose_name='Valor'
     )
-    registered = models.BooleanField(
-        verbose_name='Registrado',
-        default=False
+    value_relation = models.ForeignKey(
+        'accountables.Date_Value',
+        on_delete=models.PROTECT,
+        related_name='accountable_concept',
+        related_query_name='accountable_concepts',
+        verbose_name='Fecha Valor',
+        null=True,
+        blank=True,
+        default=None,
     )
 
     class Meta:

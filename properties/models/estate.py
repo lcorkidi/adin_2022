@@ -42,6 +42,7 @@ class Estate(BaseModel):
         ]
         permissions = [
             ('activate_estate', 'Can activate estate.'),
+            ('check_estate', 'Can check estate.'),
         ]
 
     @classmethod

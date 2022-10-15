@@ -65,6 +65,7 @@ class Realty(BaseModel):
         ]
         permissions = [
             ('activate_realty', 'Can activate realty.'),
+            ('check_realty', 'Can check realty.'),
         ]
 
     @classmethod

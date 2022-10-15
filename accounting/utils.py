@@ -50,3 +50,54 @@ def ledger_template_related_data(*args):
     }
 
     return related_data
+
+def GetActionsOn(self, user, model):
+    actions_on = []
+    per_dict = {
+        'Account':  {
+            'accounting.activate_account': 'activate',
+            'accounting.add_account': 'create',
+            'accounting.change_account': 'update',
+            'accounting.check_account' : 'check',
+            'accounting.delete_account': 'deactivate',
+            'accounting.view_account': 'detail'
+            },
+        'Ledger_Template':  {
+            'accounting.activate_ledger_template': 'activate',
+            'accounting.add_ledger_template': 'create',
+            'accounting.check_ledger_template' : 'check',
+            'accounting.delete_ledger_template': 'deactivate',
+            'accounting.view_ledger_template': 'detail',
+            },
+        'Ledger':  {
+            'accounting.activate_ledger': 'activate',
+            'accounting.add_ledger': 'create',
+            'accounting.check_ledger' : 'check',
+            'accounting.delete_ledger': 'deactivate',
+            'accounting.view_ledger': 'detail',
+            },
+        'Ledger_Type':  {
+            'accounting.activate_ledger_type': 'activate',
+            'accounting.add_ledger_type': 'create',
+            'accounting.check_ledger_type' : 'check',
+            'accounting.delete_ledger_type': 'deactivate',
+            'accounting.view_ledger_type': 'detail'
+            }
+        }
+    permissions = per_dict[model]
+    for per, action in permissions.items():
+        if user.has_perm(per):
+            actions_on.append(action)
+    return actions_on
+
+def GetIncludedStates(self, user, model):
+    perm_dict = {
+        'Ledger_Type': 'accounting.activate_ledger_type',
+        'Ledger': 'accounting.activate_ledger',
+        'Account': 'accounting.activate_account',
+        'Ledger_Template': 'accounting.activate_ledger_template'
+        }
+    permission = perm_dict[model]
+    if user.has_perm(permission):
+        return [ 0, 1, 2, 3 ]
+    return [ 1, 2, 3 ]

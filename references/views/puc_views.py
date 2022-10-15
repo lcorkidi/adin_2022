@@ -19,11 +19,11 @@ class PUCListView(GenericListView):
     
     def get(self, request):
         if PUC.objects.all().exists():
-            actions_off = ['detail', 'create']
+            actions_on = ['delete']
         else:
-            actions_off = ['detail', 'delete']
+            actions_on = ['create']
         formset = self.formset(queryset=PUC.objects.annotate(char_code=Cast('code', CharField())).order_by('char_code')[:50])
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_off': actions_off}
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)
     permission_required = 'people.view_puc'
 

@@ -15,14 +15,15 @@ class GenericListView(LoginRequiredMixin, PermissionRequiredMixin, View):
     ref_urls = None
     choice_fields = None
     fk_fields = None
-    actions_off = None
+    actions_on = None
     list_order = None
-    include_states = [ 1, 2, 3 ]
-    accountable = False
+    include_states = None
     
     def get(self, request):
-        formset = self.formset(queryset=self.model.objects.all().filter(state__in=self.include_states).order_by(self.list_order))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user), 'accountable': self.accountable}
+        include_states = self.include_states(request.user, self.model.__name__)
+        actions_on = self.actions_on(request.user, self.model.__name__)
+        formset = self.formset(queryset=self.model.objects.all().filter(state__in=include_states).order_by(self.list_order))
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'actions_on': actions_on}
         return render(request, self.template, context)
 
 class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):

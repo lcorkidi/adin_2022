@@ -12,10 +12,10 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }}</span> 
                     <div>
-                        {% if not 'create' in actions_off %}
+                        {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
-                        {% if not 'delete' in actions_off %}
+                        {% if 'delete' in actions_on %}
                             <a class="text-danger" href="{% url ref_urls.delete %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
                         {% endif %}
                     </div>
@@ -28,7 +28,7 @@
                             {% for field in formset.form %}
                                 <th>{{ field.label }}</th>                              
                             {% endfor %}
-                            {% if not 'detail' in actions_off %}
+                            {% if 'detail' in actions_on %}
                                 <th>Acciones</th>                              
                             {% endif %}
                         </tr>
@@ -43,11 +43,9 @@
                                         <td>{{ field.value }}</td>
                                     {% endif %}
                                 {% endfor %}
-                                {% if not 'detail' in actions_off %}
+                                {% if 'detail' in actions_on %}
                                     <td class="table-actions">
-                                        {% if not 'detail' in actions_off %}
-                                            <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
-                                        {% endif %}
+                                        <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                     </td>                                    
                                 {% endif %}
                             </tr>

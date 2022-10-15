@@ -134,3 +134,57 @@ def addresslong(address):
     code += ", " + address.city
 
     return code
+
+def GetActionsOn(self, user, model):
+    actions_on = []
+    perm_dict = {
+        'Address':  {
+            'references.activate_address': 'activate',
+            'references.add_address': 'create',
+            'references.delete_address' : 'deactivate',
+            'references.view_address': 'detail'
+            },
+        'Phone':  {
+            'references.activate_address': 'activate',
+            'references.add_address': 'create',
+            'references.delete_address' : 'deactivate',
+            'references.view_address': 'detail'
+            },
+        'E_Mail':  {
+            'references.activate_address': 'activate',
+            'references.add_address': 'create',
+            'references.delete_address' : 'deactivate',
+            'references.view_address': 'detail'
+            },
+        'Calendar_Date':  {
+            'references.activate_calendar_date': 'activate',
+            'references.add_calendar_date': 'create',
+            'references.delete_calendar_date' : 'deactivate',
+            'references.view_calendar_date': 'detail'
+            },
+        'Factor_Data':  {
+            'references.activate_factor_data': 'activate',
+            'references.add_factor_data': 'create',
+            'references.delete_factor_data' : 'deactivate',
+            'references.check_factor_data' : 'check',
+            'references.view_factor_data': 'detail'
+            }
+        }
+    permissions = perm_dict[model]
+    for perm, action in permissions.items():
+        if user.has_perm(perm):
+            actions_on.append(action)
+    return actions_on
+
+def GetIncludedStates(self, user, model):
+    perm_dict = {
+        'Address': 'references.activate_address',
+        'Phone': 'references.activate_address',
+        'E_Mail': 'references.activate_address',
+        'Factor_Data': 'references.activate_factor_data',
+        'Calendar_Date': 'references:activate_calendar_date'
+        }
+    permission = perm_dict[model]
+    if user.has_perm(permission):
+        return [ 0, 1, 2, 3 ]
+    return [ 1, 2, 3 ]

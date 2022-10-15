@@ -168,6 +168,6 @@ class Accountable_ConceptPendingCreateBseFormSet(BaseFormSet):
         for form in self.forms:
             form.save(self.creator)
 
-Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date', 'value', 'registered'), extra=0)
+Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
 
 Accountable_ConceptPendingFormSet = formset_factory(Accountable_ConceptPendingCreateForm, formset=Accountable_ConceptPendingCreateBseFormSet, extra=0)

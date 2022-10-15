@@ -7,44 +7,23 @@ from accounting.models import Ledger_Template
 from accountables.models import Accountable
 from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
-from accounting.utils import ledger_template_related_data
+from accounting.utils import ledger_template_related_data, GetIncludedStates, GetActionsOn
 from adin.utils.user_data import user_group_str
 
 title = Ledger_Template._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_template_list', 'create':'accounting:ledger_template_create', 'detail':'accounting:ledger_template_detail', 'delete':'accounting:ledger_template_delete', 'activate':'accounting:ledger_template_activate' }
 
-class Ledger_TemplateListView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    permission_required = 'accounting.view_ledger_template'
-
-    def get(self, request):
-        if request.user.has_perm('accounting.activate_ledger'):
-            return redirect('accounting:ledger_template_list_all')
-        else: 
-            return redirect('accounting:ledger_template_list_some')
-
-class Ledger_TemplateListSomeView(GenericListView):
+class Ledger_TemplateListView(GenericListView):
 
     formset = Ledger_TemplateListModelFormSet
     model = Ledger_Template
     title = title
     ref_urls = ref_urls
     fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     list_order = 'code'
     permission_required = 'accounting.view_ledger_template'
-
-class Ledger_TemplateListAllView(GenericListView):
-
-    formset = Ledger_TemplateListModelFormSet
-    model = Ledger_Template
-    title = title
-    ref_urls = ref_urls
-    fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
-    actions_off = ['update']
-    list_order = 'code'
-    permission_required = 'accounting.activate_ledger_template'
-    include_states = [ 0, 1, 2, 3 ]
+    include_states = GetIncludedStates
 
 class Ledger_TemplateCreateView(GenericCreateView):
 

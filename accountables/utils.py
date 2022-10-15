@@ -79,15 +79,42 @@ def accountable_related_data(*args):
             'pending_url': 'accountables:pending_accountable_concept_create',
             'delete_url': 'accountables:accountable_concept_delete',
             'activate_url': 'accountables:accountable_concept_activate'
-        },
-        # 'Formatos Registros:':{
-        #     'class': Ledger_Template,
-        #     'formset': Ledger_TemplateAvailableModelFormset,
-        #     'filter_expresion': 'ledger_template__code',
-        #     'm2m_direct': True,
-        #     'add_url': 'accounting:accounting_ledger_add',
-        #     'remove_url': 'accounting:accounting_ledger_remove'
-        # }
+        }
     }
 
     return accounting_data
+
+def GetActionsOn(self, user, model):
+    actions_on = []
+    per_dict = {
+        'Lease_Realty':  {
+            'accountables.activate_lease_realty': 'activate',
+            'accountables.add_lease_realty': 'create',
+            'accountables.change_lease_realty': 'update',
+            'accountables.check_lease_realty' : 'check',
+            'accountables.delete_lease_realty': 'deactivate',
+            'accountables.view_lease_realty': 'detail',
+            'accountables.accounting_lease_realty': 'accounting',
+            },
+        'Accountable_Transaction_Type':  {
+            'accountables.activate_accountble_transaction_type': 'activate',
+            'accountables.add_accountble_transaction_type': 'create',
+            'accountables.check_accountble_transaction_type' : 'check',
+            'accountables.delete_accountble_transaction_type': 'deactivate',
+            }
+        }
+    permissions = per_dict[model]
+    for per, action in permissions.items():
+        if user.has_perm(per):
+            actions_on.append(action)
+    return actions_on
+
+def GetIncludedStates(self, user, model):
+    perm_dict = {
+        'Lease_Realty': 'accountables.activate_lease_realty',
+        'Accountable_Transaction_Type': 'accountables.activate_realty'
+        }
+    permission = perm_dict[model]
+    if user.has_perm(permission):
+        return [ 0, 1, 2, 3 ]
+    return [ 1, 2, 3 ]
