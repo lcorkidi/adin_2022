@@ -36,7 +36,7 @@ class EstateUpdateForm(GenericUpdateForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number', 'address', 'total_area']
+        fields = ['state', 'national_number', 'address', 'total_area']
 
     def clean_address(self):
         address = self.cleaned_data.get('address')

@@ -1,5 +1,5 @@
 from django.urls import path
-from people.views.person_views import PersonListView, PersonCreateView, Person_NaturalCreateView, Person_LegalCreateView, PersonDetailView, Person_NaturalDetailView, Person_LegalDetailView, PersonUpdateView, Person_NaturalUpdateSomeView, Person_NaturalUpdateAllView, Person_LegalUpdateSomeView, Person_LegalUpdateAllView, PersonDeleteView, Person_NaturalDeleteView, Person_LegalDeleteView, PersonActivateView, Person_NaturalActivateView, Person_LegalActivateView
+from people.views.person_views import PersonListView, PersonCreateView, Person_NaturalCreateView, Person_LegalCreateView, PersonDetailView, Person_NaturalDetailView, Person_LegalDetailView, PersonUpdateView, PersonDeleteView, Person_NaturalDeleteView, Person_LegalDeleteView, PersonActivateView, Person_NaturalActivateView, Person_LegalActivateView
 from people.views.person_phone_views import Person_PhoneCreateView, Person_PhoneUpdateView, Person_PhoneDeleteView, Person_PhoneActivateView
 from people.views.person_e_mail_views import Person_EmailCreateView, Person_EmailUpdateView, Person_EmailDeleteView, Person_EmailActivateView
 from people.views.person_address_views import Person_AddressCreateView, Person_AddressUpdateView, Person_AddressDeleteView, Person_AddressActivateView
@@ -16,14 +16,10 @@ urlpatterns = [
     path('<int:pk>/person_activate/', PersonActivateView.as_view(), name='person_activate'),
     path('person_natural_create/', Person_NaturalCreateView.as_view(), name='person_natural_create'),
     path('<int:pk>/person_natural_detail/',Person_NaturalDetailView.as_view(),name='person_natural_detail'),
-    path('<int:pk>/person_natural_update_some/', Person_NaturalUpdateSomeView.as_view(), name='person_natural_update_some'),
-    path('<int:pk>/person_natural_update_all/', Person_NaturalUpdateAllView.as_view(), name='person_natural_update_all'),
     path('<int:pk>/person_natural_delete/', Person_NaturalDeleteView.as_view(), name='person_natural_delete'),
     path('<int:pk>/person_natural_activate/', Person_NaturalActivateView.as_view(), name='person_natural_activate'),
     path('person_legal_create/', Person_LegalCreateView.as_view(), name='person_legal_create'),
     path('<int:pk>/person_legal_detail/',Person_LegalDetailView.as_view(),name='person_legal_detail'),
-    path('<int:pk>/person_legal_update_some/', Person_LegalUpdateSomeView.as_view(), name='person_legal_update_some'),
-    path('<int:pk>/person_legal_update_all/', Person_LegalUpdateAllView.as_view(), name='person_legal_update_all'),
     path('<int:pk>/person_legal_delete/', Person_LegalDeleteView.as_view(), name='person_legal_delete'),
     path('<int:pk>/person_legal_activate/', Person_LegalActivateView.as_view(), name='person_legal_activate'),
     path('<int:pk>/person_phone_create/', Person_PhoneCreateView.as_view(), name='person_phone_create'),

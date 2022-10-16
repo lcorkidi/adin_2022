@@ -1,7 +1,3 @@
-from django.shortcuts import redirect
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from properties.forms.estate_forms import EstateCreateForm, EstateDetailForm, EstateUpdateForm, EstateDeleteForm, EstateActivateForm, EstateListModelFormSet
 from properties.models import Estate
@@ -42,17 +38,7 @@ class EstateDetailView(GenericDetailView):
     related_data = estate_related_data
     permission_required = 'properties.view_estate'
 
-class EstateUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    permission_required = 'properties.change_estate'
-
-    def get(self, request, pk):
-        if request.user.has_perm('properties.activate_estate'):
-            return redirect('properties:estate_update_all', pk)
-        else: 
-            return redirect('properties:estate_update_some', pk)
-
-class EstateUpdateSomeView(GenericUpdateView):
+class EstateUpdateView(GenericUpdateView):
 
     model = Estate
     form = EstateUpdateForm
@@ -61,21 +47,9 @@ class EstateUpdateSomeView(GenericUpdateView):
     readonly_fields = ['national_number']
     choice_fields = ['type']
     fk_fields = ['address', 'person']
+    actions_on = GetActionsOn
     related_data = estate_related_data
     permission_required = 'properties.change_estate'
-
-class EstateUpdateAllView(GenericUpdateView):
-
-    model = Estate
-    form = EstateUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['national_number']
-    choice_fields = ['type']
-    fk_fields = ['address', 'person']
-    related_data = estate_related_data
-    permission_required = 'properties.activate_estate'
-    include_states = [ 0, 1, 2, 3 ]
 
 class EstateDeleteView(GenericDeleteView):
 

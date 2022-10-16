@@ -1,6 +1,4 @@
 from django.shortcuts import redirect, render
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
@@ -41,15 +39,18 @@ class Lease_RealtyDetailView(GenericDetailView):
     related_data = lease_realty_related_data
     permission_required = 'accountables.view_lease_realty'
 
-class Lease_RealtyUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class Lease_RealtyUpdateView(GenericUpdateView):
 
+    model = Lease_Realty
+    form = Lease_RealtyUpdateForm
+    title = title
+    ref_urls = ref_urls
+    readonly_fields = ['code', 'doc_date']
+    choice_fields = ['role']
+    fk_fields = ['lease', 'person', 'realty']
+    actions_on = GetActionsOn
+    related_data = lease_realty_related_data
     permission_required = 'accountables.change_lease_realty'
-
-    def get(self, request, pk):
-        if request.user.has_perm('accountables.activate_lease_realty'):
-            return redirect('accountables:lease_realty_update_all', pk)
-        else: 
-            return redirect('accountables:lease_realty_update_some', pk)
 
 class Lease_RealtyUpdateSomeView(GenericUpdateView):
 

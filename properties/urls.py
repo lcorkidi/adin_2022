@@ -1,9 +1,9 @@
 from django.urls import path
 
-from properties.views.estate_views import EstateListView, EstateDetailView, EstateCreateView, EstateUpdateView, EstateUpdateSomeView, EstateUpdateAllView, EstateDeleteView, EstateActivateView
+from properties.views.estate_views import EstateListView, EstateDetailView, EstateCreateView, EstateUpdateView, EstateDeleteView, EstateActivateView
 from properties.views.estate_person_views import Estate_PersonCreateView, Estate_PersonUpdateView, Estate_PersonDeleteView, Estate_PersonActivateView
 from properties.views.estate_appraisals_views import Estate_AppraisalCreateView, Estate_AppraisalUpdateView, Estate_AppraisalDeleteView, Estate_AppraisalActivateView
-from properties.views.realty_views import RealtyListView, RealtyCreateView, RealtyDetailView, RealtyUpdateView, RealtyUpdateSomeView, RealtyUpdateAllView, RealtyDeleteView, RealtyActivateView
+from properties.views.realty_views import RealtyListView, RealtyCreateView, RealtyDetailView, RealtyUpdateView, RealtyDeleteView, RealtyActivateView
 from properties.views.realty_estate_views import Realty_EstateCreateView, Realty_EstateUpdateView, Realty_EstateDeleteView, Realty_EstateActivateView
 
 app_name = 'properties'
@@ -13,8 +13,6 @@ urlpatterns = [
     path('estate_create/', EstateCreateView.as_view(), name='estate_create'),
     path('<str:pk>/estate_detail/', EstateDetailView.as_view(),name='estate_detail'),
     path('<str:pk>/estate_update/', EstateUpdateView.as_view(), name='estate_update'),
-    path('<str:pk>/estate_update_some/', EstateUpdateSomeView.as_view(), name='estate_update_some'),
-    path('<str:pk>/estate_update_all/', EstateUpdateAllView.as_view(), name='estate_update_all'),
     path('<str:pk>/estate_delete/', EstateDeleteView.as_view(), name='estate_delete'),
     path('<str:pk>/estate_activate/', EstateActivateView.as_view(), name='estate_activate'),
     path('<str:pk>/estate_person_create/', Estate_PersonCreateView.as_view(), name='estate_person_create'),
@@ -29,8 +27,6 @@ urlpatterns = [
     path('realty_create/', RealtyCreateView.as_view(), name='realty_create'),
     path('<str:pk>/realty_detail/', RealtyDetailView.as_view(),name='realty_detail'),
     path('<str:pk>/realty_update/', RealtyUpdateView.as_view(), name='realty_update'),
-    path('<str:pk>/realty_update_some/', RealtyUpdateSomeView.as_view(), name='realty_update_some'),
-    path('<str:pk>/realty_update_all/', RealtyUpdateAllView.as_view(), name='realty_update_all'),
     path('<str:pk>/realty_delete/', RealtyDeleteView.as_view(), name='realty_delete'),
     path('<str:pk>/realty_activate/', RealtyActivateView.as_view(), name='realty_activate'),
     path('<str:pk>/realty_estate_create/', Realty_EstateCreateView.as_view(), name='realty_estate_create'),

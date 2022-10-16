@@ -48,7 +48,7 @@
                                 {% endfor %}
                                 <td class="table-actions">
                                     {% if form.state.value == 3 %}
-                                        <a class="text-success" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'check-square-fill' width="20px" height="20px" %}</a> |
+                                        <a class="text-success" style="text-decoration:none">{% render_bi 'check-square-fill' width="20px" height="20px" %}</a> |
                                     {% endif %}
                                     {% if 'detail' in actions_on %}
                                         <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
@@ -61,7 +61,7 @@
                                             <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                                         {% endif %}
                                     {% endif %}
-                                    {% if 'check' in actions_on and form.state.value == 2 %}
+                                    {% if 'check' in actions_on %}
                                         <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                                     {% endif %}
                                     {% if 'deactivate' in actions_on and form.state.value != 0 %}

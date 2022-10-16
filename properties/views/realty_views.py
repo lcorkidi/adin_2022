@@ -1,7 +1,3 @@
-from django.shortcuts import redirect
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from properties.forms.realty_forms import RealtyCreateForm, RealtyDetailForm, RealtyUpdateForm, RealtyDeleteForm, RealtyActivateForm, RealtyListModelFormSet
 from properties.models import Realty
@@ -42,17 +38,7 @@ class RealtyDetailView(GenericDetailView):
     related_data = realty_related_data
     permission_required = 'properties.view_realty'
 
-class RealtyUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    permission_required = 'properties.view_realty'
-
-    def get(self, request, pk):
-        if request.user.has_perm('properties.activate_realty'):
-            return redirect('properties:realty_update_all', pk)
-        else: 
-            return redirect('properties:realty_update_some', pk)
-
-class RealtyUpdateSomeView(GenericUpdateView):
+class RealtyUpdateView(GenericUpdateView):
 
     model = Realty
     form = RealtyUpdateForm
@@ -61,21 +47,9 @@ class RealtyUpdateSomeView(GenericUpdateView):
     readonly_fields = ['code', 'address']
     choice_fields = ['type', 'use']
     fk_fields = ['address', 'estate']
+    actions_on = GetActionsOn
     related_data = realty_related_data
     permission_required = 'properties.change_realty'
-
-class RealtyUpdateAllView(GenericUpdateView):
-
-    model = Realty
-    form = RealtyUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['code', 'address']
-    choice_fields = ['type', 'use']
-    fk_fields = ['address', 'estate']
-    related_data = realty_related_data
-    permission_required = 'properties.activate_realty'
-    include_states = [ 0, 1, 2, 3 ]
 
 class RealtyDeleteView(GenericDeleteView):
 

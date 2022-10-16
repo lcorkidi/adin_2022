@@ -7,6 +7,7 @@ from people.models import Person, Person_Natural, Person_Legal
 from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, Person_NaturalActivateForm, Person_LegalActivateForm, PersonListModelFormSet
 from people.utils import person_natural_related_data, person_legal_related_data, GetActionsOn, GetIncludedStates
 from adin.utils.user_data import user_group_str
+from adin.utils.related_models import related_data_formsets_call
 
 title = Person._meta.verbose_name_plural
 ref_urls = { 'list':'people:person_list', 'create':'people:person_create', 'detail':'people:person_detail', 'update':'people:person_update', 'delete':'people:person_delete', 'activate': 'people:person_activate' }
@@ -143,71 +144,41 @@ class Person_LegalDetailView(GenericDetailView):
 
 class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
+    template = 'adin/generic_update.html'
+    form = {'Person_Natural':Person_NaturalUpdateForm, 'Person_Legal': Person_LegalUpdateForm}
+    title = title
+    subtitle = 'Actualizar'
+    ref_urls = ref_urls
+    readonly_fields = ['state', 'type', 'id_type', 'id_number']
+    choice_fields = {'Person_Natural':['type', 'id_type', 'use'], 'Person_Legal': ['type', 'id_type', 'use', 'legal_type', 'appointment']}
+    fk_fields = {'Person_Natural':[ 'address' ], 'Person_Legal': [ 'address', 'person_natural' ]}
+    related_data = {'Person_Natural':person_natural_related_data, 'Person_Legal': person_legal_related_data}
+    actions_on = GetActionsOn
     permission_required = 'people.change_person'
 
     def get(self, request, pk):
-        per = Person.objects.get(pk=pk)
-        if per.type == 0:
-            if request.user.has_perm('people.activate_person'):
-                return redirect('people:person_natural_update_all', pk)
-            else: 
-                return redirect('people:person_natural_update_some', pk)
-        elif per.type == 1:
-            if request.user.has_perm('people.activate_person'):
-                return redirect('people:person_legal_update_all', pk)
-            else: 
-                return redirect('people:person_legal_update_some', pk)
+        obj = Person.objects.get(pk=pk)
+        obj = obj.subclass_obj()
+        model_str = obj._meta.model.__name__
+        form = self.form[model_str](instance=obj)
+        form.set_readonly_fields(self.readonly_fields)
+        related_data = related_data_formsets_call(self.related_data[model_str], pk, request.user)
+        actions_on = self.actions_on(request.user, model_str)
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields[model_str], 'fk_fields': self.fk_fields[model_str], 'related_data':related_data, 'actions_on': actions_on}
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        obj = Person.objects.get(pk=pk)
+        obj = obj.subclass_obj()
+        model_str = obj._meta.model.__name__
+        form = self.form[model_str](request.POST, instance=obj)
+        if not form.is_valid():
+            related_data = related_data_formsets_call(self.related_data[model_str], pk, request.user)
+            actions_on = self.actions_on(request.user, model_str)
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields[model_str], 'fk_fields': self.fk_fields[model_str], 'related_data':related_data, 'actions_on': actions_on}
+            return render(request, self.template, context)
+        form.save()
         return redirect(self.ref_urls['list'])
-
-class Person_NaturalUpdateSomeView(GenericUpdateView):
-
-    model = Person_Natural
-    form = Person_NaturalUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type', 'id_number']
-    choice_fields = ['type', 'id_type', 'use']
-    fk_fields = [ 'address' ]
-    related_data = person_natural_related_data
-    permission_required = 'people.change_person'
-
-class Person_NaturalUpdateAllView(GenericUpdateView):
-
-    model = Person_Natural
-    form = Person_NaturalUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type', 'id_number']
-    choice_fields = ['type', 'id_type', 'use']
-    fk_fields = [ 'address' ]
-    related_data = person_natural_related_data
-    permission_required = 'people.activate_person'
-    include_states = [ 0, 1, 2, 3 ]
-
-class Person_LegalUpdateSomeView(GenericUpdateView):
-
-    model = Person_Legal
-    form = Person_LegalUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type', 'id_number']
-    choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
-    fk_fields = [ 'address', 'person_natural' ]
-    related_data = person_legal_related_data
-    permission_required = 'people.change_person'
-
-class Person_LegalUpdateAllView(GenericUpdateView):
-
-    model = Person_Legal
-    form = Person_LegalUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['type', 'id_type', 'id_number']
-    choice_fields = ['type', 'id_type', 'use', 'legal_type', 'appointment']
-    fk_fields = [ 'address', 'person_natural' ]
-    related_data = person_legal_related_data
-    permission_required = 'people.activate_person'
-    include_states = [ 0, 1, 2, 3 ]
 
 class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

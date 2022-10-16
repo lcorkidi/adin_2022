@@ -71,13 +71,13 @@ class Person_NaturalUpdateForm(GenericUpdateForm):
 
     class Meta:
         model = Person_Natural
-        fields = [ 'type', 'name', 'last_name', 'id_type', 'id_number']
+        fields = ['state', 'type', 'name', 'last_name', 'id_type', 'id_number']
 
 class Person_LegalUpdateForm(GenericUpdateForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'name', 'legal_type', 'id_type', 'id_number']
+        fields = ['state', 'type', 'name', 'legal_type', 'id_type', 'id_number']
 
 class Person_NaturalDeleteForm(GenericDeleteForm):
 

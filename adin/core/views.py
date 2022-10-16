@@ -64,7 +64,7 @@ class GenericDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        related_data = related_data_formsets_call(self.related_data, pk)
+        related_data = related_data_formsets_call(self.related_data, pk, request.user)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off, 'group': user_group_str(request.user) }
         return render(request, self.template, context)
 
@@ -79,26 +79,28 @@ class GenericUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     readonly_fields = None
     choice_fields = None
     fk_fields = None
+    actions_on = None
     related_data = None
-    include_states = [ 1, 2, 3 ]
 
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
+        actions_on = self.actions_on(request.user, self.model.__name__)
         form = self.form(instance=obj)
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        related_data = related_data_formsets_call(self.related_data, pk)
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'group': user_group_str(request.user)}
+        related_data = related_data_formsets_call(self.related_data, pk, request.user)
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'actions_on': actions_on}
         return render(request, self.template, context)
 
     def post(self, request, pk):
         obj = self.model.objects.get(pk=pk)
+        actions_on = self.actions_on(request.user, self.model.__name__)
         form = self.form(request.POST, instance=obj)
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
         if not form.is_valid():
-            related_data = related_data_formsets_call(self.related_data, pk)
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'group': user_group_str(request.user)}
+            related_data = related_data_formsets_call(self.related_data, pk, request.user)
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'fk_fields': self.fk_fields, 'related_data':related_data, 'actions_on': actions_on}
             return render(request, self.template, context)
         form.save()
         return redirect(self.ref_urls['list'])
