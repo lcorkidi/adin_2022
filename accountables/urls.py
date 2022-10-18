@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.lease_realty_views import Lease_RealtyListView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyUpdateSomeView, Lease_RealtyUpdateAllView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
+from .views.lease_realty_views import Lease_RealtyMainView, Lease_RealtyListView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonDetailView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeListView, Accountable_Transaction_TypeCreateView, Accountable_Transaction_TypeDetailView, Accountable_Transaction_TypeDeleteView, Accountable_Transaction_TypeActivateView, Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
@@ -15,13 +15,12 @@ urlpatterns = [
     path('<str:pk>/accountable_transaction_type_detail/', Accountable_Transaction_TypeDetailView.as_view(), name='accountable_transaction_type_detail'),
     path('<str:pk>/accountable_transaction_type_delete/', Accountable_Transaction_TypeDeleteView.as_view(), name='accountable_transaction_type_delete'),
     path('<str:pk>/accountable_transaction_type_activate/', Accountable_Transaction_TypeActivateView.as_view(), name='accountable_transaction_type_activate'),
-    path('lease_realty_list', Lease_RealtyListView.as_view(), name='lease_realty_list'), 
+    path('lease_realty_main/', Lease_RealtyMainView.as_view(), name='lease_realty_main'), 
+    path('lease_realty_list/', Lease_RealtyListView.as_view(), name='lease_realty_list'), 
     path('lease_realty_create/', Lease_RealtyCreateView.as_view(), name='lease_realty_create'),
     path('<str:pk>/lease_realty_detail/', Lease_RealtyDetailView.as_view(),name='lease_realty_detail'),
     path('<str:pk>/lease_realty_update/', Lease_RealtyUpdateView.as_view(), name='lease_realty_update'),
-    path('<str:pk>/lease_realty_update_some/', Lease_RealtyUpdateSomeView.as_view(), name='lease_realty_update_some'),
     path('<str:pk>/lease_realty_accounting/', Lease_RealtyAccountingView.as_view(), name='lease_realty_accounting'),
-    path('<str:pk>/lease_realty_update_all/', Lease_RealtyUpdateAllView.as_view(), name='lease_realty_update_all'),
     path('<str:pk>/lease_realty_delete/', Lease_RealtyDeleteView.as_view(), name='lease_realty_delete'),
     path('<str:pk>/lease_realty_activate/', Lease_RealtyActivateView.as_view(), name='lease_realty_activate'),
     path('<str:pk>/lease_realty_realty_create/', Lease_Realty_RealtyCreateView.as_view(), name='lease_realty_realty_create'),

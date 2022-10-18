@@ -1,4 +1,7 @@
+import pandas as pd
 from django.shortcuts import redirect, render
+from django.views.generic import View
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
@@ -6,7 +9,27 @@ from accountables.models import Lease_Realty
 from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
 
 title = Lease_Realty._meta.verbose_name_plural
-ref_urls = { 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
+ref_urls = { 'return':'accountables:lease_realty_main', 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
+
+class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    
+    template = 'accountables/lease_realty_main.html'
+    formset = Lease_RealtyListModelFormSet
+    model = Lease_Realty
+    title = 'Contratos Arriendo Inmuebles con Errores'
+    ref_urls = ref_urls
+    actions_on = GetActionsOn
+    list_order = 'code'
+    permission_required = 'accountables.view_lease_realty'
+    
+    def get(self, request):
+        actions_on = self.actions_on(request.user, self.model.__name__)
+        objs_df = pd.DataFrame(self.model.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(self.model.objects.get(pk=x).get_obj_errors()) == 0 else 1))
+        has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
+        formset = self.formset(queryset=self.model.active.filter(code__in=has_errors_list).order_by(self.list_order))
+        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
+        return render(request, self.template, context)
 
 class Lease_RealtyListView(GenericListView):
 
@@ -51,32 +74,7 @@ class Lease_RealtyUpdateView(GenericUpdateView):
     actions_on = GetActionsOn
     related_data = lease_realty_related_data
     permission_required = 'accountables.change_lease_realty'
-
-class Lease_RealtyUpdateSomeView(GenericUpdateView):
-
-    model = Lease_Realty
-    form = Lease_RealtyUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['code', 'doc_date']
-    choice_fields = ['role']
-    fk_fields = ['lease', 'person', 'realty']
-    related_data = lease_realty_related_data
-    permission_required = 'accountables.change_lease_realty'
-
-class Lease_RealtyUpdateAllView(GenericUpdateView):
-
-    model = Lease_Realty
-    form = Lease_RealtyUpdateForm
-    title = title
-    ref_urls = ref_urls
-    readonly_fields = ['code', 'doc_date']
-    choice_fields = ['role']
-    fk_fields = ['lease', 'person', 'realty']
-    related_data = lease_realty_related_data
-    permission_required = 'accountables.activate_lease_realty'
-    include_states = [ 0, 1, 2, 3 ]
-
+    
 class Lease_RealtyAccountingView(GenericDetailView):
 
     template = 'accountables/accountable_accounting.html'

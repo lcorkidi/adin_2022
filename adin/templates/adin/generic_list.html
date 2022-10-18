@@ -12,6 +12,9 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }}</span> 
                     <div>
+                        {% if ref_urls.return %}
+                            <a href="{% url ref_urls.return %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a> | 
+                        {% endif %}
                         {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
