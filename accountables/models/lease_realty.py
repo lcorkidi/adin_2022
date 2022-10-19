@@ -114,7 +114,7 @@ class Lease_Realty(Accountable):
         if not self.end_date or self.end_date >= nextmonthlydate(self.doc_date, date):
             return int(round(((nextmonthlydate(self.doc_date, date) - date).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
         else:
-            return int(round(((self.end_date - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
+            return int(round((((self.end_date + relativedelta(days=1)) - previousmonthlydate(self.doc_date, date)).days / (nextmonthlydate(self.doc_date, date) - previousmonthlydate(self.doc_date, date)).days) * int(self.date_value.filter(date__lte=date).latest('date').value if date >= self.doc_date else self.date_value.get(date=self.doc_date).value), 0))
     
     def yearly_dates(self, first_date=None, extra_months=0):
         date_list = []

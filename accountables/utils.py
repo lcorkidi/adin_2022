@@ -37,6 +37,12 @@ per_dict = {
             'accountables.add_accountble_transaction_type': 'create',
             'accountables.check_accountble_transaction_type' : 'check',
             'accountables.delete_accountble_transaction_type': 'deactivate',
+            },
+        'Accountable_Concept':  {
+            'accountables.activate_accountable_concept': 'activate',
+            'accountables.add_accountable_concept': 'create',
+            'accountables.check_accountable_concept' : 'check',
+            'accountables.delete_accountable_concept': 'deactivate',
             }
         }
 
@@ -45,7 +51,8 @@ perm_dict = {
         'Lease_Realty_Realty': 'accountables.activate_lease_realty',
         'Lease_Realty_Person': 'accountables.activate_lease_realty',
         'Date_Value': 'accountables.activate_lease_realty',
-        'Accountable_Transaction_Type': 'accountables.activate_realty'
+        'Accountable_Transaction_Type': 'accountables.activate_realty',
+        'Accountable_Concept': 'accountables.activate_accountable_concept'
         }
 
 def lease_realty_code(realty, doc_date):
@@ -113,6 +120,8 @@ def accountable_related_data(*args):
             'formset': Accountable_Transaction_TypeModelFormSet,
             'filter_expresion': 'accountable__code',
             'm2m_direct': True,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
             'add_url': 'accountables:accountable_transaction_type_add',
             'remove_url': 'accountables:accountable_transaction_type_remove'
         },

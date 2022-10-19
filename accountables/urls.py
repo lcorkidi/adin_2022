@@ -4,7 +4,7 @@ from .views.lease_realty_views import Lease_RealtyMainView, Lease_RealtyListView
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonDetailView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeListView, Accountable_Transaction_TypeCreateView, Accountable_Transaction_TypeDetailView, Accountable_Transaction_TypeDeleteView, Accountable_Transaction_TypeActivateView, Accountable_Transaction_TypeAddView, Accountable_Transaction_TypeRemoveView
-from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptPendingCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView
+from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptPendingCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView, Accountable_ConceptCreateSelectTransaction_TypeView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
 
 app_name = 'accountables'
@@ -33,7 +33,7 @@ urlpatterns = [
     path('<str:ret_pk>/<str:pk>/lease_realty_person_activate/', Lease_Realty_PersonActivateView.as_view(), name='lease_realty_person_activate'),
     path('<str:pk>/accountable_transaction_type_add/', Accountable_Transaction_TypeAddView.as_view(), name='accountable_transaction_type_add'),
     path('<str:pk>/<str:rel_pk>/accountable_transaction_type_remove/', Accountable_Transaction_TypeRemoveView.as_view(), name='accountable_transaction_type_remove'),
-    path('<str:pk>/accountable_concept_create/', Accountable_ConceptCreateView.as_view(), name='accountable_concept_create'),
+    path('<str:pk>/accountable_concept_create/', Accountable_ConceptCreateSelectTransaction_TypeView.as_view(), name='accountable_concept_create'),
     path('<str:pk>/pending_accountable_concept_create/', Accountable_ConceptPendingCreateView.as_view(), name='pending_accountable_concept_create'),
     path('<str:ret_pk>/<str:pk>/accountable_concept_delete/', Accountable_ConceptDeleteView.as_view(), name='accountable_concept_delete'),
     path('<str:ret_pk>/<str:pk>/accountable_concept_activate/', Accountable_ConceptActivateView.as_view(), name='accountable_concept_activate'),

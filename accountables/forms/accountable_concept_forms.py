@@ -1,8 +1,35 @@
 import datetime as dt
-from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ValidationError, BaseFormSet, modelformset_factory, formset_factory
+from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ModelForm, ValidationError, BaseFormSet, BaseModelFormSet, modelformset_factory, formset_factory
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
 from accountables.models import Accountable_Concept, Accountable_Transaction_Type, Accountable
+
+class Accountable_ConceptCreateSelectTransaction_TypeForm(Form):
+
+    accountable = ModelChoiceField(
+        queryset=Accountable.objects.exclude(state=0),
+        empty_label=None,
+        label='Contabilizable'
+    )
+    transaction_type = ModelChoiceField(
+        queryset=Accountable_Transaction_Type.objects.exclude(state=0),
+        empty_label=None,
+        label='Tipo de Transacción'
+    )
+    
+    def __init__(self, obj, *args, **kwargs):
+        field_choices = {
+            'transaction_type': obj.transaction_types.exclude(state=0),
+        }
+        super(Accountable_ConceptCreateSelectTransaction_TypeForm, self).__init__(*args, **kwargs)
+        self.fields['transaction_type'].queryset = field_choices['transaction_type']
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
 
 class Accountable_ConceptCreateForm(Form):
 
@@ -168,6 +195,11 @@ class Accountable_ConceptPendingCreateBseFormSet(BaseFormSet):
         for form in self.forms:
             form.save(self.creator)
 
-Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
+class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Accountable_ConceptRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, formset=Accountable_ConceptRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
 
 Accountable_ConceptPendingFormSet = formset_factory(Accountable_ConceptPendingCreateForm, formset=Accountable_ConceptPendingCreateBseFormSet, extra=0)

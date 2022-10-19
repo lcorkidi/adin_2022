@@ -1,4 +1,4 @@
-from django.forms import Form, ModelChoiceField, Select, ModelForm, modelformset_factory, ValidationError
+from django.forms import Form, ModelChoiceField, Select, ModelForm, BaseModelFormSet, modelformset_factory, ValidationError
 
 from adin.core.forms import GenericCreateForm, GenericActivateForm
 from accountables.models import Accountable, Accountable_Transaction_Type
@@ -101,6 +101,11 @@ class Accountable_Transaction_TypeRemoveForm(Form):
         transaction_type = cleaned_data.get('transaction_type')
         accountable.transaction_types.remove(transaction_type)
 
-Accountable_Transaction_TypeListModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('state', 'name', 'controlled_value', 'relation_dependant'), extra=0)
+class Accountable_Transaction_TypeRelatedBaseModelFormSet(BaseModelFormSet):
 
-Accountable_Transaction_TypeModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('name', ), extra=0)
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Accountable_Transaction_TypeRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Accountable_Transaction_TypeListModelFormSet = modelformset_factory(Accountable_Transaction_Type, fields=('state', 'name'), extra=0)
+
+Accountable_Transaction_TypeModelFormSet = modelformset_factory(Accountable_Transaction_Type, formset=Accountable_Transaction_TypeRelatedBaseModelFormSet, fields=('name', ), extra=0)

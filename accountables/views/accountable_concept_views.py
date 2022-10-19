@@ -1,15 +1,38 @@
-from traceback import format_exc
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.utils.user_data import user_group_str
-from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptPendingFormSet
+from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingFormSet
 from accountables.models import Accountable, Accountable_Concept
 from accountables.utils import accountables_ref_urls
 
 title = Accountable_Concept._meta.verbose_name_plural
 rel_urls = { 'create': 'accountables:accountable_concept_create' }
+
+class Accountable_ConceptCreateSelectTransaction_TypeView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_create_related.html'
+    form = Accountable_ConceptCreateSelectTransaction_TypeForm
+    title = title
+    subtitle = 'Escoger Tipo de Transaccion'
+    readonly_fields = ['accountable']
+    permission_required = 'accountables.accounting_accountable'
+
+    def get(self, request, pk):
+        obj = Accountable.active.get(pk=pk)
+        form = self.form(obj, {'accountable': pk})
+        form.set_readonly_fields(self.readonly_fields)
+        ref_urls = accountables_ref_urls[obj.subclass.model]
+        context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk': pk, 'accounting':True}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if not form.is_valid():
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            return render(request, self.template, context)
+        return redirect('accounting:ledger_template_select_accountable', form['ledger_template'].value())
 
 class Accountable_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
