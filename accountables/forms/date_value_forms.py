@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory, formset_factory, Form, DateField
+from django.forms import modelformset_factory, formset_factory, Form, DateField, ModelForm, BaseModelFormSet
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from accountables.models import Date_Value
@@ -37,11 +37,10 @@ class Date_ValueDeleteForm(GenericDeleteRelatedForm):
             'date': SelectDateSpanishWidget()
         }
 
-    def clean_date(self):
-        date = self.cleaned_data['date']
-        if date == self.instance.date:
+    def clean(self):
+        if self.instance.date:
             self.add_error(None, 'Canon para la fecha del contrato no se puede deactivar.')
-        return date
+        return super().clean()
 
 class Date_ValueActivateForm(GenericActivateRelatedForm):
 
@@ -55,3 +54,26 @@ class Date_ValueActivateForm(GenericActivateRelatedForm):
 Date_ValueModelFormSet = modelformset_factory(Date_Value, fields=('state', 'date', 'value'), extra=0)
 
 Date_ValuePendingDateFormset = formset_factory(DateValuePendingDateForm, extra=0)
+
+class Date_ValueRelatedUpdateModelForm(ModelForm):
+
+    def add_errors(self):
+        print(self.instance)
+
+class Date_ValueRelatedUpdateBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, *args, **kwargs):
+        super(Date_ValueRelatedUpdateBaseModelFormSet, self).__init__(*args, **kwargs)
+        self.add_errors()
+
+    def add_errors(self):
+        qs = self.get_queryset()
+        formset_errors = []
+        if qs[0].accountable.get_date_value_errors():
+            formset_errors.append(qs[0].accountable.get_date_value_errors())
+        if formset_errors:
+            self.formset_errors = formset_errors
+        for form in self.forms:
+            form.add_errors()
+
+Date_ValueRelatedUpdateModelFormSet = modelformset_factory(Date_Value, form=Date_ValueRelatedUpdateModelForm, formset=Date_ValueRelatedUpdateBaseModelFormSet, fields=('state', 'date', 'value'), extra=0)

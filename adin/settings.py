@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounting',
     'accountables',
     'reports',
+    'errors',
 
     # Third Party Apps
     'django_extensions',

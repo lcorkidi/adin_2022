@@ -1,4 +1,4 @@
-from django.forms import Form, ModelChoiceField, TypedChoiceField, modelformset_factory
+from django.forms import Form, ModelForm, BaseFormSet, BaseModelFormSet, ModelChoiceField, TypedChoiceField, modelformset_factory, formset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericDetailRelatedForm, GenericUpdateRelatedForm
 from accountables.models import Lease_Realty_Person, Lease_Realty
@@ -229,7 +229,6 @@ class Lease_Realty_PersonActivateForm(Form):
         lease = self.cleaned_data['lease']
         person = self.cleaned_data['person']
         role = self.cleaned_data['role']
-        role = self.cleaned_data['role']
         if role == self.initial['role']:
             self.fields['role'].error_messages.clear()
             if 'role' in self.changed_data:
@@ -240,7 +239,6 @@ class Lease_Realty_PersonActivateForm(Form):
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-        phone = self.cleaned_data['phone']
         if phone == self.initial['phone']:
             self.fields['phone'].error_messages.clear()
             if 'phone' in self.changed_data:
@@ -250,7 +248,6 @@ class Lease_Realty_PersonActivateForm(Form):
         return phone
 
     def clean_e_mail(self):
-        e_mail = self.cleaned_data['e_mail']
         e_mail = self.cleaned_data['e_mail']
         if e_mail == self.initial['e_mail']:
             self.fields['e_mail'].error_messages.clear()
@@ -272,3 +269,38 @@ class Lease_Realty_PersonActivateForm(Form):
         return super().clean()
 
 Lease_Realty_PersonModelFormSet = modelformset_factory(Lease_Realty_Person, fields=('state', 'person', 'role'), extra=0)
+
+class Lease_Realty_PersonRelatedUpdateModelForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(Lease_Realty_PersonRelatedUpdateModelForm, self).__init__(*args, **kwargs)
+
+    def add_errors(self):
+        if not self.instance.address:
+            self.form_errors = ['No tiene direccion.']
+
+class Lease_Realty_PersonRelatedUpdateBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, *args, **kwargs):
+        super(Lease_Realty_PersonRelatedUpdateBaseModelFormSet, self).__init__(*args, **kwargs)
+        self.add_errors()
+
+    def add_errors(self):
+        qs = self.get_queryset()
+        formset_errors = []
+        if not qs.filter(role=3).exists():
+            formset_errors.append('No tiene Arrendador Titular.')
+        if qs.filter(role=3).count() > 1:
+            formset_errors.append('Tiene mas de un Arrendador Titular.')
+        if not qs.filter(role=1).exists():
+            formset_errors.append('No tiene Arrendatario.')
+        if qs.filter(role=1).count() > 1:
+            formset_errors.append('Tiene mas de un Arrendatario.')
+        if not qs.filter(role=2).exists():
+            formset_errors.append('No tiene Fiador.')
+        if formset_errors:
+            self.formset_errors = formset_errors
+        for form in self.forms:
+            form.add_errors()
+
+Lease_Realty_PersonRelatedUpdateModelFormSet = modelformset_factory(Lease_Realty_Person, form=Lease_Realty_PersonRelatedUpdateModelForm, formset=Lease_Realty_PersonRelatedUpdateBaseModelFormSet, fields=('state', 'person', 'role'), extra=0)

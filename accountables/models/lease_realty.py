@@ -218,6 +218,12 @@ class Lease_Realty(Accountable):
             errors.append(154)
         return errors
 
+    def get_date_value_errors(self):
+        errors = []
+        for dt in self.pending_date_value_dates():
+            errors.append(f'Falta Valor para {dt}.')
+        return errors
+
     def __repr__(self) -> str:
         return f'<Lease_Realty: {self.code}>'
     

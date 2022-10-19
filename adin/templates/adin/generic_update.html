@@ -73,6 +73,13 @@
                             <div class="p-2 fs-5 w-100 text-center">
                                 {{ attr }}
                             </div>
+                            {% if data.formset.formset_errors %}
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ data.formset.formset_errors }}
+                                    </div>
+                                </div>
+                            {% endif %}
                             <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                                 <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                                     <thead>
@@ -110,14 +117,14 @@
                                                     {% endif %}
                                                     {% if 'update' in data.actions_on %}
                                                         {% if related_form.state.value == 2 or related_form.state.value == 1 %}
-                                                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                                                            <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
                                                         {% endif %}
                                                         {% if related_form.state.value == 3 %}
-                                                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                                                            <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                                                         {% endif %}
                                                     {% endif %}
                                                     {% if 'check' in data.actions_on %}
-                                                        <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                                                        <a class="text-warning" href="{% url data.check_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                                                     {% endif %}
                                                     {% if related_form.state.value != 0 and 'deactivate' in data.actions_on %}
                                                         <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
@@ -126,6 +133,11 @@
                                                         <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
                                                     {% endif %}
                                                 </td>     
+                                                {% if related_form.form_errors %}
+                                                    <td class="p-2 fs-5 text-center text-danger">
+                                                        {{ related_form.form_errors }}
+                                                    </td>
+                                                {% endif %}
                                             </tr>
                                         {% endfor %}                  
                                     </tbody>
