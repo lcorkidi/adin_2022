@@ -45,7 +45,7 @@ class Accountable(BaseModel):
         return self.subclass_obj().get_obj_errors()
 
     def get_date_value_errors(self):
-        self.subclass_obj().get_date_value_errors()
+        return self.subclass_obj().get_date_value_errors()
 
     def __repr__(self) -> str:
         return f'<Accountable: {self.code}>'

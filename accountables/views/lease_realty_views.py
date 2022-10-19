@@ -24,11 +24,15 @@ class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     def get(self, request):
         actions_on = self.actions_on(request.user, self.model.__name__)
+        formsets = {}
         objs_df = pd.DataFrame(self.model.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
         has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(self.model.objects.get(pk=x).get_obj_errors()) == 0 else 1))
         has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
-        formset = self.formset(queryset=self.model.active.filter(code__in=has_errors_list).order_by(self.list_order))
-        context = {'formset': formset, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
+        formsets['Errores'] = self.formset(queryset=self.model.active.filter(code__in=has_errors_list).order_by(self.list_order))
+        has_pending_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(self.model.objects.get(pk=x).pending_date_value_dates()) == 0 else 1))
+        has_pending_date_values_list=list(has_pending_date_values[has_pending_date_values.errors == 1]['code'])
+        formsets['Valores Pendientes'] = self.formset(queryset=self.model.active.filter(code__in=has_pending_date_values_list).order_by(self.list_order))
+        context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)
 
 class Lease_RealtyListView(GenericListView):

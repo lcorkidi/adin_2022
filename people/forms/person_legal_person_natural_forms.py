@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from people.models import Person_Legal_Person_Natural
@@ -35,4 +35,9 @@ class Person_Legal_Person_NaturalActivateForm(GenericActivateRelatedForm):
         model = Person_Legal_Person_Natural
         exclude = ('state',)
 
-Person_Legal_Person_NaturalModelFormSet = modelformset_factory(Person_Legal_Person_Natural, fields=('state', 'person_natural', 'appointment'), extra=0)
+class Person_Legal_Person_NaturalRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Person_Legal_Person_NaturalRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Person_Legal_Person_NaturalModelFormSet = modelformset_factory(Person_Legal_Person_Natural, formset=Person_Legal_Person_NaturalRelatedBaseModelFormSet, fields=('state', 'person_natural', 'appointment'), extra=0)

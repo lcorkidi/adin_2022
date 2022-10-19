@@ -1,4 +1,4 @@
-from django.forms import ModelForm, modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from accountables.models import Lease_Realty_Realty
@@ -43,4 +43,9 @@ class Lease_Realty_RealtyActivateForm(GenericActivateRelatedForm):
         model = Lease_Realty_Realty
         exclude = ('state',)
 
-Lease_Realty_RealtyModelFormSet = modelformset_factory(Lease_Realty_Realty, fields=('state',  'realty', 'primary'), extra=0)
+class Lease_Realty_RealtyRelatedUpdateBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Lease_Realty_RealtyRelatedUpdateBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Lease_Realty_RealtyModelFormSet = modelformset_factory(Lease_Realty_Realty, formset=Lease_Realty_RealtyRelatedUpdateBaseModelFormSet, fields=('state',  'realty', 'primary'), extra=0)

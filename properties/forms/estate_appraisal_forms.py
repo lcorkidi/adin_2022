@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from adin.core.widgets import SelectDateSpanishWidget
@@ -40,4 +40,9 @@ class Estate_AppraisalActivateForm(GenericActivateRelatedForm):
             'date': SelectDateSpanishWidget()
         }
 
-Estate_AppraisalModelFormSet = modelformset_factory(Estate_Appraisal, fields=('state', 'type', 'date', 'value'), extra=0)
+class Estate_AppraisalRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Estate_AppraisalRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Estate_AppraisalModelFormSet = modelformset_factory(Estate_Appraisal, formset=Estate_AppraisalRelatedBaseModelFormSet, fields=('state', 'type', 'date', 'value'), extra=0)

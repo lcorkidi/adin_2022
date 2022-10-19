@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from people.models import Person_Phone
@@ -35,4 +35,9 @@ class Person_PhoneActivateForm(GenericActivateRelatedForm):
         model = Person_Phone
         exclude = ('state',)
 
-Person_PhoneModelFormSet = modelformset_factory(Person_Phone, fields=('state', 'phone', 'use'), extra=0)
+class Person_PhoneRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Person_PhoneRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Person_PhoneModelFormSet = modelformset_factory(Person_Phone, formset=Person_PhoneRelatedBaseModelFormSet, fields=('state', 'phone', 'use'), extra=0)

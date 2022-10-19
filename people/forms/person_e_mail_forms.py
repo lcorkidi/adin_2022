@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
 from people.models import Person_E_Mail
@@ -35,4 +35,9 @@ class Person_E_MailActivateForm(GenericActivateRelatedForm):
         model = Person_E_Mail
         exclude = ('state',)
 
-Person_E_MailModelFormSet = modelformset_factory(Person_E_Mail, fields=('state', 'e_mail', 'use'), extra=0)
+class Person_E_MailRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Person_E_MailRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Person_E_MailModelFormSet = modelformset_factory(Person_E_Mail, formset=Person_E_MailRelatedBaseModelFormSet, fields=('state', 'e_mail', 'use'), extra=0)

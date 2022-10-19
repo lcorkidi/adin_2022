@@ -147,11 +147,11 @@ models_lists = {
             'lease_realty_person',
             'date_value',
             'accountable_transaction_type',
-            'accountable_concept',
-            'account',
-            'ledger_type', 
-            'ledger_template', 
-            'charge_template'
+            # 'accountable_concept',
+            # 'account',
+            # 'ledger_type', 
+            # 'ledger_template', 
+            # 'charge_template'
         ],
         'errors_check': [
             'address',

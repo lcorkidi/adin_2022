@@ -1,4 +1,4 @@
-from django.forms import modelformset_factory
+from django.forms import BaseModelFormSet, modelformset_factory
 from django.db.models import Sum
 
 from adin.core.forms import GeneriCreateRelatedForm, GenericUpdateRelatedForm, GenericDeleteRelatedForm, GenericActivateRelatedForm
@@ -75,4 +75,9 @@ class Realty_EstateActivateForm(GenericActivateRelatedForm):
             self.add_error('percentage', msg)
         return cleaned_data
 
-Realty_EstateModelFormSet = modelformset_factory(Realty_Estate, fields=('state', 'estate', 'percentage'), extra=0)
+class Realty_EstateRelatedBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Realty_EstateRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Realty_EstateModelFormSet = modelformset_factory(Realty_Estate, formset=Realty_EstateRelatedBaseModelFormSet, fields=('state', 'estate', 'percentage'), extra=0)

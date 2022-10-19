@@ -281,7 +281,7 @@ class Lease_Realty_PersonRelatedUpdateModelForm(ModelForm):
 
 class Lease_Realty_PersonRelatedUpdateBaseModelFormSet(BaseModelFormSet):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, rel_pk, *args, **kwargs):
         super(Lease_Realty_PersonRelatedUpdateBaseModelFormSet, self).__init__(*args, **kwargs)
         self.add_errors()
 
