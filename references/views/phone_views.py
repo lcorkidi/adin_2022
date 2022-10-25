@@ -30,7 +30,7 @@ class PhoneDetailView(GenericDetailView):
     model = Phone
     form = PhoneDetailModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.view_phone'
 
 class PhoneDeleteView(GenericDeleteView):
@@ -40,6 +40,7 @@ class PhoneDeleteView(GenericDeleteView):
     form = PhoneDeleteModelForm
     ref_urls = ref_urls
     actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.delete_phone'
 
 class PhoneActivateView(GenericActivateView):
@@ -50,4 +51,5 @@ class PhoneActivateView(GenericActivateView):
     ref_urls = ref_urls
     actions_off = ['update']
     permission_required = 'references.activate_phone'
+    actions_on = GetActionsOn
     success_url = 'list'

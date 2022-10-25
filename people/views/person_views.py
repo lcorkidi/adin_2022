@@ -129,6 +129,7 @@ class Person_NaturalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     related_data = person_natural_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.view_person'
 
 class Person_LegalDetailView(GenericDetailView):
@@ -140,6 +141,7 @@ class Person_LegalDetailView(GenericDetailView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.view_person'
 
 class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -201,6 +203,7 @@ class Person_NaturalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     related_data = person_natural_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.delete_person'
 
 class Person_LegalDeleteView(GenericDeleteView):
@@ -212,6 +215,7 @@ class Person_LegalDeleteView(GenericDeleteView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.delete_person'
 
 class PersonActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -235,6 +239,7 @@ class Person_NaturalActivateView(GenericActivateView):
     choice_fields = ['type', 'id_type', 'use']
     fk_fields = [ 'address' ]
     related_data = person_natural_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.activate_person'
     success_url = 'detail'
 
@@ -247,5 +252,6 @@ class Person_LegalActivateView(GenericActivateView):
     choice_fields = ['type', 'id_type', 'use', 'appointment']
     fk_fields = [ 'address', 'person_natural' ]
     related_data = person_legal_related_data
+    actions_on = GetActionsOn
     permission_required = 'people.activate_person'
     success_url = 'update'

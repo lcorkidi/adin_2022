@@ -57,7 +57,7 @@ class EstateDeleteForm(GenericDeleteForm):
 
     class Meta:
         model = Estate
-        fields = [ 'national_number', 'address', 'total_area']
+        fields = ['state', 'national_number', 'address', 'total_area']
 
 class EstateActivateForm(GenericActivateForm):
 

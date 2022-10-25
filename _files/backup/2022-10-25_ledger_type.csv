@@ -1,0 +1,4 @@
+,state_change_user_id,state_change_date,state,name,abreviation
+0,1,2022-10-25 00:47:20.627784+00:00,1,Factura de Venta,FV
+1,1,2022-10-25 00:47:20.627807+00:00,1,Causación,CA
+2,1,2022-10-25 00:47:20.627816+00:00,1,Recibo de Caja,RC

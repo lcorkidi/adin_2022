@@ -28,6 +28,7 @@ models_lists = {
             'person_address', 
             'person_phone', 
             'person_e_mail',
+            'person_legal_person_natural',
             'estate', 
             'estate_person', 
             'estate_appraisal', 
@@ -62,7 +63,8 @@ models_lists = {
             'person_legal', 
             'person_address', 
             'person_phone', 
-            'person_e_mail'
+            'person_e_mail',
+            'person_legal_person_natural'
         ],
         'properties': [
             'estate', 
@@ -101,6 +103,7 @@ models_lists = {
             'person_address', 
             'person_phone', 
             'person_e_mail', 
+            'person_legal_person_natural',
             'estate', 
             'estate_person', 
             'estate_appraisal', 
@@ -147,11 +150,11 @@ models_lists = {
             'lease_realty_person',
             'date_value',
             'accountable_transaction_type',
-            # 'accountable_concept',
-            # 'account',
-            # 'ledger_type', 
-            # 'ledger_template', 
-            # 'charge_template'
+            'accountable_concept',
+            'account',
+            'ledger_type', 
+            'ledger_template', 
+            'charge_template'
         ],
         'errors_check': [
             'address',

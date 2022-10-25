@@ -95,12 +95,12 @@ class Charge_Template(BaseModel):
         verbose_name = 'Formato Movimiento'
         verbose_name_plural = 'Formatos Movimientos'
 
-    def charge_from__template(self, ledger, charge_concept, user):
+    def create_charge(self, ledger, charge_concept, user):
         Charge(
             state_change_user=user,
             ledger=ledger,
             account=self.account,
-            value=self.factor.factored_value(charge_concept.accountable, charge_concept.date, charge_concept.accountable.subclass_obj().date_value_dict()[charge_concept.date], self.nature),
+            value=self.factor.factored_value(charge_concept.accountable, charge_concept.date, charge_concept.value, self.nature),
             concept=charge_concept
         ).save()
         

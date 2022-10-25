@@ -30,7 +30,7 @@ class Calendar_DateDetailView(GenericDetailView):
     model = Calendar_Date
     form = Calendar_DateDetailModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.view_calendar_date'
 
 class Calendar_DateDeleteView(GenericDeleteView):
@@ -39,7 +39,7 @@ class Calendar_DateDeleteView(GenericDeleteView):
     model = Calendar_Date
     form = Calendar_DateDeleteModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.delete_calendar_date'
 
 class Calendar_DateActivateView(GenericActivateView):
@@ -48,6 +48,6 @@ class Calendar_DateActivateView(GenericActivateView):
     model = Calendar_Date
     form = Calendar_DateActivateModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.activate_calendar_date'
     success_url = 'list'

@@ -77,7 +77,7 @@ class Factor_DataDetailView(GenericDetailView):
     form = Factor_DataDetailForm
     ref_urls = ref_urls
     fk_fields = [ 'factor' ]
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.view_factor_data'
 
 class Factor_DataDeleteView(GenericDeleteView):
@@ -87,7 +87,7 @@ class Factor_DataDeleteView(GenericDeleteView):
     form = Factor_DataDeleteForm
     ref_urls = ref_urls
     fk_fields = [ 'factor' ]
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.delete_factor_data'
 
 class Factor_DataActivateView(GenericActivateView):
@@ -97,5 +97,5 @@ class Factor_DataActivateView(GenericActivateView):
     form = Factor_DataDetailForm
     ref_urls = ref_urls
     fk_fields = [ 'factor' ]
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.activate_charge_factor'

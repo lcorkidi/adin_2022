@@ -1,11 +1,11 @@
-import pandas as pd
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
-from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
+from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyAccoutingForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accountables.models import Lease_Realty
+from accountables.models import Accountable_Transaction_Type
 from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
 
 title = Lease_Realty._meta.verbose_name_plural
@@ -25,13 +25,10 @@ class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         actions_on = self.actions_on(request.user, self.model.__name__)
         formsets = {}
-        objs_df = pd.DataFrame(self.model.objects.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(self.model.objects.get(pk=x).get_obj_errors()) == 0 else 1))
-        has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
-        formsets['Errores'] = self.formset(queryset=self.model.active.filter(code__in=has_errors_list).order_by(self.list_order))
-        has_pending_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(self.model.objects.get(pk=x).pending_date_value_dates()) == 0 else 1))
-        has_pending_date_values_list=list(has_pending_date_values[has_pending_date_values.errors == 1]['code'])
-        formsets['Valores Pendientes'] = self.formset(queryset=self.model.active.filter(code__in=has_pending_date_values_list).order_by(self.list_order))
+        formsets['Errores'] = self.formset(queryset=self.model.pending.date_values())
+        formsets['Valores Pendientes'] = self.formset(queryset=self.model.pending.errors())
+        tra_typ = Accountable_Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
+        formsets['Conceptos Mensualidad Arriendo Pendientes'] = self.formset(queryset=self.model.pending.concept_date_value(tra_typ))
         context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)
 
@@ -63,6 +60,7 @@ class Lease_RealtyDetailView(GenericDetailView):
     ref_urls = ref_urls
     choice_fields = ['role']
     fk_fields = ['lease', 'person', 'realty']
+    actions_on = GetActionsOn
     related_data = lease_realty_related_data
     permission_required = 'accountables.view_lease_realty'
 
@@ -83,12 +81,14 @@ class Lease_RealtyAccountingView(GenericDetailView):
 
     template = 'accountables/accountable_accounting.html'
     model = Lease_Realty
-    form = Lease_RealtyDetailForm
+    form = Lease_RealtyAccoutingForm
     title = title
+    subtitle = 'Conceptos Transacciones'
     ref_urls = ref_urls
     readonly_fields = ['code', 'realty', 'doc_date', 'start_date', 'end_date']
     fk_fields = ['realty', 'transaction_type']
     related_data = accountable_related_data
+    actions_on = GetActionsOn
     permission_required = 'accountables.change_lease_realty'
 
 class Lease_RealtyDeleteView(GenericDeleteView):

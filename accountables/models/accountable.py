@@ -1,3 +1,4 @@
+import pandas as pd
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 
@@ -35,6 +36,12 @@ class Accountable(BaseModel):
     def get_errors_report(cls, all=False):
         return errors_report(cls, all)
 
+    def ledger_holder(self):
+        return self.subclass_obj().primary_lessor()
+
+    def ledger_third_party(self):
+        return self.subclass_obj().lessee()
+
     def subclass_obj(self):
         return self.subclass.model_class().active.get(code=self.code)
 
@@ -46,6 +53,9 @@ class Accountable(BaseModel):
 
     def get_date_value_errors(self):
         return self.subclass_obj().get_date_value_errors()
+
+    def pending_concept_date_values(self, transaction_type, first_date=None, extra_months=0):
+        return self.subclass_obj().pending_concept_date_values(transaction_type)
 
     def __repr__(self) -> str:
         return f'<Accountable: {self.code}>'
@@ -89,6 +99,18 @@ class Accountable_Transaction_Type(BaseModel):
     def __str__(self) -> str:
         return self.name
 
+class Accountable_ConceptPendingManager(models.Manager):
+
+    def charge(self, acc, led_tem):
+        qs = self.get_queryset().filter(accountable=acc)
+        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        pending_charge_df=objs_df.assign(pending_charge=objs_df.code.apply(lambda x: qs.get(pk=x).Pending_Charge(led_tem)))
+        pending_charge_list=list(pending_charge_df[pending_charge_df['pending_charge']==True]['code'])
+        return qs.filter(code__in=pending_charge_list)
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(state=0)
+
 class Accountable_Concept(BaseModel):
 
     code = models.CharField(
@@ -127,27 +149,25 @@ class Accountable_Concept(BaseModel):
         default=None,
     )
 
+    objects = models.Manager()
+    pending = Accountable_ConceptPendingManager()
+
     class Meta:
         app_label = 'accountables'
         verbose_name = 'Concepto Contabilizable'
         verbose_name_plural = 'Conceptos Contabilizables'
 
-    # def check_in_ledger(self, ledger_template):
-    #     charges_df = pd.DataFrame(Charge.active.filter(concept=self, ledger__type=ledger_template.ledger_type).values('ledger', 'account', 'value'))
-    #     if charges_df.empty:
-    #         return False
-    #     else:
-    #         if charges_df.ledger.nunique() != 1:
-    #             return f'{self} in multiple ledgers ({charges_df.ledger.unique()[0]}).'
-    #         base_value = self.accountable.date_value_dict()[self.date]
-    #         account_value_dict = {}
-    #         for charge_template in ledger_template.charges_templates.all():
-    #             account_value_dict[charge_template.account_id] = charge_template.factor.factored_value(self.accountable, self.date, base_value, charge_template.nature)
-    #         charges_df = charges_df.assign(correct=charges_df.apply(lambda x: True if account_value_dict[x.account] == x.value else False, axis=1)) 
-    #         if len(charges_df) == charges_df.correct.value_counts()[True]:
-    #             return True
-    #         else:
-    #             return charges_df
+    def Pending_Charge(self, led_tem):
+        from accounting.models import Charge
+
+        for cha_tem in led_tem.charges_templates.all():
+            if not Charge.objects.filter(
+                account=cha_tem.account,
+                value=cha_tem.factor.factored_value(self.accountable, self.date, self.value, cha_tem.nature),
+                concept=self
+            ).exists():
+                return True
+        return False
 
     def get_obj_errors(self):
         errors = []
@@ -188,7 +208,7 @@ class Accountable_Concept(BaseModel):
         return errors
 
     def __repr__(self) -> str:
-        return f'<Transaction_Concept: {self.code}>'
+        return f'<Accountable_Concept: {self.code}>'
 
     def __str__(self) -> str:
         return self.code

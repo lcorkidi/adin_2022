@@ -1,4 +1,4 @@
-from django.forms import Form, BaseFormSet, TypedChoiceField, ModelChoiceField, ValidationError, formset_factory, modelformset_factory
+from django.forms import Form, BaseFormSet, TypedChoiceField, ModelChoiceField, ValidationError, BaseModelFormSet, formset_factory, modelformset_factory
 
 from accounting.models import Charge_Template, Account
 from references.models import Charge_Factor
@@ -54,7 +54,6 @@ class Charge_TemplateCreateForm(Form):
 
     def save(self, ledger_template, creator_user, *args, **kwargs):
         base_args = {}
-        print((ledger_template, creator_user))
         base_args['ledger_template'] = ledger_template
         base_args['account'] = self.cleaned_data.get('account')
         base_args['factor'] = self.cleaned_data.get('factor')
@@ -78,4 +77,9 @@ class Charge_TemplateBareFormSet(BaseFormSet):
 
 Charge_TemplateCreateFormset = formset_factory(Charge_TemplateCreateForm, formset=Charge_TemplateBareFormSet, extra=20)
 
-Charge_TemplateModelFormSet = modelformset_factory(Charge_Template, fields=('account', 'factor', 'nature'), extra=0)
+class Charge_TemplateBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(Charge_TemplateBaseModelFormSet, self).__init__(*args, **kwargs)
+
+Charge_TemplateModelFormSet = modelformset_factory(Charge_Template, formset=Charge_TemplateBaseModelFormSet, fields=('account', 'factor', 'nature'), extra=0)

@@ -85,6 +85,12 @@ class Lease_RealtyUpdateForm(GenericUpdateForm):
             self.add_error('end_date', 'Desocupación no puede ser anterior a ocupación.')
         return super().clean()
 
+class Lease_RealtyAccoutingForm(ModelForm):
+
+    class Meta:
+        model = Lease_Realty
+        fields = ['state',  'code']
+
 class Lease_RealtyDeleteForm(GenericDeleteForm):
 
     exclude_fields = ['dates_values']

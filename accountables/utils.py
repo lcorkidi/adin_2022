@@ -39,10 +39,10 @@ per_dict = {
             'accountables.delete_accountble_transaction_type': 'deactivate',
             },
         'Accountable_Concept':  {
-            'accountables.activate_accountable_concept': 'activate',
+            # 'accountables.activate_accountable_concept': 'activate',
             'accountables.add_accountable_concept': 'create',
-            'accountables.check_accountable_concept' : 'check',
-            'accountables.delete_accountable_concept': 'deactivate',
+            # 'accountables.check_accountable_concept' : 'check',
+            # 'accountables.delete_accountable_concept': 'deactivate',
             }
         }
 
@@ -115,16 +115,6 @@ def accountable_related_data(*args):
     from accounting.forms.ledger_template_forms import Ledger_TemplateAvailableModelFormset
     
     accounting_data = {
-        'Tipos de Transacción:':{
-            'class': Accountable_Transaction_Type,
-            'formset': Accountable_Transaction_TypeModelFormSet,
-            'filter_expresion': 'accountable__code',
-            'm2m_direct': True,
-            'actions_on' : ActionsOn,
-            'included_states' : IncludedStates,
-            'add_url': 'accountables:accountable_transaction_type_add',
-            'remove_url': 'accountables:accountable_transaction_type_remove'
-        },
         'Conceptos Transacciones:':{
             'class': Accountable_Concept,
             'formset': Accountable_ConceptModelFormSet,

@@ -10,11 +10,7 @@
                     <div>
                         <a href="{% url ref_urls.list %}" style="text-decoration:none">
                             {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> |
-                        <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                        <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">
-                            {% render_bi 'trash' width="20px" height="20px" %}
-                        </a>
+                        </a> 
                     </div>
                 </div>
             </div>
@@ -28,13 +24,7 @@
                                     <th>{{ field.label_tag }}</th> 
                                 </div>
                                 <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                    {% if field.name in choice_fields %}
-                                        <td><strong>{% selected_choice form field.name field.value %}</strong></td>
-                                    {% elif field.name in fk_fields %}
-                                        <td><strong>{% fk_str form field.name %}</strong></td>
-                                    {% else %}
-                                        <td><strong>{{ field.value }}</strong></td>
-                                    {% endif %}
+                                    <td><strong>{{ field.value }}</strong></td>
                                 </div>
                             </div>
                         {% endif %}
@@ -44,6 +34,13 @@
                             <div class="p-2 fs-5 w-100 text-center">
                                 {{ attr }}
                             </div>
+                            {% if data.formset.formset_errors %}
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ data.formset.formset_errors }}
+                                    </div>
+                                </div>
+                            {% endif %}
                             <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                                 <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                                     <thead>
@@ -55,18 +52,9 @@
                                                     {% endif %}                             
                                                 {% endif %}                          
                                             {% endfor %}
-                                            {% if data.m2m_direct %}
-                                                <th>
-                                                    <a class="text-success" href="{% url data.add_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                                                </th>
-                                            {% else %}
+                                            {% if not data.m2m_direct %}
                                                 <th>
                                                     <a class="text-success" href="{% url data.create_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                                                    {% if data.pending_url %}
-                                                        <a class="text-success" href="{% url data.pending_url form.instance.pk %}" style="text-decoration:none">
-                                                            {% render_bi 'bag-plus' width="20px" height="20px" %}
-                                                        </a> 
-                                                    {% endif %}
                                                 </th>
                                             {% endif %}
                                         </tr>
@@ -84,15 +72,11 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 <td>
-                                                    {% if data.m2m_direct %}
-                                                        {% if related_form.state.value != 0 %}
-                                                            <a class="text-danger" href="{% url data.remove_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {% if related_form.state.value != 0 %}
+                                                    {% if not data.m2m_direct %}
+                                                        {% if related_form.state.value != 0 and 'deactivate' in data.actions_on %}
                                                             <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
                                                         {% endif %}
-                                                        {% if related_form.state.value == 0 and group == 'admin' %}
+                                                        {% if related_form.state.value == 0 and 'activate' in data.actions_on %}
                                                             <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
                                                         {% endif %}
                                                     {% endif %}

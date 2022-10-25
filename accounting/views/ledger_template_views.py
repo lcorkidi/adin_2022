@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger_Template
-from accountables.models import Accountable
+from accountables.models import Accountable, Accountable_Concept
 from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
 from accounting.utils import ledger_template_related_data, GetIncludedStates, GetActionsOn
@@ -59,7 +59,7 @@ class Ledger_TemplateDetailView(GenericDetailView):
     ref_urls = ref_urls
     fk_fields = ['transaction_type', 'ledger_type', 'accountable_class']
     choice_fields = ['nature']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_template_related_data
     permission_required = 'accounting.view_ledger_template'
 
@@ -71,7 +71,7 @@ class Ledger_TemplateDeleteView(GenericDeleteView):
     ref_urls = ref_urls
     fk_fields = ['transaction_type', 'ledger_type']
     choice_fields = ['nature']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_template_related_data
     permission_required = 'accounting.delete_ledger_template'
 
@@ -83,7 +83,7 @@ class Ledger_TemplateActivateView(GenericActivateView):
     ref_urls = ref_urls
     fk_fields = ['transaction_type', 'ledger_type']
     choice_fields = ['nature']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_template_related_data
     permission_required = 'accounting.activate_ledger_template'
 
@@ -146,13 +146,14 @@ class Ledger_TemplateSelectConceptDataView(LoginRequiredMixin, PermissionRequire
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
     permission_required = 'accounting.add_ledger'
-    readonly_fields = ['ledger_template', 'accountable']
-    choice_fields = ['ledger_template', 'accountable']
+    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
 
     def get(self, request, lt_pk, acc_pk):
         lt = Ledger_Template.active.get(pk=lt_pk)
         acc = Accountable.active.get(pk=acc_pk)
-        form = self.form(initial={'ledger_template':lt, 'accountable':acc})
+        acc_con = acc.accountable_concept.filter(transaction_type=lt.transaction_type).earliest()
+        form = self.form(initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
         form.set_readonly_fields(self.readonly_fields)
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
@@ -177,13 +178,14 @@ class Ledger_TemplateSelectConceptView(LoginRequiredMixin, PermissionRequiredMix
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
     permission_required = 'accounting.add_ledger'
-    readonly_fields = ['ledger_template', 'accountable']
-    choice_fields = ['ledger_template', 'accountable']
+    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
 
     def get(self, request, lt_pk, acc_pk):
         lt = Ledger_Template.active.get(pk=lt_pk)
         acc = Accountable.active.get(pk=acc_pk)
-        form = self.form(initial={'ledger_template':lt, 'accountable':acc})
+        acc_con = Accountable_Concept.pending.charge(acc, lt).earliest('date')
+        form = self.form(initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
         form.set_readonly_fields(self.readonly_fields)
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
@@ -191,11 +193,11 @@ class Ledger_TemplateSelectConceptView(LoginRequiredMixin, PermissionRequiredMix
     def post(self, request, lt_pk, acc_pk):
         lt = Ledger_Template.active.get(pk=lt_pk)
         acc = Accountable.active.get(pk=acc_pk)
-        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable':acc})
+        acc_con = Accountable_Concept.pending.charge(acc, lt).earliest('date')
+        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
             return render(request, self.template, context)
-        form.creator = request.user
-        ledger = form.save()    
+        ledger = form.save(request.user)    
         return redirect('accounting:ledger_detail', ledger.pk)

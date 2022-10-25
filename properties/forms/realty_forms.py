@@ -27,19 +27,19 @@ class RealtyDetailForm(ModelForm):
 
     class Meta:
         model = Realty
-        fields = ['state',  'code', 'address', 'type', 'use', 'total_area' ]
+        fields = [ 'state', 'code', 'address', 'type', 'use', 'total_area' ]
 
 class RealtyUpdateForm(GenericUpdateForm):
 
     class Meta:
         model = Realty
-        fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
+        fields = [ 'state', 'code', 'address', 'type', 'use', 'total_area' ]
 
 class RealtyDeleteForm(GenericDeleteForm):
 
     class Meta:
         model = Realty
-        fields = [ 'code', 'address', 'type', 'use', 'total_area' ]
+        fields = [ 'state',  'code', 'address', 'type', 'use', 'total_area' ]
 
 class RealtyActivateForm(GenericActivateForm):
 

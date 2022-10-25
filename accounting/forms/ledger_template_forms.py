@@ -67,6 +67,13 @@ class Ledger_TemplateSelectAccountableForm(Form):
         super(Ledger_TemplateSelectAccountableForm, self).__init__(*args, **kwargs)
         self.fields['accountable'].queryset = field_choices['accountable']
 
+    def clean(self):
+        lt = self.cleaned_data.get('ledger_template')
+        acc = self.cleaned_data.get('accountable')
+        if not Accountable_Concept.pending.charge(acc, lt).exists():
+            self.add_error('accountable', 'Contabilizable no tiene conceptos pendientes para formato.')
+        return super().clean()
+
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
             if field in fields:
@@ -184,23 +191,17 @@ class Ledger_TemplateSelectConceptForm(Form):
         label='Concepto Contabilizable'
     )
 
-    def __init__(self, *args, **kwargs):
-        lt=kwargs['initial']['ledger_template']
-        acc=kwargs['initial']['accountable']
-        field_choices = {
-            'accountable': lt.accountable_class.model_class().__bases__[0].objects.filter(code__in=lt.accountable_class.model_class().active.values_list('code', flat=True)),
-            'accountable_concept': acc.accountable_concept.filter(transaction_type=lt.transaction_type, registered=False)
-        }
-        super(Ledger_TemplateSelectConceptForm, self).__init__(*args, **kwargs)
-        self.fields['accountable'].queryset = field_choices['accountable']
-        self.fields['accountable_concept'].queryset = field_choices['accountable_concept']
-
     def set_readonly_fields(self, fields=[]):
         for field in self.fields:
             if field in fields:
                 self.fields[field].widget.attrs['readonly'] = True
             else: 
                 self.fields[field].widget.attrs['readonly'] = False
+
+    def save(self, user):
+        led_tem = self.cleaned_data.get('ledger_template')
+        acc_con = self.cleaned_data.get('accountable_concept')
+        return led_tem.create_ledger(acc_con, acc_con.date, user)
 
 Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant'), extra=0)
 

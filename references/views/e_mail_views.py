@@ -30,7 +30,7 @@ class E_MailDetailView(GenericDetailView):
     model = E_Mail
     form = E_MailDetailModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.view_e_mail'
 
 class E_MailDeleteView(GenericDeleteView):
@@ -39,7 +39,7 @@ class E_MailDeleteView(GenericDeleteView):
     model = E_Mail
     form = E_MailDeleteModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.delete_e_mail'
 
 class E_MailActivateView(GenericActivateView):
@@ -48,6 +48,6 @@ class E_MailActivateView(GenericActivateView):
     model = E_Mail
     form = E_MailActivateModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.activate_e_mail'
     success_url = 'list'

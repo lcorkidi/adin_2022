@@ -83,13 +83,13 @@ class Person_NaturalDeleteForm(GenericDeleteForm):
 
     class Meta:
         model = Person_Natural
-        fields = ['type', 'complete_name', 'id_type', 'id_number']
+        fields = ['state', 'type', 'complete_name', 'id_type', 'id_number']
 
 class Person_LegalDeleteForm(GenericDeleteForm):
 
     class Meta:
         model = Person_Legal
-        fields = ['type', 'complete_name', 'id_type', 'id_number']
+        fields = ['state', 'type', 'complete_name', 'id_type', 'id_number']
 
 class Person_NaturalActivateForm(GenericActivateForm):
 

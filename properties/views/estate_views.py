@@ -36,6 +36,7 @@ class EstateDetailView(GenericDetailView):
     choice_fields = ['type']
     fk_fields = ['address', 'person']
     related_data = estate_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.view_estate'
 
 class EstateUpdateView(GenericUpdateView):
@@ -60,6 +61,7 @@ class EstateDeleteView(GenericDeleteView):
     choice_fields = ['type']
     fk_fields = ['address', 'person']
     related_data = estate_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.delete_estate'
 
 class EstateActivateView(GenericActivateView):
@@ -71,4 +73,5 @@ class EstateActivateView(GenericActivateView):
     choice_fields = ['type']
     fk_fields = ['address', 'person']
     related_data = estate_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.activate_estate'

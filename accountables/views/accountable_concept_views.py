@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from accountables.models.accountable import Accountable_Transaction_Type
 
 from adin.utils.user_data import user_group_str
 from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingFormSet
@@ -27,12 +28,13 @@ class Accountable_ConceptCreateSelectTransaction_TypeView(LoginRequiredMixin, Pe
         context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk': pk, 'accounting':True}
         return render(request, self.template, context)
 
-    def post(self, request):
-        form = self.form(request.POST)
+    def post(self, request, pk):
+        obj = Accountable.active.get(pk=pk)
+        form = self.form(obj, request.POST)
         if not form.is_valid():
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
             return render(request, self.template, context)
-        return redirect('accounting:ledger_template_select_accountable', form['ledger_template'].value())
+        return redirect('accountables:pending_accountable_concept_create', pk, form['transaction_type'].value())
 
 class Accountable_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -71,16 +73,18 @@ class Accountable_ConceptPendingCreateView(LoginRequiredMixin, PermissionRequire
     subtitle = 'Crear'
     permission_required = 'accountables.accounting_accountable'
 
-    def get(self, request, pk):
+    def get(self, request, pk, tra_typ):
         obj = Accountable.active.get(pk=pk)
-        formset = self.formset(initial=obj.subclass_obj().concept_formset_dict(obj.subclass_obj().transaction_types.all()[0]), form_kwargs={'accountable':obj})
+        tt = Accountable_Transaction_Type.objects.get(pk=tra_typ)
+        formset = self.formset(initial=obj.subclass_obj().concept_formset_dict(tt))
         ref_urls = accountables_ref_urls[obj.subclass.model]
         context = { 'formset': formset, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk':pk}
         return render(request, self.template, context)
 
-    def post(self, request, pk):
+    def post(self, request, pk, tra_typ):
         obj = Accountable.active.get(pk=pk)
-        formset = self.formset(request.POST, initial=obj.subclass_obj().concept_formset_dict(obj.subclass_obj().transaction_types.all()[0]), form_kwargs={'accountable':obj})
+        tt = Accountable_Transaction_Type.objects.get(pk=tra_typ)
+        formset = self.formset(request.POST, initial=obj.subclass_obj().concept_formset_dict(tt))
         ref_urls = accountables_ref_urls[obj.subclass.model]
         if not formset.is_valid():
             context = { 'formset': formset, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk':pk}

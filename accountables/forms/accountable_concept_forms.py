@@ -119,6 +119,7 @@ class Accountable_ConceptPendingCreateForm(Form):
     transaction_type = ModelChoiceField(
         queryset=Accountable_Transaction_Type.objects.exclude(state=0),
         empty_label=None,
+        disabled=True,
         label='Tipo de Transacción'
     )
     date = DateField(
@@ -126,12 +127,9 @@ class Accountable_ConceptPendingCreateForm(Form):
         label='Fecha Cargo'
     )
     value = IntegerField(
+        disabled=True,
         label='Valor'
     )
-    
-    def __init__(self, *args, accountable, **kwargs):
-        super(Accountable_ConceptPendingCreateForm, self).__init__(*args, **kwargs)
-        self.fields['transaction_type'].queryset = accountable.transaction_types.exclude(state=0)
 
     def clean_transaction_type(self):
         transaction_type = self.cleaned_data.get('transaction_type')
@@ -157,12 +155,15 @@ class Accountable_ConceptPendingCreateForm(Form):
         return super().clean()
 
     def save(self, creator):
+        acc = self.initial['accountable']
+        dt = self.cleaned_data['date']
         Accountable_Concept(
             state_change_user=creator,
-            accountable = self.initial['accountable'],
+            accountable = acc,
             transaction_type = self.cleaned_data['transaction_type'],
-            date = self.cleaned_data['date'],
-            value = self.cleaned_data['value']
+            date = dt,
+            value = self.cleaned_data['value'],
+            value_relation=acc.date_value.earliest('date') if dt < acc.subclass_obj().doc_date else acc.date_value.exclude(date__gt=dt).latest('date')
         ).save()
 
 class Accountable_ConceptDeleteForm(GenericDeleteRelatedForm):
@@ -199,6 +200,17 @@ class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
 
     def __init__(self, rel_pk, *args, **kwargs):
         super(Accountable_ConceptRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
+        self.add_errors(rel_pk)
+
+    def add_errors(self, rel_pk):
+        obj = Accountable.objects.get(pk=rel_pk)
+        formset_errors = []
+        if obj.transaction_types.exists():
+            for tra_typ in obj.transaction_types.all():
+                if obj.pending_concept_date_values(tra_typ):
+                    formset_errors.append(f'FECHA y VALOR pendientes para conceptos tipo {tra_typ.name.upper()}: {obj.pending_concept_date_values(tra_typ)}')
+        if formset_errors:
+            self.formset_errors = formset_errors
 
 Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, formset=Accountable_ConceptRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
 

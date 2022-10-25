@@ -1,4 +1,4 @@
-from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, ValidationError, formset_factory, modelformset_factory
+from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, ValidationError, BaseModelFormSet, formset_factory, modelformset_factory
 
 from accounting.models import Charge, Account
 from accountables.models import Accountable_Concept
@@ -113,4 +113,9 @@ class ChargeBareFormSet(BaseFormSet):
 
 ChargeCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeBareFormSet, extra=20)
 
-ChargeModelFormSet = modelformset_factory(Charge, fields=('state', 'account', 'value', 'concept'), extra=0)
+class ChargeBaseModelFormSet(BaseModelFormSet):
+
+    def __init__(self, rel_pk, *args, **kwargs):
+        super(ChargeBaseModelFormSet, self).__init__(*args, **kwargs)
+
+ChargeModelFormSet = modelformset_factory(Charge, formset=ChargeBaseModelFormSet, fields=('state', 'account', 'value', 'concept'), extra=0)

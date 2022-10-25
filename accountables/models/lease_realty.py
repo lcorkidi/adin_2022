@@ -9,6 +9,32 @@ from accountables.utils import lease_realty_code
 from adin.utils.date_progression import nextmonthlydate, previousmonthlydate, previousyearlydate
 from adin.utils.data_check import children_errors_report
 
+class Lease_RealtyPendingManager(models.Manager):
+
+    def errors(self):
+        qs = self.get_queryset()
+        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        has_pending_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).pending_date_value_dates()) == 0 else 1))
+        has_pending_date_values_list=list(has_pending_date_values[has_pending_date_values.errors == 1]['code'])
+        return qs.filter(code__in=has_pending_date_values_list).order_by('code')
+
+    def date_values(self):
+        qs = self.get_queryset()
+        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).get_obj_errors()) == 0 else 1))
+        has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
+        return qs.filter(code__in=has_errors_list).order_by('code')
+        
+    def concept_date_value(self, tra_typ):
+        qs = self.get_queryset()
+        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        has_pending_concept_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).pending_concept_date_values(tra_typ)) == 0 else 1))
+        has_pending_concept_date_values_list=list(has_pending_concept_date_values[has_pending_concept_date_values.errors == 1]['code'])
+        return qs.filter(code__in=has_pending_concept_date_values_list).order_by('code')
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(state=0)
+
 class Lease_Realty(Accountable):
 
     realty = models.ManyToManyField(
@@ -41,12 +67,15 @@ class Lease_Realty(Accountable):
         blank=True,
         default=None,
         verbose_name='Fecha Desocupación'
-    )   
+    )
+
+    objects = models.Manager()
+    pending = Lease_RealtyPendingManager()   
     
     class Meta:
         app_label = 'accountables'
-        verbose_name = 'Arriendo Inmueble'
-        verbose_name_plural = 'Arriendos Inuembles'
+        verbose_name = 'Contrato Arriendo Inmueble'
+        verbose_name_plural = 'Contratos Arriendo Inuemble'
         permissions = [
             ('activate_lease_realty', 'Can activate lease realty.'),
             ('check_lease_realty', 'Can check lease realty.'),
@@ -88,14 +117,14 @@ class Lease_Realty(Accountable):
 
     def concept_formset_dict(self, transaction_type):
         formset_dict = []
-        for date, value in self.pending_concept_date_values().items():
+        for date, value in self.pending_concept_date_values(transaction_type).items():
             formset_dict.append({'accountable':self, 'transaction_type':transaction_type, 'date': date, 'value': value,})
         return formset_dict
 
-    def pending_concept_date_values(self, first_date=None, extra_months=0):
+    def pending_concept_date_values(self, transaction_type, first_date=None, extra_months=0):
         if not self.start_date:
             return {}
-        pending_dates = self.pending_concept_dates(first_date, extra_months)
+        pending_dates = self.pending_concept_dates(transaction_type, first_date, extra_months)
         return {dt: self.get_value_4_date(dt) for dt in pending_dates}
 
     def pending_date_value_dates(self, first_date=None, extra_months=0):
@@ -104,10 +133,10 @@ class Lease_Realty(Accountable):
         date_values_dates = [item['date'] for item in self.date_value.exclude(state=0).values('date')]
         return [dt for dt in self.yearly_dates(first_date, extra_months) if dt not in date_values_dates]
 
-    def pending_concept_dates(self, first_date=None, extra_months=0):
+    def pending_concept_dates(self, transaction_type, first_date=None, extra_months=0):
         if not self.start_date:
             return []
-        concept_dates = [item['date'] for item in self.accountable_concept.exclude(state=0).values('date')]
+        concept_dates = [item['date'] for item in self.accountable_concept.exclude(state=0).filter(transaction_type=transaction_type).values('date')]
         return [dt for dt in self.monthly_dates(first_date) if dt not in concept_dates and dt < min(self.pending_date_value_dates(first_date, extra_months) if self.pending_date_value_dates(first_date, extra_months) else [datetime.date.today()])]        
 
     def get_value_4_date(self, date):

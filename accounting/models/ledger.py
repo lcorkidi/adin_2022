@@ -126,7 +126,10 @@ class Ledger_Template(BaseModel):
             models.UniqueConstraint(fields=['transaction_type', 'ledger_type'], name='unique_trancaction_ledger_types'),
         ]
         
-    def ledger_from_template(self, charge_concept, date, user):
+    def create_ledger(self, charge_concept, date, user):
+        if not charge_concept.Pending_Charge(self):
+            return
+            
         ledger = Ledger(
             state_change_user=user,
             type=self.ledger_type,
@@ -137,7 +140,9 @@ class Ledger_Template(BaseModel):
         ledger.save()
 
         for charge_template in self.charges_templates.all():
-            charge_template.charge_from_template(ledger, charge_concept, user)
+            charge_template.create_charge(ledger, charge_concept, user)
+
+        return ledger
 
     def __repr__(self) -> str:
         return f'<Ledger_Template: {self.code}>'

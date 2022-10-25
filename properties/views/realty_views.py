@@ -36,6 +36,7 @@ class RealtyDetailView(GenericDetailView):
     choice_fields = ['type', 'use']
     fk_fields = ['address', 'estate']
     related_data = realty_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.view_realty'
 
 class RealtyUpdateView(GenericUpdateView):
@@ -60,6 +61,7 @@ class RealtyDeleteView(GenericDeleteView):
     choice_fields = ['type', 'use']
     fk_fields = ['address', 'estate']
     related_data = realty_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.delete_realty'
 
 class RealtyActivateView(GenericActivateView):
@@ -71,4 +73,5 @@ class RealtyActivateView(GenericActivateView):
     choice_fields = ['type', 'use']
     fk_fields = ['address', 'estate']
     related_data = realty_related_data
+    actions_on = GetActionsOn
     permission_required = 'properties.activate_realty'

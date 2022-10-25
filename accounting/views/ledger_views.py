@@ -57,7 +57,7 @@ class LedgerDetailView(GenericDetailView):
     form = LedgerDetailModelForm
     ref_urls = ref_urls
     fk_fields = ['holder', 'third_party']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_related_data
     permission_required = 'accounting.view_ledger'
 
@@ -68,7 +68,7 @@ class LedgerDeleteView(GenericDeleteView):
     form = LedgerDeleteModelForm
     ref_urls = ref_urls
     fk_fields = ['holder', 'third_party']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_related_data
     permission_required = 'accounting.delete_ledger'
 
@@ -79,7 +79,7 @@ class LedgerActivateView(GenericActivateView):
     form = LedgerActivateModelForm
     ref_urls = ref_urls
     fk_fields = ['holder', 'third_party']
-    actions_off = ['update']
+    actions_on = GetActionsOn
     related_data = ledger_related_data
     permission_required = 'accounting.activate_ledger'
 
@@ -96,7 +96,8 @@ class LedgerActivateView(GenericActivateView):
         else:
             related_data = None
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_off': self.actions_off , 'group': user_group_str(request.user)}
+            actions_on = self.actions_on(request.user, self.model.__name__)
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'related_data':related_data, 'choice_fields':self.choice_fields, 'fk_fields': self.fk_fields, 'actions_on': actions_on}
             return render(request, self.template, context)
         if related_data:    
             for key, data in related_data.items():

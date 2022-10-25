@@ -30,7 +30,7 @@ class Ledger_TypeDetailView(GenericDetailView):
     model = Ledger_Type
     form = Ledger_TypeDetailModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'accounting.view_ledger_type'
 
 class Ledger_TypeDeleteView(GenericDeleteView):
@@ -39,7 +39,7 @@ class Ledger_TypeDeleteView(GenericDeleteView):
     model = Ledger_Type
     form = Ledger_TypeDeleteModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'accounting.delete_ledger_type'
 
 class Ledger_TypeActivateView(GenericActivateView):
@@ -48,5 +48,5 @@ class Ledger_TypeActivateView(GenericActivateView):
     model = Ledger_Type
     form = Ledger_TypeActivateModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'accounting.activate_ledger'

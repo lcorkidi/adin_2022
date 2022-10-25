@@ -45,6 +45,7 @@ class AccountDetailView(GenericDetailView):
     model = Account
     form = AccountDetailForm
     ref_urls = ref_urls
+    actions_on = GetActionsOn
     permission_required = 'accounting.view_account'
 
 class AccountUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -64,6 +65,7 @@ class AccountUpdateSomeView(GenericUpdateView):
     title = title
     ref_urls = ref_urls
     readonly_fields = ['code']
+    actions_on = GetActionsOn
     permission_required = 'accounting.change_account'
 
 class AccountUpdateAllView(GenericUpdateView):
@@ -73,6 +75,7 @@ class AccountUpdateAllView(GenericUpdateView):
     title = title
     ref_urls = ref_urls
     readonly_fields = ['code']
+    actions_on = GetActionsOn
     permission_required = 'accounting.activate_account'
     include_states = [ 0, 1, 2, 3 ]
 
@@ -82,6 +85,7 @@ class AccountDeleteView(GenericDeleteView):
     model = Account
     form = AccountDeleteForm
     ref_urls = ref_urls
+    actions_on = GetActionsOn
     permission_required = 'accounting.delete_account'
 
 class AccountActivateView(GenericActivateView):
@@ -90,4 +94,5 @@ class AccountActivateView(GenericActivateView):
     model = Account
     form = AccountActivateForm
     ref_urls = ref_urls
+    actions_on = GetActionsOn
     permission_required = 'accounting.activate_account'

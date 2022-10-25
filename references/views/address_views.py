@@ -30,7 +30,7 @@ class AddressDetailView(GenericDetailView):
     model = Address
     form = AddressDetailModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.view_address'
 
 class AddressDeleteView(GenericDeleteView):
@@ -39,7 +39,7 @@ class AddressDeleteView(GenericDeleteView):
     model = Address
     form = AddressDeleteModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.delete_address'
 
 class AddressActivateView(GenericActivateView):
@@ -48,6 +48,6 @@ class AddressActivateView(GenericActivateView):
     model = Address
     form = AddressActivateModelForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    actions_on = GetActionsOn
     permission_required = 'references.activate_address'
     success_url = 'list'

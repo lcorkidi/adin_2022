@@ -11,11 +11,22 @@
                         <a href="{% url ref_urls.list %}" style="text-decoration:none">
                             {% render_bi 'arrow-left-square' width="20px" height="20px" %}
                         </a> |
-                        {% if not 'create' in actions_off %}
+                        {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
-                        {% if not 'update' in actions_off %}
-                            <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                        {% if 'update' in actions_on %}
+                            {% if form.state.value == 2 or form.state.value == 1 %}
+                                <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                            {% endif %}
+                            {% if form.state.value == 3 %}
+                                <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                            {% endif %}
+                        {% endif %}
+                        {% if 'check' in actions_on %}
+                            <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if 'accounting' in actions_on %}
+                            | <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
                         {% endif %}
                         </a> 
                    </div>
@@ -33,23 +44,27 @@
                     {% endif %}
                     {% for field in form %}
                         <div class="d-grid mx-2 gap2">
-                            <div class="p-2 fs-5 w-100 text-center">
-                                {{ field.label_tag }}
-                            </div>
-                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                {% if field.name in choice_fields %}
-                                    <td><strong>{% selected_choice form field.name field.value %}</strong></td>
-                                {% elif field.name in fk_fields %}
-                                    <td><strong>{% fk_str form field.name %}</strong></td>
-                                {% else %}
-                                    <td><strong>{{ field.value }}</strong></td>
-                                {% endif %}
-                                {% if field.value != None %}
-                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
-                                {% else %}
-                                    <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="" hidden>
-                                {% endif %}
-                            </div>
+                            {% if field.name != 'state' %}
+                                <div class="p-2 fs-5 w-100 text-center">
+                                    {{ field.label_tag }}
+                                </div>
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    {% if field.name in choice_fields %}
+                                        <td><strong>{% selected_choice form field.name field.value %}</strong></td>
+                                    {% elif field.name in fk_fields %}
+                                        <td><strong>{% fk_str form field.name %}</strong></td>
+                                    {% else %}
+                                        <td><strong>{{ field.value }}</strong></td>
+                                    {% endif %}
+                                    {% if field.value != None %}
+                                        <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
+                                    {% else %}
+                                        <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="" hidden>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" hidden>
+                            {% endif %}
                         </div>
                     {% endfor %}
                     {% for attr, data in related_data.items %}
