@@ -19,9 +19,11 @@ class Accountable(BaseModel):
         verbose_name='Subclase'
     )
     transaction_types = models.ManyToManyField(
-        'accountables.Accountable_Transaction_Type',
-        related_name='accountables',
-        related_query_name='accountable',
+        'accountables.Transaction_Type',
+        through='Accountable_Transaction_Type',
+        through_fields=('accountable', 'transaction_type'),
+        related_name='accountable',
+        related_query_name='accountables',
         verbose_name='Tipos de Cargo'
     )
 
@@ -43,6 +45,7 @@ class Accountable(BaseModel):
         return self.subclass_obj().lessee()
 
     def subclass_obj(self):
+        print(self)
         return self.subclass.model_class().active.get(code=self.code)
 
     def clean_value(self, value):
@@ -63,7 +66,77 @@ class Accountable(BaseModel):
     def __str__(self) -> str:
         return self.code
 
+class Accountable_Transaction_TypeFinderManager(models.Manager):
+    def from_related(self, obj1, obj2):
+        base_args = {}
+        if isinstance(obj1, Accountable):
+            base_args['lease'] = obj1
+            base_args['person'] = obj2
+        else:
+            base_args['lease'] = obj2
+            base_args['person'] = obj1
+        return self.get_queryset().get(**base_args)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class Accountable_Transaction_Type(BaseModel):
+
+    accountable = models.ForeignKey(
+        Accountable,
+        on_delete=models.PROTECT,
+        related_name='accountable_transaction_type',
+        related_query_name='accountable_transaction_types',
+        verbose_name='Contabilizable'
+    )
+    transaction_type = models.ForeignKey(
+        'accountables.Transaction_Type',
+        on_delete=models.PROTECT,
+        related_name='accountable_transaction_type',
+        related_query_name='accountable_transaction_types',
+        verbose_name='Tipo Transacción'
+    )
+    commit_template = models.ForeignKey(
+        'accounting.Ledger_Template',
+        on_delete=models.PROTECT,
+        related_name='accountable_transaction_type_commit',
+        related_query_name='accountable_transaction_type_commits',
+        verbose_name='Formato Causacion'
+    )
+    bill_template = models.ForeignKey(
+        'accounting.Ledger_Template',
+        on_delete=models.PROTECT,
+        related_name='accountable_transaction_type_bill',
+        related_query_name='accountable_transaction_type_bill',
+        verbose_name='Formato Facturacion'
+    )
+    receive_template = models.ForeignKey(
+        'accounting.Ledger_Template',
+        on_delete=models.PROTECT,
+        related_name='accountable_transaction_type_receive',
+        related_query_name='accountable_transaction_type_receive',
+        verbose_name='Formato Ingreso'
+    )
+
+    objects = models.Manager()
+    find = Accountable_Transaction_TypeFinderManager()
+
+    class Meta:
+        app_label = 'accountables'
+        verbose_name = 'Transacción Tipo Contabilizable'
+        verbose_name_plural = 'Transacciones Tipo Contabilizables'
+        permissions = [
+            ('activateaccountable__transaction_type', 'Can activate accountable transaction type.'),
+            ('checkaccountable__transaction_type', 'Can check accountable transaction type.'),
+        ]
+
+    def __repr__(self) -> str:
+        return f'<Accountable_Transaction_Type: {self.accountable}_{self.transaction_type}>'
+
+    def __str__(self) -> str:
+        return f'{self.accountable}_{self.transaction_type}'
+
+class Transaction_Type(BaseModel):
 
     name =  models.CharField(
         max_length=64,
@@ -76,8 +149,8 @@ class Accountable_Transaction_Type(BaseModel):
         verbose_name = 'Transacción Tipo'
         verbose_name_plural = 'Transacciones Tipos'
         permissions = [
-            ('activate_accountable_transaction_type', 'Can activate transaction type.'),
-            ('check_accountable_transaction_type', 'Can check transaction type.'),
+            ('activate_transaction_type', 'Can activate transaction type.'),
+            ('check_transaction_type', 'Can check transaction type.'),
         ]
 
     @classmethod
@@ -94,7 +167,7 @@ class Accountable_Transaction_Type(BaseModel):
         return errors
 
     def __repr__(self) -> str:
-        return f'<Transaction: {self.name}>'
+        return f'<Transaction_Type: {self.name}>'
     
     def __str__(self) -> str:
         return self.name
@@ -126,7 +199,7 @@ class Accountable_Concept(BaseModel):
         verbose_name='Contabilizable'
     )
     transaction_type = models.ForeignKey(
-        Accountable_Transaction_Type,
+        Transaction_Type,
         on_delete=models.PROTECT,
         related_name='accountable_concept',
         related_query_name='accountable_concepts',

@@ -1,109 +1,62 @@
-from django.shortcuts import render, redirect
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from adin.core.views import GenericCreateRelatedView, GenericDetailRelatedlView, GenericUpdateRelatedView, GenericDeleteRelatedView, GenericActivateRelatedView
+from accountables.models import Accountable_Transaction_Type
+from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeCreateForm, Accountable_Transaction_TypeDetailForm, Accountable_Transaction_TypeUpdateForm, Accountable_Transaction_TypeDeleteForm, Accountable_Transaction_TypeActivateForm
 
-from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericDeleteView, GenericActivateView
-from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeDetailModelForm, Accountable_Transaction_TypeCreateModelForm, Accountable_Transaction_TypeDeleteModelForm, Accountable_Transaction_TypeActivateModelForm, Accountable_Transaction_TypeAddForm, Accountable_Transaction_TypeRemoveForm, Accountable_Transaction_TypeListModelFormSet
-from accountables.models import Accountable, Accountable_Transaction_Type
-from accountables.utils import accountables_ref_urls, GetActionsOn, GetIncludedStates
 
 title = Accountable_Transaction_Type._meta.verbose_name_plural
-ref_urls = { 'list':'accountables:accountable_transaction_type_list', 'create':'accountables:accountable_transaction_type_create', 'detail':'accountables:accountable_transaction_type_detail', 'delete':'accountables:accountable_transaction_type_delete', 'activate':'accountables:accountable_transaction_type_activate', 'add': 'accountables:accountable_transaction_type_add' }
-        
-class Accountable_Transaction_TypeListView(GenericListView):
+ref_urls = {  'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_accounting', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
+rel_urls = { 'create': 'accountables:accountable_transaction_type_create', 'delete': 'accountables:accountable_transaction_type_delete', 'update': 'accountables:accountable_transaction_type_update' }
 
-    formset = Accountable_Transaction_TypeListModelFormSet
+class Accountable_Transaction_TypeCreateView(GenericCreateRelatedView):
+
+    form = Accountable_Transaction_TypeCreateForm
+    title = title
+    subtitle = 'Crear'
+    ref_urls = ref_urls
+    readonly_fields = ['accountable']
+    fk_fields = ['accountable']
+    permission_required = 'accountables.add_transaction_type'
+    related_fields = ['accountable', 'transaction_type']
+
+class Accountable_Transaction_TypeDetailView(GenericDetailRelatedlView):
+
     model = Accountable_Transaction_Type
     title = title
+    form = Accountable_Transaction_TypeDetailForm
     ref_urls = ref_urls
-    actions_on = GetActionsOn
-    list_order = 'name'
-    permission_required = 'references.view_accountable_transaction_type'
-    include_states = GetIncludedStates
-
-class Accountable_Transaction_TypeCreateView(GenericCreateView):
-
-    form = Accountable_Transaction_TypeCreateModelForm
-    title = title
-    ref_urls = ref_urls
-    permission_required = 'accountables.add_accountable_transaction_type'
-
-class Accountable_Transaction_TypeDetailView(GenericDetailView):
-
-    title = title
-    model = Accountable_Transaction_Type
-    form = Accountable_Transaction_TypeDetailModelForm
-    ref_urls = ref_urls
-    actions_off = ['update']
+    rel_urls = rel_urls
+    fk_fields = [ 'accountalbe', 'transaction_type', 'commit_template', 'bill_template', 'receive_template']
     permission_required = 'accountables.view_accountable_transaction_type'
 
-class Accountable_Transaction_TypeDeleteView(GenericDeleteView):
+class Accountable_Transaction_TypeUpdateView(GenericUpdateRelatedView):
 
-    title = title
     model = Accountable_Transaction_Type
-    form = Accountable_Transaction_TypeDeleteModelForm
+    form = Accountable_Transaction_TypeUpdateForm
+    title = title
     ref_urls = ref_urls
-    actions_off = ['update']
+    rel_urls = rel_urls
+    readonly_fields = [ 'accountalbe', 'transaction_type' ]
+    fk_fields = [ 'accountalbe', 'transaction_type' ]
+    permission_required = 'accountables.change_accountable_transaction_type'
+
+class Accountable_Transaction_TypeDeleteiew(GenericDeleteRelatedView):
+
+    model = Accountable_Transaction_Type
+    title = title
+    form = Accountable_Transaction_TypeDeleteForm
+    ref_urls = ref_urls
+    rel_urls = rel_urls
+    fk_fields = [ 'accountalbe', 'transaction_type', 'commit_template', 'bill_template', 'receive_template']
+    accounting = False
     permission_required = 'accountables.delete_accountable_transaction_type'
 
-class Accountable_Transaction_TypeActivateView(GenericActivateView):
+class Accountable_Transaction_TypeActivateView(GenericActivateRelatedView):
 
-    title = title
     model = Accountable_Transaction_Type
-    form = Accountable_Transaction_TypeActivateModelForm
+    title = title
+    form = Accountable_Transaction_TypeActivateForm
     ref_urls = ref_urls
-    actions_off = ['update']
+    rel_urls = rel_urls
+    fk_fields = [ 'accountalbe', 'transaction_type', 'commit_template', 'bill_template', 'receive_template']
+    accounting = False
     permission_required = 'accountables.activate_accountable_transaction_type'
-    success_url = 'list'
-
-class Accountable_Transaction_TypeAddView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    template = 'adin/generic_m2m_add.html'
-    form = Accountable_Transaction_TypeAddForm
-    title = title
-    subtitle = 'Adicionar'
-    permission_required = 'accountables.accounting_accountable'
-
-    def get(self, request, pk):
-        obj = Accountable.active.get(pk=pk)
-        form = self.form(initial={'accountable':obj})
-        ref_urls = accountables_ref_urls[obj.subclass.model]
-        context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk': pk}
-        return render(request, self.template, context)
-
-    def post(self, request, pk):
-        obj = Accountable.active.get(pk=pk)
-        form = self.form(request.POST)
-        ref_urls = accountables_ref_urls[obj.subclass.model]
-        if not form.is_valid():
-            context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk': pk}
-            return render(request, self.template, context)
-        form.add()
-        return redirect(ref_urls['accounting'], pk)
-
-class Accountable_Transaction_TypeRemoveView(LoginRequiredMixin, PermissionRequiredMixin, View):
-
-    template = 'adin/generic_m2m_remove.html'
-    form = Accountable_Transaction_TypeRemoveForm
-    title = title
-    subtitle = 'Retirar'
-    rel_urls = ref_urls
-    fk_fields = ['tranasction_type']
-    permission_required = 'accountables.accounting_accountable'
-
-    def get(self, request, pk, rel_pk):
-        obj = Accountable.active.get(pk=pk)
-        form = self.form(initial={'accountable':obj, 'transaction_type': obj.transaction_types.get(pk=rel_pk)})
-        ref_urls = accountables_ref_urls[obj.subclass.model]
-        context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls': self.rel_urls, 'ref_pk': pk}
-        return render(request, self.template, context)
-
-    def post(self, request, pk, rel_pk):
-        obj = Accountable.active.get(pk=pk)
-        form = self.form(request.POST, initial={'accountable':obj, 'transaction_type': obj.transaction_types.get(pk=rel_pk)})
-        ref_urls = accountables_ref_urls[obj.subclass.model]
-        if not form.is_valid():
-            context = { 'form': form, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls': self.rel_urls, 'ref_pk': pk}
-            return render(request, self.template, context)
-        form.remove()
-        return redirect(ref_urls['accounting'], pk)

@@ -82,6 +82,9 @@
                                                         {% if 'commit' in related_form.actions_on %}
                                                             <a class="text-danger" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
                                                         {% endif %}
+                                                        {% if 'bill' in related_form.actions_on %}
+                                                            <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </td>     
                                             </tr>

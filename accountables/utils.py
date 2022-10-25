@@ -21,6 +21,7 @@ per_dict = {
         'Lease_Realty_Person':  {
             'accountables.activate_lease_realty': 'activate',
             'accountables.add_lease_realty': 'create',
+            'accountables.view_lease_realty': 'detail',
             'accountables.change_lease_realty': 'update',
             'accountables.check_lease_realty' : 'check',
             'accountables.delete_lease_realty': 'deactivate',
@@ -32,11 +33,18 @@ per_dict = {
             'accountables.check_realty' : 'check',
             'accountables.delete_realty': 'deactivate',
             },
+        'Transaction_Type':  {
+            'accountables.activate_transaction_type': 'activate',
+            'accountables.add_transaction_type': 'create',
+            'accountables.check_transaction_type' : 'check',
+            'accountables.delete_transaction_type': 'deactivate',
+            },
         'Accountable_Transaction_Type':  {
-            'accountables.activate_accountble_transaction_type': 'activate',
-            'accountables.add_accountble_transaction_type': 'create',
-            'accountables.check_accountble_transaction_type' : 'check',
-            'accountables.delete_accountble_transaction_type': 'deactivate',
+            'accountables.activate_accounable_transaction_type': 'activate',
+            'accountables.change_accounable_transaction_type': 'update',
+            'accountables.add_accounable_transaction_type': 'create',
+            'accountables.check_accounable_transaction_type' : 'check',
+            'accountables.delete_accounable_transaction_type': 'deactivate',
             },
         'Accountable_Concept':  {
             # 'accountables.activate_accountable_concept': 'activate',
@@ -51,7 +59,8 @@ perm_dict = {
         'Lease_Realty_Realty': 'accountables.activate_lease_realty',
         'Lease_Realty_Person': 'accountables.activate_lease_realty',
         'Date_Value': 'accountables.activate_lease_realty',
-        'Accountable_Transaction_Type': 'accountables.activate_realty',
+        'Transaction_Type': 'accountables.activate_lease_realty',
+        'Accountable_Transaction_Type': 'accountables.activate_lease_realty',
         'Accountable_Concept': 'accountables.activate_accountable_concept'
         }
 
@@ -86,6 +95,7 @@ def lease_realty_related_data(*args):
             'actions_on' : ActionsOn,
             'included_states' : IncludedStates,
             'create_url': 'accountables:lease_realty_person_create',
+            'detail_url': 'accountables:lease_realty_person_detail',
             'check_url': 'accountables:lease_realty_person_update',
             'update_url': 'accountables:lease_realty_person_update',
             'delete_url': 'accountables:lease_realty_person_delete',
@@ -109,12 +119,22 @@ def lease_realty_related_data(*args):
 
 def accountable_related_data(*args):
     from accountables.models import Accountable_Transaction_Type, Accountable_Concept
-    from accounting.models import Ledger_Template
     from accountables.forms.accountable_transaction_type_forms import Accountable_Transaction_TypeModelFormSet
     from accountables.forms.accountable_concept_forms import Accountable_ConceptModelFormSet
-    from accounting.forms.ledger_template_forms import Ledger_TemplateAvailableModelFormset
     
     accounting_data = {
+        'Tipos Transacciones:':{
+            'class': Accountable_Transaction_Type,
+            'formset': Accountable_Transaction_TypeModelFormSet,
+            'filter_expresion': 'accountable__code',
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'create_url': 'accountables:accountable_transaction_type_create',
+            'detail_url': 'accountables:accountable_transaction_type_detail',
+            'update_url': 'accountables:accountable_transaction_type_update',
+            'delete_url': 'accountables:accountable_transaction_type_delete',
+            'activate_url': 'accountables:accountable_transaction_type_activate',
+        },
         'Conceptos Transacciones:':{
             'class': Accountable_Concept,
             'formset': Accountable_ConceptModelFormSet,

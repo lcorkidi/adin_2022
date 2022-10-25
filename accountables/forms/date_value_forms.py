@@ -70,7 +70,6 @@ class Date_ValueRelatedUpdateBaseModelFormSet(BaseModelFormSet):
     def add_errors(self, rel_pk):
         formset_errors = []
         acc = Accountable.objects.get(pk=rel_pk)
-        print(acc.get_date_value_errors())
         if acc.get_date_value_errors():
             for error in acc.get_date_value_errors():
                 formset_errors.append(error)

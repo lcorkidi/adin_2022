@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyAccoutingForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accountables.models import Lease_Realty
-from accountables.models import Accountable_Transaction_Type
+from accountables.models import Transaction_Type
 from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
 
 title = Lease_Realty._meta.verbose_name_plural
@@ -27,7 +27,7 @@ class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
         formsets = {}
         formsets['Errores'] = self.formset(queryset=self.model.pending.date_values())
         formsets['Valores Pendientes'] = self.formset(queryset=self.model.pending.errors())
-        tra_typ = Accountable_Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
+        tra_typ = Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
         formsets['Conceptos Mensualidad Arriendo Pendientes'] = self.formset(queryset=self.model.pending.concept_date_value(tra_typ))
         context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)

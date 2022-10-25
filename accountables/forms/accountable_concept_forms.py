@@ -2,7 +2,7 @@ import datetime as dt
 from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ModelForm, ValidationError, BaseFormSet, BaseModelFormSet, modelformset_factory, formset_factory
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
-from accountables.models import Accountable_Concept, Accountable_Transaction_Type, Accountable
+from accountables.models import Accountable_Concept, Transaction_Type, Accountable
 
 class Accountable_ConceptCreateSelectTransaction_TypeForm(Form):
 
@@ -12,7 +12,7 @@ class Accountable_ConceptCreateSelectTransaction_TypeForm(Form):
         label='Contabilizable'
     )
     transaction_type = ModelChoiceField(
-        queryset=Accountable_Transaction_Type.objects.exclude(state=0),
+        queryset=Transaction_Type.objects.exclude(state=0),
         empty_label=None,
         label='Tipo de Transacción'
     )
@@ -39,7 +39,7 @@ class Accountable_ConceptCreateForm(Form):
         label='Contabilizable'
     )
     transaction_type = ModelChoiceField(
-        queryset=Accountable_Transaction_Type.objects.exclude(state=0),
+        queryset=Transaction_Type.objects.exclude(state=0),
         empty_label=None,
         label='Tipo de Transacción'
     )
@@ -117,7 +117,7 @@ class Accountable_ConceptCreateForm(Form):
 class Accountable_ConceptPendingCreateForm(Form):
 
     transaction_type = ModelChoiceField(
-        queryset=Accountable_Transaction_Type.objects.exclude(state=0),
+        queryset=Transaction_Type.objects.exclude(state=0),
         empty_label=None,
         disabled=True,
         label='Tipo de Transacción'
@@ -200,9 +200,14 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
 
     def add_errors(self):
         actions_on = []
-        led_tem = self.instance.transaction_type.ledgers_templates.get(ledger_type__abreviation='CA')
-        if self.instance.Pending_Charge(led_tem):
+        acc_con = self.instance
+        com_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).commit_template
+        if self.instance.Pending_Charge(com_tem):
             actions_on.append('commit')
+        else:
+            bil_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).bill_template
+            if self.instance.Pending_Charge(bil_tem):
+                actions_on.append('bill')
         if actions_on:
             self.actions_on = actions_on
 

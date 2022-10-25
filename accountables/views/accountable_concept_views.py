@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from accountables.models.accountable import Accountable_Transaction_Type
+from accountables.models.accountable import Transaction_Type
 
 from adin.utils.user_data import user_group_str
 from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingFormSet
@@ -75,7 +75,7 @@ class Accountable_ConceptPendingCreateView(LoginRequiredMixin, PermissionRequire
 
     def get(self, request, pk, tra_typ):
         obj = Accountable.active.get(pk=pk)
-        tt = Accountable_Transaction_Type.objects.get(pk=tra_typ)
+        tt = Transaction_Type.objects.get(pk=tra_typ)
         formset = self.formset(initial=obj.subclass_obj().concept_formset_dict(tt))
         ref_urls = accountables_ref_urls[obj.subclass.model]
         context = { 'formset': formset, 'title': self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'ref_pk':pk}
@@ -83,7 +83,7 @@ class Accountable_ConceptPendingCreateView(LoginRequiredMixin, PermissionRequire
 
     def post(self, request, pk, tra_typ):
         obj = Accountable.active.get(pk=pk)
-        tt = Accountable_Transaction_Type.objects.get(pk=tra_typ)
+        tt = Transaction_Type.objects.get(pk=tra_typ)
         formset = self.formset(request.POST, initial=obj.subclass_obj().concept_formset_dict(tt))
         ref_urls = accountables_ref_urls[obj.subclass.model]
         if not formset.is_valid():

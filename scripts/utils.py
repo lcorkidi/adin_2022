@@ -9,7 +9,7 @@ from people.models import Person, Person_Natural, Person_Legal, Person_E_Mail, P
 from people.models.person import Person_Legal_Person_Natural
 from references.models import Address, PUC, E_Mail, Phone, Charge_Factor, Factor_Data, Calendar_Date
 from properties.models import Estate, Estate_Person, Realty, Realty_Estate, Estate_Appraisal
-from accountables.models import Accountable, Accountable_Transaction_Type, Accountable_Concept, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
+from accountables.models import Accountable, Accountable_Transaction_Type, Transaction_Type, Accountable_Concept, Lease_Realty, Lease_Realty_Realty, Lease_Realty_Person, Date_Value
 from accounting.models import Account, Ledger, Ledger_Type, Ledger_Template, Charge, Charge_Template
     
 models_lists = {
@@ -38,12 +38,13 @@ models_lists = {
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value',
-            'accountable_transaction_type',
+            'transaction_type',
             'accountable_concept',
             'account',
             'ledger_type', 
             'ledger_template', 
-            'charge_template'
+            'charge_template',
+            'accountable_transaction_type'
         ],
         'auth': [
             'group',
@@ -78,13 +79,14 @@ models_lists = {
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value',
-            'accountable_transaction_type'
+            'transaction_type',
             ],
         'accounting': [
             'account', 
             'ledger_type', 
             'ledger_template', 
             'charge_template', 
+            'accountable_transaction_type',
             'ledger', 
             'charge'
         ],
@@ -113,11 +115,12 @@ models_lists = {
             'lease_realty_realty', 
             'lease_realty_person', 
             'date_value', 
-            'accountable_transaction_type',
+            'transaction_type',
             'account', 
             'ledger_type', 
             'ledger_template', 
-            'charge_template'
+            'charge_template',
+            'accountable_transaction_type'
         ],
         'registers': [
             'charge_concept', 
@@ -149,12 +152,13 @@ models_lists = {
             'lease_realty_realty',
             'lease_realty_person',
             'date_value',
-            'accountable_transaction_type',
+            'transaction_type',
             'accountable_concept',
             'account',
             'ledger_type', 
             'ledger_template', 
-            'charge_template'
+            'charge_template',
+            'accountable_transaction_type'
         ],
         'errors_check': [
             'address',
@@ -170,7 +174,7 @@ models_lists = {
             'estate_appraisal',
             'realty',
             'lease_realty',
-            'accountable_transaction_type',
+            'transaction_type',
             'date_value'
         ]
     }
@@ -392,18 +396,18 @@ models_info = {
             'bulk' : True,
             'pending_relations' : None
             },
-        'accountable_transaction_type' : {
-            'csv_name' : 'accountable_transaction_type.csv',
+        'transaction_type' : {
+            'csv_name' : 'transaction_type.csv',
             'fk_dict' : {'state_change_user':User},
-            'model' : Accountable_Transaction_Type,
+            'model' : Transaction_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user'},
             'bulk' : True,
-            'pending_relations' : ['accountable_transaction_types']
+            'pending_relations' : None
             },
         'accountable_concept' : {
             'csv_name' : 'accountable_concept.csv',
-            'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Accountable_Transaction_Type},
+            'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Transaction_Type},
             'model' : Accountable_Concept,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_id':'accountable', 'transaction_type_id':'transaction_type'},
@@ -430,7 +434,7 @@ models_info = {
             },
         'ledger_template' : {
             'csv_name' : 'ledger_template.csv',
-            'fk_dict' : {'state_change_user':User, 'accountable_class':ContentType , 'transaction_type':Accountable_Transaction_Type, 'ledger_type':Ledger_Type},
+            'fk_dict' : {'state_change_user':User, 'accountable_class':ContentType , 'transaction_type':Transaction_Type, 'ledger_type':Ledger_Type},
             'model' : Ledger_Template,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_class_id':'accountable_class' , 'transaction_type_id':'transaction_type', 'ledger_type_id':'ledger_type'},
@@ -443,6 +447,15 @@ models_info = {
             'model' : Charge_Template,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user', 'ledger_template_id':'ledger_template' , 'account_id':'account', 'factor_id':'factor'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'accountable_transaction_type' : {
+            'csv_name' : 'accountable_transaction_type.csv',
+            'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Transaction_Type, 'commit_template':Ledger_Template, 'bill_template':Ledger_Template, 'receive_template':Ledger_Template },
+            'model' : Accountable_Transaction_Type,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_id':'accountable' , 'transaction_type_id':'transaction_type', 'commit_template_id':'commit_template', 'bill_template_id':'bill_template', 'receive_template_id':'receive_template'},
             'bulk' : True,
             'pending_relations' : None
             }
@@ -472,14 +485,6 @@ m2m_info = {
             'field_obj_model' : User,
             'non_field_obj_column' : 'group',
             'non_field_obj_model' : Group
-    },
-    'accountable_transaction_types' : {
-            'csv_name' : 'm2m_accountable_transaction_types.csv',
-            'm2m_field' : 'transaction_types',
-            'field_obj_column' : 'accountable',
-            'field_obj_model' : Accountable,
-            'non_field_obj_column' : 'accountable_transaction_type',
-            'non_field_obj_model' : Accountable_Transaction_Type
     }
 }
 

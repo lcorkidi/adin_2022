@@ -216,7 +216,11 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
     def get(self, request, ac_pk, a_pk, lt_str):
         acc = Accountable.active.get(pk=a_pk)
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
-        lt = Ledger_Template.active.get(transaction_type=acc_con.transaction_type, ledger_type__abreviation=lt_str)
+        acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
+        if lt_str == 'CA':
+            lt = acc_tra_typ.commit_template
+        else:
+            lt = acc_tra_typ.bill_template
         form = self.form(initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
         form.set_readonly_fields(self.readonly_fields)
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
@@ -225,7 +229,11 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
     def post(self, request, ac_pk, a_pk, lt_str):
         acc = Accountable.active.get(pk=a_pk)
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
-        lt = Ledger_Template.active.get(transaction_type=acc_con.transaction_type, ledger_type__abreviation=lt_str)
+        acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
+        if lt_str == 'CA':
+            lt = acc_tra_typ.commit_template
+        else:
+            lt = acc_tra_typ.bill_template
         form = self.form(request.POST, initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
