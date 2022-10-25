@@ -124,7 +124,8 @@ def accountable_related_data(*args):
             'create_url': 'accountables:accountable_concept_create',
             'pending_url': 'accountables:pending_accountable_concept_create',
             'delete_url': 'accountables:accountable_concept_delete',
-            'activate_url': 'accountables:accountable_concept_activate'
+            'activate_url': 'accountables:accountable_concept_activate',
+            'commit_url': 'accounting:ledger_template_register_commit'
         }
     }
 

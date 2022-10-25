@@ -201,3 +201,35 @@ class Ledger_TemplateSelectConceptView(LoginRequiredMixin, PermissionRequiredMix
             return render(request, self.template, context)
         ledger = form.save(request.user)    
         return redirect('accounting:ledger_detail', ledger.pk)
+ 
+class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_create.html'
+    form = Ledger_TemplateSelectConceptForm
+    title = title
+    subtitle = 'Crear Registro'
+    ref_urls = ref_urls
+    permission_required = 'accounting.add_ledger'
+    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
+
+    def get(self, request, ac_pk, a_pk, lt_str):
+        acc = Accountable.active.get(pk=a_pk)
+        acc_con = Accountable_Concept.active.get(pk=ac_pk)
+        lt = Ledger_Template.active.get(transaction_type=acc_con.transaction_type, ledger_type__abreviation=lt_str)
+        form = self.form(initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
+        form.set_readonly_fields(self.readonly_fields)
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+        return render(request, self.template, context)
+
+    def post(self, request, ac_pk, a_pk, lt_str):
+        acc = Accountable.active.get(pk=a_pk)
+        acc_con = Accountable_Concept.active.get(pk=ac_pk)
+        lt = Ledger_Template.active.get(transaction_type=acc_con.transaction_type, ledger_type__abreviation=lt_str)
+        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
+        if not form.is_valid():
+            form.set_readonly_fields(self.readonly_fields)
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+            return render(request, self.template, context)
+        ledger = form.save(request.user)    
+        return redirect('accounting:ledger_detail', ledger.pk)

@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 
@@ -93,7 +94,8 @@ class Ledger_Template(BaseModel):
 
     code = models.CharField(
         max_length=128,
-        primary_key=True
+        primary_key=True,
+        verbose_name='Nombre'
     )
     accountable_class = models.ForeignKey(
         ContentType,
@@ -122,9 +124,6 @@ class Ledger_Template(BaseModel):
         app_label = 'accounting'
         verbose_name = 'Formato Registro'
         verbose_name_plural = 'Formatos Registros'
-        constraints = [
-            models.UniqueConstraint(fields=['transaction_type', 'ledger_type'], name='unique_trancaction_ledger_types'),
-        ]
         
     def create_ledger(self, charge_concept, date, user):
         if not charge_concept.Pending_Charge(self):

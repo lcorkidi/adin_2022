@@ -161,7 +161,7 @@ class Accountable_Concept(BaseModel):
         from accounting.models import Charge
 
         for cha_tem in led_tem.charges_templates.all():
-            if not Charge.objects.filter(
+            if not Charge.objects.exclude(state=0).filter(
                 account=cha_tem.account,
                 value=cha_tem.factor.factored_value(self.accountable, self.date, self.value, cha_tem.nature),
                 concept=self

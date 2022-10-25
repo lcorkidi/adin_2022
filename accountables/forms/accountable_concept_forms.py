@@ -196,6 +196,16 @@ class Accountable_ConceptPendingCreateBseFormSet(BaseFormSet):
         for form in self.forms:
             form.save(self.creator)
 
+class Accountable_ConceptRelatedModelForm(ModelForm):
+
+    def add_errors(self):
+        actions_on = []
+        led_tem = self.instance.transaction_type.ledgers_templates.get(ledger_type__abreviation='CA')
+        if self.instance.Pending_Charge(led_tem):
+            actions_on.append('commit')
+        if actions_on:
+            self.actions_on = actions_on
+
 class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
 
     def __init__(self, rel_pk, *args, **kwargs):
@@ -205,13 +215,15 @@ class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
     def add_errors(self, rel_pk):
         obj = Accountable.objects.get(pk=rel_pk)
         formset_errors = []
-        if obj.transaction_types.exists():
-            for tra_typ in obj.transaction_types.all():
-                if obj.pending_concept_date_values(tra_typ):
-                    formset_errors.append(f'FECHA y VALOR pendientes para conceptos tipo {tra_typ.name.upper()}: {obj.pending_concept_date_values(tra_typ)}')
+        if obj.transaction_types.filter(name='Canon Mensual Arriendo Inmueble').exists():
+            tra_typ = obj.transaction_types.get(name='Canon Mensual Arriendo Inmueble')
+            if obj.pending_concept_date_values(tra_typ):
+                formset_errors.append(f'FECHA y VALOR pendientes para conceptos tipo {tra_typ.name.upper()}: {obj.pending_concept_date_values(tra_typ)}')
         if formset_errors:
             self.formset_errors = formset_errors
+        for form in self.forms:
+            form.add_errors()
 
-Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, formset=Accountable_ConceptRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
+Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, form=Accountable_ConceptRelatedModelForm, formset=Accountable_ConceptRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
 
 Accountable_ConceptPendingFormSet = formset_factory(Accountable_ConceptPendingCreateForm, formset=Accountable_ConceptPendingCreateBseFormSet, extra=0)

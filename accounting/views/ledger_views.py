@@ -91,7 +91,7 @@ class LedgerActivateView(GenericActivateView):
             for attr, data in related_data.items():
                 filter_expresion = {}
                 filter_expresion[data['filter_expresion']] = pk
-                formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion))
+                formset = data['formset'](queryset=data['class'].objects.filter(**filter_expresion), rel_pk=pk)
                 related_data[attr]['formset'] = formset
         else:
             related_data = None
