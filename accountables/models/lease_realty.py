@@ -295,8 +295,8 @@ class Lease_Realty_Realty(BaseModel):
  
     class Meta:
         app_label = 'accountables'
-        verbose_name = 'Inmueble Arriendo Inmueble'
-        verbose_name_plural = 'Inmuebles Arriendos Inmuebles'
+        verbose_name = 'Inmueble Contrato Arriendo Inmueble'
+        verbose_name_plural = 'Inmuebles Contratos Arriendos Inmueble'
 
     def __repr__(self) -> str:
         return f'<Lease_Realty_Realty: {self.lease.pk}_{self.realty.pk}>'
@@ -374,8 +374,8 @@ class Lease_Realty_Person(BaseModel):
  
     class Meta:
         app_label = 'accountables'
-        verbose_name = 'Parte Arriendo Inmueble'
-        verbose_name_plural = 'Partes Arriendos Inmuebles'
+        verbose_name = 'Parte Contrato Arriendo Inmueble'
+        verbose_name_plural = 'Partes Contratos Arriendos Inmueble'
 
     def __repr__(self) -> str:
         return f'<Lease_Realty_Person: {self.lease.pk}_{self.person.complete_name}>'

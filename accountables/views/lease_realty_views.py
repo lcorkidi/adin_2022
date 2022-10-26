@@ -14,7 +14,7 @@ ref_urls = { 'return':'accountables:lease_realty_main', 'list':'accountables:lea
 class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     template = 'accountables/lease_realty_main.html'
-    formset = Lease_RealtyListModelFormSet
+    lea_rea_formset = Lease_RealtyListModelFormSet
     model = Lease_Realty
     title = 'Contratos Arriendo Inmuebles con Errores'
     ref_urls = ref_urls
@@ -25,10 +25,10 @@ class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         actions_on = self.actions_on(request.user, self.model.__name__)
         formsets = {}
-        formsets['Errores'] = self.formset(queryset=self.model.pending.date_values())
-        formsets['Valores Pendientes'] = self.formset(queryset=self.model.pending.errors())
+        formsets['Errores'] = self.lea_rea_formset(queryset=self.model.pending.date_values())
+        formsets['Valores Pendientes'] = self.lea_rea_formset(queryset=self.model.pending.errors())
         tra_typ = Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
-        formsets['Conceptos Mensualidad Arriendo Pendientes'] = self.formset(queryset=self.model.pending.concept_date_value(tra_typ))
+        formsets['Conceptos Mensualidad Arriendo Pendientes'] = self.lea_rea_formset(queryset=self.model.pending.concept_date_value(tra_typ))
         context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
         return render(request, self.template, context)
 

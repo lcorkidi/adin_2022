@@ -16,7 +16,7 @@ class Ledger_TemplateCreateModelForm(GenericCreateForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
+        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class']
 
     def save(self, creator_user, *args, **kwargs):
         base_args = {}
@@ -34,13 +34,13 @@ class Ledger_TemplateDetailModelForm(ModelForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
+        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class']
 
 class Ledger_TemplateDeleteModelForm(ModelForm):
 
     class Meta:
         model = Ledger_Template
-        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class', 'concept_dependant']
+        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class']
 
 class Ledger_TemplateSelectForm(Form):
 
@@ -204,6 +204,6 @@ class Ledger_TemplateSelectConceptForm(Form):
         acc_con = self.cleaned_data.get('accountable_concept')
         return led_tem.create_ledger(acc_con, acc_con.date, user)
 
-Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('code', 'accountable_class', 'concept_dependant'), extra=0)
+Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('code', 'accountable_class'), extra=0)
 
 Ledger_TemplateAvailableModelFormset = modelformset_factory(Ledger_Template, fields=('code', ), extra=0)

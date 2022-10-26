@@ -77,8 +77,8 @@ class Ledger_Type(BaseModel):
 
     class Meta:
         app_label = 'accounting'
-        verbose_name = 'Registro Tipo'
-        verbose_name_plural = 'Registros Tipos'
+        verbose_name = 'Tipo Registro'
+        verbose_name_plural = 'Tipos Registro'
         permissions = [
             ('activate_ledger_type', 'Can activate ledger type.'),
             ('check_ledger_type', 'Can check ledger type.'),
@@ -116,14 +116,11 @@ class Ledger_Template(BaseModel):
         related_query_name='ledger_template',
         verbose_name='Tipo Registro'
     )
-    concept_dependant = models.BooleanField(
-        verbose_name='Requiere Concepto'
-    )
     
     class Meta:
         app_label = 'accounting'
         verbose_name = 'Formato Registro'
-        verbose_name_plural = 'Formatos Registros'
+        verbose_name_plural = 'Formatos Registro'
         
     def create_ledger(self, charge_concept, date, user):
         if not charge_concept.Pending_Charge(self):

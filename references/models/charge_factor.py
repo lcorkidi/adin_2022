@@ -90,7 +90,6 @@ class Factor_Data(BaseModel):
         verbose_name_plural = 'Datos Tasas'
         constraints = [
             models.UniqueConstraint(fields=['factor', 'validity_date'], name='unique_factor_validity'),
-            models.CheckConstraint(check=Q(percentage__gte=0) & Q(percentage__lte=100), name='facdat_percentage_gte_0_and_lte_100'),
         ]
 
     @classmethod

@@ -1,11 +1,18 @@
 ,id,state_change_user_id,state_change_date,state,ledger_template_id,account_id,nature,factor_id
-0,1,1,2022-10-25 18:41:58.497111+00:00,1,CA^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble,13802005,1,Base
-1,2,1,2022-10-25 18:41:58.497145+00:00,1,CA^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble,913005,-1,Base
-2,3,1,2022-10-25 19:08:51.537457+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble sin IVA,13802005,-1,Base
-3,4,1,2022-10-25 19:08:51.555708+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble sin IVA,13802005,1,Base
-4,5,1,2022-10-25 19:09:32.824189+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble con IVA,13802005,-1,Base
-5,6,1,2022-10-25 19:09:32.843470+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble con IVA,13802005,1,Base
-6,7,1,2022-10-25 19:09:32.862006+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble con IVA,13050505,1,IVA
-7,8,1,2022-10-25 19:09:32.880041+00:00,1,FV^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble con IVA,2408,-1,IVA
-8,9,1,2022-10-25 19:10:09.134739+00:00,1,RC^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble sin IVA-Efectivo,110505,1,Base
-9,10,1,2022-10-25 19:10:09.154114+00:00,1,RC^Contrato Arriendo Inmueble_Canon Mensual Arriendo Inmueble sin IVA-Efectivo,13802005,-1,Base
+0,1,1,2022-10-25 20:09:31.636238+00:00,1,CA-Canon Mensual Arriendo Inmueble,13802005,1,Base
+1,2,1,2022-10-25 20:09:31.636271+00:00,1,CA-Canon Mensual Arriendo Inmueble,913005,-1,Base
+2,3,1,2022-10-25 20:09:31.636291+00:00,1,FV-Canon Mensual Arriendo Inmueble,13802005,-1,Base
+3,4,1,2022-10-25 20:09:31.636308+00:00,1,FV-Canon Mensual Arriendo Inmueble,13802005,1,Base
+4,5,1,2022-10-25 20:09:31.636325+00:00,1,FV-Canon Mensual Arriendo Inmueble con IVA,13802005,-1,Base
+5,6,1,2022-10-25 20:09:31.636341+00:00,1,FV-Canon Mensual Arriendo Inmueble con IVA,13802005,1,Base
+6,7,1,2022-10-25 20:09:31.636357+00:00,1,FV-Canon Mensual Arriendo Inmueble con IVA,13050505,1,IVA
+7,8,1,2022-10-25 20:09:31.636374+00:00,1,FV-Canon Mensual Arriendo Inmueble con IVA,2408,-1,IVA
+8,9,1,2022-10-25 20:09:31.636390+00:00,1,RC-Canon Mensual Arriendo Inmueble-Efectivo,110505,1,Base
+9,10,1,2022-10-25 20:09:31.636405+00:00,1,RC-Canon Mensual Arriendo Inmueble-Efectivo,13802005,-1,Base
+10,11,1,2022-10-26 16:29:45.707272+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA-Efectivo,110505,1,Base + IVA
+11,12,1,2022-10-26 16:29:45.714777+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA-Efectivo,13802005,-1,Base
+12,13,1,2022-10-26 16:29:45.721681+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA-Efectivo,13050505,-1,IVA
+13,14,1,2022-10-26 16:34:34.183627+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA y Retefuente-Efectivo,110505,1,Base + IVA - Retefuente
+14,15,1,2022-10-26 16:34:34.191254+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA y Retefuente-Efectivo,13050505,-1,IVA
+15,16,1,2022-10-26 16:34:34.198722+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA y Retefuente-Efectivo,13802005,-1,Base
+16,17,1,2022-10-26 16:34:34.205916+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA y Retefuente-Efectivo,135515,1,Retefuente

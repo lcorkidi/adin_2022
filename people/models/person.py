@@ -470,8 +470,8 @@ class Person_Legal_Person_Natural(BaseModel):
 
     class Meta:
         app_label = 'people'
-        verbose_name = 'Personal'
-        verbose_name_plural = 'Personal'
+        verbose_name = 'Personal Persona Juridica'
+        verbose_name_plural = 'Personal Persona Juridica'
 
     def __repr__(self) -> str:
         return f'<Person_Legal_Person_Natural: {self.get_appointment_display()}_{self.person_legal.complete_name}>'
