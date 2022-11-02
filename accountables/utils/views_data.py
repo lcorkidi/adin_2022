@@ -11,6 +11,7 @@ per_dict = {
             'accountables.delete_lease_realty': 'deactivate',
             'accountables.view_lease_realty': 'detail',
             'accountables.accounting_lease_realty': 'accounting',
+            'accountables.view_lease_realty': 'report'
             },
         'Lease_Realty_Realty':  {
             'accountables.activate_lease_realty': 'activate',

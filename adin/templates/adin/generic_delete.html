@@ -8,9 +8,7 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
-                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> |
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a> |
                         {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %}
@@ -28,7 +26,6 @@
                         {% if 'accounting' in actions_on %}
                             | <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
                         {% endif %}
-                        </a> 
                    </div>
                 </div>
             </div>

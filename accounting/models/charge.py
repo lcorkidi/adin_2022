@@ -6,6 +6,17 @@ from adin.core.models import BaseModel
 from accounting.utils import DueAge
 from accounting.models.ledger import LEDGER_RECEIPT_PRIORITY
 
+class ReportChargeManager(models.Manager):
+
+    def accountable(self, accountable):
+        objs_df=pd.DataFrame(self.get_queryset().filter(concept__accountable=accountable).values('ledger', 'account', 'account__name', 'concept__date', 'value'))        
+        normalized_df=objs_df.assign(debit=objs_df.value.apply(lambda x: x if x > 0 else 0), credit=objs_df.value.apply(lambda x: -x if x < 0 else 0)).drop(['value'], axis=1)
+
+        return normalized_df.to_dict('records')
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 class PendingChargeManager(models.Manager):
     def accountable_receivable_sum(self, accountable, account_priority):
         return self.accountable_receivable_df(accountable, account_priority)['due_value'].sum()
@@ -69,6 +80,7 @@ class Charge(BaseModel):
 
     objects = models.Manager()
     pending = PendingChargeManager()
+    report = ReportChargeManager()
 
     class Meta:
         app_label = 'accounting'

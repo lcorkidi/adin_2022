@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.lease_realty_views import Lease_RealtyMainView, Lease_RealtyListView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyAccountingView, Lease_RealtyDeleteView, Lease_RealtyActivateView
+from .views.lease_realty_views import Lease_RealtyMainView, Lease_RealtyListView, Lease_RealtyCreateView, Lease_RealtyDetailView, Lease_RealtyUpdateView, Lease_RealtyAccountingView, Lease_RealtyReportView, Lease_RealtyDeleteView, Lease_RealtyActivateView
 from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Lease_Realty_RealtyDeleteView, Lease_Realty_RealtyActivateView
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonDetailView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.transaction_type_views import Transaction_TypeListView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
@@ -22,6 +22,7 @@ urlpatterns = [
     path('<str:pk>/lease_realty_detail/', Lease_RealtyDetailView.as_view(),name='lease_realty_detail'),
     path('<str:pk>/lease_realty_update/', Lease_RealtyUpdateView.as_view(), name='lease_realty_update'),
     path('<str:pk>/lease_realty_accounting/', Lease_RealtyAccountingView.as_view(), name='lease_realty_accounting'),
+    path('<str:pk>/lease_realty_report/', Lease_RealtyReportView.as_view(), name='lease_realty_report'),
     path('<str:pk>/lease_realty_delete/', Lease_RealtyDeleteView.as_view(), name='lease_realty_delete'),
     path('<str:pk>/lease_realty_activate/', Lease_RealtyActivateView.as_view(), name='lease_realty_activate'),
     path('<str:pk>/lease_realty_realty_create/', Lease_Realty_RealtyCreateView.as_view(), name='lease_realty_realty_create'),

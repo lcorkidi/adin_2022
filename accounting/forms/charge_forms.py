@@ -146,3 +146,26 @@ class ChargeReceivablePendingForm(Form):
     )
 
 ChargeReceivablePendingFormSet = formset_factory(ChargeReceivablePendingForm, extra=0)
+ 
+class ChargeListForm(Form):
+
+    ledger = CharField(
+        label='Registro'
+    )
+    account = CharField(
+        label='Cuenta'
+    )
+    account__name = CharField(
+        label='Descripcion'
+    )
+    concept__date = DateField(
+        label='Fecha Transacción'
+    )
+    debit = IntegerField(
+        label='Debito'
+    )
+    credit = IntegerField(
+        label='Credito'
+    )
+
+ChargeListFormSet = formset_factory(ChargeListForm, extra=0)

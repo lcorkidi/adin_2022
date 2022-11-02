@@ -72,7 +72,7 @@ def GradeParse(due_age):
         return 'D'
     return 'E'
 
-def StartValueParse(lease):
+def StartValue(lease):
     from accountables.models import Date_Value
 
     value = 0
@@ -94,15 +94,99 @@ def StartValueParse(lease):
 
     return value
 
-def FeeCountParse(lease):
+def FeeCount(lease):
     from accounting.models import Charge
     from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 
     fees = 0
-    ref_date = previousyearlydate(lease.subclass_obj().doc_date, Charge.pending.accountable_receivable_age_start_date(lease, ACCOUNT_RECEIPT_PRIORITY))
+    ref_date = previousyearlydate(lease.doc_date, Charge.pending.accountable_receivable_age_start_date(lease, ACCOUNT_RECEIPT_PRIORITY))
+    if lease.end_date:
+        end_date = lease.end_date
+    else:
+        end_date = nextyearlydate(lease.doc_date,  datetime.date.today()) - relativedelta(days=1)
 
-    while ref_date <= datetime.date.today():
-        fees += 12
-        ref_date = ref_date + relativedelta(years=1)
+    while ref_date <= end_date:
+        fees += 1
+        ref_date = ref_date + relativedelta(months=1)
 
     return fees
+
+def SettledFeeCount(lease):
+    from accounting.models import Charge
+    from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
+
+    fees = 0
+    age_start_date = Charge.pending.accountable_receivable_age_start_date(lease, ACCOUNT_RECEIPT_PRIORITY)
+    ref_date = previousyearlydate(lease.doc_date, age_start_date)
+
+    while ref_date < age_start_date:
+        fees += 1
+        ref_date = ref_date + relativedelta(months=1)
+
+    return fees
+
+def PendingFeeCount(lease):
+    from accounting.models import Charge
+    from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
+
+    due_age = Charge.pending.accountable_receivable_age_months(lease, ACCOUNT_RECEIPT_PRIORITY)
+    months = due_age[0]
+    days = due_age[1]
+
+    if months == 0 and days > 5:
+        months = 1
+    elif days > 0:
+        months += 1
+
+    return months
+    
+def CityCodeParse(city):
+    if city.lower() == 'cali':
+        return 76001
+    if city.lower() == 'medellin':
+        return 5001
+    if city.lower() == 'tulua':
+        return 76834
+    if city.lower() == 'buga':
+        return 76111
+    if city.lower() == 'pasto':
+        return 52001
+    if city.lower() == 'bogota':
+        return 11001
+    if city.lower() == 'bucaramanga':
+        return 68001
+    if city.lower() == 'yumbo':
+        return 76892
+    return 0
+
+def AddressParse(address):
+    code = address.get_street_type_display()
+    code += " " + str(address.street_number)
+    if address.street_letter != None:
+        code += address.get_street_letter_display()
+    if address.street_bis:
+        code += 'bis'
+        if address.street_bis_complement:
+            code += address.get_street_bis_complement_display()
+    if address.street_coordinate != None:
+        code += " " + address.get_street_coordinate_display()
+    code += " No " + str(address.numeral_number)
+    if address.numeral_letter != None:
+        code += address.get_numeral_letter_display()
+    if address.numeral_bis:
+        code += 'bis'
+        if address.numeral_bis_complement:
+            code += address.get_numeral_bis_complement_display()
+    if address.numeral_coordinate != None:
+        code += " " + address.get_numeral_coordinate_display()
+    code += " - " + str(address.height_number)
+    if address.interior_type != None:
+        code += ', '
+    if address.interior_group_type != None:
+        code += address.get_interior_group_type_display()
+        code += " " + str(address.interior_group_code) + ", "
+    if address.interior_type != None:
+        code += address.get_interior_type_display()
+        code += " " + str(address.interior_code)
+
+    return code
