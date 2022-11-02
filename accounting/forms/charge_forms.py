@@ -1,4 +1,4 @@
-from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, ValidationError, BaseModelFormSet, formset_factory, modelformset_factory
+from django.forms import Form, BaseFormSet, IntegerField, ModelChoiceField, IntegerField, CharField, DateField, ValidationError, BaseModelFormSet, formset_factory, modelformset_factory
 
 from accounting.models import Charge, Account
 from accountables.models import Accountable_Concept
@@ -119,3 +119,30 @@ class ChargeBaseModelFormSet(BaseModelFormSet):
         super(ChargeBaseModelFormSet, self).__init__(*args, **kwargs)
 
 ChargeModelFormSet = modelformset_factory(Charge, formset=ChargeBaseModelFormSet, fields=('state', 'account', 'value', 'concept'), extra=0)
+
+ 
+class ChargeReceivablePendingForm(Form):
+
+    ledger = CharField(
+        label='Registro'
+    )
+    concept__accountable = CharField(
+        label='Contabilizable'
+    )
+    account__name = CharField(
+        label='Cuenta'
+    )
+    concept__date = DateField(
+        label='Fecha Transacción'
+    )
+    value = IntegerField(
+        label='Valor Movimiento'
+    )
+    due_value = IntegerField(
+        label='Valor en Mora'
+    )
+    due_age = CharField(
+        label='Edad Mora'
+    )
+
+ChargeReceivablePendingFormSet = formset_factory(ChargeReceivablePendingForm, extra=0)

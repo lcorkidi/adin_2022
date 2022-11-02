@@ -4,9 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyAccoutingForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
+from accounting.forms.charge_forms import ChargeReceivablePendingFormSet
 from accountables.models import Lease_Realty
+from accountables.models.lease_realty import ACCOUNT_RECEIPT_PRIORITY
 from accountables.models import Transaction_Type
 from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
+from adin.utils.related_models import related_data_formsets_call
 
 title = Lease_Realty._meta.verbose_name_plural
 ref_urls = { 'return':'accountables:lease_realty_main', 'list':'accountables:lease_realty_list', 'create':'accountables:lease_realty_create', 'detail':'accountables:lease_realty_detail', 'update':'accountables:lease_realty_update', 'delete':'accountables:lease_realty_delete', 'activate':'accountables:lease_realty_activate', 'accounting':'accountables:lease_realty_accounting' }
@@ -77,11 +80,12 @@ class Lease_RealtyUpdateView(GenericUpdateView):
     related_data = lease_realty_related_data
     permission_required = 'accountables.change_lease_realty'
     
-class Lease_RealtyAccountingView(GenericDetailView):
+class Lease_RealtyAccountingView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'accountables/accountable_accounting.html'
     model = Lease_Realty
     form = Lease_RealtyAccoutingForm
+    pending_formset = ChargeReceivablePendingFormSet
     title = title
     subtitle = 'Conceptos Transacciones'
     ref_urls = ref_urls
@@ -90,6 +94,15 @@ class Lease_RealtyAccountingView(GenericDetailView):
     related_data = accountable_related_data
     actions_on = GetActionsOn
     permission_required = 'accountables.change_lease_realty'
+
+    def get(self, request, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        pending_formset = self.pending_formset(initial=obj.charge_receivable([account for account in ACCOUNT_RECEIPT_PRIORITY.keys()]))
+        actions_on = self.actions_on(request.user, self.model.__name__)
+        related_data = related_data_formsets_call(self.related_data, pk, request.user)
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'pending_formset':pending_formset, 'related_data':related_data, 'fk_fields': self.fk_fields, 'actions_on': actions_on }
+        return render(request, self.template, context)
 
 class Lease_RealtyDeleteView(GenericDeleteView):
 

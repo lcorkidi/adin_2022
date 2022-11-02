@@ -230,7 +230,7 @@ class Accountable_Concept(BaseModel):
         verbose_name = 'Concepto Contabilizable'
         verbose_name_plural = 'Conceptos Contabilizables'
 
-    def Pending_Charge(self, led_tem):
+    def Pending_Ledger(self, led_tem):
         from accounting.models import Charge
 
         for cha_tem in led_tem.charges_templates.all():

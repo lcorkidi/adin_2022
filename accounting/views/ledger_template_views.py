@@ -5,10 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger_Template
 from accountables.models import Accountable, Accountable_Concept
+from accountables.forms.accountalbe_forms import AccountableAccoutingForm
 from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
+from accounting.forms.charge_forms import ChargeReceivablePendingFormSet
 from accounting.utils import ledger_template_related_data, GetIncludedStates, GetActionsOn
 from adin.utils.user_data import user_group_str
+from accountables.models.lease_realty import ACCOUNT_RECEIPT_PRIORITY
 
 title = Ledger_Template._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_template_list', 'create':'accounting:ledger_template_create', 'detail':'accounting:ledger_template_detail', 'delete':'accounting:ledger_template_delete', 'activate':'accounting:ledger_template_activate' }
@@ -241,3 +244,22 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
             return render(request, self.template, context)
         ledger = form.save(request.user)    
         return redirect('accounting:ledger_detail', ledger.pk)
+ 
+class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'accounting/accountable_receipt.html'
+    form = AccountableAccoutingForm
+    pending_formset = ChargeReceivablePendingFormSet
+    title = title
+    subtitle = 'Crear Registro'
+    ref_urls = ref_urls
+    permission_required = 'accounting.add_ledger'
+    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
+
+    def get(self, request, ac_pk):
+        acc = Accountable.active.get(pk=ac_pk)
+        form = self.form(instance=acc)
+        pending_formset = self.pending_formset(initial=acc.sublcass_ob().charge_receivable([account for account in ACCOUNT_RECEIPT_PRIORITY.keys()]))
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+        return render(request, self.template, context)

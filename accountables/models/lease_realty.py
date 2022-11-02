@@ -9,6 +9,11 @@ from accountables.utils import lease_realty_code
 from adin.utils.date_progression import nextmonthlydate, previousmonthlydate, previousyearlydate
 from adin.utils.data_check import children_errors_report
 
+ACCOUNT_RECEIPT_PRIORITY = {
+    13050505:0,
+    13802005:10
+}
+
 class Lease_RealtyPendingManager(models.Manager):
 
     def errors(self):
@@ -115,6 +120,10 @@ class Lease_Realty(Accountable):
     def lessee(self):
         return self.lease_realty_person_set.get(lease=self, role=1).person
 
+    def charge_receivable(self, accounts):
+        from accounting.models import Charge
+        return Charge.pending.accountable_receivable(self, accounts)
+
     def concept_formset_dict(self, transaction_type):
         formset_dict = []
         for date, value in self.pending_concept_date_values(transaction_type).items():
@@ -159,7 +168,7 @@ class Lease_Realty(Accountable):
             end_date = self.end_date
         else:
             end_date = datetime.date.today() + relativedelta(months=extra_months)
-        while ref_date < end_date:
+        while ref_date <= end_date:
             date_list.append(ref_date)
             ref_date = ref_date + relativedelta(years=1)
         return date_list

@@ -1,11 +1,22 @@
 import pandas as pd
 from django.db import models
+from django.db.models import Sum
 
 from adin.core.models import BaseModel
+from accounting.utils import DueAge
+from accountables.models.lease_realty import ACCOUNT_RECEIPT_PRIORITY
+from accounting.models.ledger import LEDGER_RECEIPT_PRIORITY
 
 class UnsettledChargeManager(models.Manager):
-    def by_accountable(self, accountable, pending_transaction_type, settling_transaction_type):
-        qs = self.get_queryset().filter(concept__transaction_type=pending_transaction_type, concept__accountable=accountable)
+    def accountable_receivable(self, accountable, accounts):
+        objs_df=pd.DataFrame(Charge.objects.filter(account__in=accounts, concept__accountable=accountable)\
+            .values('id', 'ledger', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
+        priority_df=objs_df.assign(priority=objs_df.apply(lambda x: ACCOUNT_RECEIPT_PRIORITY[x.account] + LEDGER_RECEIPT_PRIORITY[x.ledger[:2]], axis=1))
+        sorted_df=priority_df.sort_values(by=['concept__date', 'priority', 'value'])
+        due_df=sorted_df.assign(
+            due_value=sorted_df.id.apply(lambda x: Charge.objects.get(pk=x).DueValue()),
+            due_age=sorted_df.concept__date.apply(lambda x: DueAge(x)))
+        return due_df[due_df['due_value'] != 0].to_dict('records')
 
     def get_queryset(self):
         return super().get_queryset()
@@ -41,7 +52,7 @@ class Charge(BaseModel):
     )
 
     objects = models.Manager()
-    unsettled = UnsettledChargeManager()
+    pending = UnsettledChargeManager()
 
     class Meta:
         app_label = 'accounting'
@@ -50,6 +61,19 @@ class Charge(BaseModel):
         permissions = [
             ('activate_charge', 'Can activate charge.'),
         ]
+
+    def DueValue(self):
+        if self.ledger.type.abreviation == 'CA':
+            if Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='FV', value=-self.value).exists():
+                return 0
+        elif self.ledger.type.abreviation == 'FV' and self.value < 0:
+            if Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='CA', value=-self.value).exists():
+                return 0        
+        elif self.ledger.type.abreviation == 'FV' and self.value > 0:
+            receipt = Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='RC', value__gt=0).aggregate(receipt=Sum('value'))['receipt']
+            return self.value + receipt if receipt else self.value
+        else:
+            return 0
 
     def __repr__(self) -> str:
         return f'<Charge: {self.ledger}_{self.account}_{self.concept}>'

@@ -52,11 +52,9 @@
                                                     {% endif %}                             
                                                 {% endif %}                          
                                             {% endfor %}
-                                            {% if not data.m2m_direct %}
-                                                <th>
-                                                    <a class="text-success" href="{% url data.create_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                                                </th>
-                                            {% endif %}
+                                            <th>
+                                                <a class="text-success" href="{% url data.create_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,19 +70,31 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 <td>
-                                                    {% if not data.m2m_direct %}
-                                                        {% if related_form.state.value != 0 and 'deactivate' in data.actions_on %}
-                                                            <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                    {% if 'detail' in data.actions_on %}
+                                                        <a class="text-secondary" href="{% url data.detail_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if 'update' in data.actions_on %}
+                                                        {% if related_form.state.value == 2 or related_form.state.value == 1 %}
+                                                            <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
                                                         {% endif %}
-                                                        {% if related_form.state.value == 0 and 'activate' in data.actions_on %}
-                                                            <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                                        {% if related_form.state.value == 3 %}
+                                                            <a href="{% url data.update_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
                                                         {% endif %}
-                                                        {% if 'commit' in related_form.actions_on %}
-                                                            <a class="text-danger" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
-                                                        {% endif %}
-                                                        {% if 'bill' in related_form.actions_on %}
-                                                            <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
-                                                        {% endif %}
+                                                    {% endif %}
+                                                    {% if 'check' in data.actions_on %}
+                                                        <a class="text-warning" href="{% url data.check_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value != 0 and 'deactivate' in data.actions_on %}
+                                                        <a class="text-danger" href="{% url data.delete_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if related_form.state.value == 0 and 'activate' in data.actions_on %}
+                                                        <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                                    {% endif %}
+                                                    {% if 'commit' in related_form.actions_on %}
+                                                        <a class="text-danger" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
+                                                    {% endif %}
+                                                    {% if 'bill' in related_form.actions_on %}
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
                                                     {% endif %}
                                                 </td>     
                                             </tr>
@@ -94,6 +104,48 @@
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="d-grid mx-2 gap2">
+                        <div class="p-2 fs-5 w-100 text-center">
+                            Cuentas Pendientes Por Recibir:
+                        </div>
+                        {% if pending_formset.formset_errors %}
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                <div class="p-2 fs-5 text-center text-danger">
+                                    {{ pending_formset.formset_errors }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        {% for pending_field in pending_formset.form %}
+                                            {% if pending_field.name != 'concept__accountable' %}
+                                                <th>{{ pending_field.label }}</th> 
+                                            {% endif %}
+                                        {% endfor %}
+                                        <th>
+                                            <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk %}" style="text-decoration:none">RC</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pending_form in pending_formset %}
+                                        <tr>
+                                            {% for pending_field in pending_form.visible_fields %}
+                                                {% if pending_field.name != 'concept__accountable' %}
+                                                    <td>{{ pending_field.value }}</td>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <td>
+                                                
+                                            </td>
+                                        </tr>
+                                    {% endfor %}                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     {% if form.non_field_errors %}
                         <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                             <div class="p-2 fs-5 text-center text-danger">

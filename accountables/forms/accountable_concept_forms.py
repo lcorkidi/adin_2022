@@ -202,11 +202,11 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
         actions_on = []
         acc_con = self.instance
         com_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).commit_template
-        if self.instance.Pending_Charge(com_tem):
+        if self.instance.Pending_Ledger(com_tem):
             actions_on.append('commit')
         else:
             bil_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).bill_template
-            if self.instance.Pending_Charge(bil_tem):
+            if self.instance.Pending_Ledger(bil_tem):
                 actions_on.append('bill')
         if actions_on:
             self.actions_on = actions_on

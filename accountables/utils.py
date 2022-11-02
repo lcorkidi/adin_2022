@@ -42,6 +42,7 @@ per_dict = {
         'Accountable_Transaction_Type':  {
             'accountables.activate_accounable_transaction_type': 'activate',
             'accountables.change_accounable_transaction_type': 'update',
+            'accountables.view_accounable_transaction_type' : 'detail',
             'accountables.add_accounable_transaction_type': 'create',
             'accountables.check_accounable_transaction_type' : 'check',
             'accountables.delete_accounable_transaction_type': 'deactivate',
@@ -131,6 +132,7 @@ def accountable_related_data(*args):
             'included_states' : IncludedStates,
             'create_url': 'accountables:accountable_transaction_type_create',
             'detail_url': 'accountables:accountable_transaction_type_detail',
+            'check_url': 'accountables:accountable_transaction_type_detail',
             'update_url': 'accountables:accountable_transaction_type_update',
             'delete_url': 'accountables:accountable_transaction_type_delete',
             'activate_url': 'accountables:accountable_transaction_type_activate',

@@ -1,3 +1,6 @@
+import datetime
+from dateutil.relativedelta import relativedelta
+
 per_dict = {
         'Account':  {
             'accounting.activate_account': 'activate',
@@ -125,3 +128,15 @@ def IncludedStates(user, model):
     if user.has_perm(permission):
         return [ 0, 1, 2, 3 ]
     return [ 1, 2, 3 ]
+
+def DueAge(_dueDate):
+    bufferDate=_dueDate
+    months=0
+    days=0
+    while bufferDate < datetime.date.today():
+        if bufferDate + relativedelta(months=1) < datetime.date.today():
+            months = months +1
+        else:
+            days=(datetime.date.today() - bufferDate).days
+        bufferDate = bufferDate + relativedelta(months=1)
+    return f'{months}, {days}'

@@ -4,6 +4,11 @@ from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 
+LEDGER_RECEIPT_PRIORITY = {
+    'CA':0,
+    'FV':1
+}
+
 class Ledger(BaseModel):
 
     code = models.CharField(
