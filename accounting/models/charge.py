@@ -6,18 +6,33 @@ from adin.core.models import BaseModel
 from accounting.utils import DueAge
 from accounting.models.ledger import LEDGER_RECEIPT_PRIORITY
 
-class UnsettledChargeManager(models.Manager):
-    def accountable_receivable(self, accountable, account_priority):
+class PendingChargeManager(models.Manager):
+    def accountable_receivable_sum(self, accountable, account_priority):
+        return self.accountable_receivable_df(accountable, account_priority)['due_value'].sum()
+
+    def accountable_receivable_age_months(self, accountable, account_priority):
+        return self.accountable_receivable_df(accountable, account_priority)['due_age'].iloc[0]
+
+    def accountable_receivable_age_days(self, accountable, account_priority):
+        return self.accountable_receivable_df(accountable, account_priority, split_months=False)['due_age'].iloc[0]
+
+    def accountable_receivable_age_start_date(self, accountable, account_priority):
+        return self.accountable_receivable_df(accountable, account_priority)['concept__date'].iloc[0]
+
+    def accountable_receivable_dict(self, accountable, account_priority):
         if not self.get_queryset():
             return self.get_queryset()
+        return self.accountable_receivable_df(accountable, account_priority).to_dict('records')
+
+    def accountable_receivable_df(self, accountable, account_priority, split_months=True):
         objs_df=pd.DataFrame(self.get_queryset().filter(account__in=[account for account in account_priority.keys()], concept__accountable=accountable)\
             .values('id', 'ledger', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
         priority_df=objs_df.assign(priority=objs_df.apply(lambda x: account_priority[x.account] + LEDGER_RECEIPT_PRIORITY[x.ledger[:2]], axis=1))
         sorted_df=priority_df.sort_values(by=['concept__date', 'priority', 'value'])
         due_df=sorted_df.assign(
             due_value=sorted_df.id.apply(lambda x: Charge.objects.get(pk=x).DueValue()),
-            due_age=sorted_df.concept__date.apply(lambda x: DueAge(x)))
-        return due_df[due_df['due_value'] != 0].to_dict('records')
+            due_age=sorted_df.concept__date.apply(lambda x: DueAge(x, split_months)))
+        return due_df[due_df['due_value'] != 0]
 
     def get_queryset(self):
         return super().get_queryset()
@@ -53,7 +68,7 @@ class Charge(BaseModel):
     )
 
     objects = models.Manager()
-    pending = UnsettledChargeManager()
+    pending = PendingChargeManager()
 
     class Meta:
         app_label = 'accounting'

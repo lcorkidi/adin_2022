@@ -129,7 +129,7 @@ def IncludedStates(user, model):
         return [ 0, 1, 2, 3 ]
     return [ 1, 2, 3 ]
 
-def DueAge(_dueDate):
+def DueAge(_dueDate, split_months=True):
     bufferDate=_dueDate
     months=0
     days=0
@@ -139,4 +139,4 @@ def DueAge(_dueDate):
         else:
             days=(datetime.date.today() - bufferDate).days
         bufferDate = bufferDate + relativedelta(months=1)
-    return f'{months}, {days}'
+    return (months, days) if split_months else (datetime.date.today() - _dueDate).days

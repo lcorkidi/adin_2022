@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 from adin.core.models import BaseModel
 from .accountable import Accountable
-from accountables.utils.views_data import lease_realty_code
+from accountables.utils.models_func import lease_realty_code
 from adin.utils.date_progression import nextmonthlydate, previousmonthlydate, previousyearlydate
 from adin.utils.data_check import children_errors_report
 
@@ -117,7 +117,7 @@ class Lease_Realty(Accountable):
 
     def charge_receivable(self, account_priority):
         from accounting.models import Charge
-        return Charge.pending.accountable_receivable(self, account_priority)
+        return Charge.pending.accountable_receivable_dict(self, account_priority)
 
     def concept_formset_dict(self, transaction_type):
         formset_dict = []

@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 from adin.utils.data_check import errors_report
-from accountables.utils.views_data import accon_2_code
+from accountables.utils.models_func import accon_2_code
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 
 class Accountable(BaseModel):
@@ -47,7 +47,6 @@ class Accountable(BaseModel):
         return self.subclass_obj().lessee()
 
     def subclass_obj(self):
-        print(self)
         return self.subclass.model_class().active.get(code=self.code)
 
     def clean_value(self, value):

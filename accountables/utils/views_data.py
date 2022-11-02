@@ -65,12 +65,6 @@ perm_dict = {
         'Accountable_Concept': 'accountables.activate_accountable_concept'
         }
 
-def lease_realty_code(realty, doc_date):
-    return f'{realty.code}^{doc_date.strftime("%Y-%m-%d")}'
-
-def accon_2_code(accon):
-    return f'{accon.transaction_type}^{accon.date.strftime("%Y-%m-%d")}_{accon.accountable.code}'
-
 def lease_realty_related_data(*args):
     from ..models import Lease_Realty_Realty, Lease_Realty_Person, Date_Value
     from ..forms.lease_realty_realty_forms import Lease_Realty_RealtyModelFormSet

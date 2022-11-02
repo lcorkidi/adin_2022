@@ -2,7 +2,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from .models import Accountable_Concept
-from .utils.views_data import accon_2_code
+from .utils.models_func import accon_2_code
 
 @receiver(pre_save, sender=Accountable_Concept)
 def accountable_concept_save(sender, instance, **kwargs):

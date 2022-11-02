@@ -65,7 +65,7 @@ perm_dict = {
         }
 
 def personcompletename(person):
-    if person.type == 0:
+    if person.type != 1:
         return f'{person.last_name}, {person.name}'
     elif person.type == 1:
         return f'{person.name} {person.get_legal_type_display()}'
