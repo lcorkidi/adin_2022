@@ -6,7 +6,8 @@ from adin.core.models import BaseModel
 
 LEDGER_RECEIPT_PRIORITY = {
     'CA':0,
-    'FV':1
+    'FV':1,
+    'RC':2
 }
 
 class Ledger(BaseModel):
@@ -128,7 +129,7 @@ class Ledger_Template(BaseModel):
         verbose_name_plural = 'Formatos Registro'
         
     def create_ledger(self, charge_concept, date, user):
-        if not charge_concept.Pending_Charge(self):
+        if not charge_concept.Pending_Ledger(self):
             return
             
         ledger = Ledger(

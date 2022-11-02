@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from adin.core.forms import GenericUpdateForm, GenericDeleteForm, GenericActivateForm
 from adin.core.widgets import SelectDateSpanishWidget
 from accountables.models import Lease_Realty, Lease_Realty_Realty, Date_Value
-from accountables.utils import lease_realty_code
+from accountables.utils.views_data import lease_realty_code
 from properties.models.realty import Realty
 
 class Lease_RealtyCreateForm(Form):

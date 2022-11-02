@@ -8,7 +8,7 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
+                        <a class="text-success" href="{% url 'accountables:lease_realty_accounting' form.instance.pk %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                                 {% for pending_form in pending_formset %}
                                     <tr>
                                         {% for pending_field in pending_form.visible_fields %}
-                                        <td>{{ pending_field.value }}</td>
+                                            <td>{{ pending_field.value }}</td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}                  

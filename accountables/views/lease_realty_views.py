@@ -6,9 +6,9 @@ from adin.core.views import GenericListView, GenericDetailView, GenericCreateVie
 from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_RealtyDetailForm, Lease_RealtyUpdateForm, Lease_RealtyAccoutingForm, Lease_RealtyDeleteForm, Lease_RealtyActivateForm, Lease_RealtyListModelFormSet
 from accounting.forms.charge_forms import ChargeReceivablePendingFormSet
 from accountables.models import Lease_Realty
-from accountables.models.lease_realty import ACCOUNT_RECEIPT_PRIORITY
 from accountables.models import Transaction_Type
-from accountables.utils import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
+from accountables.utils.views_data import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
+from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 from adin.utils.related_models import related_data_formsets_call
 
 title = Lease_Realty._meta.verbose_name_plural
@@ -98,7 +98,7 @@ class Lease_RealtyAccountingView(LoginRequiredMixin, PermissionRequiredMixin, Vi
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        pending_formset = self.pending_formset(initial=obj.charge_receivable([account for account in ACCOUNT_RECEIPT_PRIORITY.keys()]))
+        pending_formset = self.pending_formset(initial=obj.charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
         actions_on = self.actions_on(request.user, self.model.__name__)
         related_data = related_data_formsets_call(self.related_data, pk, request.user)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'pending_formset':pending_formset, 'related_data':related_data, 'fk_fields': self.fk_fields, 'actions_on': actions_on }

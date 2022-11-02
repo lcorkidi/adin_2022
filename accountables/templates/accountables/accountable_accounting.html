@@ -91,10 +91,13 @@
                                                         <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
                                                     {% endif %}
                                                     {% if 'commit' in related_form.actions_on %}
-                                                        <a class="text-danger" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
                                                     {% endif %}
                                                     {% if 'bill' in related_form.actions_on %}
                                                         <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
+                                                    {% endif %}
+                                                    {% if 'receipt' in related_form.actions_on %}
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'RC' %}" style="text-decoration:none">RC</a>
                                                     {% endif %}
                                                 </td>     
                                             </tr>

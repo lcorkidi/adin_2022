@@ -71,7 +71,7 @@ class Ledger_TemplateSelectAccountableForm(Form):
     def clean(self):
         lt = self.cleaned_data.get('ledger_template')
         acc = self.cleaned_data.get('accountable')
-        if not Accountable_Concept.pending.charge(acc, lt).exists():
+        if not Accountable_Concept.pending.ledger(acc, lt).exists():
             self.add_error('accountable', 'Contabilizable no tiene conceptos pendientes para formato.')
         return super().clean()
 

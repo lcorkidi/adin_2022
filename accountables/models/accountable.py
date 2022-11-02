@@ -1,10 +1,12 @@
 import pandas as pd
 from django.db import models
+from django.db.models import Sum
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.models import BaseModel
 from adin.utils.data_check import errors_report
-from accountables.utils import accon_2_code
+from accountables.utils.views_data import accon_2_code
+from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 
 class Accountable(BaseModel):
 
@@ -174,10 +176,10 @@ class Transaction_Type(BaseModel):
 
 class Accountable_ConceptPendingManager(models.Manager):
 
-    def charge(self, acc, led_tem):
+    def ledger(self, acc, led_tem):
         qs = self.get_queryset().filter(accountable=acc)
         objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        pending_charge_df=objs_df.assign(pending_charge=objs_df.code.apply(lambda x: qs.get(pk=x).Pending_Charge(led_tem)))
+        pending_charge_df=objs_df.assign(pending_charge=objs_df.code.apply(lambda x: qs.get(pk=x).Pending_Ledger(led_tem)))
         pending_charge_list=list(pending_charge_df[pending_charge_df['pending_charge']==True]['code'])
         return qs.filter(code__in=pending_charge_list)
 
@@ -241,6 +243,27 @@ class Accountable_Concept(BaseModel):
             ).exists():
                 return True
         return False
+
+    def ReceivableDueAll(self, account_priority):
+        from accounting.models import Charge
+
+        return False if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').exists() else True
+
+    def ReceivableDueSome(self, account_priority):
+        from accounting.models import Charge
+
+        receivable = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').aggregate(receivable=Sum('value'))['receivable']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').exists() else 0
+        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').exists() else 0
+
+        return True if received > 0 and receivable - received > 0 else False
+
+    def ReceivableDueNone(self, account_priority):
+        from accounting.models import Charge
+
+        receivable = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').aggregate(receivable=Sum('value'))['receivable']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').exists() else 0
+        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').exists() else 0
+
+        return True if receivable > 0 and receivable - received == 0 else False
 
     def get_obj_errors(self):
         errors = []

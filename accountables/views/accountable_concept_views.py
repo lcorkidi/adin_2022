@@ -6,7 +6,7 @@ from accountables.models.accountable import Transaction_Type
 from adin.utils.user_data import user_group_str
 from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingFormSet
 from accountables.models import Accountable, Accountable_Concept
-from accountables.utils import accountables_ref_urls
+from accountables.utils.views_data import accountables_ref_urls
 
 title = Accountable_Concept._meta.verbose_name_plural
 rel_urls = { 'create': 'accountables:accountable_concept_create' }

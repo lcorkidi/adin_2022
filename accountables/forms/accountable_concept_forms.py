@@ -3,6 +3,7 @@ from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, Date
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
 from accountables.models import Accountable_Concept, Transaction_Type, Accountable
+from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 
 class Accountable_ConceptCreateSelectTransaction_TypeForm(Form):
 
@@ -201,13 +202,26 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
     def add_errors(self):
         actions_on = []
         acc_con = self.instance
-        com_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).commit_template
+        com_tem = acc_con.accountable.accountable_transaction_type.exclude(state=0).get(transaction_type=acc_con.transaction_type).commit_template
         if self.instance.Pending_Ledger(com_tem):
             actions_on.append('commit')
         else:
-            bil_tem = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type).bill_template
+            bil_tem = acc_con.accountable.accountable_transaction_type.exclude(state=0).get(transaction_type=acc_con.transaction_type).bill_template
             if self.instance.Pending_Ledger(bil_tem):
-                actions_on.append('bill')
+                if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
+                    pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
+                    if pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+                        actions_on.append('bill')
+                else:
+                    actions_on.append('bill')
+            else:
+                if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
+                    pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
+                    if acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY) and pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+                        actions_on.append('receipt')
+                elif acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY):
+                    actions_on.append('receipt')
+
         if actions_on:
             self.actions_on = actions_on
 

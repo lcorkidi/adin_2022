@@ -1,7 +1,7 @@
 from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericDeleteView, GenericActivateView
 from accountables.forms.transaction_type_forms import Transaction_TypeDetailModelForm, Transaction_TypeCreateModelForm, Transaction_TypeDeleteModelForm, Transaction_TypeActivateModelForm, Transaction_TypeListModelFormSet
 from accountables.models import Transaction_Type
-from accountables.utils import GetActionsOn, GetIncludedStates
+from accountables.utils.views_data import GetActionsOn, GetIncludedStates
 
 title = Transaction_Type._meta.verbose_name_plural
 ref_urls = { 'list':'accountables:transaction_type_list', 'create':'accountables:transaction_type_create', 'detail':'accountables:transaction_type_detail', 'delete':'accountables:transaction_type_delete', 'activate':'accountables:transaction_type_activate'}
