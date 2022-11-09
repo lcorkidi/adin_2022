@@ -3,7 +3,7 @@ from django.urls import path
 from accounting.views.account_views import AccountListView, AccountCreateView, AccountDetailView, AccountUpdateView, AccountUpdateSomeView, AccountUpdateAllView, AccountDeleteView, AccountActivateView
 from accounting.views.ledger_views  import LedgerListView, LedgerCreateView, LedgerDetailView, LedgerDeleteView, LedgerActivateView
 from accounting.views.ledger_type_views import Ledger_TypeListView, Ledger_TypeCreateView, Ledger_TypeDetailView, Ledger_TypeDeleteView, Ledger_TypeActivateView
-from accounting.views.ledger_template_views  import Ledger_TemplateListView, Ledger_TemplateCreateView, Ledger_TemplateDetailView, Ledger_TemplateDeleteView, Ledger_TemplateActivateView, Ledger_TemplateSelectView, Ledger_TemplateSelectAccountableView, Ledger_TemplateSelectConceptDataView, Ledger_TemplateSelectConceptView, Ledger_TemplateRegisterCommitView, Ledger_TemplateRegisterReceiptView
+from accounting.views.ledger_template_views  import Ledger_TemplateListView, Ledger_TemplateCreateView, Ledger_TemplateDetailView, Ledger_TemplateDeleteView, Ledger_TemplateActivateView, Ledger_TemplateSelectView, Ledger_TemplateSelectAccountableView, Ledger_TemplateSelectConceptDataView, Ledger_TemplateSelectConceptView, Ledger_TemplateRegisterCommitView, Ledger_TemplateRegisterReceiptView, Ledger_TemplateBulkPendingRegisterView
 
 app_name = 'accounting'
 
@@ -35,6 +35,7 @@ urlpatterns = [
     path('<str:pk>/ledger_template_select_accountable/', Ledger_TemplateSelectAccountableView.as_view(), name='ledger_template_select_accountable'),
     path('<str:lt_pk>/<str:acc_pk>/ledger_template_concept_data/', Ledger_TemplateSelectConceptDataView.as_view(), name='ledger_template_concept_data'),
     path('<str:lt_pk>/<str:acc_pk>/ledger_template_select_concept/', Ledger_TemplateSelectConceptView.as_view(), name='ledger_template_select_concept'),
-    path('<str:ac_pk>/<str:a_pk>/<str:lt_str>/ledger_template_register_commit/', Ledger_TemplateRegisterCommitView.as_view(), name='ledger_template_register_commit'),
+    path('<str:ac_pk>/<str:lt_str>/ledger_template_register_commit/', Ledger_TemplateRegisterCommitView.as_view(), name='ledger_template_register_commit'),
     path('<str:ac_pk>/ledger_template_register_receipt/', Ledger_TemplateRegisterReceiptView.as_view(), name='ledger_template_register_receipt'),
+    path('<str:typ_abr>/ledger_template_bulk_pending_register/', Ledger_TemplateBulkPendingRegisterView.as_view(), name='ledger_template_bulk_pending_register'),
 ]

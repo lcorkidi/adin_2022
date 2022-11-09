@@ -7,7 +7,7 @@ from accounting.models import Ledger_Template
 from accountables.models import Accountable, Accountable_Concept
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 from accountables.forms.accountable_forms import AccountableAccoutingForm
-from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet
+from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
 from accounting.forms.charge_forms import ChargeReceivablePendingFormSet
 from accounting.utils import ledger_template_related_data, GetIncludedStates, GetActionsOn
@@ -213,12 +213,12 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
     permission_required = 'accounting.add_ledger'
-    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
-    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    readonly_fields = ['ledger_template', 'accountable_concept','ledger_type', 'accountable', 'holder', 'third_party', 'concept_date', 'concept_value']
+    choice_fields = ['ledger_template', 'accountable_concept', 'ledger_type', 'accountable', 'holder', 'third_party']
 
-    def get(self, request, ac_pk, a_pk, lt_str):
-        acc = Accountable.active.get(pk=a_pk)
+    def get(self, request, ac_pk, lt_str):
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
+        acc = acc_con.accountable
         acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
         if lt_str == 'CA':
             lt = acc_tra_typ.commit_template
@@ -226,14 +226,14 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
             lt = acc_tra_typ.bill_template
         else:
             lt = acc_tra_typ.receive_template
-        form = self.form(initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
+        form = self.form(initial={'ledger_template':lt, 'accountable_concept':acc_con, 'ledger_type':lt.ledger_type, 'accountable':acc, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party, 'concept_date':acc_con.date, 'concept_value':acc_con.value})
         form.set_readonly_fields(self.readonly_fields)
         context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
 
-    def post(self, request, ac_pk, a_pk, lt_str):
-        acc = Accountable.active.get(pk=a_pk)
+    def post(self, request, ac_pk, lt_str):
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
+        acc = acc_con.accountable
         acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
         if lt_str == 'CA':
             lt = acc_tra_typ.commit_template
@@ -241,13 +241,39 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
             lt = acc_tra_typ.bill_template
         else:
             lt = acc_tra_typ.receive_template
-        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable':acc, 'accountable_concept':acc_con})
+        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable_concept':acc_con, 'ledger_type':lt.ledger_type, 'accountable':acc, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party, 'concept_date':acc_con.date, 'concept_value':acc_con.value})
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
             context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
             return render(request, self.template, context)
         ledger = form.save(request.user)    
         return redirect('accounting:ledger_detail', ledger.pk)
+ 
+class Ledger_TemplateBulkPendingRegisterView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'accounting/ledger_template_bulk_pending_create.html'
+    formset = Ledger_TemplateBulkPendingCreateFormSet
+    title = title
+    subtitle = 'Crear Registros'
+    ref_urls = ref_urls
+    permission_required = 'accounting.add_ledger'
+    hidden_fields = ['accountable_concept']
+    readonly_fields = ['ledger_template', 'accountable_concept','ledger_type', 'accountable', 'holder', 'third_party', 'concept_date', 'concept_value']
+    choice_fields = ['ledger_template', 'accountable_concept', 'ledger_type', 'accountable', 'holder', 'third_party']
+
+    def get(self, request, typ_abr):
+        formset = self.formset(initial=Accountable_Concept.pending.ledger_type_dict(typ_abr))
+        context = {'formset': formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields':self.choice_fields, 'hidden_fields':self.hidden_fields}
+        return render(request, self.template, context)
+
+    def post(self, request, typ_abr):
+        formset = self.formset(request.POST, initial=Accountable_Concept.pending.ledger_type_dict(typ_abr))
+        if not formset.is_valid():
+            context = {'formset': formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+            return render(request, self.template, context)
+        formset.save(request.user)    
+        return redirect('accountables:lease_realty_main')
+ 
  
 class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

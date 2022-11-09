@@ -175,6 +175,31 @@ class Transaction_Type(BaseModel):
 
 class Accountable_ConceptPendingManager(models.Manager):
 
+    def commit(self):
+        qs = self.get_queryset()
+        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        sorted_objs_df = objs_df.sort_values(by=['date']).assign(acc_con=objs_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
+        referenced_objs_df = sorted_objs_df.assign(ledger=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)))
+        objs_list = referenced_objs_df[referenced_objs_df['ledger']==True]['code'].to_list()
+        return qs.filter(code__in=objs_list)
+
+    def ledger_type_dict(self, typ_abr):
+        if typ_abr == 'CA':
+            qs = self.commit()
+        else:
+            return
+        code_df = pd.DataFrame(qs.values('code'))
+        obj_df = code_df.assign(accountable_concept=code_df.code.apply(lambda x: self.get_queryset().get(pk=x)))
+        return obj_df.assign(
+                        ledger_template=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').commit_template),
+                        ledger_type=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').commit_template.ledger_type),
+                        accountable=obj_df.accountable_concept.apply(lambda x: x.accountable),
+                        holder=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_holder()),
+                        third_party=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_third_party()),
+                        concept_date=obj_df.accountable_concept.apply(lambda x: x.date),
+                        concept_value=obj_df.accountable_concept.apply(lambda x: x.value)
+                    ).drop(['code'], axis=1).to_dict('records')
+
     def ledger(self, acc, led_tem):
         qs = self.get_queryset().filter(accountable=acc)
         objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)

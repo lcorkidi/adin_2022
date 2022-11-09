@@ -91,13 +91,13 @@
                                                         <a class="text-success" href="{% url data.activate_url form.instance.pk related_form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
                                                     {% endif %}
                                                     {% if 'commit' in related_form.actions_on %}
-                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk 'CA' %}" style="text-decoration:none">CA</a>
                                                     {% endif %}
                                                     {% if 'bill' in related_form.actions_on %}
-                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk 'FV' %}" style="text-decoration:none">FV</a>
                                                     {% endif %}
                                                     {% if 'receipt' in related_form.actions_on %}
-                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk form.instance.pk 'RC' %}" style="text-decoration:none">RC</a>
+                                                        <a class="text-success" href="{% url data.commit_url related_form.instance.pk 'RC' %}" style="text-decoration:none">RC</a>
                                                     {% endif %}
                                                 </td>     
                                             </tr>
@@ -107,48 +107,50 @@
                             </div>
                         </div>
                     {% endfor %}
-                    <div class="d-grid mx-2 gap2">
-                        <div class="p-2 fs-5 w-100 text-center">
-                            Cuentas Pendientes Por Recibir:
-                        </div>
-                        {% if pending_formset.formset_errors %}
-                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                                <div class="p-2 fs-5 text-center text-danger">
-                                    {{ pending_formset.formset_errors }}
-                                </div>
+                    {% if pending_formset|length > 0 %}
+                        <div class="d-grid mx-2 gap2">
+                            <div class="p-2 fs-5 w-100 text-center">
+                                Cuentas Pendientes Por Recibir:
                             </div>
-                        {% endif %}
-                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                            <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        {% for pending_field in pending_formset.form %}
-                                            {% if pending_field.name != 'concept__accountable' %}
-                                                <th>{{ pending_field.label }}</th> 
-                                            {% endif %}
-                                        {% endfor %}
-                                        <th>
-                                            <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk %}" style="text-decoration:none">RC</a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for pending_form in pending_formset %}
+                            {% if pending_formset.formset_errors %}
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    <div class="p-2 fs-5 text-center text-danger">
+                                        {{ pending_formset.formset_errors }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                                    <thead>
                                         <tr>
-                                            {% for pending_field in pending_form.visible_fields %}
+                                            {% for pending_field in pending_formset.form %}
                                                 {% if pending_field.name != 'concept__accountable' %}
-                                                    <td>{{ pending_field.value }}</td>
+                                                    <th>{{ pending_field.label }}</th> 
                                                 {% endif %}
                                             {% endfor %}
-                                            <td>
-                                                
-                                            </td>
+                                            <th>
+                                                <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk %}" style="text-decoration:none">RC</a>
+                                            </th>
                                         </tr>
-                                    {% endfor %}                  
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {% for pending_form in pending_formset %}
+                                            <tr>
+                                                {% for pending_field in pending_form.visible_fields %}
+                                                    {% if pending_field.name != 'concept__accountable' %}
+                                                        <td>{{ pending_field.value }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        {% endfor %}                  
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     {% if form.non_field_errors %}
                         <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                             <div class="p-2 fs-5 text-center text-danger">

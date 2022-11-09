@@ -36,13 +36,13 @@ class GenericCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     def get(self, request):
         form = self.form()
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
     def post(self, request):
         form = self.form(request.POST)
         if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
             return render(request, self.template, context)
         form.creator = request.user
         form.save()            

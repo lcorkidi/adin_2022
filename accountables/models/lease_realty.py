@@ -14,16 +14,16 @@ class Lease_RealtyPendingManager(models.Manager):
     def errors(self):
         qs = self.get_queryset()
         objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        has_pending_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).pending_date_value_dates()) == 0 else 1))
-        has_pending_date_values_list=list(has_pending_date_values[has_pending_date_values.errors == 1]['code'])
-        return qs.filter(code__in=has_pending_date_values_list).order_by('code')
+        has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).get_obj_errors()) == 0 else 1))
+        has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
+        return qs.filter(code__in=has_errors_list).order_by('code')
 
     def date_values(self):
         qs = self.get_queryset()
         objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
-        has_errors_df=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).get_obj_errors()) == 0 else 1))
-        has_errors_list=list(has_errors_df[has_errors_df.errors == 1]['code'])
-        return qs.filter(code__in=has_errors_list).order_by('code')
+        has_pending_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).pending_date_value_dates()) == 0 else 1))
+        has_pending_date_values_list=list(has_pending_date_values[has_pending_date_values.errors == 1]['code'])
+        return qs.filter(code__in=has_pending_date_values_list).order_by('code')
         
     def concept_date_value(self, tra_typ):
         qs = self.get_queryset()
@@ -31,6 +31,12 @@ class Lease_RealtyPendingManager(models.Manager):
         has_pending_concept_date_values=objs_df.assign(errors=objs_df.code.apply(lambda x: 0 if len(qs.get(pk=x).pending_concept_date_values(tra_typ)) == 0 else 1))
         has_pending_concept_date_values_list=list(has_pending_concept_date_values[has_pending_concept_date_values.errors == 1]['code'])
         return qs.filter(code__in=has_pending_concept_date_values_list).order_by('code')
+
+    def bulk_concept_data_dict_list(self, tra_typ):
+        pending_concept_data_dict_list = []
+        for obj in self.get_queryset():
+            pending_concept_data_dict_list += obj.pending_concept_data_dict_list(tra_typ)
+        return pending_concept_data_dict_list
 
     def get_queryset(self):
         return super().get_queryset().exclude(state=0)
@@ -91,7 +97,7 @@ class Lease_Realty(Accountable):
         for lease in cls.objects.filter(realty__in=realties).distinct():
             if lease.check_date_intersection(doc_date):
                 return False
-        return True
+        return True    
 
     def check_date_intersection(self, doc_date):
         if not self.start_date:
@@ -119,7 +125,7 @@ class Lease_Realty(Accountable):
         from accounting.models import Charge
         return Charge.pending.accountable_receivable_dict(self, account_priority)
 
-    def concept_formset_dict(self, transaction_type):
+    def pending_concept_data_dict_list(self, transaction_type):
         formset_dict = []
         for date, value in self.pending_concept_date_values(transaction_type).items():
             formset_dict.append({'accountable':self, 'transaction_type':transaction_type, 'date': date, 'value': value,})

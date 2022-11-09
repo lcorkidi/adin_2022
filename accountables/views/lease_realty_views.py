@@ -7,9 +7,9 @@ from accountables.forms.lease_realty_forms import Lease_RealtyCreateForm, Lease_
 from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeListFormSet
 from accounting.models import Charge
 from accountables.models import Lease_Realty
-from accountables.models import Transaction_Type
-from accountables.utils.views_data import lease_realty_related_data, accountable_related_data, GetActionsOn, GetIncludedStates
+from accountables.utils.views_data import lease_realty_related_data, lease_realty_main_data, accountable_related_data, GetActionsOn, GetIncludedStates
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
+from accountables.utils.models_func import formsets_data_call
 from adin.utils.related_models import related_data_formsets_call
 
 title = Lease_Realty._meta.verbose_name_plural
@@ -18,8 +18,7 @@ ref_urls = { 'return':'accountables:lease_realty_main', 'list':'accountables:lea
 class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
     template = 'accountables/lease_realty_main.html'
-    lea_rea_formset = Lease_RealtyListModelFormSet
-    model = Lease_Realty
+    formsets_data = lease_realty_main_data
     title = 'Contratos Arriendo Inmuebles con Errores'
     ref_urls = ref_urls
     actions_on = GetActionsOn
@@ -27,13 +26,8 @@ class Lease_RealtyMainView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'accountables.view_lease_realty'
     
     def get(self, request):
-        actions_on = self.actions_on(request.user, self.model.__name__)
-        formsets = {}
-        formsets['Errores'] = self.lea_rea_formset(queryset=self.model.pending.date_values())
-        formsets['Valores Pendientes'] = self.lea_rea_formset(queryset=self.model.pending.errors())
-        tra_typ = Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
-        formsets['Conceptos Mensualidad Arriendo Pendientes'] = self.lea_rea_formset(queryset=self.model.pending.concept_date_value(tra_typ))
-        context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls, 'actions_on': actions_on}
+        formsets = formsets_data_call(self.formsets_data, request.user)
+        context = {'formsets': formsets, 'title': self.title, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
 class Lease_RealtyListView(GenericListView):
@@ -99,7 +93,10 @@ class Lease_RealtyAccountingView(LoginRequiredMixin, PermissionRequiredMixin, Vi
     def get(self, request, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        pending_formset = self.pending_formset(initial=obj.charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
+        if Charge.objects.exclude(state=0).filter(concept__accountable=obj).exists():
+            pending_formset = self.pending_formset(initial=obj.charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
+        else:
+            pending_formset = self.pending_formset()
         actions_on = self.actions_on(request.user, self.model.__name__)
         related_data = related_data_formsets_call(self.related_data, pk, request.user)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'pending_formset':pending_formset, 'related_data':related_data, 'fk_fields': self.fk_fields, 'actions_on': actions_on }

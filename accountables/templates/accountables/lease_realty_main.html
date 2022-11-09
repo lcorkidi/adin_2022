@@ -7,57 +7,140 @@
         <div class="d-grid pb-4">
             <a class="btn btn-warning" href="{% url ref_urls.list %}" role="button">Lista Completa</a>
         </div>
-        {% for attr, formset in formsets.items %}
-            {% if formset|length > 0 %}
+        {% for attr, data in formsets.items %}
+            {% if data.formset|length > 0 and data.template == 'list' %}
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <span>{{ attr }}</span> 
+                            <div>
+                                {% if 'create' in data.actions_on %}
+                                    <a class="text-success" href="{% url data.create_url %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    {% for field in formset.form %}
+                                    {% for field in data.formset.form %}
                                         {% if field.name != 'state' %}
                                             <th>{{ field.label }}</th> 
                                         {% endif %}                             
                                     {% endfor %}
-                                    {% if actions_on|length > 0 %}
-                                        {% if 'create' in actions_on and actions_on|length > 1 %}
+                                    {% if 'create' in data.actions_on %}
+                                        {% if data.actions_on|length > 1 %}
                                             <th>Acciones</th>                    
-                                        {% endif %}          
+                                        {% endif %}
+                                    {% elif data.actions_on|length > 0 %}          
+                                        <th>Acciones</th>                    
                                     {% endif %}          
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for form in formset %}
+                                {% for form in data.formset %}
                                     <tr>
                                         {% for field in form.visible_fields %}
-                                            {% if field.name in choice_fields %}
+                                            {% if field.name in data.choice_fields %}
                                                 <td>{% selected_choice form field.name field.value %}</td>
-                                            {% elif field.name in fk_fields %}
+                                            {% elif field.name in data.fk_fields %}
                                                 <td>{% fk_str form field.name %}</td>
                                             {% elif field.name != 'state' %}
                                                 <td>{{ field.value }}</td>
                                             {% endif %}
                                         {% endfor %}
                                         <td class="table-actions">
-                                            {% if form.state.value == 2 or form.state.value == 1 %}
-                                                <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                                            {% if form.state.value == 3 %}
+                                                <a class="text-success" style="text-decoration:none">{% render_bi 'check-square-fill' width="20px" height="20px" %}</a> |
                                             {% endif %}
-                                            {% if 'check' in actions_on %}
-                                                <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                                            {% if 'detail' in data.actions_on %}
+                                                <a class="text-secondary" href="{% url data.detail_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
                                             {% endif %}
-                                            {% if 'accounting' in actions_on or 'report' in actions_on %}
+                                            {% if 'update' in data.actions_on %}
+                                                {% if form.state.value == 2 or form.state.value == 1 %}
+                                                    <a href="{% url data.update_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                                                {% endif %}
+                                                {% if form.state.value == 3 %}
+                                                    <a href="{% url data.update_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if 'check' in data.actions_on %}
+                                                <a class="text-warning" href="{% url data.detail_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                            {% if 'deactivate' in data.actions_on and form.state.value != 0 %}
+                                                <a class="text-danger" href="{% url data.delete_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                            {% if 'activate' in data.actions_on and form.state.value == 0 %}
+                                                <a class="text-success" href="{% url data.activate_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                                {% if 'accounting' in data.actions_on or 'report' in data.actions_on %}
                                                  | 
                                             {% endif %}
-                                            {% if 'accounting' in actions_on %}
-                                                <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
+                                            {% if 'accounting' in data.actions_on %}
+                                                <a class="text-success" href="{% url data.accounting_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
                                             {% endif %}
-                                            {% if 'report' in actions_on %}
-                                                <a class="text-success" href="{% url ref_urls.report form.instance.pk %}" style="text-decoration:none">{% render_bi 'list' width="20px" height="20px" %}</a>
+                                            {% if 'report' in data.actions_on %}
+                                                <a class="text-success" href="{% url data.report_url form.instance.pk %}" style="text-decoration:none">{% render_bi 'list' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                        </td>                                    
+                                    </tr>
+                                {% endfor %}                  
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% elif data.formset|length > 0 and data.template == 'bulk_data' %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <span>{{ attr }}</span> 
+                            <div>
+                                {% if 'create' in data.actions_on %}
+                                    <a class="text-success" href="{% url data.create_bulk_url %}" style="text-decoration:none">{% render_bi 'bag-plus' width="20px" height="20px" %}</a>
+                                {% endif %}
+                                {% if 'commit' in data.actions_on %}
+                                    <a class="text-success" href="{% url data.commit_bulk_url 'CA' %}" style="text-decoration:none">{% render_bi 'bag-plus' width="20px" height="20px" %}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    {% for field in data.formset.form %}
+                                        {% if field.name != 'state' %}
+                                            <th>{{ field.label }}</th> 
+                                        {% endif %}                             
+                                    {% endfor %}
+                                    {% if 'create' in data.actions_on %}
+                                        {% if data.actions_on|length > 1 %}
+                                            <th>Acciones</th>                    
+                                        {% endif %}
+                                    {% elif data.actions_on|length > 0 %}          
+                                        <th>Acciones</th>                    
+                                    {% endif %}          
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for form in data.formset %}
+                                    <tr>
+                                        {% for field in form.visible_fields %}
+                                            {% if field.name in data.choice_fields %}
+                                                <td>{% selected_choice form field.name field.value %}</td>
+                                            {% elif field.name in data.fk_fields %}
+                                                <td>{% fk_str form field.name %}</td>
+                                            {% elif field.name != 'state' %}
+                                                <td>{{ field.value }}</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <td class="table-actions">
+                                            {% if 'create' in data.actions_on %}
+                                                <a class="text-success" href="{% url data.create_url forloop.counter0 %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                            {% if 'commit' in data.actions_on %}
+                                                <a class="text-success" href="{% url data.commit_url form.instance.pk 'CA' %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                                             {% endif %}
                                         </td>                                    
                                     </tr>

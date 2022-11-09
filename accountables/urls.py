@@ -5,7 +5,7 @@ from .views.lease_realty_realty_views import Lease_Realty_RealtyCreateView, Leas
 from .views.lease_realty_person_views import Lease_Realty_PersonCreateView, Lease_Realty_PersonDetailView, Lease_Realty_PersonUpdateView, Lease_Realty_PersonDeleteView, Lease_Realty_PersonActivateView
 from .views.transaction_type_views import Transaction_TypeListView, Transaction_TypeCreateView, Transaction_TypeDetailView, Transaction_TypeDeleteView, Transaction_TypeActivateView
 from .views.accountable_transaction_type_views import Accountable_Transaction_TypeCreateView, Accountable_Transaction_TypeDetailView, Accountable_Transaction_TypeUpdateView, Accountable_Transaction_TypeDeleteiew, Accountable_Transaction_TypeActivateView
-from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptPendingCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView, Accountable_ConceptCreateSelectTransaction_TypeView
+from .views.accountable_concept_views import Accountable_ConceptCreateView, Accountable_ConceptAccountableAllPendingCreateView, Accountable_ConceptBulkPendingCreateView, Accountable_ConceptSinglePendingCreateView, Accountable_ConceptDeleteView, Accountable_ConceptActivateView, Accountable_ConceptAccountableAllPendingCreateSelectTransaction_TypeView
 from .views.date_value_views import Date_ValueCreateView, Date_ValueUpdateView, Date_ValueDeleteView, Date_ValueActivateView
 
 app_name = 'accountables'
@@ -38,8 +38,10 @@ urlpatterns = [
     path('<str:ret_pk>/<str:pk>/accountable_transaction_type_update/', Accountable_Transaction_TypeUpdateView.as_view(), name='accountable_transaction_type_update'),
     path('<str:ret_pk>/<str:pk>/accountable_transaction_type_delete/', Accountable_Transaction_TypeDeleteiew.as_view(), name='accountable_transaction_type_delete'),
     path('<str:ret_pk>/<str:pk>/accountable_transaction_type_activate/', Accountable_Transaction_TypeActivateView.as_view(), name='accountable_transaction_type_activate'),
-    path('<str:pk>/accountable_concept_create/', Accountable_ConceptCreateSelectTransaction_TypeView.as_view(), name='accountable_concept_create'),
-    path('<str:pk>/<str:tra_typ>/pending_accountable_concept_create/', Accountable_ConceptPendingCreateView.as_view(), name='pending_accountable_concept_create'),
+    path('<str:pk>/accountable_concept_create/', Accountable_ConceptAccountableAllPendingCreateSelectTransaction_TypeView.as_view(), name='accountable_concept_create'),
+    path('<str:pk>/<str:tra_typ>/pending_accountable_concept_create/', Accountable_ConceptAccountableAllPendingCreateView.as_view(), name='pending_accountable_concept_create'),
+    path('bulk_pending_accountable_concept_create/', Accountable_ConceptBulkPendingCreateView.as_view(), name='bulk_pending_accountable_concept_create'),
+    path('<int:cnt>/single_pending_accountable_concept_create/', Accountable_ConceptSinglePendingCreateView.as_view(), name='single_pending_accountable_concept_create'),
     path('<str:ret_pk>/<str:pk>/accountable_concept_delete/', Accountable_ConceptDeleteView.as_view(), name='accountable_concept_delete'),
     path('<str:ret_pk>/<str:pk>/accountable_concept_activate/', Accountable_ConceptActivateView.as_view(), name='accountable_concept_activate'),
     path('<str:pk>/date_value_create/', Date_ValueCreateView.as_view(), name='date_value_create'),

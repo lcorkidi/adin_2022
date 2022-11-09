@@ -4,53 +4,74 @@ accountables_ref_urls = {
 
 per_dict = {
         'Lease_Realty':  {
-            'accountables.activate_lease_realty': 'activate',
-            'accountables.add_lease_realty': 'create',
-            'accountables.change_lease_realty': 'update',
-            'accountables.check_lease_realty' : 'check',
-            'accountables.delete_lease_realty': 'deactivate',
-            'accountables.view_lease_realty': 'detail',
-            'accountables.accounting_lease_realty': 'accounting',
-            'accountables.view_lease_realty': 'report'
+            'accountables.activate_lease_realty': ['activate'],
+            'accountables.add_lease_realty': ['create'],
+            'accountables.change_lease_realty': ['update'],
+            'accountables.check_lease_realty' : ['check'],
+            'accountables.delete_lease_realty': ['deactivate'],
+            'accountables.view_lease_realty': ['detail', 'report'],
+            'accountables.accounting_lease_realty': ['accounting']
+            },
+        'Lease_Realty_Main_Errors':  {
+            'accountables.activate_lease_realty': ['activate'],
+            'accountables.change_lease_realty': ['update'],
+            'accountables.check_lease_realty' : ['check'],
+            'accountables.delete_lease_realty': ['deactivate'],
+            'accountables.view_lease_realty': ['detail', 'report'],
+            'accountables.accounting_lease_realty': ['accounting']
+            },
+        'Lease_Realty_Main_Pending_Date_Value':  {
+            'accountables.activate_lease_realty': ['activate'],
+            'accountables.change_lease_realty': ['update'],
+            'accountables.check_lease_realty' : ['check'],
+            'accountables.delete_lease_realty': ['deactivate'],
+            'accountables.view_lease_realty': ['detail', 'report'],
+            'accountables.accounting_lease_realty': ['accounting']
+            },
+        'Lease_Realty_Main_Pending_Transaction_Concept':  {
+            'accountables.add_lease_realty': ['create']
+            },
+        'Lease_Realty_Main_Pending_Monthly_Fee_Commit':  {
+            'accounting.add_ledger': ['commit']
             },
         'Lease_Realty_Realty':  {
-            'accountables.activate_lease_realty': 'activate',
-            'accountables.add_lease_realty': 'create',
+            'accountables.activate_lease_realty': ['activate'],
+            'accountables.add_lease_realty': ['create'],
             # 'accountables.check_lease_realty' : 'check',
-            'accountables.delete_lease_realty': 'deactivate',
+            'accountables.delete_lease_realty': ['deactivate'],
             },
         'Lease_Realty_Person':  {
-            'accountables.activate_lease_realty': 'activate',
-            'accountables.add_lease_realty': 'create',
-            'accountables.view_lease_realty': 'detail',
-            'accountables.change_lease_realty': 'update',
-            'accountables.check_lease_realty' : 'check',
-            'accountables.delete_lease_realty': 'deactivate',
+            'accountables.activate_lease_realty': ['activate'],
+            'accountables.add_lease_realty': ['create'],
+            'accountables.view_lease_realty': ['detail'],
+            'accountables.change_lease_realty': ['update'],
+            'accountables.check_lease_realty' : ['check'],
+            'accountables.delete_lease_realty': ['deactivate'],
             },
         'Date_Value':  {
-            'accountables.activate_realty': 'activate',
-            'accountables.add_realty': 'create',
-            'accountables.change_realty': 'update',
-            'accountables.check_realty' : 'check',
-            'accountables.delete_realty': 'deactivate',
+            'accountables.activate_realty': ['activate'],
+            'accountables.add_realty': ['create'],
+            'accountables.change_realty': ['update'],
+            'accountables.check_realty' : ['check'],
+            'accountables.delete_realty': ['deactivate'],
             },
         'Transaction_Type':  {
-            'accountables.activate_transaction_type': 'activate',
-            'accountables.add_transaction_type': 'create',
-            'accountables.check_transaction_type' : 'check',
-            'accountables.delete_transaction_type': 'deactivate',
+            'accountables.activate_transaction_type': ['activate'],
+            'accountables.add_transaction_type': ['create'],
+            'accountables.check_transaction_type' : ['check'],
+            'accountables.delete_transaction_type': ['deactivate'],
             },
         'Accountable_Transaction_Type':  {
-            'accountables.activate_accounable_transaction_type': 'activate',
-            'accountables.change_accounable_transaction_type': 'update',
-            'accountables.view_accounable_transaction_type' : 'detail',
-            'accountables.add_accounable_transaction_type': 'create',
-            'accountables.check_accounable_transaction_type' : 'check',
-            'accountables.delete_accounable_transaction_type': 'deactivate',
+            'accountables.activate_accounable_transaction_type': ['activate'],
+            'accountables.change_accounable_transaction_type': ['update'],
+            'accountables.view_accounable_transaction_type' : ['detail'],
+            'accountables.add_accounable_transaction_type': ['create'],
+            'accountables.check_accounable_transaction_type' : ['check'],
+            'accountables.delete_accounable_transaction_type': ['deactivate'],
             },
         'Accountable_Concept':  {
             # 'accountables.activate_accountable_concept': 'activate',
-            'accountables.add_accountable_concept': 'create',
+            'accountables.add_accountable_concept': ['create'],
             # 'accountables.check_accountable_concept' : 'check',
             # 'accountables.delete_accountable_concept': 'deactivate',
             }
@@ -58,6 +79,10 @@ per_dict = {
 
 perm_dict = {
         'Lease_Realty': 'accountables.activate_lease_realty',
+        'Lease_Realty_Main_Errors': 'accountables.activate_lease_realty',
+        'Lease_Realty_Main_Pending_Date_Value': 'accountables.activate_lease_realty',
+        'Lease_Realty_Main_Pending_Transaction_Concept': 'accountables.activate_lease_realty',
+        'Lease_Realty_Main_Pending_Monthly_Fee_Commit': 'accounting.activate_ledger',
         'Lease_Realty_Realty': 'accountables.activate_lease_realty',
         'Lease_Realty_Person': 'accountables.activate_lease_realty',
         'Date_Value': 'accountables.activate_lease_realty',
@@ -110,7 +135,67 @@ def lease_realty_related_data(*args):
             'activate_url': 'accountables:date_value_activate'
         }
     }
+
+    return related_data
+
+def lease_realty_main_data(*args):
+    from accountables.forms.lease_realty_forms import Lease_RealtyListModelFormSet
+    from accountables.forms.accountable_concept_forms import Accountable_ConceptPendingBulkFormSet, Accountable_ConceptPendingLedgerBulkFormSet
+    from accountables.utils.models_func import lease_realty_errors, lease_realty_pending_date_values, lease_realty_pending_monthly_fee_concepts, lease_realty_pending_monthly_fee_commit
     
+    related_data = {
+        'Errores:': {
+            'perm_dict_key': 'Lease_Realty_Main_Errors',
+            'formset': Lease_RealtyListModelFormSet,
+            'queryset_function' : lease_realty_errors,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'template': 'list',
+            'detail_url': 'accountables:lease_realty_detail',
+            'check_url': 'accountables:lease_realty_update',
+            'update_url': 'accountables:lease_realty_update',
+            'delete_url': 'accountables:lease_realty_delete',
+            'activate_url': 'accountables:lease_realty_activate',
+            'accounting_url': 'accountables:lease_realty_accounting',
+            'report_url': 'accountables:lease_realty_report'
+        },
+        'Valores Pendientes:': {
+            'perm_dict_key': 'Lease_Realty_Main_Pending_Date_Value',
+            'formset': Lease_RealtyListModelFormSet,
+            'queryset_function' : lease_realty_pending_date_values,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'template': 'list',
+            'detail_url': 'accountables:lease_realty_detail',
+            'check_url': 'accountables:lease_realty_update',
+            'update_url': 'accountables:lease_realty_update',
+            'delete_url': 'accountables:lease_realty_delete',
+            'activate_url': 'accountables:lease_realty_activate',
+            'accounting_url': 'accountables:lease_realty_accounting',
+            'report_url': 'accountables:lease_realty_report'
+        },
+        'Conceptos Mensualidad Arriendo Pendientes:': {
+            'perm_dict_key': 'Lease_Realty_Main_Pending_Transaction_Concept',
+            'formset': Accountable_ConceptPendingBulkFormSet,
+            'dict_list_function' : lease_realty_pending_monthly_fee_concepts,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'template': 'bulk_data',
+            'create_url': 'accountables:single_pending_accountable_concept_create',
+            'create_bulk_url': 'accountables:bulk_pending_accountable_concept_create'
+        },
+        'Causacion Mensualidad Arriendo Pendientes:': {
+            'perm_dict_key': 'Lease_Realty_Main_Pending_Monthly_Fee_Commit',
+            'formset': Accountable_ConceptPendingLedgerBulkFormSet,
+            'queryset_function' : lease_realty_pending_monthly_fee_commit,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'template': 'bulk_data',
+            'commit_url': 'accounting:ledger_template_register_commit',
+            'commit_bulk_url': 'accounting:ledger_template_bulk_pending_register'
+        }
+    }
+
     return related_data
 
 def accountable_related_data(*args):
@@ -159,7 +244,7 @@ def ActionsOn(user, model):
     permissions = per_dict[model]
     for per, action in permissions.items():
         if user.has_perm(per):
-            actions_on.append(action)
+            actions_on += action
     return actions_on
 
 def IncludedStates(user, model):

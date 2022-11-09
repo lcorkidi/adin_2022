@@ -191,7 +191,7 @@ class Accountable_ConceptActivateForm(GenericActivateRelatedForm):
         accon.state_change_user = user
         accon.save()        
 
-class Accountable_ConceptPendingCreateBseFormSet(BaseFormSet):
+class Accountable_ConceptPendingCreateBaseFormSet(BaseFormSet):
 
     def save(self):
         for form in self.forms:
@@ -245,4 +245,64 @@ class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
 
 Accountable_ConceptModelFormSet = modelformset_factory(Accountable_Concept, form=Accountable_ConceptRelatedModelForm, formset=Accountable_ConceptRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'date', 'value'), extra=0)
 
-Accountable_ConceptPendingFormSet = formset_factory(Accountable_ConceptPendingCreateForm, formset=Accountable_ConceptPendingCreateBseFormSet, extra=0)
+Accountable_ConceptPendingFormSet = formset_factory(Accountable_ConceptPendingCreateForm, formset=Accountable_ConceptPendingCreateBaseFormSet, extra=0)
+
+class Accountable_ConceptPendingBulkCreateForm(Form):
+
+    accountable = ModelChoiceField(
+        queryset=Accountable.objects.exclude(state=0),
+        disabled=True,
+        label='Contabilizable'
+    )
+    transaction_type = ModelChoiceField(
+        queryset=Transaction_Type.objects.exclude(state=0),
+        disabled=True,
+        label='Tipo de Transacción'
+    )
+    date = DateField(
+        disabled=True,
+        label='Fecha Cargo'
+    )
+    value = IntegerField(
+        disabled=True,
+        label='Valor'
+    )
+
+    def clean_transaction_type(self):
+        transaction_type = self.cleaned_data.get('transaction_type')
+        accountable = self.initial['accountable']
+        if transaction_type not in accountable.transaction_types.exclude(state=0):
+            self.add_error('transaction_type', f'{transaction_type} no una opcion de tipo de transacción de {accountable}.')
+        return transaction_type
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        if Accountable_Concept.objects.filter(accountable = self.initial['accountable'],
+                transaction_type = cleaned_data['transaction_type'],
+                date = cleaned_data['date']
+                ).exists():
+            obj = Accountable_Concept.objects.get(accountable = self.initial['accountable'],
+                transaction_type = cleaned_data['transaction_type'],
+                date = cleaned_data['date']
+                )
+            if obj.state == 0:
+                raise ValidationError(f"{obj._meta.model._meta.verbose_name} con estos datos ya existe y está inactiva.")
+            else:
+                raise ValidationError(f"{obj._meta.model._meta.verbose_name} con estos datos ya existe.")
+        return super().clean()
+
+    def save(self, creator):
+        acc = self.initial['accountable']
+        dt = self.cleaned_data['date']
+        Accountable_Concept(
+            state_change_user=creator,
+            accountable = acc,
+            transaction_type = self.cleaned_data['transaction_type'],
+            date = dt,
+            value = self.cleaned_data['value'],
+            value_relation=acc.date_value.earliest('date') if dt < acc.subclass_obj().doc_date else acc.date_value.exclude(date__gt=dt).latest('date')
+        ).save()
+
+Accountable_ConceptPendingBulkFormSet = formset_factory(Accountable_ConceptPendingBulkCreateForm, formset=Accountable_ConceptPendingCreateBaseFormSet, extra=0)
+
+Accountable_ConceptPendingLedgerBulkFormSet = modelformset_factory(Accountable_Concept, fields=('accountable', 'transaction_type', 'date', 'value'), extra=0)

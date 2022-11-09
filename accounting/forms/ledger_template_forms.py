@@ -1,11 +1,12 @@
 import datetime
-from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, modelformset_factory
+from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, modelformset_factory, formset_factory
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.forms import GenericCreateForm
 from adin.core.widgets import SelectDateSpanishWidget
-from accounting.models import Ledger_Template, Ledger, Charge
+from accounting.models import Ledger_Template, Ledger, Ledger_Type, Charge
 from accountables.models import Accountable, Accountable_Concept
+from people.models import Person
 
 class Ledger_TemplateCreateModelForm(GenericCreateForm):
 
@@ -183,13 +184,31 @@ class Ledger_TemplateSelectConceptForm(Form):
         queryset=Ledger_Template.objects.exclude(state=0),
         label='Formato Registro'
     )
+    accountable_concept = ModelChoiceField(
+        queryset=Accountable_Concept.objects.exclude(state=0),
+        label='Concepto Transaccion'
+    )
+    ledger_type = ModelChoiceField(
+        queryset=Ledger_Type.objects.exclude(state=0),
+        label='Tipo Registro'
+    )
     accountable = ModelChoiceField(
         queryset=Accountable.objects.exclude(state=0),
         label='Contabilizable'
     )
-    accountable_concept = ModelChoiceField(
-        queryset=Accountable_Concept.objects.exclude(state=0),
-        label='Concepto Contabilizable'
+    holder = ModelChoiceField(
+        queryset=Person.objects.exclude(state=0),
+        label='Titular'
+    )
+    third_party = ModelChoiceField(
+        queryset=Person.objects.exclude(state=0),
+        label='Tercero'
+    )
+    concept_date = DateField(
+        label='Fecha Concepto'
+    )
+    concept_value = IntegerField(
+        label='Valor Base'
     )
 
     def set_readonly_fields(self, fields=[]):
@@ -203,6 +222,8 @@ class Ledger_TemplateSelectConceptForm(Form):
         led_tem = self.cleaned_data.get('ledger_template')
         acc_con = self.cleaned_data.get('accountable_concept')
         return led_tem.create_ledger(acc_con, acc_con.date, user)
+
+Ledger_TemplateBulkPendingCreateFormSet =  formset_factory(form=Ledger_TemplateSelectConceptForm, extra=0)
 
 Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('code', 'accountable_class'), extra=0)
 
