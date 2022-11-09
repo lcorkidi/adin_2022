@@ -2,7 +2,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from .models import Ledger
-from .utils import ledger2consecutive, ledger2code
+from .utils.models_func import ledger2consecutive, ledger2code
 
 @receiver(pre_save, sender=Ledger)
 def ledger_save(sender, instance, **kwargs):

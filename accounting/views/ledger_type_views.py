@@ -1,7 +1,7 @@
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
 from accounting.models import Ledger_Type
 from accounting.forms.ledger_type_forms import Ledger_TypeDetailModelForm, Ledger_TypeCreateModelForm, Ledger_TypeDeleteModelForm, Ledger_TypeActivateModelForm, Ledger_TypeListModelFormSet
-from accounting.utils import GetIncludedStates, GetActionsOn
+from accounting.utils.views_data import GetIncludedStates, GetActionsOn
 
 title = Ledger_Type._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:ledger_type_list', 'create':'accounting:ledger_type_create', 'detail':'accounting:ledger_type_detail', 'delete':'accounting:ledger_type_delete', 'activate':'accounting:ledger_type_activate' }

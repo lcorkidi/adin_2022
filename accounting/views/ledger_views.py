@@ -4,7 +4,7 @@ from adin.core.views import GenericListView, GenericDetailView, GenericCreateVie
 from accounting.models import Ledger
 from accounting.forms.ledger_forms import LedgerDetailModelForm, LedgerCreateModelForm, LedgerDeleteModelForm, LedgerActivateModelForm, LedgerListModelFormSet
 from accounting.forms.charge_forms import ChargeCreateFormset
-from accounting.utils import ledger_related_data, GetActionsOn, GetIncludedStates
+from accounting.utils.views_data import ledger_related_data, GetActionsOn, GetIncludedStates
 from adin.utils.user_data import user_group_str
 
 title = Ledger._meta.verbose_name_plural

@@ -44,7 +44,9 @@ models_lists = {
             'ledger_type', 
             'ledger_template', 
             'charge_template',
-            'accountable_transaction_type'
+            'accountable_transaction_type',
+            'ledger',
+            'charge'
         ],
         'auth': [
             'group',
@@ -456,6 +458,24 @@ models_info = {
             'model' : Accountable_Transaction_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
             'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_id':'accountable' , 'transaction_type_id':'transaction_type', 'commit_template_id':'commit_template', 'bill_template_id':'bill_template', 'receive_template_id':'receive_template'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'ledger' : {
+            'csv_name' : 'ledger.csv',
+            'fk_dict' : {'state_change_user':User, 'type':Ledger_Type, 'holder':Person, 'third_party':Person },
+            'model' : Ledger,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user', 'type_id':'type' , 'holder_id':'holder', 'third_party_id':'third_party'},
+            'bulk' : True,
+            'pending_relations' : None
+            },
+        'charge' : {
+            'csv_name' : 'charge.csv',
+            'fk_dict' : {'state_change_user':User, 'ledger':Ledger, 'account':Account, 'concept':Accountable_Concept },
+            'model' : Charge,
+            'to_drop' : ['Unnamed: 0', 'state_change_date'],
+            'to_rename' : {'state_change_user_id':'state_change_user', 'ledger_id':'ledger' , 'account_id':'account', 'concept_id':'concept'},
             'bulk' : True,
             'pending_relations' : None
             }

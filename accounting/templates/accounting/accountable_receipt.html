@@ -8,12 +8,12 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a class="text-success" href="{% url 'accountables:lease_realty_accounting' form.instance.pk %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
+                        <a class="text-success" href="{% url 'accountables:lease_realty_accounting' accountable_form.instance.pk %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                {% for field in form %}
+                {% for field in accountable_form %}
                     {% if field.name != 'state' %}
                         <div class="d-grid mx-2 gap2">
                             <div class="p-2 fs-5 w-100 text-center">
@@ -29,24 +29,17 @@
                     <div class="p-2 fs-5 w-100 text-center">
                         Cuentas Pendientes Por Recibir:
                     </div>
-                    {% if pending_formset.formset_errors %}
-                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
-                            <div class="p-2 fs-5 text-center text-danger">
-                                {{ pending_formset.formset_errors }}
-                            </div>
-                        </div>
-                    {% endif %}
                     <div class="border rounded fs-5 bg-light text-center w-100 p-2">
                         <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    {% for pending_field in pending_formset.form %}
+                                    {% for pending_field in pending_charge_formset.form %}
                                         <th>{{ pending_field.label }}</th> 
                                     {% endfor %}
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for pending_form in pending_formset %}
+                                {% for pending_form in pending_charge_formset %}
                                     <tr>
                                         {% for pending_field in pending_form.visible_fields %}
                                             <td>{{ pending_field.value }}</td>
@@ -57,6 +50,103 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in ledger_form %}
+                            <div class="d-flex mx-2">
+                                <div class="d-grid w-100">
+                                    <div class="p-2 fs-5 text-center">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    {% if field.errors %}
+                                        <div class="p-2 fs-5 text-center text-danger">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                    {% if field.field.widget.attrs.readonly %}
+                                        {% if field.name in choice_fields %}
+                                            <td>{% selected_choice ledger_form field.name field.value %}</td>
+                                        {% else %}
+                                            <strong>{{ field.value }}</strong>
+                                        {% endif %}
+                                        <input id="id_{{ field.name }}" type="{{ field.widget_type }}" name="{{ field.name }}" value="{{ field.value }}" required hidden>
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                    {% endfor %}
+                    {% if ledger_form.non_field_errors %}
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <div class="p-2 fs-5 text-center text-danger">
+                                {{ ledger_form.non_field_errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-grid mx-2 gap2">
+                        <div class="p-2 fs-5 w-100 text-center">
+                            Movimientos:
+                        </div>
+                        <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                            <table id="datatable" class="table table-hover table-striped" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        {% for related_field in chargeformset.form %}
+                                            <th>{{ related_field.label }}</th> 
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{ chargeformset.management_form }}
+                                    {% if formset.non_form_errors %}
+                                        <tr>
+                                            <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                                <div class="p-2 fs-5 text-center text-danger">
+                                                    {{ chargeformset.non_form_errors }}
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    {% endif %}
+                                    {% for related_form in chargeformset %}
+                                        {% if related_form.non_field_errors %}
+                                            <tr>
+                                                <div class="border rounded fs-5 bg-light text-center w-100 p-2">
+                                                    <div class="p-2 fs-5 text-center text-danger">
+                                                        {{ related_form.non_field_errors }}
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        {% endif %}
+                                        <tr>
+                                            {% for related_field in related_form %}
+                                                <td>
+                                                    {% if related_field.name in readonly_fields %}
+                                                        {{ related_field.value }}
+                                                        <input id="id_form-{{ forloop.parentloop.counter0 }}-{{ related_field.name }}" type="{{ related_field.widget_type }}" name="form-{{ forloop.parentloop.counter0 }}-{{ related_field.name }}" value="{{ related_field.value }}" hidden>
+                                                    {% else %}
+                                                        {{ related_field }}
+                                                    {% endif %}
+                                                    {% if related_field.errors %}
+                                                        <div class="p-2 fs-5 text-center text-danger">
+                                                            {{ related_field.errors }}
+                                                        </div>
+                                                    {% endif %}
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-grid m-2 gap-2">
+                        <input class="btn btn-primary" type="submit" value="{{ subtitle }}">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

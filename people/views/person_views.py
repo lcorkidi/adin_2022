@@ -2,11 +2,10 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from adin.core.views import GenericListView, GenericDetailView, GenericUpdateView, GenericDeleteView, GenericActivateView
+from adin.core.views import GenericListView, GenericDetailView,  GenericDeleteView, GenericActivateView
 from people.models import Person, Person_Natural, Person_Legal
 from people.forms.person_forms import PersonCreateForm, Person_NaturalCreateForm, Person_LegalCreateForm, Person_NaturalDetailForm, Person_LegalDetailForm, Person_NaturalUpdateForm, Person_LegalUpdateForm, Person_NaturalDeleteForm, Person_LegalDeleteForm, Person_NaturalActivateForm, Person_LegalActivateForm, PersonListModelFormSet
 from people.utils import person_natural_related_data, person_legal_related_data, GetActionsOn, GetIncludedStates
-from adin.utils.user_data import user_group_str
 from adin.utils.related_models import related_data_formsets_call
 
 title = Person._meta.verbose_name_plural
@@ -35,19 +34,19 @@ class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         form = self.form()
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
     def post(self, request):
         form = self.form(request.POST)
         if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
             return render(request, self.template, context)
         if int(form['type'].value()) == 0:
             return redirect('people:person_natural_create')
         elif int(form['type'].value()) == 1:
             return redirect('people:person_legal_create')
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
 class Person_NaturalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -65,7 +64,7 @@ class Person_NaturalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View
         form = self.form(initial={'type': 0})
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request):
@@ -73,7 +72,7 @@ class Person_NaturalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View
         if not form.is_valid():
             if self.readonly_fields:
                 form.set_readonly_fields(self.readonly_fields)
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
             return render(request, self.template, context)
         form.creator = request.user
         per = form.save()            
@@ -94,7 +93,7 @@ class Person_LegalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         form = self.form(initial={'type': 1, 'id_type': 1})
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request):
@@ -102,7 +101,7 @@ class Person_LegalCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         if not form.is_valid():
             if self.readonly_fields:
                 form.set_readonly_fields(self.readonly_fields)
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields': self.choice_fields}
             return render(request, self.template, context)
         form.creator = request.user
         per = form.save()            

@@ -23,10 +23,16 @@
                         {% if 'check' in actions_on %}
                             <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                         {% endif %}
-                        {% if 'accounting' in actions_on %}
-                            | <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
+                        {% if 'accounting' in actions_on or 'report' in actions_on %}
+                            | 
                         {% endif %}
-                   </div>
+                        {% if 'accounting' in actions_on %}
+                            <a class="text-success" href="{% url ref_urls.accounting form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-spreadsheet' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if 'report' in actions_on %}
+                            <a class="text-success" href="{% url ref_urls.report form.instance.pk %}" style="text-decoration:none">{% render_bi 'list' width="20px" height="20px" %}</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <div class="card-body">

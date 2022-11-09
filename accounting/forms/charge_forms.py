@@ -113,6 +113,8 @@ class ChargeBareFormSet(BaseFormSet):
 
 ChargeCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeBareFormSet, extra=20)
 
+ChargeAutoCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeBareFormSet, extra=0)
+
 class ChargeBaseModelFormSet(BaseModelFormSet):
 
     def __init__(self, rel_pk, *args, **kwargs):
@@ -125,9 +127,6 @@ class ChargeReceivablePendingForm(Form):
 
     ledger = CharField(
         label='Registro'
-    )
-    concept__accountable = CharField(
-        label='Contabilizable'
     )
     account__name = CharField(
         label='Cuenta'

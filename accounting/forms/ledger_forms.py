@@ -1,4 +1,3 @@
-import datetime
 from django.forms import ModelForm, modelformset_factory
 
 from adin.core.forms import GenericCreateForm, GenericDeleteForm, GenericActivateForm
@@ -13,6 +12,13 @@ class LedgerCreateModelForm(GenericCreateForm):
         widgets = {
             'date': SelectDateSpanishWidget()
         }
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
 
 class LedgerDetailModelForm(ModelForm):
 

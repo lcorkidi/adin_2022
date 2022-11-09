@@ -7,7 +7,7 @@ from django.db.models.fields import CharField
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericUpdateView, GenericDeleteView, GenericActivateView
 from accounting.forms.account_forms import AccountCreateForm, AccountDetailForm, AccountUpdateForm, AccountDeleteForm, AccountActivateForm, AccountListModelFormSet
 from accounting.models import Account
-from accounting.utils import GetActionsOn, GetIncludedStates
+from accounting.utils.views_data import GetActionsOn, GetIncludedStates
 
 title = Account._meta.verbose_name_plural
 ref_urls = { 'list':'accounting:account_list', 'create':'accounting:account_create', 'detail':'accounting:account_detail', 'update':'accounting:account_update', 'delete':'accounting:account_delete', 'activate':'accounting:account_activate' }

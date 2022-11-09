@@ -9,9 +9,11 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
-                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> 
+                        {% if acc_pk %}
+                            <a class="text-success" href="{% url 'accountables:lease_realty_accounting' acc_pk %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a> 
+                        {% else %}
+                            <a class="text-success" href="{% url 'accounting:ledger_list' %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a> 
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -111,7 +113,12 @@
                                         <tr>
                                             {% for related_field in related_form %}
                                                 <td>
-                                                    {{ related_field }}
+                                                    {% if related_field.name in readonly_fields %}
+                                                        {{ related_field.value }}
+                                                        <input id="id_form-{{ forloop.parentloop.counter0 }}-{{ related_field.name }}" type="{{ related_field.widget_type }}" name="form-{{ forloop.parentloop.counter0 }}-{{ related_field.name }}" value="{{ related_field.value }}" hidden>
+                                                    {% else %}
+                                                        {{ related_field }}
+                                                    {% endif %}
                                                     {% if related_field.errors %}
                                                         <div class="p-2 fs-5 text-center text-danger">
                                                             {{ related_field.errors }}

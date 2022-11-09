@@ -31,6 +31,12 @@ class Ledger_TemplateCreateModelForm(GenericCreateForm):
         ledger_template.save()
         return ledger_template
 
+class Ledger_TemplateCodeModelForm(ModelForm):
+
+    class Meta:
+        model = Ledger_Template
+        fields = ['code',]
+
 class Ledger_TemplateDetailModelForm(ModelForm):
 
     class Meta:

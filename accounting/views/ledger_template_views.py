@@ -1,16 +1,18 @@
+import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from adin.core.views import GenericListView, GenericDetailView, GenericCreateView, GenericDeleteView, GenericActivateView
-from accounting.models import Ledger_Template
+from accounting.models import Ledger_Template, Ledger_Type
 from accountables.models import Accountable, Accountable_Concept
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
-from accountables.forms.accountable_forms import AccountableAccoutingForm
-from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
+from accountables.forms.accountable_forms import AccountableAccountingForm
+from accounting.forms.ledger_forms import LedgerCreateModelForm
+from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateCodeModelForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
-from accounting.forms.charge_forms import ChargeReceivablePendingFormSet
-from accounting.utils import ledger_template_related_data, GetIncludedStates, GetActionsOn
+from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeAutoCreateFormset, ChargeCreateFormset
+from accounting.utils.views_data import ledger_template_related_data, GetIncludedStates, GetActionsOn
 from adin.utils.user_data import user_group_str
 
 title = Ledger_Template._meta.verbose_name_plural
@@ -207,14 +209,15 @@ class Ledger_TemplateSelectConceptView(LoginRequiredMixin, PermissionRequiredMix
  
 class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
-    template = 'adin/generic_create.html'
-    form = Ledger_TemplateSelectConceptForm
+    template = 'accounting/ledger_create.html'
+    form = LedgerCreateModelForm
+    formset = ChargeAutoCreateFormset
     title = title
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
     permission_required = 'accounting.add_ledger'
-    readonly_fields = ['ledger_template', 'accountable_concept','ledger_type', 'accountable', 'holder', 'third_party', 'concept_date', 'concept_value']
-    choice_fields = ['ledger_template', 'accountable_concept', 'ledger_type', 'accountable', 'holder', 'third_party']
+    readonly_fields = ['type', 'holder', 'third_party', 'account', 'concept', 'debit', 'credit']
+    choice_fields = ['type', 'holder', 'third_party']
 
     def get(self, request, ac_pk, lt_str):
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
@@ -226,9 +229,18 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
             lt = acc_tra_typ.bill_template
         else:
             lt = acc_tra_typ.receive_template
-        form = self.form(initial={'ledger_template':lt, 'accountable_concept':acc_con, 'ledger_type':lt.ledger_type, 'accountable':acc, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party, 'concept_date':acc_con.date, 'concept_value':acc_con.value})
+        form = self.form(initial={'type':lt.ledger_type, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
         form.set_readonly_fields(self.readonly_fields)
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+        formset_data = []
+        for cha_tem in lt.charges_templates.all():
+            cha_dat = {}
+            cha_dat['account'] = cha_tem.account
+            cha_dat['concept'] = acc_con
+            cha_dat['debit' if cha_tem.nature == 1 else 'credit'] = abs(cha_tem.factor.factored_value(acc_con.accountable, acc_con.date, acc_con.value, cha_tem.nature))
+            cha_dat['credit' if cha_tem.nature == 1 else 'debit'] = 0
+            formset_data.append(cha_dat)
+        formset = self.formset(initial=formset_data)
+        context = {'form': form, 'formset':formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields':self.choice_fields, 'acc_pk':acc.pk, 'readonly_fields':self.readonly_fields}
         return render(request, self.template, context)
 
     def post(self, request, ac_pk, lt_str):
@@ -241,13 +253,25 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
             lt = acc_tra_typ.bill_template
         else:
             lt = acc_tra_typ.receive_template
-        form = self.form(request.POST, initial={'ledger_template':lt, 'accountable_concept':acc_con, 'ledger_type':lt.ledger_type, 'accountable':acc, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party, 'concept_date':acc_con.date, 'concept_value':acc_con.value})
-        if not form.is_valid():
+        form = self.form(request.POST, initial={'type':lt.ledger_type, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
+        formset_data = []
+        for cha_tem in lt.charges_templates.all():
+            cha_dat = {}
+            cha_dat['account'] = cha_tem.account
+            cha_dat['concept'] = acc_con
+            cha_dat['debit' if cha_tem.nature == 1 else 'credit'] = abs(cha_tem.factor.factored_value(acc_con.accountable, acc_con.date, acc_con.value, cha_tem.nature))
+            cha_dat['credit' if cha_tem.nature == 1 else 'debit'] = 0
+            formset_data.append(cha_dat)
+        formset = self.formset(request.POST, initial=formset_data)
+        if not form.is_valid() or not formset.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+            context = {'form': form, 'formset':formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields':self.choice_fields, 'acc_pk':acc.pk, 'readonly_fields':self.readonly_fields}
             return render(request, self.template, context)
-        ledger = form.save(request.user)    
-        return redirect('accounting:ledger_detail', ledger.pk)
+        form.creator = request.user
+        ledger = form.save()            
+        formset.creator = request.user
+        formset.save(ledger)
+        return redirect('accountables:lease_realty_accounting', acc_con.accountable.pk)
  
 class Ledger_TemplateBulkPendingRegisterView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -278,18 +302,23 @@ class Ledger_TemplateBulkPendingRegisterView(LoginRequiredMixin, PermissionRequi
 class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'accounting/accountable_receipt.html'
-    form = AccountableAccoutingForm
-    pending_formset = ChargeReceivablePendingFormSet
+    accountable_form = AccountableAccountingForm
+    pending_charge_formset = ChargeReceivablePendingFormSet
+    ledgerform = LedgerCreateModelForm
+    chargeformset = ChargeCreateFormset
     title = title
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
     permission_required = 'accounting.add_ledger'
-    readonly_fields = ['ledger_template', 'accountable', 'accountable_concept']
-    choice_fields = ['ledger_template', 'accountable', 'accountable_concept']
+    readonly_fields = ['type', 'holder', 'third_party']
+    choice_fields = ['type', 'holder', 'third_party']
 
     def get(self, request, ac_pk):
         acc = Accountable.active.get(pk=ac_pk)
-        form = self.form(instance=acc)
-        pending_formset = self.pending_formset(initial=acc.subclass_obj().charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
-        context = {'form': form, 'pending_formset':pending_formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+        accountable_form = self.accountable_form(instance=acc)
+        pending_charge_formset = self.pending_charge_formset(initial=acc.subclass_obj().charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
+        ledger_form = self.ledgerform(initial={'type':Ledger_Type.objects.get(abreviation='RC'), 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
+        ledger_form.set_readonly_fields(self.readonly_fields)
+        chargeformset = self.chargeformset()
+        context = {'accountable_form': accountable_form, 'pending_charge_formset':pending_charge_formset, 'ledger_form':ledger_form, 'chargeformset':chargeformset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)

@@ -135,6 +135,7 @@ class Lease_RealtyDeleteView(GenericDeleteView):
     choice_fields = ['role']
     fk_fields = ['lease', 'person', 'realty']
     related_data = lease_realty_related_data
+    actions_on = GetActionsOn
     permission_required = 'accountables.delete_lease_realty'
 
 class Lease_RealtyActivateView(GenericActivateView):

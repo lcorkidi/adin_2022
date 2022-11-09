@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Sum
 
 from adin.core.models import BaseModel
-from accounting.utils import DueAge
+from accounting.utils.models_func import DueAge
 from accounting.models.ledger import LEDGER_RECEIPT_PRIORITY
 
 class ReportChargeManager(models.Manager):
