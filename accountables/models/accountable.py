@@ -131,6 +131,14 @@ class Accountable_Transaction_Type(BaseModel):
             ('checkaccountable__transaction_type', 'Can check accountable transaction type.'),
         ]
 
+    def get_template(self, typ_abr):
+        if typ_abr == 'CA':
+            return self.commit_template
+        if typ_abr == 'FV':
+            return self.bill_template
+        if typ_abr == 'RC':
+            return self.receive_template
+
     def __repr__(self) -> str:
         return f'<Accountable_Transaction_Type: {self.accountable}_{self.transaction_type}>'
 
@@ -188,11 +196,12 @@ class Accountable_ConceptPendingManager(models.Manager):
         code_df = pd.DataFrame(qs.values('code'))
         obj_df = code_df.assign(acc_con=code_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
         pre_pen_df = obj_df.assign(
+                                not_com=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)),
                                 not_bil=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).bill_template)),
                                 pre_exi=obj_df.acc_con.apply(lambda x: x.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.date).exists()),
                                 bil_eli=obj_df.apply(lambda x: x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).latest('date').ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY) if x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).exists() else False, axis=1)
                             )
-        pen_bil_df = pre_pen_df.assign(bil_pen=pre_pen_df.apply(lambda x: True if x.not_bil and (not x.pre_exi or (x.pre_exi and x.bil_eli)) else False, axis=1))
+        pen_bil_df = pre_pen_df.assign(bil_pen=pre_pen_df.apply(lambda x: True if not x.not_com and x.not_bil and (not x.pre_exi or (x.pre_exi and x.bil_eli)) else False, axis=1))
         objs_list = pen_bil_df[pen_bil_df['bil_pen']==True]['code'].to_list()
         return qs.filter(code__in=objs_list)
 
@@ -206,8 +215,8 @@ class Accountable_ConceptPendingManager(models.Manager):
         code_df = pd.DataFrame(qs.values('code'))
         obj_df = code_df.assign(accountable_concept=code_df.code.apply(lambda x: self.get_queryset().get(pk=x)))
         return obj_df.assign(
-                        ledger_template=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').commit_template),
-                        ledger_type=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').commit_template.ledger_type),
+                        ledger_template=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').get_template(typ_abr)),
+                        ledger_type=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').get_template(typ_abr).ledger_type),
                         accountable=obj_df.accountable_concept.apply(lambda x: x.accountable),
                         holder=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_holder()),
                         third_party=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_third_party()),

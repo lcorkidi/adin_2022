@@ -35,6 +35,7 @@ per_dict = {
             'accounting.add_ledger': ['commit']
             },
         'Lease_Realty_Main_Pending_Monthly_Fee_Bill':  {
+            'accounting.add_ledger': ['bill']
             },
         'Lease_Realty_Realty':  {
             'accountables.activate_lease_realty': ['activate'],

@@ -102,6 +102,9 @@
                                 {% if 'commit' in data.actions_on %}
                                     <a class="text-success" href="{% url data.commit_bulk_url 'CA' %}" style="text-decoration:none">{% render_bi 'bag-plus' width="20px" height="20px" %}</a>
                                 {% endif %}
+                                {% if 'bill' in data.actions_on %}
+                                    <a class="text-success" href="{% url data.commit_bulk_url 'FV' %}" style="text-decoration:none">{% render_bi 'bag-plus' width="20px" height="20px" %}</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -141,6 +144,9 @@
                                             {% endif %}
                                             {% if 'commit' in data.actions_on %}
                                                 <a class="text-success" href="{% url data.commit_url form.instance.pk 'CA' %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                                            {% endif %}
+                                            {% if 'bill' in data.actions_on %}
+                                                <a class="text-success" href="{% url data.commit_url form.instance.pk 'FV' %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                                             {% endif %}
                                         </td>                                    
                                     </tr>
