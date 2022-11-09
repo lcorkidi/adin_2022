@@ -26,6 +26,11 @@ def lease_realty_pending_monthly_fee_commit():
 
     return Accountable_Concept.pending.commit()
 
+def lease_realty_pending_monthly_fee_bill():
+    from accountables.models.accountable import Accountable_Concept
+
+    return Accountable_Concept.pending.bill()
+
 def formsets_data_call(formsets_data, user):
         if formsets_data:
             formsets_data = formsets_data()

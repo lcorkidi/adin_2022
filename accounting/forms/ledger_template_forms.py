@@ -1,5 +1,5 @@
 import datetime
-from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, modelformset_factory, formset_factory
+from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, BaseFormSet, modelformset_factory, formset_factory
 from django.contrib.contenttypes.models import ContentType
 
 from adin.core.forms import GenericCreateForm
@@ -223,7 +223,13 @@ class Ledger_TemplateSelectConceptForm(Form):
         acc_con = self.cleaned_data.get('accountable_concept')
         return led_tem.create_ledger(acc_con, acc_con.date, user)
 
-Ledger_TemplateBulkPendingCreateFormSet =  formset_factory(form=Ledger_TemplateSelectConceptForm, extra=0)
+class Ledger_TemplateBulkPendingCreateBaseFormSet(BaseFormSet):
+
+    def save(self, user):
+        for form in self.forms:
+            form.save(user)
+
+Ledger_TemplateBulkPendingCreateFormSet =  formset_factory(form=Ledger_TemplateSelectConceptForm, formset=Ledger_TemplateBulkPendingCreateBaseFormSet, extra=0)
 
 Ledger_TemplateListModelFormSet = modelformset_factory(Ledger_Template, fields=('code', 'accountable_class'), extra=0)
 

@@ -177,15 +177,30 @@ class Accountable_ConceptPendingManager(models.Manager):
 
     def commit(self):
         qs = self.get_queryset()
-        objs_df = pd.DataFrame(qs.values()).drop(['state_change_user_id', 'state_change_date', 'state'], axis=1)
+        objs_df = pd.DataFrame(qs.values('code', 'date'))
         sorted_objs_df = objs_df.sort_values(by=['date']).assign(acc_con=objs_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
-        referenced_objs_df = sorted_objs_df.assign(ledger=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)))
-        objs_list = referenced_objs_df[referenced_objs_df['ledger']==True]['code'].to_list()
+        referenced_objs_df = sorted_objs_df.assign(pending=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)))
+        objs_list = referenced_objs_df[referenced_objs_df['pending']==True]['code'].to_list()
+        return qs.filter(code__in=objs_list)
+
+    def bill(self):
+        qs = self.get_queryset()
+        code_df = pd.DataFrame(qs.values('code'))
+        obj_df = code_df.assign(acc_con=code_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
+        pre_pen_df = obj_df.assign(
+                                not_bil=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).bill_template)),
+                                pre_exi=obj_df.acc_con.apply(lambda x: x.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.date).exists()),
+                                bil_eli=obj_df.apply(lambda x: x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).latest('date').ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY) if x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).exists() else False, axis=1)
+                            )
+        pen_bil_df = pre_pen_df.assign(bil_pen=pre_pen_df.apply(lambda x: True if x.not_bil and (not x.pre_exi or (x.pre_exi and x.bil_eli)) else False, axis=1))
+        objs_list = pen_bil_df[pen_bil_df['bil_pen']==True]['code'].to_list()
         return qs.filter(code__in=objs_list)
 
     def ledger_type_dict(self, typ_abr):
         if typ_abr == 'CA':
             qs = self.commit()
+        elif typ_abr == 'FV':
+            qs = self.bill()
         else:
             return
         code_df = pd.DataFrame(qs.values('code'))

@@ -34,6 +34,8 @@ per_dict = {
         'Lease_Realty_Main_Pending_Monthly_Fee_Commit':  {
             'accounting.add_ledger': ['commit']
             },
+        'Lease_Realty_Main_Pending_Monthly_Fee_Bill':  {
+            },
         'Lease_Realty_Realty':  {
             'accountables.activate_lease_realty': ['activate'],
             'accountables.add_lease_realty': ['create'],
@@ -83,6 +85,7 @@ perm_dict = {
         'Lease_Realty_Main_Pending_Date_Value': 'accountables.activate_lease_realty',
         'Lease_Realty_Main_Pending_Transaction_Concept': 'accountables.activate_lease_realty',
         'Lease_Realty_Main_Pending_Monthly_Fee_Commit': 'accounting.activate_ledger',
+        'Lease_Realty_Main_Pending_Monthly_Fee_Bill': 'accounting.activate_ledger',
         'Lease_Realty_Realty': 'accountables.activate_lease_realty',
         'Lease_Realty_Person': 'accountables.activate_lease_realty',
         'Date_Value': 'accountables.activate_lease_realty',
@@ -141,7 +144,7 @@ def lease_realty_related_data(*args):
 def lease_realty_main_data(*args):
     from accountables.forms.lease_realty_forms import Lease_RealtyListModelFormSet
     from accountables.forms.accountable_concept_forms import Accountable_ConceptPendingBulkFormSet, Accountable_ConceptPendingLedgerBulkFormSet
-    from accountables.utils.models_func import lease_realty_errors, lease_realty_pending_date_values, lease_realty_pending_monthly_fee_concepts, lease_realty_pending_monthly_fee_commit
+    from accountables.utils.models_func import lease_realty_errors, lease_realty_pending_date_values, lease_realty_pending_monthly_fee_concepts, lease_realty_pending_monthly_fee_commit, lease_realty_pending_monthly_fee_bill
     
     related_data = {
         'Errores:': {
@@ -188,6 +191,16 @@ def lease_realty_main_data(*args):
             'perm_dict_key': 'Lease_Realty_Main_Pending_Monthly_Fee_Commit',
             'formset': Accountable_ConceptPendingLedgerBulkFormSet,
             'queryset_function' : lease_realty_pending_monthly_fee_commit,
+            'actions_on' : ActionsOn,
+            'included_states' : IncludedStates,
+            'template': 'bulk_data',
+            'commit_url': 'accounting:ledger_template_register_commit',
+            'commit_bulk_url': 'accounting:ledger_template_bulk_pending_register'
+        },
+        'Facturacion Mensualidad Arriendo Pendientes:': {
+            'perm_dict_key': 'Lease_Realty_Main_Pending_Monthly_Fee_Bill',
+            'formset': Accountable_ConceptPendingLedgerBulkFormSet,
+            'queryset_function' : lease_realty_pending_monthly_fee_bill,
             'actions_on' : ActionsOn,
             'included_states' : IncludedStates,
             'template': 'bulk_data',
