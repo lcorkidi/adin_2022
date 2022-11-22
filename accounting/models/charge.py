@@ -40,6 +40,7 @@ class PendingChargeManager(models.Manager):
     def accountable_receivable_df(self, accountable, account_priority, split_months=True):
         objs_df=pd.DataFrame(self.get_queryset().filter(account__in=[account for account in account_priority.keys()], concept__accountable=accountable)\
             .values('id', 'ledger', 'ledger__date', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
+        print(objs_df)
         priority_df=objs_df.assign(priority=objs_df.apply(lambda x: account_priority[x.account] + LEDGER_RECEIPT_PRIORITY[x.ledger[:2]], axis=1))
         sorted_df=priority_df.sort_values(by=['concept__date', 'priority', 'value'])
         due_df=sorted_df.assign(
@@ -102,7 +103,7 @@ class Charge(BaseModel):
             if Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='CA', value=-self.value).exists():
                 return 0        
         elif self.ledger.type.abreviation == 'FV' and self.value > 0:
-            receipt = Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='RC', value__lt=0).aggregate(receipt=Sum('value'))['receipt']
+            receipt = Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation__in=['RC', 'NI'], value__lt=0).aggregate(receipt=Sum('value'))['receipt']
             return self.value + receipt if receipt else self.value
         else:
             return 0

@@ -6,7 +6,8 @@ from adin.core.models import BaseModel
 LEDGER_RECEIPT_PRIORITY = {
     'CA':0,
     'FV':1,
-    'RC':2
+    'RC':2,
+    'NI':3
 }
 
 class Ledger(BaseModel):

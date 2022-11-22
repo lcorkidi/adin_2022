@@ -125,6 +125,7 @@ class ChargeCreateBareFormSet(BaseFormSet):
 class ChargeCreate4AccountableBaseFormSet(ChargeCreateBareFormSet):
 
     def __init__(self, acc, *args, **kwargs):
+        print(acc)
         super(ChargeCreate4AccountableBaseFormSet, self).__init__(*args, **kwargs)
         self.accountable = acc
 

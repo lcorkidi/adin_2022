@@ -36,6 +36,6 @@ urlpatterns = [
     path('<str:lt_pk>/<str:acc_pk>/ledger_template_concept_data/', Ledger_TemplateSelectConceptDataView.as_view(), name='ledger_template_concept_data'),
     path('<str:lt_pk>/<str:acc_pk>/ledger_template_select_concept/', Ledger_TemplateSelectConceptView.as_view(), name='ledger_template_select_concept'),
     path('<str:ac_pk>/<str:lt_str>/ledger_template_register_commit/', Ledger_TemplateRegisterCommitView.as_view(), name='ledger_template_register_commit'),
-    path('<str:ac_pk>/ledger_template_register_receipt/', Ledger_TemplateRegisterReceiptView.as_view(), name='ledger_template_register_receipt'),
+    path('<str:ac_pk>/<str:typ_str>/ledger_template_register_receipt/', Ledger_TemplateRegisterReceiptView.as_view(), name='ledger_template_register_receipt'),
     path('<str:typ_abr>/ledger_template_bulk_pending_register/', Ledger_TemplateBulkPendingRegisterView.as_view(), name='ledger_template_bulk_pending_register'),
 ]

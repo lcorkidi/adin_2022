@@ -153,7 +153,8 @@
                                                 {% endif %}
                                             {% endfor %}
                                             <th>
-                                                <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk %}" style="text-decoration:none">RC</a>
+                                                <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk 'RC' %}" style="text-decoration:none">RC</a>
+                                                <a class="text-success" href="{% url 'accounting:ledger_template_register_receipt' form.instance.pk 'NI' %}" style="text-decoration:none">NI</a>
                                             </th>
                                         </tr>
                                     </thead>

@@ -301,12 +301,28 @@ class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredM
     readonly_fields = ['type', 'holder', 'third_party']
     choice_fields = ['type', 'holder', 'third_party']
 
-    def get(self, request, ac_pk):
+    def get(self, request, ac_pk, typ_str):
         acc = Accountable.active.get(pk=ac_pk)
         accountable_form = self.accountable_form(instance=acc)
         pending_charge_formset = self.pending_charge_formset(initial=acc.subclass_obj().charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
-        ledger_form = self.ledgerform(initial={'type':Ledger_Type.objects.get(abreviation='RC'), 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
+        ledger_form = self.ledgerform(initial={'type':Ledger_Type.objects.get(abreviation=typ_str), 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
         ledger_form.set_readonly_fields(self.readonly_fields)
         chargeformset = self.chargeformset(acc)
         context = {'accountable_form': accountable_form, 'pending_charge_formset':pending_charge_formset, 'ledger_form':ledger_form, 'chargeformset':chargeformset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
+
+    def post(self, request, ac_pk, typ_str):
+        acc = Accountable.active.get(pk=ac_pk)
+        ledger_form = self.ledgerform(request.POST, initial={'type':Ledger_Type.objects.get(abreviation=typ_str), 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
+        chargeformset = self.chargeformset(acc, request.POST)
+        if not ledger_form.is_valid() or not chargeformset.is_valid():
+            ledger_form.set_readonly_fields(self.readonly_fields)
+            accountable_form = self.accountable_form(instance=acc)
+            pending_charge_formset = self.pending_charge_formset(initial=acc.subclass_obj().charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
+            context = {'accountable_form': accountable_form, 'pending_charge_formset':pending_charge_formset, 'ledger_form':ledger_form, 'chargeformset':chargeformset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
+            return render(request, self.template, context)
+        ledger_form.creator = request.user
+        ledger = ledger_form.save()            
+        chargeformset.creator = request.user
+        chargeformset.save(ledger)
+        return redirect('accountables:lease_realty_accounting', acc.pk)
