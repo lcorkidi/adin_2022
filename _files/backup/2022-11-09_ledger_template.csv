@@ -1,7 +1,0 @@
-,state_change_user_id,state_change_date,state,code,accountable_class_id,transaction_type_id,ledger_type_id
-0,1,2022-11-02 15:32:15.353927+00:00,1,CA-Canon Mensual Arriendo Inmueble,33,Canon Mensual Arriendo Inmueble,Causación
-1,1,2022-11-02 15:32:15.353957+00:00,1,FV-Canon Mensual Arriendo Inmueble,34,Canon Mensual Arriendo Inmueble,Factura de Venta
-2,1,2022-11-02 15:32:15.353974+00:00,1,FV-Canon Mensual Arriendo Inmueble con IVA,34,Canon Mensual Arriendo Inmueble,Factura de Venta
-3,1,2022-11-02 15:32:15.353989+00:00,1,RC-Canon Mensual Arriendo Inmueble-Efectivo,34,Canon Mensual Arriendo Inmueble,Recibo de Caja
-4,1,2022-11-02 15:32:15.354003+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA-Efectivo,34,Canon Mensual Arriendo Inmueble,Recibo de Caja
-5,1,2022-11-02 15:32:15.354016+00:00,1,RC-Canon Mensual Arriendo Inmueble con IVA y Retefuente-Efectivo,34,Canon Mensual Arriendo Inmueble,Recibo de Caja

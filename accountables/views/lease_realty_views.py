@@ -98,6 +98,7 @@ class Lease_RealtyAccountingView(LoginRequiredMixin, PermissionRequiredMixin, Vi
         else:
             pending_formset = self.pending_formset()
         actions_on = self.actions_on(request.user, self.model.__name__)
+        print(actions_on)
         related_data = related_data_formsets_call(self.related_data, pk, request.user)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'form':form, 'pending_formset':pending_formset, 'related_data':related_data, 'fk_fields': self.fk_fields, 'actions_on': actions_on }
         return render(request, self.template, context)

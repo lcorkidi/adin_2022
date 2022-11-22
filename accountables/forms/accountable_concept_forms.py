@@ -20,7 +20,7 @@ class Accountable_ConceptCreateSelectTransaction_TypeForm(Form):
     
     def __init__(self, obj, *args, **kwargs):
         field_choices = {
-            'transaction_type': obj.transaction_types.exclude(state=0),
+            'transaction_type': obj.transaction_types.exclude(state=0).distinct(),
         }
         super(Accountable_ConceptCreateSelectTransaction_TypeForm, self).__init__(*args, **kwargs)
         self.fields['transaction_type'].queryset = field_choices['transaction_type']

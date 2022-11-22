@@ -12,6 +12,9 @@
                         {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
                         {% endif %} |
+                        {% if 'detail' in actions_on %}
+                            <a class="text-secondary" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'eye' width="20px" height="20px" %}</a>
+                        {% endif %}
                         {% if 'update' in actions_on %}
                             {% if form.state.value == 2 or form.state.value == 1 %}
                                 <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
