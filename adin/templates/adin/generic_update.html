@@ -12,12 +12,10 @@
                         {% endif %}
                     </span> 
                     <div>
-                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
-                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> |
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
                         {% if 'create' in actions_on %}
                             <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
-                        {% endif %}
+                        {% endif %} |
                         {% if 'check' in actions_on %}
                             <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
                         {% endif %}

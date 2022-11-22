@@ -8,9 +8,30 @@
                 <div class="d-flex justify-content-between">
                     <span>{{ title }} - {{ subtitle }}</span> 
                     <div>
-                        <a href="{% url ref_urls.list %}" style="text-decoration:none">
-                            {% render_bi 'arrow-left-square' width="20px" height="20px" %}
-                        </a> 
+                        <a href="{% url ref_urls.list %}" style="text-decoration:none">{% render_bi 'arrow-left-square' width="20px" height="20px" %}</a>
+                        {% if 'create' in actions_on %}
+                            <a class="text-success" href="{% url ref_urls.create %}" style="text-decoration:none">{% render_bi 'plus-circle' width="20px" height="20px" %}</a>
+                        {% endif %} |
+                        {% if 'update' in actions_on %}
+                            {% if form.state.value == 2 or form.state.value == 1 %}
+                                <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-x' width="20px" height="20px" %}</a>
+                            {% endif %}
+                            {% if form.state.value == 3 %}
+                                <a href="{% url ref_urls.update form.instance.pk %}" style="text-decoration:none">{% render_bi 'pencil' width="20px" height="20px" %}</a> 
+                            {% endif %}
+                        {% endif %}
+                        {% if 'check' in actions_on %}
+                            <a class="text-warning" href="{% url ref_urls.detail form.instance.pk %}" style="text-decoration:none">{% render_bi 'file-earmark-medical' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if 'deactivate' in actions_on and form.state.value != 0 %}
+                            <a class="text-danger" href="{% url ref_urls.delete form.instance.pk %}" style="text-decoration:none">{% render_bi 'trash' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if 'activate' in actions_on and form.state.value == 0 %}
+                            <a class="text-success" href="{% url ref_urls.activate form.instance.pk %}" style="text-decoration:none">{% render_bi 'recycle' width="20px" height="20px" %}</a>
+                        {% endif %}
+                        {% if 'report' in actions_on %}
+                            | <a class="text-success" href="{% url ref_urls.report form.instance.pk %}" style="text-decoration:none">{% render_bi 'list' width="20px" height="20px" %}</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
