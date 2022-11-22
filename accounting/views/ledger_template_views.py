@@ -274,12 +274,12 @@ class Ledger_TemplateBulkPendingRegisterView(LoginRequiredMixin, PermissionRequi
     choice_fields = ['ledger_template', 'accountable_concept', 'ledger_type', 'accountable', 'holder', 'third_party']
 
     def get(self, request, typ_abr):
-        formset = self.formset(initial=Accountable_Concept.pending.ledger_type_dict(typ_abr))
+        formset = self.formset(initial=Accountable_Concept.pending.ledger_type_dict(typ_abr, capped=True))
         context = {'formset': formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'choice_fields':self.choice_fields, 'hidden_fields':self.hidden_fields}
         return render(request, self.template, context)
 
     def post(self, request, typ_abr):
-        formset = self.formset(request.POST, initial=Accountable_Concept.pending.ledger_type_dict(typ_abr))
+        formset = self.formset(request.POST, initial=Accountable_Concept.pending.ledger_type_dict(typ_abr, capped=True))
         if not formset.is_valid():
             context = {'formset': formset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
             return render(request, self.template, context)

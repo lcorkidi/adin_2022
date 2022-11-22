@@ -227,7 +227,7 @@ class Ledger_TemplateSelectConceptForm(Form):
     def save(self, user):
         led_tem = self.cleaned_data.get('ledger_template')
         acc_con = self.cleaned_data.get('accountable_concept')
-        return led_tem.create_ledger(acc_con, acc_con.date, user)
+        return led_tem.create_ledger(acc_con, user)
 
 class Ledger_TemplateBulkPendingCreateBaseFormSet(BaseFormSet):
 

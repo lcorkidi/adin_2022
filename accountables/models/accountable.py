@@ -194,7 +194,7 @@ class Accountable_ConceptPendingManager(models.Manager):
         objs_list = pen_bil_df[pen_bil_df['bil_pen']==True]['code'].to_list()
         return qs.filter(code__in=objs_list)
 
-    def ledger_type_dict(self, typ_abr):
+    def ledger_type_dict(self, typ_abr, capped=False):
         if typ_abr == 'CA':
             qs = self.commit()
         elif typ_abr == 'FV':
@@ -203,15 +203,19 @@ class Accountable_ConceptPendingManager(models.Manager):
             return
         code_df = pd.DataFrame(qs.values('code'))
         obj_df = code_df.assign(accountable_concept=code_df.code.apply(lambda x: self.get_queryset().get(pk=x)))
-        return obj_df.assign(
-                        ledger_template=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').get_template(typ_abr)),
-                        ledger_type=obj_df.accountable_concept.apply(lambda x: x.accountable.accountable_transaction_type.get(transaction_type__name='Canon Mensual Arriendo Inmueble').get_template(typ_abr).ledger_type),
+        ret_df = obj_df.assign(
+                        ledger_template=obj_df.accountable_concept.apply(lambda x: x.get_applicable_ledger_template(x.transaction_type, typ_abr, x.date)),
+                        ledger_type=obj_df.accountable_concept.apply(lambda x: x.get_applicable_ledger_template(x.transaction_type, typ_abr, x.date).ledger_type),
                         accountable=obj_df.accountable_concept.apply(lambda x: x.accountable),
                         holder=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_holder()),
                         third_party=obj_df.accountable_concept.apply(lambda x: x.accountable.ledger_third_party()),
                         concept_date=obj_df.accountable_concept.apply(lambda x: x.date),
                         concept_value=obj_df.accountable_concept.apply(lambda x: x.value)
-                    ).drop(['code'], axis=1).to_dict('records')
+                    ).drop(['code'], axis=1)
+        if not capped:
+            return ret_df.to_dict('records')
+        else:
+            return ret_df[:100].to_dict('records')
 
     def ledger(self, acc, led_tem):
         qs = self.get_queryset().filter(accountable=acc)

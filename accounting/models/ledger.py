@@ -127,21 +127,21 @@ class Ledger_Template(BaseModel):
         verbose_name = 'Formato Registro'
         verbose_name_plural = 'Formatos Registro'
         
-    def create_ledger(self, charge_concept, date, user):
-        if not charge_concept.Pending_Ledger(self):
+    def create_ledger(self, accountable_concept, user):
+        if not accountable_concept.Pending_Ledger(self):
             return
             
         ledger = Ledger(
             state_change_user=user,
             type=self.ledger_type,
-            holder=charge_concept.accountable.ledger_holder(),
-            third_party=charge_concept.accountable.ledger_third_party(),
-            date=date
+            holder=accountable_concept.accountable.ledger_holder(),
+            third_party=accountable_concept.accountable.ledger_third_party(),
+            date=accountable_concept.date
         )
         ledger.save()
 
         for charge_template in self.charges_templates.all():
-            charge_template.create_charge(ledger, charge_concept, user)
+            charge_template.create_charge(ledger, accountable_concept, user)
 
         return ledger
 

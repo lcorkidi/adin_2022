@@ -1,4 +1,4 @@
-import datetime as dt
+import datetime
 from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ModelForm, ValidationError, BaseFormSet, BaseModelFormSet, modelformset_factory, formset_factory
 
 from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
@@ -77,7 +77,7 @@ class Accountable_ConceptCreateForm(Form):
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
-        date = dt.date(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2]))
+        date = datetime.date(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2]))
         accountable = self.cleaned_data.get('accountable')
         if not accountable.subclass_obj().start_date:
             raise ValidationError(f"{accountable} no tiene fecha de ocupación.")
@@ -303,6 +303,24 @@ class Accountable_ConceptPendingBulkCreateForm(Form):
             value_relation=acc.date_value.earliest('date') if dt < acc.subclass_obj().doc_date else acc.date_value.exclude(date__gt=dt).latest('date')
         ).save()
 
-Accountable_ConceptPendingBulkFormSet = formset_factory(Accountable_ConceptPendingBulkCreateForm, formset=Accountable_ConceptPendingCreateBaseFormSet, extra=0)
+class Accountable_ConceptPendingCreateBulkBaseFormSet(BaseFormSet):
+
+    def save(self):
+        objs = []
+        for form in self.forms:
+            acc = form.initial['accountable']
+            dt = form.cleaned_data['date']
+            objs.append(Accountable_Concept(
+                code = f'{form.cleaned_data["transaction_type"]}^{dt.strftime("%Y-%m-%d")}_{acc.code}',
+                state_change_user = self.creator,
+                accountable = acc,
+                transaction_type = form.cleaned_data['transaction_type'],
+                date = dt,
+                value = form.cleaned_data['value'],
+                value_relation = acc.date_value.earliest('date') if dt < acc.subclass_obj().doc_date else acc.date_value.exclude(date__gt=dt).latest('date')
+            ))
+        Accountable_Concept.objects.bulk_create(objs)
+
+Accountable_ConceptPendingBulkFormSet = formset_factory(Accountable_ConceptPendingBulkCreateForm, formset=Accountable_ConceptPendingCreateBulkBaseFormSet, extra=0)
 
 Accountable_ConceptPendingLedgerBulkFormSet = modelformset_factory(Accountable_Concept, fields=('accountable', 'transaction_type', 'date', 'value'), extra=0)
