@@ -11,7 +11,7 @@ from accountables.forms.accountable_forms import AccountableAccountingForm
 from accounting.forms.ledger_forms import LedgerCreateModelForm
 from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateCodeModelForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
-from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeAutoCreateFormset, ChargeCreateFormset
+from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeAutoCreateFormset, ChargeCreateFormset, ChargeCreate4AccountableFormset
 from accounting.utils.views_data import ledger_template_related_data, GetIncludedStates, GetActionsOn
 from adin.utils.user_data import user_group_str
 
@@ -293,7 +293,7 @@ class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredM
     accountable_form = AccountableAccountingForm
     pending_charge_formset = ChargeReceivablePendingFormSet
     ledgerform = LedgerCreateModelForm
-    chargeformset = ChargeCreateFormset
+    chargeformset = ChargeCreate4AccountableFormset
     title = title
     subtitle = 'Crear Registro'
     ref_urls = ref_urls
@@ -307,6 +307,6 @@ class Ledger_TemplateRegisterReceiptView(LoginRequiredMixin, PermissionRequiredM
         pending_charge_formset = self.pending_charge_formset(initial=acc.subclass_obj().charge_receivable(ACCOUNT_RECEIPT_PRIORITY))
         ledger_form = self.ledgerform(initial={'type':Ledger_Type.objects.get(abreviation='RC'), 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
         ledger_form.set_readonly_fields(self.readonly_fields)
-        chargeformset = self.chargeformset()
+        chargeformset = self.chargeformset(acc)
         context = {'accountable_form': accountable_form, 'pending_charge_formset':pending_charge_formset, 'ledger_form':ledger_form, 'chargeformset':chargeformset, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user), 'choice_fields':self.choice_fields}
         return render(request, self.template, context)

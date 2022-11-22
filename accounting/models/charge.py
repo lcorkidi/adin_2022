@@ -37,7 +37,7 @@ class PendingChargeManager(models.Manager):
 
     def accountable_receivable_df(self, accountable, account_priority, split_months=True):
         objs_df=pd.DataFrame(self.get_queryset().filter(account__in=[account for account in account_priority.keys()], concept__accountable=accountable)\
-            .values('id', 'ledger', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
+            .values('id', 'ledger', 'ledger__date', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
         priority_df=objs_df.assign(priority=objs_df.apply(lambda x: account_priority[x.account] + LEDGER_RECEIPT_PRIORITY[x.ledger[:2]], axis=1))
         sorted_df=priority_df.sort_values(by=['concept__date', 'priority', 'value'])
         due_df=sorted_df.assign(

@@ -85,7 +85,18 @@ class ChargeCreateForm(Form):
         obj.save()
         return obj
 
-class ChargeBareFormSet(BaseFormSet):
+class ChargeCreate4AccountableForm(ChargeCreateForm):
+
+    def __init__(self, *args, **kwargs):
+        field_choices = {}
+        if 'accountable' in kwargs:
+            acc = kwargs.pop('accountable')
+            field_choices['concept'] = acc.accountable_concept.all()
+        super(ChargeCreate4AccountableForm, self).__init__(*args, **kwargs)
+        if 'concept' in field_choices:
+            self.fields['concept'].queryset = field_choices['concept']
+
+class ChargeCreateBareFormSet(BaseFormSet):
     
     def clean(self):
         if any(self.errors):
@@ -111,9 +122,22 @@ class ChargeBareFormSet(BaseFormSet):
                 form.creator = self.creator
                 form.save(args[0])
 
-ChargeCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeBareFormSet, extra=20)
+class ChargeCreate4AccountableBaseFormSet(ChargeCreateBareFormSet):
 
-ChargeAutoCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeBareFormSet, extra=0)
+    def __init__(self, acc, *args, **kwargs):
+        super(ChargeCreate4AccountableBaseFormSet, self).__init__(*args, **kwargs)
+        self.accountable = acc
+
+    def get_form_kwargs(self, form_index):
+        form_kwargs = super(ChargeCreate4AccountableBaseFormSet, self).get_form_kwargs(form_index)
+        form_kwargs['accountable'] = self.accountable
+        return form_kwargs
+
+ChargeCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeCreateBareFormSet, extra=20)
+
+ChargeAutoCreateFormset = formset_factory(ChargeCreateForm, formset=ChargeCreateBareFormSet, extra=0)
+
+ChargeCreate4AccountableFormset = formset_factory(ChargeCreate4AccountableForm, formset=ChargeCreate4AccountableBaseFormSet, extra=20)
 
 class ChargeBaseModelFormSet(BaseModelFormSet):
 
@@ -127,6 +151,9 @@ class ChargeReceivablePendingForm(Form):
 
     ledger = CharField(
         label='Registro'
+    )
+    ledger__date = DateField(
+        label='Fecha Registro'
     )
     account__name = CharField(
         label='Cuenta'
