@@ -174,6 +174,8 @@ class Accountable_ConceptPendingManager(models.Manager):
 
     def commit(self):
         qs = self.get_queryset()
+        if not qs:
+            return qs
         objs_df = pd.DataFrame(qs.values('code', 'date'))
         sorted_objs_df = objs_df.sort_values(by=['date']).assign(acc_con=objs_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
         referenced_objs_df = sorted_objs_df.assign(pending=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.get_applicable_ledger_template(x.transaction_type, 'CA', x.date))))
@@ -182,6 +184,8 @@ class Accountable_ConceptPendingManager(models.Manager):
 
     def bill(self):
         qs = self.get_queryset()
+        if not qs:
+            return qs
         code_df = pd.DataFrame(qs.values('code'))
         obj_df = code_df.assign(acc_con=code_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
         pre_pen_df = obj_df.assign(
