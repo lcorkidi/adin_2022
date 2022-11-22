@@ -222,13 +222,7 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
     def get(self, request, ac_pk, lt_str):
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
         acc = acc_con.accountable
-        acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
-        if lt_str == 'CA':
-            lt = acc_tra_typ.commit_template
-        elif lt_str == 'FV':
-            lt = acc_tra_typ.bill_template
-        else:
-            lt = acc_tra_typ.receive_template
+        lt = acc_con.get_applicable_ledger_template(acc_con.transaction_type, lt_str, acc_con.date)
         form = self.form(initial={'type':lt.ledger_type, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
         form.set_readonly_fields(self.readonly_fields)
         formset_data = []
@@ -246,13 +240,7 @@ class Ledger_TemplateRegisterCommitView(LoginRequiredMixin, PermissionRequiredMi
     def post(self, request, ac_pk, lt_str):
         acc_con = Accountable_Concept.active.get(pk=ac_pk)
         acc = acc_con.accountable
-        acc_tra_typ = acc_con.accountable.accountable_transaction_type.get(transaction_type=acc_con.transaction_type)
-        if lt_str == 'CA':
-            lt = acc_tra_typ.commit_template
-        elif lt_str == 'FV':
-            lt = acc_tra_typ.bill_template
-        else:
-            lt = acc_tra_typ.receive_template
+        lt = acc_con.get_applicable_ledger_template(acc_con.transaction_type, lt_str, acc_con.date)
         form = self.form(request.POST, initial={'type':lt.ledger_type, 'holder':acc.ledger_holder(), 'third_party':acc.ledger_third_party(), 'date':datetime.date.today()})
         formset_data = []
         for cha_tem in lt.charges_templates.all():

@@ -176,7 +176,7 @@ class Accountable_ConceptPendingManager(models.Manager):
         qs = self.get_queryset()
         objs_df = pd.DataFrame(qs.values('code', 'date'))
         sorted_objs_df = objs_df.sort_values(by=['date']).assign(acc_con=objs_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
-        referenced_objs_df = sorted_objs_df.assign(pending=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)))
+        referenced_objs_df = sorted_objs_df.assign(pending=sorted_objs_df.acc_con.apply(lambda x: x.Pending_Ledger(x.get_applicable_ledger_template(x.transaction_type, 'CA', x.date))))
         objs_list = referenced_objs_df[referenced_objs_df['pending']==True]['code'].to_list()
         return qs.filter(code__in=objs_list)
 
@@ -185,8 +185,8 @@ class Accountable_ConceptPendingManager(models.Manager):
         code_df = pd.DataFrame(qs.values('code'))
         obj_df = code_df.assign(acc_con=code_df.code.apply(lambda x: Accountable_Concept.objects.get(pk=x)))
         pre_pen_df = obj_df.assign(
-                                not_com=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).commit_template)),
-                                not_bil=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.accountable.accountable_transaction_type.get(transaction_type=x.transaction_type).bill_template)),
+                                not_com=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.get_applicable_ledger_template(x.transaction_type, 'CA', x.date))),
+                                not_bil=obj_df.acc_con.apply(lambda x: x.Pending_Ledger(x.get_applicable_ledger_template(x.transaction_type, 'FV', x.date))),
                                 pre_exi=obj_df.acc_con.apply(lambda x: x.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.date).exists()),
                                 bil_eli=obj_df.apply(lambda x: x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).latest('date').ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY) if x.acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=x.acc_con.date).exists() else False, axis=1)
                             )

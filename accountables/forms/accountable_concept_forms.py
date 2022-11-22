@@ -206,7 +206,7 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
         if self.instance.Pending_Ledger(com_tem):
             actions_on.append('commit')
         else:
-            bil_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'CA', acc_con.date)
+            bil_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'FV', acc_con.date)
             if self.instance.Pending_Ledger(bil_tem):
                 if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
                     pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
