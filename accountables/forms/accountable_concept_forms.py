@@ -202,11 +202,11 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
     def add_errors(self):
         actions_on = []
         acc_con = self.instance
-        com_tem = acc_con.accountable.accountable_transaction_type.exclude(state=0).get(transaction_type=acc_con.transaction_type).commit_template
+        com_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'CA', acc_con.date)
         if self.instance.Pending_Ledger(com_tem):
             actions_on.append('commit')
         else:
-            bil_tem = acc_con.accountable.accountable_transaction_type.exclude(state=0).get(transaction_type=acc_con.transaction_type).bill_template
+            bil_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'CA', acc_con.date)
             if self.instance.Pending_Ledger(bil_tem):
                 if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
                     pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
@@ -235,7 +235,7 @@ class Accountable_ConceptRelatedBaseModelFormSet(BaseModelFormSet):
         obj = Accountable.objects.get(pk=rel_pk)
         formset_errors = []
         if obj.transaction_types.filter(name='Canon Mensual Arriendo Inmueble').exists():
-            tra_typ = obj.transaction_types.get(name='Canon Mensual Arriendo Inmueble')
+            tra_typ = Transaction_Type.objects.get(name='Canon Mensual Arriendo Inmueble')
             if obj.pending_concept_date_values(tra_typ):
                 formset_errors.append(f'FECHA y VALOR pendientes para conceptos tipo {tra_typ.name.upper()}: {obj.pending_concept_date_values(tra_typ)}')
         if formset_errors:

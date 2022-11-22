@@ -454,10 +454,10 @@ models_info = {
             },
         'accountable_transaction_type' : {
             'csv_name' : 'accountable_transaction_type.csv',
-            'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Transaction_Type, 'commit_template':Ledger_Template, 'bill_template':Ledger_Template, 'receive_template':Ledger_Template },
+            'fk_dict' : {'state_change_user':User, 'accountable':Accountable, 'transaction_type':Transaction_Type, 'ledger_template':Ledger_Template },
             'model' : Accountable_Transaction_Type,
             'to_drop' : ['Unnamed: 0', 'state_change_date'],
-            'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_id':'accountable' , 'transaction_type_id':'transaction_type', 'commit_template_id':'commit_template', 'bill_template_id':'bill_template', 'receive_template_id':'receive_template'},
+            'to_rename' : {'state_change_user_id':'state_change_user', 'accountable_id':'accountable' , 'transaction_type_id':'transaction_type', 'ledger_template_id':'ledger_template'},
             'bulk' : True,
             'pending_relations' : None
             },

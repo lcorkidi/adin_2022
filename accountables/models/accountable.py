@@ -97,26 +97,15 @@ class Accountable_Transaction_Type(BaseModel):
         related_query_name='accountable_transaction_types',
         verbose_name='Tipo Transacción'
     )
-    commit_template = models.ForeignKey(
+    ledger_template = models.ForeignKey(
         'accounting.Ledger_Template',
         on_delete=models.PROTECT,
-        related_name='accountable_transaction_type_commit',
-        related_query_name='accountable_transaction_type_commits',
-        verbose_name='Formato Causacion'
+        related_name='accountable_transaction_type',
+        related_query_name='accountable_transaction_types',
+        verbose_name='Formato Registro'
     )
-    bill_template = models.ForeignKey(
-        'accounting.Ledger_Template',
-        on_delete=models.PROTECT,
-        related_name='accountable_transaction_type_bill',
-        related_query_name='accountable_transaction_type_bill',
-        verbose_name='Formato Facturacion'
-    )
-    receive_template = models.ForeignKey(
-        'accounting.Ledger_Template',
-        on_delete=models.PROTECT,
-        related_name='accountable_transaction_type_receive',
-        related_query_name='accountable_transaction_type_receive',
-        verbose_name='Formato Ingreso'
+    date_applicable = models.DateField(
+        verbose_name='Fecha Aplicacion'
     )
 
     objects = models.Manager()
@@ -279,6 +268,9 @@ class Accountable_Concept(BaseModel):
         app_label = 'accountables'
         verbose_name = 'Concepto Contabilizable'
         verbose_name_plural = 'Conceptos Contabilizables'
+
+    def get_applicable_ledger_template(self, transaction_type, ledger_type_abreviation, date_applicable):
+        return self.accountable.accountable_transaction_type.exclude(state=0).filter(transaction_type=transaction_type, ledger_template__ledger_type__abreviation=ledger_type_abreviation, date_applicable__lte=date_applicable).latest('date_applicable').ledger_template
 
     def Pending_Ledger(self, led_tem):
         from accounting.models import Charge

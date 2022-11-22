@@ -40,4 +40,4 @@ class Accountable_Transaction_TypeRelatedBaseModelFormSet(BaseModelFormSet):
     def __init__(self, rel_pk, *args, **kwargs):
         super(Accountable_Transaction_TypeRelatedBaseModelFormSet, self).__init__(*args, **kwargs)
                 
-Accountable_Transaction_TypeModelFormSet = modelformset_factory(Accountable_Transaction_Type, formset=Accountable_Transaction_TypeRelatedBaseModelFormSet, fields=('state', 'transaction_type'), extra=0)
+Accountable_Transaction_TypeModelFormSet = modelformset_factory(Accountable_Transaction_Type, formset=Accountable_Transaction_TypeRelatedBaseModelFormSet, fields=('state', 'transaction_type', 'ledger_template', 'date_applicable'), extra=0)

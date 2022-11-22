@@ -66,7 +66,6 @@ per_dict = {
             },
         'Accountable_Transaction_Type':  {
             'accountables.activate_accounable_transaction_type': ['activate'],
-            'accountables.change_accounable_transaction_type': ['update'],
             'accountables.view_accounable_transaction_type' : ['detail'],
             'accountables.add_accounable_transaction_type': ['create'],
             'accountables.check_accounable_transaction_type' : ['check'],
@@ -218,7 +217,7 @@ def accountable_related_data(*args):
     from accountables.forms.accountable_concept_forms import Accountable_ConceptModelFormSet
     
     accounting_data = {
-        'Tipos Transacciones:':{
+        'Formatos Registro Transacciones:':{
             'class': Accountable_Transaction_Type,
             'formset': Accountable_Transaction_TypeModelFormSet,
             'filter_expresion': 'accountable__code',
