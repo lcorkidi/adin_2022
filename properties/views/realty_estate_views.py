@@ -39,6 +39,7 @@ class Realty_EstateDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = ['realty', 'estate']
+    actions_on = ['update']
     permission_required = 'properties.delete_realty_estate'
 
 class Realty_EstateActivateView(GenericActivateRelatedView):
@@ -55,7 +56,7 @@ class Realty_EstateActivateView(GenericActivateRelatedView):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
             return render(request, self.template, context)
         obj.state = 2
         obj.save()

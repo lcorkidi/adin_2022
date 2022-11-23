@@ -37,6 +37,7 @@ class Person_EmailDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
     fk_fields = ['person']
+    actions_on = ['update']
     permission_required = 'people.delete_person_e_mail'
 
 class Person_EmailActivateView(GenericActivateRelatedView):

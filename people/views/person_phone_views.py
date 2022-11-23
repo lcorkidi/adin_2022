@@ -37,6 +37,7 @@ class Person_PhoneDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
     fk_fields = ['person']
+    actions_on = ['update']
     permission_required = 'people.delete_person_phone'
 
 class Person_PhoneActivateView(GenericActivateRelatedView):

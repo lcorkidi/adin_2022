@@ -37,6 +37,7 @@ class Person_Legal_Person_NaturalDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['appointment']
     fk_fields = [ 'person_legal', 'person_natural' ]
+    actions_on = ['update']
     permission_required = 'people.delete_person_legal_person_natural'
 
 class Person_Legal_Person_NaturalActivateView(GenericActivateRelatedView):

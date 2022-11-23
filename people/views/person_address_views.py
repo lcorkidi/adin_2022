@@ -37,6 +37,7 @@ class Person_AddressDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['use']
     fk_fields = ['person', 'address']
+    actions_on = ['update']
     permission_required = 'people.delete_person_address'
 
 class Person_AddressActivateView(GenericActivateRelatedView):

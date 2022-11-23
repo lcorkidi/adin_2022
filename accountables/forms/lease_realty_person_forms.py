@@ -238,8 +238,8 @@ class Lease_Realty_PersonActivateForm(Form):
         return role
 
     def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        if phone == self.initial['phone']:
+        phone = Phone.objects.get(pk=self.cleaned_data['phone'])
+        if phone.code == self.initial['phone']:
             self.fields['phone'].error_messages.clear()
             if 'phone' in self.changed_data:
                 self.changed_data.remove('phone')
@@ -248,8 +248,8 @@ class Lease_Realty_PersonActivateForm(Form):
         return phone
 
     def clean_e_mail(self):
-        e_mail = self.cleaned_data['e_mail']
-        if e_mail == self.initial['e_mail']:
+        e_mail = E_Mail.objects.get(pk=self.cleaned_data['e_mail'])
+        if e_mail.e_mail == self.initial['e_mail']:
             self.fields['e_mail'].error_messages.clear()
             if 'e_mail' in self.changed_data:
                 self.changed_data.remove('e_mail')
@@ -259,6 +259,7 @@ class Lease_Realty_PersonActivateForm(Form):
 
     def clean_address(self):
         address = self.cleaned_data['address']
+        print(address)
         if address and address.state == 0:
             self.add_error('address', f'Dirección seleccionada inactiva.')
         return address

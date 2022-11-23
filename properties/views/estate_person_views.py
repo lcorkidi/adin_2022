@@ -39,6 +39,7 @@ class Estate_PersonDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = ['estate', 'person']
+    actions_on = ['update']
     permission_required = 'properties.delete_estate_person'
 
 class Estate_PersonActivateView(GenericActivateRelatedView):

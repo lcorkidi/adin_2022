@@ -47,7 +47,7 @@ class Accountable_Transaction_TypeDeleteiew(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = [ 'accountalbe', 'transaction_type', 'commit_template', 'bill_template', 'receive_template']
-    accounting = False
+    accounting = True
     permission_required = 'accountables.delete_accountable_transaction_type'
 
 class Accountable_Transaction_TypeActivateView(GenericActivateRelatedView):
@@ -58,5 +58,5 @@ class Accountable_Transaction_TypeActivateView(GenericActivateRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = [ 'accountalbe', 'transaction_type', 'commit_template', 'bill_template', 'receive_template']
-    accounting = False
+    accounting = True
     permission_required = 'accountables.activate_accountable_transaction_type'

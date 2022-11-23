@@ -37,6 +37,7 @@ class Estate_AppraisalDeleteView(GenericDeleteRelatedView):
     rel_urls = rel_urls
     choice_fields = ['type']
     fk_fields = ['estate']
+    actions_on = ['update']
     permission_required = 'properties.delete_estate_appraisal'
 
 class Estate_AppraisalActivateView(GenericActivateRelatedView):

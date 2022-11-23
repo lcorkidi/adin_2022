@@ -196,7 +196,7 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
     def get(self, request, pk):
         form = self.form({self.readonly_fields[0]:pk})
         form.set_readonly_fields(self.readonly_fields)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':pk, 'group': user_group_str(request.user)}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':pk}
         return render(request, self.template, context)
 
     def post(self, request, pk):
@@ -204,7 +204,7 @@ class GenericCreateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
         form.related_fields = self.related_fields
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':pk, 'group': user_group_str(request.user)}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save()            
@@ -221,19 +221,19 @@ class GenericDetailRelatedlView(LoginRequiredMixin, PermissionRequiredMixin, Vie
     rel_urls = None
     choice_fields = None
     fk_fields = None
-    omit_actions = None
+    actions_on = None
 
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields,  'group': user_group_str(request.user)}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields}
             return render(request, self.template, context)
         obj.state_change_user = request.user
         obj.state = 0
@@ -256,7 +256,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
         form.set_readonly_fields(self.readonly_fields)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk, 'group': user_group_str(request.user)}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
@@ -264,7 +264,7 @@ class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
             form.set_readonly_fields(self.readonly_fields)
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user)}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk}
             return render(request, self.template, context)
         form.creator = request.user
         form.save(self.readonly_fields)           
@@ -281,20 +281,20 @@ class GenericDeleteRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View
     rel_urls = None
     choice_fields = None
     fk_fields = None
-    omit_actions = None
+    actions_on = None
     accounting = False
 
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user), 'accounting': self.accounting}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'accounting': self.accounting}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields,  'group': user_group_str(request.user), 'accounting': self.accounting}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields,  'accounting': self.accounting}
             return render(request, self.template, context)
         obj.state_change_user = request.user
         obj.state = 0
@@ -317,14 +317,14 @@ class GenericActivateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, Vi
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user), 'accounting': self.accounting}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'accounting': self.accounting}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(request.POST, instance=obj)
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user), 'accounting': self.accounting}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'accounting': self.accounting}
             return render(request, self.template, context)
         obj.state = 2
         obj.save()
