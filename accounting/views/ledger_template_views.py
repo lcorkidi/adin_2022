@@ -9,9 +9,9 @@ from accountables.models import Accountable, Accountable_Concept
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 from accountables.forms.accountable_forms import AccountableAccountingForm
 from accounting.forms.ledger_forms import LedgerCreateModelForm
-from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateCodeModelForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
+from accounting.forms.ledger_template_forms import Ledger_TemplateDetailModelForm, Ledger_TemplateCreateModelForm, Ledger_TemplateDeleteModelForm, Ledger_TemplateActivateModelForm, Ledger_TemplateSelectForm, Ledger_TemplateSelectAccountableForm, Ledger_TemplateConceptDataForm, Ledger_TemplateSelectConceptForm, Ledger_TemplateCodeModelForm, Ledger_TemplateListModelFormSet, Ledger_TemplateBulkPendingCreateFormSet
 from accounting.forms.charge_template_forms import Charge_TemplateCreateFormset
-from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeAutoCreateFormset, ChargeCreateFormset, ChargeCreate4AccountableFormset
+from accounting.forms.charge_forms import ChargeReceivablePendingFormSet, ChargeAutoCreateFormset, ChargeCreate4AccountableFormset
 from accounting.utils.views_data import ledger_template_related_data, GetIncludedStates, GetActionsOn
 from adin.utils.user_data import user_group_str
 
@@ -84,7 +84,7 @@ class Ledger_TemplateActivateView(GenericActivateView):
 
     title = title
     model = Ledger_Template
-    form = Ledger_TemplateDeleteModelForm
+    form = Ledger_TemplateActivateModelForm
     ref_urls = ref_urls
     fk_fields = ['transaction_type', 'ledger_type']
     choice_fields = ['nature']

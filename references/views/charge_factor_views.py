@@ -2,10 +2,9 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericUpdateView, GenericDeleteView, GenericActivateView
+from adin.core.views import GenericListView, GenericCreateView, GenericDetailView, GenericDeleteView, GenericActivateView
 from references.forms.charge_factor_forms import Charge_FactorCreateForm, Factor_DataCreateForm, Factor_DataDetailForm, Factor_DataDeleteForm, Factor_DataListModelFormSet
 from references.models import Factor_Data, Charge_Factor
-from adin.utils.user_data import user_group_str
 from references.utils import GetActionsOn, GetIncludedStates
 
 title = Factor_Data._meta.verbose_name_plural
@@ -35,7 +34,7 @@ class Charge_FactorCreateView(GenericCreateView):
     def post(self, request):
         form = self.form(request.POST)
         if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
             return render(request, self.template, context)
         form.creator = request.user
         obj = form.save()            
@@ -56,7 +55,7 @@ class Factor_DataCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         form = self.form(initial={'factor': obj})
         if self.readonly_fields:
             form.set_readonly_fields(self.readonly_fields)
-        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+        context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
         return render(request, self.template, context)
 
     def post(self, request, rel_pk):
@@ -64,7 +63,7 @@ class Factor_DataCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
         if not form.is_valid():
             if self.readonly_fields:
                 form.set_readonly_fields(self.readonly_fields)
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls}
             return render(request, self.template, context)
         form.creator = request.user
         form.save()            

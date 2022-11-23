@@ -278,7 +278,9 @@ class Accountable_Concept(BaseModel):
         verbose_name_plural = 'Conceptos Contabilizables'
 
     def get_applicable_ledger_template(self, transaction_type, ledger_type_abreviation, date_applicable):
-        return self.accountable.accountable_transaction_type.exclude(state=0).filter(transaction_type=transaction_type, ledger_template__ledger_type__abreviation=ledger_type_abreviation, date_applicable__lte=date_applicable).latest('date_applicable').ledger_template
+        if self.accountable.accountable_transaction_type.exclude(state=0).filter(transaction_type=transaction_type, ledger_template__ledger_type__abreviation=ledger_type_abreviation, date_applicable__lte=date_applicable).exists():
+            return self.accountable.accountable_transaction_type.exclude(state=0).filter(transaction_type=transaction_type, ledger_template__ledger_type__abreviation=ledger_type_abreviation, date_applicable__lte=date_applicable).latest('date_applicable').ledger_template
+        return
 
     def Pending_Ledger(self, led_tem):
         from accounting.models import Charge

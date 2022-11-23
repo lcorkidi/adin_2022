@@ -3,13 +3,13 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from accountables.models.accountable import Transaction_Type
 
-from adin.utils.user_data import user_group_str
-from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingBulkCreateForm, Accountable_ConceptPendingFormSet, Accountable_ConceptPendingBulkFormSet
+from adin.core.views import GenericDetailRelatedlView
+from accountables.forms.accountable_concept_forms import Accountable_ConceptCreateForm, Accountable_ConceptDetailForm, Accountable_ConceptUpdateForm, Accountable_ConceptDeleteForm, Accountable_ConceptActivateForm, Accountable_ConceptCreateSelectTransaction_TypeForm, Accountable_ConceptPendingBulkCreateForm, Accountable_ConceptPendingFormSet, Accountable_ConceptPendingBulkFormSet
 from accountables.models import Accountable, Accountable_Concept, Lease_Realty
 from accountables.utils.views_data import accountables_ref_urls
 
 title = Accountable_Concept._meta.verbose_name_plural
-rel_urls = { 'create': 'accountables:accountable_concept_create' }
+rel_urls = { 'create': 'accountables:accountable_concept_create', 'update':'accountables:accountable_concept_update', 'delete': 'accountables:accountable_concept_delete', 'accounting': 'accountable:lease_realty_accounting' }
 
 class Accountable_ConceptCreateView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
@@ -61,7 +61,7 @@ class Accountable_ConceptAccountableAllPendingCreateSelectTransaction_TypeView(L
         obj = Accountable.active.get(pk=pk)
         form = self.form(obj, request.POST)
         if not form.is_valid():
-            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'group': user_group_str(request.user)}
+            context = {'form': form, 'title': self.title, 'subtitle': self.subtitle, 'ref_urls': self.ref_urls, 'ref_pk': pk, 'accounting':True}
             return render(request, self.template, context)
         return redirect('accountables:pending_accountable_concept_create', pk, form['transaction_type'].value())
 
@@ -144,6 +144,55 @@ class Accountable_ConceptSinglePendingCreateView(LoginRequiredMixin, PermissionR
         form.save(request.user)
         return redirect('accountables:lease_realty_main')
 
+class Accountable_ConceptDetailView(GenericDetailRelatedlView):
+
+    model = Accountable_Concept
+    title = title
+    form = Accountable_ConceptDetailForm
+    rel_urls = rel_urls
+    fk_fields = ['value_relation', 'transaction_type', 'accountable']
+    actions_on = ['delete', 'activate', 'update']
+    permission_required = 'accountables.view_accountable'
+
+    def get(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'accounting':True}
+        return render(request, self.template, context)
+
+class Accountable_ConceptUpdateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    template = 'adin/generic_update_related.html'
+    model = Accountable_Concept
+    form = Accountable_ConceptUpdateForm
+    title = title
+    subtitle = 'Actualizar'
+    rel_urls = rel_urls
+    readonly_fields = ['accountable', 'transaction_type']
+    fk_fields = ['value_relation', 'transaction_type', 'accountable']
+    permission_required = 'accountables.change_accountable'
+
+    def get(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(instance=obj)
+        form.set_readonly_fields(self.readonly_fields)
+        ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':False, 'ref_pk':ret_pk}
+        return render(request, self.template, context)
+
+    def post(self, request, ret_pk, pk):
+        obj = self.model.objects.get(pk=pk)
+        form = self.form(request.POST, instance=obj)
+        if not form.is_valid():
+            form.set_readonly_fields(self.readonly_fields)
+            ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk}
+            return render(request, self.template, context)
+        form.creator = request.user
+        form.save(self.readonly_fields)           
+        return redirect(self.ref_urls['update'], ret_pk)
+
 class Accountable_ConceptDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     template = 'adin/generic_delete_related.html'
@@ -152,15 +201,15 @@ class Accountable_ConceptDeleteView(LoginRequiredMixin, PermissionRequiredMixin,
     subtitle = 'Inactivar'
     form = Accountable_ConceptDeleteForm
     rel_urls = rel_urls
-    fk_fields = ['accountable', 'transaction_type']
-    omit_actions = ['update']
+    fk_fields = ['accountable', 'transaction_type', 'value_relation']
+    actions_on = ['delete', 'activate', 'update']
     accounting = True
     permission_required = 'accountables.accounting_accountable'
 
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':accountables_ref_urls[obj.accountable.subclass.model], 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'ref_pk': ret_pk, 'group': user_group_str(request.user), 'accounting': self.accounting}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':accountables_ref_urls[obj.accountable.subclass.model], 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'ref_pk': ret_pk, 'accounting': self.accounting}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
@@ -168,7 +217,7 @@ class Accountable_ConceptDeleteView(LoginRequiredMixin, PermissionRequiredMixin,
         form = self.form(request.POST, instance=obj)
         ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'errors':True, 'ref_pk':ret_pk,  'group': user_group_str(request.user), 'accounting': self.accounting}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'errors':True, 'ref_pk':ret_pk,  'accounting': self.accounting}
             return render(request, self.template, context)
         form.save(request.user)
         return redirect(ref_urls['accounting'], ret_pk)
@@ -182,14 +231,15 @@ class Accountable_ConceptActivateView(LoginRequiredMixin, PermissionRequiredMixi
     subtitle = 'Activar'
     form = Accountable_ConceptActivateForm
     rel_urls = rel_urls
-    fk_fields = ['accountable', 'transaction_type']
+    fk_fields = ['accountable', 'transaction_type', 'value_relation']
     accounting = True
     permission_required = 'accountables.accounting_accountable'
 
     def get(self, request, ret_pk, pk):
         obj = self.model.objects.get(pk=pk)
         form = self.form(instance=obj)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':accountables_ref_urls[obj.accountable.subclass.model], 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'group': user_group_str(request.user), 'accounting': self.accounting}
+        ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'accounting': self.accounting}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
@@ -197,7 +247,7 @@ class Accountable_ConceptActivateView(LoginRequiredMixin, PermissionRequiredMixi
         form = self.form(request.POST, instance=obj)
         ref_urls = accountables_ref_urls[obj.accountable.subclass.model]
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'group': user_group_str(request.user), 'accounting': self.accounting}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk, 'accounting': self.accounting}
             return render(request, self.template, context)
         form.save(request.user)
         return redirect(ref_urls['accounting'], ret_pk)

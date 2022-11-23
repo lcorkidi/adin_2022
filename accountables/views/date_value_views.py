@@ -36,6 +36,7 @@ class Date_ValueDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = ['accountable']
+    actions_on = ['update']
     permission_required = 'accountables.delete_date_value'
 
 class Date_ValueActivateView(GenericActivateRelatedView):

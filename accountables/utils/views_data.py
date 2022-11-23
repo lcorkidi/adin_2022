@@ -72,10 +72,12 @@ per_dict = {
             'accountables.delete_accounable_transaction_type': ['deactivate'],
             },
         'Accountable_Concept':  {
-            # 'accountables.activate_accountable_concept': 'activate',
+            'accountables.activate_accountable_concept': ['activate'],
             'accountables.add_accountable_concept': ['create'],
-            # 'accountables.check_accountable_concept' : 'check',
-            # 'accountables.delete_accountable_concept': 'deactivate',
+            'accountables.view_accounable_concept' : ['detail'],
+            'accountables.change_accounable_concept' : ['update'],
+            'accountables.check_accountable_concept' : ['check'],
+            'accountables.delete_accountable_concept': ['deactivate'],
             }
         }
 
@@ -237,6 +239,9 @@ def accountable_related_data(*args):
             'actions_on' : ActionsOn,
             'included_states' : IncludedStates,
             'create_url': 'accountables:accountable_concept_create',
+            'detail_url': 'accountables:accountable_concept_detail',
+            'update_url': 'accountables:accountable_concept_update',
+            'check_url': 'accountables:accountable_concept_detail',
             'pending_url': 'accountables:pending_accountable_concept_create',
             'delete_url': 'accountables:accountable_concept_delete',
             'activate_url': 'accountables:accountable_concept_activate',

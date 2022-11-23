@@ -143,6 +143,7 @@ class GenericDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
                     ins.save()
         obj.state = 0
         obj.save()
+        print('deleting')
         return redirect(self.ref_urls['list'])
 
 class GenericActivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -228,17 +229,6 @@ class GenericDetailRelatedlView(LoginRequiredMixin, PermissionRequiredMixin, Vie
         form = self.form(instance=obj)
         context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
-
-    def post(self, request, ret_pk, pk):
-        obj = self.model.objects.get(pk=pk)
-        form = self.form(request.POST, instance=obj)
-        if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'actions_on': self.actions_on, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields}
-            return render(request, self.template, context)
-        obj.state_change_user = request.user
-        obj.state = 0
-        obj.save()
-        return redirect(self.ref_urls['update'], ret_pk)
 
 class GenericUpdateRelatedView(LoginRequiredMixin, PermissionRequiredMixin, View):
 

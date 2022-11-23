@@ -107,4 +107,4 @@ class LedgerActivateView(GenericActivateView):
                     ins.save()
         obj.state = 2
         obj.save()
-        return redirect(self.ref_urls['detail'], obj.pk)
+        return redirect(self.ref_urls['list'])

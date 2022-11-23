@@ -2,7 +2,7 @@ import datetime
 from django.forms import Form, ModelForm, ModelChoiceField, DateField, IntegerField, ValidationError, BaseFormSet, modelformset_factory, formset_factory
 from django.contrib.contenttypes.models import ContentType
 
-from adin.core.forms import GenericCreateForm
+from adin.core.forms import GenericCreateForm, GenericDetailRelatedForm, GenericDeleteForm, GenericActivateForm
 from adin.core.widgets import SelectDateSpanishWidget
 from accounting.models import Ledger_Template, Ledger, Ledger_Type, Charge
 from accountables.models import Accountable, Accountable_Concept
@@ -37,13 +37,19 @@ class Ledger_TemplateCodeModelForm(ModelForm):
         model = Ledger_Template
         fields = ['code',]
 
-class Ledger_TemplateDetailModelForm(ModelForm):
+class Ledger_TemplateDetailModelForm(GenericDetailRelatedForm):
 
     class Meta:
         model = Ledger_Template
         fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class']
 
-class Ledger_TemplateDeleteModelForm(ModelForm):
+class Ledger_TemplateDeleteModelForm(GenericDeleteForm):
+
+    class Meta:
+        model = Ledger_Template
+        fields = ['code', 'transaction_type', 'ledger_type', 'accountable_class']
+
+class Ledger_TemplateActivateModelForm(GenericActivateForm):
 
     class Meta:
         model = Ledger_Template

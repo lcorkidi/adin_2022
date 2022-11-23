@@ -61,7 +61,7 @@ class Lease_Realty_PersonDeleteView(GenericDeleteRelatedView):
         obj = self.model.objects.get(pk=pk)
         base_args = dict((key[:len(key)-3] if key.endswith('_id') else key, value) for key, value in obj.__dict__.items() if not callable(value) and not key.startswith('_') and not key.startswith('id') and not key.startswith('state'))
         form = self.form(initial=base_args)
-        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields, 'group': user_group_str(request.user)}
+        context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls':self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'ref_pk': ret_pk, 'choice_fields':self.choice_fields}
         return render(request, self.template, context)
 
     def post(self, request, ret_pk, pk):
@@ -69,7 +69,7 @@ class Lease_Realty_PersonDeleteView(GenericDeleteRelatedView):
         base_args = dict((key[:len(key)-3] if key.endswith('_id') else key, value) for key, value in obj.__dict__.items() if not callable(value) and not key.startswith('_') and not key.startswith('id') and not key.startswith('state'))
         form = self.form(request.POST, initial=base_args)
         if not form.is_valid():
-            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'omit_actions': self.omit_actions, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields,  'group': user_group_str(request.user)}
+            context = {'title':self.title, 'subtitle':self.subtitle, 'ref_urls': self.ref_urls, 'rel_urls':self.rel_urls, 'fk_fields': self.fk_fields, 'form':form, 'errors':True, 'ref_pk':ret_pk,'choice_fields':self.choice_fields}
             return render(request, self.template, context)
         obj.state_change_user = request.user
         obj.state = 0

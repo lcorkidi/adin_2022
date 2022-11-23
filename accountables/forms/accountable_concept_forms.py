@@ -1,7 +1,7 @@
 import datetime
 from django.forms import Form, ChoiceField, ModelChoiceField, IntegerField, DateField, ModelForm, ValidationError, BaseFormSet, BaseModelFormSet, modelformset_factory, formset_factory
 
-from adin.core.forms import GenericActivateRelatedForm, GenericDeleteRelatedForm
+from adin.core.forms import GenericDetailRelatedForm, GenericActivateRelatedForm, GenericUpdateRelatedForm
 from accountables.models import Accountable_Concept, Transaction_Type, Accountable
 from accountables.utils.accounting_data import ACCOUNT_RECEIPT_PRIORITY
 
@@ -167,11 +167,50 @@ class Accountable_ConceptPendingCreateForm(Form):
             value_relation=acc.date_value.earliest('date') if dt < acc.subclass_obj().doc_date else acc.date_value.exclude(date__gt=dt).latest('date')
         ).save()
 
-class Accountable_ConceptDeleteForm(GenericDeleteRelatedForm):
+class Accountable_ConceptDetailForm(GenericDetailRelatedForm):
 
     class Meta:
         model = Accountable_Concept
-        exclude = ('state',)
+        exclude = ('state', 'code', )
+
+class Accountable_ConceptUpdateForm(ModelForm):
+
+    class Meta:
+        model = Accountable_Concept
+        exclude = ('state', 'code', )
+
+    def set_readonly_fields(self, fields=[]):
+        for field in self.fields:
+            if field in fields:
+                self.fields[field].widget.attrs['readonly'] = True
+            else: 
+                self.fields[field].widget.attrs['readonly'] = False
+
+    def clean(self):
+        if self.instance.charges.exclude(state=0).exists():
+            self.add_error(None, f'No se puede actualizar pues tiene relaciones activas con movimientos.')
+        value = self.cleaned_data['value']
+        date_value = self.cleaned_data['value_relation']
+        if date_value and date_value.value != value:
+            self.add_error(None, f'Si se escoge fecha valor su valor debe ser igual a valor.')
+        return super().clean()
+
+    def save(self, user):
+        accon = self.instance
+        accon.state = 1
+        accon.state_change_user = user
+        accon.save()        
+ 
+class Accountable_ConceptDeleteForm(ModelForm):
+
+    class Meta:
+        model = Accountable_Concept
+        exclude = ('state', 'code')
+
+    def clean(self):
+        if self.instance.charges.exclude(state=0).exists():
+            self.add_error(None, f'No se puede eliminar pues tiene relaciones activas con movimientos.')
+        return super().clean()
 
     def save(self, user):
         accon = self.instance
@@ -203,24 +242,25 @@ class Accountable_ConceptRelatedModelForm(ModelForm):
         actions_on = []
         acc_con = self.instance
         com_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'CA', acc_con.date)
-        if self.instance.Pending_Ledger(com_tem):
-            actions_on.append('commit')
-        else:
-            bil_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'FV', acc_con.date)
-            if self.instance.Pending_Ledger(bil_tem):
-                if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
-                    pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
-                    if pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+        if com_tem:
+            if self.instance.Pending_Ledger(com_tem):
+                actions_on.append('commit')
+            else:
+                bil_tem = acc_con.get_applicable_ledger_template(acc_con.transaction_type, 'FV', acc_con.date)
+                if self.instance.Pending_Ledger(bil_tem):
+                    if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
+                        pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
+                        if pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+                            actions_on.append('bill')
+                    else:
                         actions_on.append('bill')
                 else:
-                    actions_on.append('bill')
-            else:
-                if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
-                    pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
-                    if acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY) and pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+                    if acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).exists():
+                        pre_acc_con = acc_con.accountable.accountable_concept.exclude(state=0).filter(date__lt=acc_con.date).latest('date')
+                        if acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY) and pre_acc_con.ReceivableDueNone(ACCOUNT_RECEIPT_PRIORITY):
+                            actions_on.append('receipt')
+                    elif acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY):
                         actions_on.append('receipt')
-                elif acc_con.ReceivableDueAll(ACCOUNT_RECEIPT_PRIORITY):
-                    actions_on.append('receipt')
 
         if actions_on:
             self.actions_on = actions_on

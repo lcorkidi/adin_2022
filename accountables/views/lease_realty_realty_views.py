@@ -25,7 +25,6 @@ class Lease_Realty_RealtyDeleteView(GenericDeleteRelatedView):
     ref_urls = ref_urls
     rel_urls = rel_urls
     fk_fields = ['lease', 'realty']
-    omit_actions = ['update']
     permission_required = 'accountables.delete_lease_realty_realty'
 
 class Lease_Realty_RealtyActivateView(GenericActivateRelatedView):

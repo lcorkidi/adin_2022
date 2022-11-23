@@ -29,6 +29,11 @@ class Date_ValueUpdateForm(GenericUpdateRelatedForm):
             'date': SelectDateSpanishWidget()
         }
 
+    def clean(self):
+        if self.instance.accountable_concept.exclude(state=0).exists():
+            self.add_error(None, 'Canon no se puede modificar pues es referenciado activamente.')
+        return super().clean()
+
 class Date_ValueDeleteForm(GenericDeleteRelatedForm):
 
     class Meta:
@@ -39,8 +44,8 @@ class Date_ValueDeleteForm(GenericDeleteRelatedForm):
         }
 
     def clean(self):
-        if self.instance.date:
-            self.add_error(None, 'Canon para la fecha del contrato no se puede deactivar.')
+        if self.instance.accountable_concept.exclude(state=0).exists():
+            self.add_error(None, 'Canon no se puede deactivar pues es referenciado activamente.')
         return super().clean()
 
 class Date_ValueActivateForm(GenericActivateRelatedForm):
