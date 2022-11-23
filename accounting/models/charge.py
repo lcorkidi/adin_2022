@@ -40,11 +40,10 @@ class PendingChargeManager(models.Manager):
     def accountable_receivable_df(self, accountable, account_priority, split_months=True):
         objs_df=pd.DataFrame(self.get_queryset().filter(account__in=[account for account in account_priority.keys()], concept__accountable=accountable)\
             .values('id', 'ledger', 'ledger__date', 'concept__accountable', 'account', 'account__name', 'concept__date', 'value'))
-        print(objs_df)
         priority_df=objs_df.assign(priority=objs_df.apply(lambda x: account_priority[x.account] + LEDGER_RECEIPT_PRIORITY[x.ledger[:2]], axis=1))
         sorted_df=priority_df.sort_values(by=['concept__date', 'priority', 'value'])
         due_df=sorted_df.assign(
-            due_value=sorted_df.id.apply(lambda x: Charge.objects.get(pk=x).DueValue()),
+            due_value=sorted_df.id.apply(lambda x: self.get_queryset().get(pk=x).DueValue()),
             due_age=sorted_df.concept__date.apply(lambda x: DueAge(x, split_months)))
         return due_df[due_df['due_value'] != 0]
 
@@ -95,15 +94,15 @@ class Charge(BaseModel):
 
     def DueValue(self):
         if self.ledger.type.abreviation == 'CA':
-            if Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='FV', value=-self.value).exists():
+            if Charge.objects.exclude(state=0).filter(account=self.account, concept=self.concept, ledger__type__abreviation='FV', value=-self.value).exists():
                 return 0
             else:
                 return self.value
         elif self.ledger.type.abreviation == 'FV' and self.value < 0:
-            if Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation='CA', value=-self.value).exists():
+            if Charge.objects.exclude(state=0).filter(account=self.account, concept=self.concept, ledger__type__abreviation='CA', value=-self.value).exists():
                 return 0        
         elif self.ledger.type.abreviation == 'FV' and self.value > 0:
-            receipt = Charge.objects.filter(account=self.account, concept=self.concept, ledger__type__abreviation__in=['RC', 'NI'], value__lt=0).aggregate(receipt=Sum('value'))['receipt']
+            receipt = Charge.objects.exclude(state=0).filter(account=self.account, concept=self.concept, ledger__type__abreviation__in=['RC', 'NI'], value__lt=0).aggregate(receipt=Sum('value'))['receipt']
             return self.value + receipt if receipt else self.value
         else:
             return 0

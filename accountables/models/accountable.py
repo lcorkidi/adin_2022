@@ -303,7 +303,7 @@ class Accountable_Concept(BaseModel):
         from accounting.models import Charge
 
         receivable = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').aggregate(receivable=Sum('value'))['receivable']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').exists() else 0
-        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC', 'NI']).aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').exists() else 0
+        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC', 'NI']).aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC','NI']).exists() else 0
 
         return True if received > 0 and receivable - received > 0 else False
 
@@ -311,7 +311,7 @@ class Accountable_Concept(BaseModel):
         from accounting.models import Charge
 
         receivable = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').aggregate(receivable=Sum('value'))['receivable']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__gt=0, ledger__type__abreviation='FV').exists() else 0
-        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC', 'NI']).aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation='RC').exists() else 0
+        received = abs(Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC', 'NI']).aggregate(received=Sum('value'))['received']) if Charge.objects.exclude(state=0).filter(account__in=[account for account in account_priority.keys()], concept=self, value__lt=0, ledger__type__abreviation__in=['RC','NI']).exists() else 0
 
         return True if receivable > 0 and receivable - received == 0 else False
 
