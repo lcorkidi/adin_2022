@@ -1,4 +1,5 @@
 ,state_change_user_id,state_change_date,state,name,abreviation
-0,1,2022-11-22 23:53:15.955857+00:00,1,Factura de Venta,FV
-1,1,2022-11-22 23:53:15.955875+00:00,1,Causación,CA
-2,1,2022-11-22 23:53:15.955883+00:00,1,Recibo de Caja,RC
+0,1,2022-11-23 13:30:33.979507+00:00,1,Factura de Venta,FV
+1,1,2022-11-23 13:30:33.979593+00:00,1,Causación,CA
+2,1,2022-11-23 13:30:33.979631+00:00,1,Recibo de Caja,RC
+3,1,2022-11-23 13:30:33.979657+00:00,1,Nota Interna,NI
