@@ -39,12 +39,12 @@ models_lists = {
             'lease_realty_person', 
             'date_value',
             'transaction_type',
-            'accountable_concept',
             'account',
             'ledger_type', 
             'ledger_template', 
             'charge_template',
             'accountable_transaction_type',
+            'accountable_concept',
             'ledger',
             'charge'
         ],
@@ -89,6 +89,7 @@ models_lists = {
             'ledger_template', 
             'charge_template', 
             'accountable_transaction_type',
+            'accountable_concept',
             'ledger', 
             'charge'
         ],
@@ -122,10 +123,10 @@ models_lists = {
             'ledger_type', 
             'ledger_template', 
             'charge_template',
-            'accountable_transaction_type'
+            'accountable_transaction_type',
+            'accountable_concept'
         ],
         'registers': [
-            'charge_concept', 
             'ledger', 
             'charge'
         ],
@@ -155,12 +156,12 @@ models_lists = {
             'lease_realty_person',
             'date_value',
             'transaction_type',
-            'accountable_concept',
             'account',
             'ledger_type', 
             'ledger_template', 
             'charge_template',
-            'accountable_transaction_type'
+            'accountable_transaction_type',
+            # 'accountable_concept'
         ],
         'errors_check': [
             'address',
