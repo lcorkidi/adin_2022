@@ -6,6 +6,8 @@ from accountables.models import Accountable_Transaction_Type
 
 class Accountable_Transaction_TypeCreateForm(GeneriCreateRelatedForm):
 
+    related_fields = []
+
     class Meta:
         model = Accountable_Transaction_Type
         exclude = ('state',)

@@ -16,7 +16,7 @@ class Accountable_Transaction_TypeCreateView(GenericCreateRelatedView):
     readonly_fields = ['accountable']
     fk_fields = ['accountable']
     permission_required = 'accountables.add_transaction_type'
-    related_fields = ['accountable', 'transaction_type']
+    related_fields = ['accountable', 'transaction_type', 'ledger_template']
 
 class Accountable_Transaction_TypeDetailView(GenericDetailRelatedlView):
 
