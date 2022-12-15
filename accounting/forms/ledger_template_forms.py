@@ -25,7 +25,6 @@ class Ledger_TemplateCreateModelForm(GenericCreateForm):
         base_args['accountable_class'] = self.cleaned_data.get('accountable_class')
         base_args['ledger_type'] = self.cleaned_data.get('ledger_type')
         base_args['transaction_type'] = self.cleaned_data.get('transaction_type')
-        base_args['concept_dependant'] = self.cleaned_data.get('concept_dependant')
         base_args['state_change_user'] = creator_user
         ledger_template = Ledger_Template(**base_args)
         ledger_template.save()
