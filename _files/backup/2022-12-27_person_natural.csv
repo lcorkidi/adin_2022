@@ -1,0 +1,213 @@
+,state_change_user_id,state_change_date,state,id_number,id_type,type,name,complete_name,person_ptr_id,last_name
+0,3,2022-12-13 20:51:57.191408+00:00,1,14440244,0,0,Campo Ramiro,"Acosta Burgos, Campo Ramiro",14440244,Acosta Burgos
+1,3,2022-12-13 20:51:57.210242+00:00,1,16375922,0,0,Javier Alberto,"Acosta González, Javier Alberto",16375922,Acosta González
+2,3,2022-12-13 20:51:57.229031+00:00,1,31202432,0,0,María Teresa,"Agudelo Velez, María Teresa",31202432,Agudelo Velez
+3,1,2022-12-13 20:51:57.247448+00:00,1,94459724,0,0,Edison,"Aguiño Mosquera, Edison",94459724,Aguiño Mosquera
+4,1,2022-12-13 20:51:57.265610+00:00,1,16777328,0,0,Diego Fernando,"Amaya Guzman, Diego Fernando",16777328,Amaya Guzman
+5,3,2022-12-13 20:51:57.291041+00:00,1,1107532811,0,0,Yenny Coromoto,"Arango Monsalve, Yenny Coromoto",1107532811,Arango Monsalve
+6,3,2022-12-13 20:51:57.313028+00:00,1,31226418,0,0,Miryan,"Arango de Vernaza, Miryan",31226418,Arango de Vernaza
+7,1,2022-12-13 20:51:57.331650+00:00,1,70903810,0,0,Luis Alberto,"Arbelaez Ceballos, Luis Alberto",70903810,Arbelaez Ceballos
+8,1,2022-12-26 20:12:14.074918+00:00,1,75051596,0,0,Jose Duvan,"Arias Murillo, Jose Duvan",75051596,Arias Murillo
+9,3,2022-12-13 20:51:57.349797+00:00,1,1055832806,0,0,Víctor Hugo,"Arias Murillo, Víctor Hugo",1055832806,Arias Murillo
+10,3,2022-12-13 20:51:57.367848+00:00,1,14960254,0,0,Enrique,"Arévalo Páez, Enrique",14960254,Arévalo Páez
+11,1,2022-12-13 20:51:57.386003+00:00,1,66920830,0,0,Beatriz Eugenia,"Asprilla, Beatriz Eugenia",66920830,Asprilla
+12,1,2022-12-13 20:51:57.404235+00:00,1,67020312,0,0,Carmen Elida,"Asprilla, Carmen Elida",67020312,Asprilla
+13,3,2022-12-13 20:51:57.424115+00:00,1,66858587,0,0,Clara Tatiana,"Ballesteros Gallego, Clara Tatiana",66858587,Ballesteros Gallego
+14,3,2022-12-13 20:51:57.443902+00:00,1,16727684,0,0,Livio,"Baloco, Livio",16727684,Baloco
+15,1,2022-12-13 20:51:57.462670+00:00,1,16735385,0,0,Alvaro,"Beltran Chaves, Alvaro",16735385,Beltran Chaves
+16,1,2022-12-13 20:51:57.481005+00:00,1,906553,3,0,Laura Joy,"Bowman, Laura Joy",906553,Bowman
+17,1,2022-12-13 20:51:57.499769+00:00,1,79052475,0,0,Miguel Angel,"Buitrago Poveda, Miguel Angel",79052475,Buitrago Poveda
+18,3,2022-12-13 20:51:57.518133+00:00,1,6264988,0,0,Dagoberto,"Cadena Gaviria, Dagoberto",6264988,Cadena Gaviria
+19,1,2022-12-13 20:51:57.536615+00:00,1,31485759,0,0,Liz Deny,"Caicedo Matato, Liz Deny",31485759,Caicedo Matato
+20,1,2022-12-13 20:51:57.554798+00:00,1,1130628991,0,0,Fernando Ramiro,"Caiza Calderon, Fernando Ramiro",1130628991,Caiza Calderon
+21,3,2022-12-13 20:51:57.573408+00:00,1,24903180,0,0,María Edilma,"Calderon Lozano, María Edilma",24903180,Calderon Lozano
+22,3,2022-12-13 20:51:57.591605+00:00,1,94520054,0,0,Carlos Andrés,"Camayo Martinez, Carlos Andrés",94520054,Camayo Martinez
+23,1,2022-12-13 20:51:57.610009+00:00,1,30741006,0,0,Magdalena del Carmen,"Campaña Chaves, Magdalena del Carmen",30741006,Campaña Chaves
+24,1,2022-12-13 20:51:57.629334+00:00,1,1032370914,0,0,Lina Ginnery,"Campo Garcia, Lina Ginnery",1032370914,Campo Garcia
+25,3,2022-12-13 20:51:57.647862+00:00,1,19247243,0,0,Javier Emilio,"Campo Méndez, Javier Emilio",19247243,Campo Méndez
+26,3,2022-12-13 20:51:57.666357+00:00,1,6089797,0,0,Alfredo,"Campo Penagos, Alfredo",6089797,Campo Penagos
+27,1,2022-12-13 20:51:57.686065+00:00,1,1130637949,0,0,Jair Eduardo,"Carabali Mosquera, Jair Eduardo",1130637949,Carabali Mosquera
+28,3,2022-12-13 20:51:57.706679+00:00,1,34609851,0,0,Yennyfeer,"Carabalí Loboa, Yennyfeer",34609851,Carabalí Loboa
+29,1,2022-12-13 20:51:57.726207+00:00,1,16592209,0,0,Jose Leimar,"Cardona Serrano, Jose Leimar",16592209,Cardona Serrano
+30,3,2022-12-13 20:51:57.744373+00:00,1,1144074047,0,0,Justin,"Carreño Ávila, Justin",1144074047,Carreño Ávila
+31,1,2022-12-13 20:51:57.761963+00:00,1,31641849,0,0,Paola Alexandra,"Castañeda Anacona, Paola Alexandra",31641849,Castañeda Anacona
+32,3,2022-12-13 20:51:57.779624+00:00,1,66989111,0,0,Claudia Isabeth,"Castaño Belalcázar, Claudia Isabeth",66989111,Castaño Belalcázar
+33,3,2022-12-13 20:51:57.796663+00:00,1,16678074,0,0,Jose Herminsul,"Castro Gómez, Jose Herminsul",16678074,Castro Gómez
+34,1,2022-12-13 20:51:57.823388+00:00,1,94041536,0,0,Robert,"Castro Ramirez, Robert",94041536,Castro Ramirez
+35,3,2022-12-13 20:51:57.847920+00:00,1,70902429,0,0,Luis Alberto,"Ceballos Gallo, Luis Alberto",70902429,Ceballos Gallo
+36,1,2022-12-13 20:51:57.865140+00:00,1,39774268,0,0,Claudia Patricia,"Ceballos Lopez, Claudia Patricia",39774268,Ceballos Lopez
+37,3,2022-12-13 20:51:57.882367+00:00,1,79407654,0,0,Juan Carlos,"Ceballos López, Juan Carlos",79407654,Ceballos López
+38,1,2022-12-13 20:51:57.899025+00:00,1,14639099,0,0,Alvaro,"Chicunque, Alvaro",14639099,Chicunque
+39,3,2022-12-13 20:51:57.916627+00:00,1,31269723,0,0,Gloria Esperanza,"Chávez Aragón, Gloria Esperanza",31269723,Chávez Aragón
+40,3,2022-12-13 20:51:57.935105+00:00,1,76312391,0,0,Carlos Alirio,"Collazos Burbano, Carlos Alirio",76312391,Collazos Burbano
+41,3,2022-12-13 20:51:57.952882+00:00,1,5277670,0,0,Jose Samuel,"Cordoba Ramos, Jose Samuel",5277670,Cordoba Ramos
+42,1,2022-12-13 20:51:57.970815+00:00,1,1086017556,0,0,Nayza Julieth,"Cordoba Salas, Nayza Julieth",1086017556,Cordoba Salas
+43,3,2022-12-13 20:51:57.988484+00:00,1,31205367,0,0,Gracia,"Corkide de Ackerman, Gracia",31205367,Corkide de Ackerman
+44,1,2022-12-13 20:51:58.006642+00:00,1,67005381,0,0,Karen,"Corkidi Cardenas, Karen",67005381,Corkidi Cardenas
+45,1,2022-12-13 20:51:58.024150+00:00,1,94455223,0,0,León,"Corkidi Cardenas, León",94455223,Corkidi Cardenas
+46,1,2022-12-13 20:51:58.041683+00:00,1,6108014,0,0,León,"Corkidi Tzuckerman, León",6108014,Corkidi Tzuckerman
+47,1,2022-12-13 20:51:58.058629+00:00,1,1130668637,0,0,Yehiel,"Corkidi Tzuckerman, Yehiel",1130668637,Corkidi Tzuckerman
+48,1,2022-12-13 20:51:58.073798+00:00,1,19245383,0,0,Alberto,"Corkidi Yaffe, Alberto",19245383,Corkidi Yaffe
+49,1,2022-12-13 20:51:58.088675+00:00,1,19128434,0,0,Isidoro,"Corkidi Yaffe, Isidoro",19128434,Corkidi Yaffe
+50,1,2022-12-13 20:51:58.104028+00:00,1,29581503,0,0,Maria Elena,"Cortes Chamorro, Maria Elena",29581503,Cortes Chamorro
+51,3,2022-12-13 20:51:58.115113+00:00,1,1214463044,0,0,Alejandro,"Cortes Prieto, Alejandro",1214463044,Cortes Prieto
+52,1,2022-12-15 21:00:49.200120+00:00,1,16676690,0,0,Fernando,"De Francisco Reyes, Fernando",16676690,De Francisco Reyes
+53,1,2022-12-13 20:51:58.127213+00:00,1,66815206,0,0,Patricia,"Delgado Quintero, Patricia",66815206,Delgado Quintero
+54,3,2022-12-13 20:51:58.137979+00:00,1,10545382,0,0,Edgar Emilio,"Diaz Padilla, Edgar Emilio",10545382,Diaz Padilla
+55,3,2022-12-13 20:51:58.147962+00:00,1,94425183,0,0,Carlos Rodrigo,"Dixon Palau, Carlos Rodrigo",94425183,Dixon Palau
+56,1,2022-12-13 20:51:58.158195+00:00,1,52695485,0,0,Cynthia,"Dixon Palau, Cynthia",52695485,Dixon Palau
+57,1,2022-12-13 20:51:58.168521+00:00,1,80817426,0,0,Alejandro,"Dominguez Cabal, Alejandro",80817426,Dominguez Cabal
+58,3,2022-12-13 20:51:58.207619+00:00,1,17144443,0,0,Alfonso,"Dominguez Plaza, Alfonso",17144443,Dominguez Plaza
+59,3,2022-12-13 20:51:58.239485+00:00,1,16300014,0,0,Ferenc,"Díaz Hernández, Ferenc",16300014,Díaz Hernández
+60,1,2022-12-13 20:51:58.261010+00:00,1,31958999,0,0,Clara Inés,"Díaz Mejía, Clara Inés",31958999,Díaz Mejía
+61,1,2022-12-13 20:51:58.281624+00:00,1,1028569198,0,0,Luis Eduardo,"Enriquez Campaña, Luis Eduardo",1028569198,Enriquez Campaña
+62,1,2022-12-13 20:51:58.304252+00:00,1,12989400,0,0,Jaime Oswaldo,"Enriquez Solarte, Jaime Oswaldo",12989400,Enriquez Solarte
+63,1,2022-12-13 20:51:58.327037+00:00,1,6085201,0,0,Jairo de Jesus,"Escobar Pelaez, Jairo de Jesus",6085201,Escobar Pelaez
+64,3,2022-12-13 20:51:58.349390+00:00,1,16690077,0,0,Javier Francisco,"Escobar, Javier Francisco",16690077,Escobar
+65,3,2022-12-13 20:51:58.369954+00:00,1,1130627271,0,0,Francisco Steven,"Esguerra Zapata, Francisco Steven",1130627271,Esguerra Zapata
+66,1,2022-12-13 20:51:58.394347+00:00,1,29185047,0,0,Nelly Amparo,"Estacio Osorio, Nelly Amparo",29185047,Estacio Osorio
+67,1,2022-12-13 20:51:58.424219+00:00,1,29185053,0,0,Sara Bertha,"Estacio Osorio, Sara Bertha",29185053,Estacio Osorio
+68,3,2022-12-13 20:51:58.452998+00:00,1,94491952,0,0,John Henry,"Gamboa Morales, John Henry",94491952,Gamboa Morales
+69,1,2022-12-13 20:51:58.477921+00:00,1,29054785,0,0,Rosa Helena,"Garcia Calero, Rosa Helena",29054785,Garcia Calero
+70,1,2022-12-13 20:51:58.501429+00:00,1,16750772,0,0,Carlos Arturo,"Garcia Quijano, Carlos Arturo",16750772,Garcia Quijano
+71,3,2022-12-13 20:51:58.546371+00:00,1,66817156,0,0,Maritza Inés,"García, Maritza Inés",66817156,García
+72,1,2022-12-13 20:51:58.569352+00:00,1,1144101694,0,0,Nicolas,"Giraldo Montaño, Nicolas",1144101694,Giraldo Montaño
+73,1,2022-12-13 20:51:58.592788+00:00,1,91213359,0,0,Alejandro,"Gomez Gomez, Alejandro",91213359,Gomez Gomez
+74,1,2022-12-13 20:51:58.615162+00:00,1,66818737,0,0,Adriana Beatriz,"Gonzalez Ramirea, Adriana Beatriz",66818737,Gonzalez Ramirea
+75,3,2022-12-13 20:51:58.637768+00:00,1,1144141252,0,0,Claudia Nataly,"González Torres, Claudia Nataly",1144141252,González Torres
+76,3,2022-12-13 20:51:58.659997+00:00,1,29992123,0,0,Cielo,"Granados de Andrade, Cielo",29992123,Granados de Andrade
+77,3,2022-12-13 20:51:58.682549+00:00,1,2992123,0,0,Cielo,"Granados de Andrade, Cielo",2992123,Granados de Andrade
+78,1,2022-12-13 20:51:58.705331+00:00,1,6069454,0,0,Alfonso Eleazar,"Guzman Moreno, Alfonso Eleazar",6069454,Guzman Moreno
+79,1,2022-12-27 16:19:10.076380+00:00,1,16784393,0,0,Mauricio,"Guzman Ortiz, Mauricio",16784393,Guzman Ortiz
+80,3,2022-12-13 20:51:58.727911+00:00,1,31211147,0,0,Gladys,"Guzmán Osuna, Gladys",31211147,Guzmán Osuna
+81,3,2022-12-13 20:51:58.751214+00:00,1,94072240,0,0,Roger,"Gómez García, Roger",94072240,Gómez García
+82,3,2022-12-13 20:51:58.773606+00:00,1,1130667388,0,0,Juan Sebastian,"Gómez López, Juan Sebastian",1130667388,Gómez López
+83,3,2022-12-13 20:51:58.796280+00:00,1,19192426,0,0,Rodrigo,"Gómez Medina, Rodrigo",19192426,Gómez Medina
+84,3,2022-12-13 20:51:58.819587+00:00,1,94432883,0,0,Gilbert Mauricio,"Gómez Piedrahita, Gilbert Mauricio",94432883,Gómez Piedrahita
+85,3,2022-12-13 20:51:58.840636+00:00,1,14620657,0,0,Jhon Jairo,"Gómez Rodríguez, Jhon Jairo",14620657,Gómez Rodríguez
+86,3,2022-12-13 20:51:58.859866+00:00,1,16460615,0,0,Luis Felipe,"Gómez Rodríguez, Luis Felipe",16460615,Gómez Rodríguez
+87,3,2022-12-13 20:51:58.878835+00:00,1,16916088,0,0,Carlos Andrés,"Gómez Salazar, Carlos Andrés",16916088,Gómez Salazar
+88,3,2022-12-13 20:51:58.898183+00:00,1,66988823,0,0,Xiomara Esther,"Gómez Salazar, Xiomara Esther",66988823,Gómez Salazar
+89,3,2022-12-13 20:51:58.916687+00:00,1,1144028172,0,0,Jorge Enrique,"Gómez Tabares, Jorge Enrique",1144028172,Gómez Tabares
+90,3,2022-12-13 20:51:58.935392+00:00,1,31170435,0,0,Stella,"Góngora Castañeda, Stella",31170435,Góngora Castañeda
+91,3,2022-12-13 20:51:58.953744+00:00,1,9087150,0,0,Alberto,"Herrera Montes, Alberto",9087150,Herrera Montes
+92,1,2022-12-13 20:51:58.972059+00:00,1,1125230924,0,0,Bryan,"Herrera Perez, Bryan",1125230924,Herrera Perez
+93,1,2022-12-13 20:51:58.990566+00:00,1,22173593,0,0,Fabiola,"Herrera Rueda, Fabiola",22173593,Herrera Rueda
+94,1,2022-12-13 20:51:59.009219+00:00,1,31214798,0,0,Mariella,"Hurtado Rojas, Mariella",31214798,Hurtado Rojas
+95,3,2022-12-13 20:51:59.027664+00:00,1,6156589,0,0,Jesus,"Hurtado Sanchez, Jesus",6156589,Hurtado Sanchez
+96,3,2022-12-13 20:51:59.046097+00:00,1,29212587,0,0,Jesús,"Hurtado Sanchez, Jesús",29212587,Hurtado Sanchez
+97,1,2022-12-13 20:51:59.065448+00:00,1,14941159,0,0,Uriel,"Hurtado Sánchez, Uriel",14941159,Hurtado Sánchez
+98,1,2022-12-13 20:51:59.087888+00:00,1,37275424,0,0,Elizabeth,"Jaimes Suarez, Elizabeth",37275424,Jaimes Suarez
+99,1,2022-12-13 20:51:59.116096+00:00,1,16662908,0,0,Gustavo Alberto,"Jaramillo Mejia, Gustavo Alberto",16662908,Jaramillo Mejia
+100,1,2022-12-13 20:51:59.137020+00:00,1,352403,0,0,Bertulfo,"Jaramillo Ospina, Bertulfo",352403,Jaramillo Ospina
+101,3,2022-12-13 20:51:59.154833+00:00,1,16689472,0,0,Luis Jairo,"Jaramillo Pulgarín, Luis Jairo",16689472,Jaramillo Pulgarín
+102,1,2022-12-13 20:51:59.173126+00:00,1,31269983,0,0,Consuelo,"Jaramillo Salazar, Consuelo",31269983,Jaramillo Salazar
+103,1,2022-12-13 20:51:59.191475+00:00,1,31909009,0,0,Rocio,"Jaramillo Salazar, Rocio",31909009,Jaramillo Salazar
+104,3,2022-12-13 20:51:59.214201+00:00,1,29869108,0,0,Consuelo,"Jiménez de Pérez, Consuelo",29869108,Jiménez de Pérez
+105,3,2022-12-13 20:51:59.233758+00:00,1,31884862,0,0,Blanca Olivia,"Largacha de Mazuera, Blanca Olivia",31884862,Largacha de Mazuera
+106,1,2022-12-13 20:51:59.252575+00:00,1,1130668975,0,0,Jhonathan,"Leiton Martinez, Jhonathan",1130668975,Leiton Martinez
+107,1,2022-12-13 20:51:59.271331+00:00,1,1144077780,0,0,Aura Camila,"Lema Tasama, Aura Camila",1144077780,Lema Tasama
+108,3,2022-12-13 20:51:59.290208+00:00,1,19236992,0,0,Heber,"Lerma Manrique, Heber",19236992,Lerma Manrique
+109,1,2022-12-13 20:51:59.308178+00:00,1,31836102,0,0,Luz Yaneth,"Lerma Manrique, Luz Yaneth",31836102,Lerma Manrique
+110,3,2022-12-13 20:51:59.334354+00:00,1,31575469,0,0,Kerlyn,"Lerma Palomino, Kerlyn",31575469,Lerma Palomino
+111,1,2022-12-13 20:51:59.359565+00:00,1,29434066,0,0,Carmen Lucrecia,"Loaiza Largo, Carmen Lucrecia",29434066,Loaiza Largo
+112,3,2022-12-13 20:51:59.378839+00:00,1,24434066,0,0,Carmen Lucrecia,"Loaiza Largo, Carmen Lucrecia",24434066,Loaiza Largo
+113,3,2022-12-13 20:51:59.396986+00:00,1,94502327,0,0,Ulises,"Lombana Solarte, Ulises",94502327,Lombana Solarte
+114,3,2022-12-13 20:51:59.414953+00:00,1,6086928,0,0,Julio Cesar,"Londoño, Julio Cesar",6086928,Londoño
+115,3,2022-12-13 20:51:59.432935+00:00,1,2421922,0,0,Marconi,"Lopez Rizo, Marconi",2421922,Lopez Rizo
+116,1,2022-12-13 20:51:59.450838+00:00,1,31847384,0,0,Elsa,"Lopez Sevillno, Elsa",31847384,Lopez Sevillno
+117,1,2022-12-13 20:51:59.469727+00:00,1,31889682,0,0,Jacqueline,"Lopez Sevillno, Jacqueline",31889682,Lopez Sevillno
+118,1,2022-12-13 20:51:59.488820+00:00,1,1115073326,0,0,Yessica Lorena,"Lozano Guzman, Yessica Lorena",1115073326,Lozano Guzman
+119,3,2022-12-13 20:51:59.508105+00:00,1,31284289,0,0,Amparo,"López Sevillano, Amparo",31284289,López Sevillano
+120,3,2022-12-13 20:51:59.530067+00:00,1,31875243,0,0,Soraya,"López Sevillano, Soraya",31875243,López Sevillano
+121,1,2022-12-13 20:51:59.553783+00:00,1,33922,0,0,Gino,"Maestri Lanzarotti, Gino",33922,Maestri Lanzarotti
+122,3,2022-12-13 20:51:59.577654+00:00,1,60380724,0,0,Silvia Maria,"Martínez Forero, Silvia Maria",60380724,Martínez Forero
+123,1,2022-12-13 20:51:59.601390+00:00,1,6160214,0,0,Carlos Alberto,"Maya Osorio, Carlos Alberto",6160214,Maya Osorio
+124,1,2022-12-13 20:51:59.649095+00:00,1,17097961,0,0,Hernan,"Mejia Mejia, Hernan",17097961,Mejia Mejia
+125,3,2022-12-13 20:51:59.672567+00:00,1,38956447,0,0,Maria Inés,"Mejía García, Maria Inés",38956447,Mejía García
+126,3,2022-12-13 20:51:59.696574+00:00,1,31131067,0,0,Amparo,"Mejía de Becerra, Amparo",31131067,Mejía de Becerra
+127,1,2022-12-13 20:51:59.720723+00:00,1,66679566,0,0,Alexandra,"Mena Lopez, Alexandra",66679566,Mena Lopez
+128,3,2022-12-13 20:51:59.744412+00:00,1,29142456,0,0,Ruby,"Mondragón Garzon, Ruby",29142456,Mondragón Garzon
+129,3,2022-12-13 20:51:59.762764+00:00,1,26142456,0,0,Ruby,"Mondragón Garzón, Ruby",26142456,Mondragón Garzón
+130,1,2022-12-13 20:51:59.781482+00:00,1,16701786,0,0,John Jaime,"Monsalve Peña, John Jaime",16701786,Monsalve Peña
+131,1,2022-12-13 20:51:59.799520+00:00,1,94376160,0,0,Carlos Fernando,"Montaña Mendez, Carlos Fernando",94376160,Montaña Mendez
+132,3,2022-12-13 20:51:59.817904+00:00,1,66844066,0,0,Ayde Alejandra,"Montaña Méndez, Ayde Alejandra",66844066,Montaña Méndez
+133,3,2022-12-13 20:51:59.843942+00:00,1,41715862,0,0,Amparo,"Moreno Sarmiento, Amparo",41715862,Moreno Sarmiento
+134,3,2022-12-13 20:51:59.872836+00:00,1,11870121,0,0,Maximino,"Mosquera Palacios, Maximino",11870121,Mosquera Palacios
+135,1,2022-12-13 20:51:59.896066+00:00,1,1077470443,0,0,Joseny Marcela,"Mosquera Perea, Joseny Marcela",1077470443,Mosquera Perea
+136,3,2022-12-13 20:51:59.914672+00:00,1,11870078,0,0,José Mercedes,"Mosquera, José Mercedes",11870078,Mosquera
+137,3,2022-12-13 20:51:59.932571+00:00,1,42060990,0,0,Argenis,"Naranjo Arias, Argenis",42060990,Naranjo Arias
+138,3,2022-12-13 20:51:59.953950+00:00,1,1130600030,0,0,Jeyer Armando,"Nieto Meneses, Jeyer Armando",1130600030,Nieto Meneses
+139,1,2022-12-13 20:51:59.983432+00:00,1,16788077,0,0,Aldenovan,"Nieto Molina, Aldenovan",16788077,Nieto Molina
+140,3,2022-12-13 20:52:00.011157+00:00,1,23835012,0,0,Rosa Elvira,"Niño Suarez, Rosa Elvira",23835012,Niño Suarez
+141,1,2022-12-13 20:52:00.028868+00:00,1,19160350,0,0,Pedro,"Nuñez Florez, Pedro",19160350,Nuñez Florez
+142,1,2022-12-13 20:52:00.047049+00:00,1,1114728401,0,0,Leydy Diana,"Oca Motato, Leydy Diana",1114728401,Oca Motato
+143,3,2022-12-13 20:52:00.065303+00:00,1,29086611,0,0,Aide,"Orejuela de Mazuera, Aide",29086611,Orejuela de Mazuera
+144,3,2022-12-13 20:52:00.082928+00:00,1,94318792,0,0,Ricardo,"Orozco Baeza, Ricardo",94318792,Orozco Baeza
+145,1,2022-12-13 20:52:00.101571+00:00,1,8276197,0,0,Rene Antonio,"Orozco Restrepo, Rene Antonio",8276197,Orozco Restrepo
+146,1,2022-12-13 20:52:00.121534+00:00,1,98533310,0,0,Orlando de Jesus,"Ortiz Grajales, Orlando de Jesus",98533310,Ortiz Grajales
+147,3,2022-12-13 20:52:00.140044+00:00,1,31711123,0,0,Yenny,"Ortiz Peñaranda, Yenny",31711123,Ortiz Peñaranda
+148,3,2022-12-13 20:52:00.161683+00:00,1,31208365,0,0,Gloria,"Ortiz de Guzmán, Gloria",31208365,Ortiz de Guzmán
+149,3,2022-12-13 20:52:00.185312+00:00,1,52818113,0,0,Andrea,"Osorio Márquez, Andrea",52818113,Osorio Márquez
+150,1,2022-12-13 20:52:00.209635+00:00,1,14956720,0,0,Gabriel,"Osorio Salazar, Gabriel",14956720,Osorio Salazar
+151,3,2022-12-13 20:52:00.228553+00:00,1,79202867,0,0,Juan Manuel,"Osorio, Juan Manuel",79202867,Osorio
+152,3,2022-12-13 20:52:00.247618+00:00,1,16342422,0,0,Aimer,"Ospina Silva, Aimer",16342422,Ospina Silva
+153,3,2022-12-13 20:52:00.270796+00:00,1,76044042,0,0,Alexander de Jesús,"Ospina, Alexander de Jesús",76044042,Ospina
+154,1,2022-12-13 20:52:00.294302+00:00,1,60391142,0,0,Alix Carolina,"Pabon Pabon, Alix Carolina",60391142,Pabon Pabon
+155,3,2022-12-13 20:52:00.322062+00:00,1,14838560,0,0,Eleuterio,"Palacios Hinestroza, Eleuterio",14838560,Palacios Hinestroza
+156,3,2022-12-13 20:52:00.344253+00:00,1,16944737,0,0,Eimar Ferney,"Palacios Palacios, Eimar Ferney",16944737,Palacios Palacios
+157,1,2022-12-13 20:52:00.372158+00:00,1,24839143,0,0,Elena,"Patiño Cruz, Elena",24839143,Patiño Cruz
+158,3,2022-12-13 20:52:00.447839+00:00,1,11799048,0,0,Wiston Mario,"Perea Perea, Wiston Mario",11799048,Perea Perea
+159,1,2022-12-13 20:52:00.474033+00:00,1,66904044,0,0,Monica,"Perez Giraldo, Monica",66904044,Perez Giraldo
+160,1,2022-12-13 20:52:00.494724+00:00,1,31428247,0,0,Juliana,"Perez Jimenez, Juliana",31428247,Perez Jimenez
+161,1,2022-12-13 20:52:00.520298+00:00,1,13957385,0,0,Edgar,"Perez Lopez, Edgar",13957385,Perez Lopez
+162,3,2022-12-13 20:52:00.541381+00:00,1,1113686599,0,0,Jonathan,"Pernia Rodriguez, Jonathan",1113686599,Pernia Rodriguez
+163,3,2022-12-13 20:52:00.559669+00:00,1,1118290288,0,0,Angélica,"Peña Rojas, Angélica",1118290288,Peña Rojas
+164,1,2022-12-13 20:52:00.584886+00:00,1,66725374,0,0,Alba Ruth,"Porras Mondragon, Alba Ruth",66725374,Porras Mondragon
+165,1,2022-12-15 21:01:43.768941+00:00,1,19479877,0,0,Hugo Ernesto,"Prada Suarez, Hugo Ernesto",19479877,Prada Suarez
+166,1,2022-12-13 20:52:00.610048+00:00,1,14980351,0,0,Octavio,"Prieto Duarte, Octavio",14980351,Prieto Duarte
+167,3,2022-12-13 20:52:00.629578+00:00,1,29102426,0,0,Julia Mary,"Pulgarín Jaramillo, Julia Mary",29102426,Pulgarín Jaramillo
+168,1,2022-12-13 20:52:00.648283+00:00,1,27254978,0,0,Kelly Johana,"Quintero Cardona, Kelly Johana",27254978,Quintero Cardona
+169,3,2022-12-13 20:52:00.667112+00:00,1,29076370,0,0,Graciela,"Quintero Rodríguez, Graciela",29076370,Quintero Rodríguez
+170,1,2022-12-13 20:52:00.690977+00:00,1,1143861826,0,0,Natalia,"Quintero Salazar, Natalia",1143861826,Quintero Salazar
+171,3,2022-12-13 20:52:00.709606+00:00,1,79956999,0,0,Cesar Augusto,"Ramírez Ariza, Cesar Augusto",79956999,Ramírez Ariza
+172,3,2022-12-13 20:52:00.730572+00:00,1,1123630044,0,0,Daniela,"Ramírez López, Daniela",1123630044,Ramírez López
+173,3,2022-12-13 20:52:00.747943+00:00,1,15242253,0,0,Eugenio Enrique,"Ramírez, Eugenio Enrique",15242253,Ramírez
+174,1,2022-12-13 20:52:00.770296+00:00,1,1192916090,0,0,Alejandra,"Rengifo Fernandez, Alejandra",1192916090,Rengifo Fernandez
+175,1,2022-12-13 20:52:00.791738+00:00,1,38963303,0,0,Maria Nusmida,"Rengifo de Velez, Maria Nusmida",38963303,Rengifo de Velez
+176,1,2022-12-13 20:52:00.815789+00:00,1,14998048,0,0,Jesus Maria,"Rengifo, Jesus Maria",14998048,Rengifo
+177,1,2022-12-13 20:52:00.832567+00:00,1,1144207981,0,0,Eliel Josue,"Rivas Lerma, Eliel Josue",1144207981,Rivas Lerma
+178,3,2022-12-13 20:52:00.848743+00:00,1,91018932,0,0,Eloin,"Rivera Becerra, Eloin",91018932,Rivera Becerra
+179,3,2022-12-13 20:52:00.865242+00:00,1,16659028,0,0,Ricardo,"Rojas Torres, Ricardo",16659028,Rojas Torres
+180,1,2022-12-13 20:52:00.881415+00:00,1,1116446148,0,0,Natalia,"Ruiz Andrade, Natalia",1116446148,Ruiz Andrade
+181,3,2022-12-13 20:52:00.898472+00:00,1,94413058,0,0,Andres Felipe,"Ruiz Carvajal, Andres Felipe",94413058,Ruiz Carvajal
+182,3,2022-12-13 20:52:00.914843+00:00,1,31248519,0,0,Leonor,"Sanchez Valencia, Leonor",31248519,Sanchez Valencia
+183,1,2022-12-13 20:52:00.931740+00:00,1,31233821,0,0,Marina,"Sanchez Valencia, Marina",31233821,Sanchez Valencia
+184,3,2022-12-13 20:52:00.948131+00:00,1,66947940,0,0,Libia Yaneth,"Sanz Hernandez, Libia Yaneth",66947940,Sanz Hernandez
+185,3,2022-12-26 19:41:26.215411+00:00,1,31528622,0,0,Martha Cecilia,"Serna Mesa, Martha Cecilia",31528622,Serna Mesa
+186,3,2022-12-13 20:52:00.964263+00:00,1,29041163,0,0,María Olave,"Sevillano Mesa, María Olave",29041163,Sevillano Mesa
+187,1,2022-12-13 20:52:00.980292+00:00,1,16761696,0,0,Carlos Alberto,"Sierro Murillo, Carlos Alberto",16761696,Sierro Murillo
+188,1,2022-12-13 20:52:01.017733+00:00,1,16706546,0,0,Luis Fernando,"Silva Riaños, Luis Fernando",16706546,Silva Riaños
+189,3,2022-12-13 20:52:01.034124+00:00,1,91437235,0,0,Edgar Alonso,"Suarez Ovalle, Edgar Alonso",91437235,Suarez Ovalle
+190,3,2022-12-13 20:52:01.050592+00:00,1,31153700,0,0,Magnolia,"Tasama García, Magnolia",31153700,Tasama García
+191,3,2022-12-13 20:52:01.067490+00:00,1,31217621,0,0,Mariela,"Tasamá García, Mariela",31217621,Tasamá García
+192,1,2022-12-13 20:52:01.084056+00:00,1,2631179,0,0,Fernando,"Tascon Ospina, Fernando",2631179,Tascon Ospina
+193,1,2022-12-13 20:52:01.100154+00:00,1,31905442,0,0,Viviana,"Tenorio Rojas, Viviana",31905442,Tenorio Rojas
+194,3,2022-12-13 20:52:01.117301+00:00,1,94351710,0,0,Carlos Andres,"Tonuzco, Carlos Andres",94351710,Tonuzco
+195,1,2022-12-13 20:52:01.133862+00:00,1,16845080,0,0,Hector Daniel,"Toro Lopez, Hector Daniel",16845080,Toro Lopez
+196,1,2022-12-13 20:52:01.154685+00:00,1,14838593,0,0,Julio Cesar,"Torres Zarate, Julio Cesar",14838593,Torres Zarate
+197,1,2022-12-13 20:52:01.182770+00:00,1,31520503,0,0,Esther,"Tzuckerman Pellman, Esther",31520503,Tzuckerman Pellman
+198,1,2022-12-13 20:52:01.204996+00:00,1,88233076,0,0,Gerson Alexander,"Urbina, Gerson Alexander",88233076,Urbina
+199,3,2022-12-13 20:52:01.226119+00:00,1,31197760,0,0,Derly,"Uribe Trujillo, Derly",31197760,Uribe Trujillo
+200,3,2022-12-13 20:52:01.247138+00:00,1,31194640,0,0,Nelsy,"Uribe Trujillo, Nelsy",31194640,Uribe Trujillo
+201,3,2022-12-13 20:52:01.269006+00:00,1,34615631,0,0,Mayeline,"Valencia Castillo, Mayeline",34615631,Valencia Castillo
+202,3,2022-12-13 20:52:01.289493+00:00,1,38940326,0,0,Marleny,"Valencia Duque, Marleny",38940326,Valencia Duque
+203,3,2022-12-13 20:52:01.308309+00:00,1,16650908,0,0,Javier,"Vargas Mosquera, Javier",16650908,Vargas Mosquera
+204,1,2022-12-13 20:52:01.327384+00:00,1,94497429,0,0,Alvaro Jose,"Velasco Lloreda, Alvaro Jose",94497429,Velasco Lloreda
+205,3,2022-12-13 20:52:01.346019+00:00,1,111561,0,0,José,"Velazco Morales, José",111561,Velazco Morales
+206,3,2022-12-13 20:52:01.365166+00:00,1,1144172037,0,0,José Miguel,"Velazco Renza, José Miguel",1144172037,Velazco Renza
+207,1,2022-12-13 20:52:01.384430+00:00,1,16792693,0,0,Juan Carlos,"Velez, Juan Carlos",16792693,Velez
+208,1,2022-12-13 20:52:01.402816+00:00,1,1193172681,0,0,Jean Carlos,"Vernansa Aragon, Jean Carlos",1193172681,Vernansa Aragon
+209,3,2022-12-13 20:52:01.423645+00:00,1,16700013,0,0,Gonzalo,"Villegas Aristizábal, Gonzalo",16700013,Villegas Aristizábal
+210,3,2022-12-13 20:52:01.440088+00:00,1,16355941,0,0,Alberto Javier,"Vélez Mesa, Alberto Javier",16355941,Vélez Mesa
+211,3,2022-12-13 20:52:01.457064+00:00,1,1107086162,0,0,Valentina,"Ávila Moreno, Valentina",1107086162,Ávila Moreno
