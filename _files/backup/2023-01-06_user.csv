@@ -1,0 +1,4 @@
+,id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined
+0,1,pbkdf2_sha256$320000$lpwM7WtDjETTNLDp386Bc3$nXMj7BH0I04n0LgJlLLnOCh4d+vm+3KAAr7zFjO4pXY=,2022-12-28 17:19:17.126592+00:00,True,leon,,,,True,True,2022-12-13 20:51:45.497721+00:00
+1,2,pbkdf2_sha256$320000$AlPghfRXboxGEwzOpqX2W0$qhNMPLNN4IBIwRApPSiWwBjBdeJbF/1ZJq9LgkK/9cg=,2022-07-12 17:44:22.510737+00:00,False,jaque,Jaqueline,Ortiz,corkidis@hotmail.com,False,True,2022-07-12 17:44:22.510737+00:00
+2,3,pbkdf2_sha256$320000$ddhdIcwWcKvi0sLRdbOJzX$GjO59OcJiN5hUieNlxUisQSiIesVrS0x4/I1Ke/U5yw=,2022-07-12 17:44:22.510737+00:00,False,yaneth,Yaneth,Mera,corkidis@hotmail.com,False,True,2022-07-12 17:44:38.512188+00:00
